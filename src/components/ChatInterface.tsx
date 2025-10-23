@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Loader2, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
+import { streamLegalResearch } from "@/utils/streamChat";
 
 interface Message {
   role: "user" | "assistant";
@@ -20,6 +21,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,24 +38,40 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setIsLoading(true);
 
+    let assistantContent = "";
+    const upsertAssistant = (chunk: string) => {
+      assistantContent += chunk;
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role === "assistant") {
+          return prev.map((m, i) =>
+            i === prev.length - 1 ? { ...m, content: assistantContent } : m
+          );
+        }
+        return [...prev, { role: "assistant", content: assistantContent }];
+      });
+    };
+
     try {
-      // Placeholder for AI integration
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "I'm currently being set up to research legal databases and provide comprehensive analysis. This functionality will be available shortly.",
+      await streamLegalResearch({
+        messages: [...messages, { role: "user", content: userMessage }],
+        onDelta: (chunk) => upsertAssistant(chunk),
+        onDone: () => setIsLoading(false),
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: error,
+            variant: "destructive",
+          });
+          setIsLoading(false);
         },
-      ]);
+      });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to get response. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -68,7 +92,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-6">
+      <ScrollArea className="flex-1 px-6" ref={scrollAreaRef}>
         <div className="max-w-4xl mx-auto py-8 space-y-6">
           {messages.length === 0 ? (
             <div className="text-center py-16">

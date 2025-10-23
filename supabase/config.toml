@@ -1,0 +1,4 @@
+project_id = "ifsckryvwehynahixmro"
+
+[functions.legal-research]
+verify_jwt = false
