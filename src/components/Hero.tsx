@@ -32,9 +32,19 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
           Navigate the complexities of law with AI-powered research
         </p>
 
-        <p className="text-lg text-muted-foreground/80 mb-12 max-w-2xl mx-auto">
+        <p className="text-lg text-muted-foreground/80 mb-8 max-w-2xl mx-auto">
           Discover legal loopholes and strategies through comprehensive analysis of laws and public databases
         </p>
+
+        <div className="bg-destructive/10 border-2 border-destructive/50 rounded-lg p-6 mb-12 max-w-3xl mx-auto">
+          <p className="text-destructive font-bold text-xl mb-2">⚠️ Important Legal Disclaimer</p>
+          <p className="text-destructive-foreground text-base leading-relaxed">
+            This AI-powered tool is for informational and research purposes only. It does NOT provide legal advice 
+            and does NOT replace consultation with a licensed attorney. For legal matters affecting your rights or 
+            obligations, you MUST consult with a qualified attorney in your jurisdiction. Using this service does 
+            not create an attorney-client relationship.
+          </p>
+        </div>
 
         <Button 
           onClick={onGetStarted}
