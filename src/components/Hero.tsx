@@ -39,9 +39,9 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
         <Button 
           onClick={onGetStarted}
           size="lg"
-          className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background font-semibold text-lg px-8 py-6 transition-all duration-300 hover:scale-105"
+          className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background font-bold text-2xl px-12 py-8 transition-all duration-300 hover:scale-110 shadow-lg animate-pulse"
         >
-          Start Your Legal Research
+          🚀 Start Your Legal Research
         </Button>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
