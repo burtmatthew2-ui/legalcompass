@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Loader2, ArrowLeft } from "lucide-react";
+import { Send, Loader2, ArrowLeft, Compass } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
 import { streamLegalResearch } from "@/utils/streamChat";
@@ -78,27 +78,54 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
   return (
     <div className="min-h-screen bg-[var(--gradient-bg)] flex flex-col">
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div className="border-b border-border/50 bg-card/30 backdrop-blur-xl shadow-lg">
+        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center gap-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={onBack}
-            className="hover:bg-secondary"
+            className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-6 h-6" />
           </Button>
-          <h2 className="text-xl font-semibold text-foreground">Legal Research Assistant</h2>
+          <div>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-[var(--gradient-primary)]">
+              Legal Research Assistant
+            </h2>
+            <p className="text-sm text-muted-foreground">Powered by advanced AI analysis</p>
+          </div>
         </div>
       </div>
 
       <ScrollArea className="flex-1 px-6" ref={scrollAreaRef}>
-        <div className="max-w-4xl mx-auto py-8 space-y-6">
+        <div className="max-w-5xl mx-auto py-12 space-y-8">
           {messages.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg">
-                Ask me anything about legal matters, and I'll research applicable laws and databases to help you.
+            <div className="text-center py-24">
+              <div className="mb-8 inline-flex items-center justify-center">
+                <div className="relative">
+                  <Compass className="w-20 h-20 text-primary animate-spin-slow" />
+                  <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-glow" />
+                </div>
+              </div>
+              <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
+                Ask me anything about legal matters, and I'll research applicable laws and databases to help you discover insights and strategies.
               </p>
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                {[
+                  "What are the legal requirements for starting a business?",
+                  "How do I protect my intellectual property?",
+                  "What are my rights as a tenant?",
+                  "How does contract law work in my state?"
+                ].map((example, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setInput(example)}
+                    className="p-4 text-left rounded-xl bg-card/50 border border-border/50 hover:border-primary/50 hover:bg-card/70 transition-all duration-300 text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    "{example}"
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             messages.map((message, index) => (
@@ -106,30 +133,30 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
             ))
           )}
           {isLoading && (
-            <div className="flex items-center gap-3 text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <span>Researching legal databases...</span>
+            <div className="flex items-center gap-4 p-6 rounded-2xl bg-card/50 border border-primary/30">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <span className="text-foreground font-medium">Researching legal databases and analyzing regulations...</span>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border bg-card/50 backdrop-blur-sm">
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex gap-3">
+      <div className="border-t border-border/50 bg-card/30 backdrop-blur-xl shadow-2xl">
+        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-6">
+          <div className="flex gap-4">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about legal loopholes, regulations, or strategies..."
-              className="flex-1 bg-secondary border-border focus:border-primary"
+              className="flex-1 bg-secondary/50 border-border/50 focus:border-primary text-lg py-6 rounded-2xl backdrop-blur-sm"
               disabled={isLoading}
             />
             <Button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background"
+              className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background px-8 py-6 text-lg font-semibold rounded-2xl transition-all duration-300 hover:scale-105"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-6 h-6" />
             </Button>
           </div>
         </form>
