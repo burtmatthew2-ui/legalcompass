@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Loader2, ArrowLeft, Compass } from "lucide-react";
+import { Send, Loader2, ArrowLeft, Compass, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
 import { streamLegalResearch } from "@/utils/streamChat";
+import { toast as sonnerToast } from "sonner";
 
 interface Message {
   role: "user" | "assistant";
@@ -17,6 +20,32 @@ interface ChatInterfaceProps {
 }
 
 export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (!session?.user) {
+        navigate("/auth");
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (!session?.user) {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    sonnerToast.success("Signed out successfully");
+    navigate("/");
+  };
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -79,20 +108,40 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   return (
     <div className="min-h-screen bg-[var(--gradient-bg)] flex flex-col">
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-xl shadow-lg">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </Button>
-          <div>
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-[var(--gradient-primary)]">
-              Legal Research Assistant
-            </h2>
-            <p className="text-sm text-muted-foreground">Powered by advanced AI analysis</p>
+        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onBack}
+              className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </Button>
+            <div>
+              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-[var(--gradient-primary)]">
+                Legal Research Assistant
+              </h2>
+              <p className="text-sm text-muted-foreground">Powered by advanced AI analysis</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => navigate("/pricing")}
+              variant="outline"
+              size="sm"
+              className="border-white/20 hover:bg-white/10"
+            >
+              Upgrade
+            </Button>
+            <Button
+              onClick={handleSignOut}
+              variant="ghost"
+              size="icon"
+              className="hover:bg-white/10"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>

@@ -1,24 +1,107 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import Stripe from "https://esm.sh/stripe@18.5.0";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+const TIER_MODEL_MAP: Record<string, string> = {
+  "prod_TIAP3IV5EhaFIL": "google/gemini-2.5-flash-lite", // Basic
+  "prod_TIAXB3ezMYE5u5": "google/gemini-2.5-flash",      // Professional
+  "prod_TIAYv6WKBRt2OE": "google/gemini-2.5-pro",        // Enterprise
+};
+
+const logStep = (step: string, details?: any) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[LEGAL-RESEARCH] ${step}${detailsStr}`);
 };
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    logStep("Function started");
     
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    // Authenticate user
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } }
+    );
+
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      throw new Error("No authorization header provided");
     }
 
-    console.log("Legal research request received with", messages.length, "messages");
+    const token = authHeader.replace("Bearer ", "");
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
+    
+    if (userError || !userData.user) {
+      throw new Error("User not authenticated");
+    }
+
+    const user = userData.user;
+    logStep("User authenticated", { userId: user.id });
+
+    const { messages } = await req.json();
+    
+    if (!messages || !Array.isArray(messages)) {
+      throw new Error('Invalid request: messages array is required');
+    }
+
+    // Check subscription and get product_id
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2025-08-27.basil",
+    });
+
+    let productId = "prod_TIAP3IV5EhaFIL"; // Default to Basic tier
+    
+    if (user.email) {
+      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      
+      if (customers.data.length > 0) {
+        const subscriptions = await stripe.subscriptions.list({
+          customer: customers.data[0].id,
+          status: "active",
+          limit: 1,
+        });
+
+        if (subscriptions.data.length > 0) {
+          productId = subscriptions.data[0].items.data[0].price.product as string;
+          logStep("Active subscription found", { productId });
+        }
+      }
+    }
+
+    const model = TIER_MODEL_MAP[productId] || "google/gemini-2.5-flash-lite";
+    logStep("Using AI model", { model, tier: productId });
+
+    // Increment question usage
+    const { data: usageData } = await supabaseClient
+      .from('question_usage')
+      .select('question_count')
+      .eq('user_id', user.id)
+      .single();
+
+    await supabaseClient
+      .from('question_usage')
+      .update({ 
+        question_count: (usageData?.question_count || 0) + 1,
+        updated_at: new Date().toISOString()
+      })
+      .eq('user_id', user.id);
+    
+    logStep("Updated usage count");
+
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
+    }
 
     const systemPrompt = `You are an expert legal research assistant powered by Legal Compass. Your role is to help users understand legal frameworks, identify potential loopholes, and provide comprehensive legal analysis.
 
@@ -48,25 +131,30 @@ RESPONSE FORMAT:
 
 Be thorough, analytical, and helpful while maintaining professional legal research standards.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
+    console.log('Making request to Lovable AI Gateway...');
+    
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: model,
         messages: [
-          { role: "system", content: systemPrompt },
-          ...messages,
+          {
+            role: "system",
+            content: systemPrompt
+          },
+          ...messages
         ],
-        stream: true,
-      }),
+        stream: true
+      })
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+      console.error('AI Gateway error:', response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
@@ -88,25 +176,24 @@ Be thorough, analytical, and helpful while maintaining professional legal resear
         );
       }
 
-      return new Response(
-        JSON.stringify({ error: "Failed to process request" }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      throw new Error(`AI Gateway returned ${response.status}: ${errorText}`);
     }
 
     return new Response(response.body, {
-      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
     });
-  } catch (e) {
-    console.error("Legal research error:", e);
+  } catch (error) {
+    console.error('Error in legal-research function:', error);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
       {
         status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
   }

@@ -1,13 +1,74 @@
 import { Button } from "@/components/ui/button";
-import { Compass } from "lucide-react";
+import { Compass, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 interface HeroProps {
   onGetStarted: () => void;
 }
 
 export const Hero = ({ onGetStarted }: HeroProps) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast.success("Signed out successfully");
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Top Navigation */}
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20">
+        <div className="flex items-center gap-2">
+          <Compass className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            Legal Compass
+          </span>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => navigate("/pricing")}
+            variant="outline"
+            className="border-white/20 hover:bg-white/10"
+          >
+            Pricing
+          </Button>
+          {user ? (
+            <Button
+              onClick={handleSignOut}
+              variant="outline"
+              className="border-white/20 hover:bg-white/10"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </Button>
+          ) : (
+            <Button
+              onClick={() => navigate("/auth")}
+              variant="outline"
+              className="border-white/20 hover:bg-white/10"
+            >
+              Sign In
+            </Button>
+          )}
+        </div>
+      </div>
+      
       <div className="absolute inset-0 bg-[var(--gradient-bg)]" />
       
       {/* Enhanced animated background elements */}
