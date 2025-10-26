@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
 import { streamLegalResearch } from "@/utils/streamChat";
 import { toast as sonnerToast } from "sonner";
+import { useChatHistory } from "@/hooks/useChatHistory";
 
 interface Message {
   role: "user" | "assistant";
@@ -46,7 +47,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     sonnerToast.success("Signed out successfully");
     navigate("/");
   };
-  const [messages, setMessages] = useState<Message[]>([]);
+  
+  const {
+    messages,
+    setMessages,
+    currentConversation,
+    createConversation,
+    saveMessage,
+  } = useChatHistory();
+
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -64,7 +73,25 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
     const userMessage = input.trim();
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    
+    // Create conversation if this is the first message
+    let conversationId = currentConversation;
+    if (!conversationId) {
+      conversationId = await createConversation(userMessage);
+      if (!conversationId) {
+        toast({
+          title: "Error",
+          description: "Failed to create conversation",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    const userMsg: Message = { role: "user", content: userMessage };
+    setMessages((prev) => [...prev, userMsg]);
+    await saveMessage(userMsg);
+    
     setIsLoading(true);
 
     let assistantContent = "";
@@ -83,9 +110,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
     try {
       await streamLegalResearch({
-        messages: [...messages, { role: "user", content: userMessage }],
+        messages: [...messages, userMsg],
         onDelta: (chunk) => upsertAssistant(chunk),
-        onDone: () => setIsLoading(false),
+        onDone: async () => {
+          // Save assistant message to database
+          await saveMessage({ role: "assistant", content: assistantContent });
+          setIsLoading(false);
+        },
         onError: (error) => {
           toast({
             title: "Error",

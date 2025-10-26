@@ -6,7 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Compass } from "lucide-react";
+import { Compass, Shield } from "lucide-react";
+import { z } from "zod";
+
+const authSchema = z.object({
+  email: z.string().email("Invalid email address").max(255, "Email too long"),
+  password: z.string().min(6, "Password must be at least 6 characters").max(100, "Password too long"),
+});
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -37,26 +43,57 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      // Validate input
+      const validation = authSchema.safeParse({ email, password });
+      if (!validation.success) {
+        const firstError = validation.error.errors[0];
+        toast.error(firstError.message);
+        setLoading(false);
+        return;
+      }
+
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
-          email,
+          email: email.trim(),
           password,
         });
-        if (error) throw error;
-        toast.success("Welcome back!");
+        if (error) {
+          // Provide user-friendly error messages
+          if (error.message.includes("Invalid login credentials")) {
+            toast.error("Invalid email or password");
+          } else if (error.message.includes("Email not confirmed")) {
+            toast.error("Please confirm your email before signing in");
+          } else {
+            toast.error(error.message);
+          }
+          setLoading(false);
+          return;
+        }
+        toast.success("Welcome back! Your data is encrypted and secure.");
       } else {
         const { error } = await supabase.auth.signUp({
-          email,
+          email: email.trim(),
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
           },
         });
-        if (error) throw error;
-        toast.success("Account created! You can now sign in.");
+        if (error) {
+          // Provide user-friendly error messages
+          if (error.message.includes("already registered")) {
+            toast.error("This email is already registered. Please sign in instead.");
+          } else {
+            toast.error(error.message);
+          }
+          setLoading(false);
+          return;
+        }
+        toast.success("Account created! You can now sign in. All your data is encrypted.");
+        setIsLogin(true);
+        setPassword("");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -79,6 +116,10 @@ const Auth = () => {
               ? "Sign in to access your legal research"
               : "Get started with your legal research assistant"}
           </CardDescription>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+            <Shield className="h-3 w-3" />
+            <span>Encrypted • Private • Secure</span>
+          </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleAuth} className="space-y-4">
