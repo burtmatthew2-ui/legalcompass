@@ -10,11 +10,12 @@ interface Conversation {
   id: string;
   title: string;
   created_at: string;
+  updated_at: string;
 }
 
 export const useChatHistory = (conversationId?: string) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [currentConversation, setCurrentConversation] = useState<string | null>(conversationId || null);
+  const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +26,7 @@ export const useChatHistory = (conversationId?: string) => {
 
     const { data, error } = await supabase
       .from('chat_conversations')
-      .select('id, title, created_at')
+      .select('id, title, created_at, updated_at')
       .eq('user_id', user.id)
       .order('updated_at', { ascending: false });
 
@@ -40,11 +41,25 @@ export const useChatHistory = (conversationId?: string) => {
     if (!user) return;
 
     setLoading(true);
+    
+    // Load conversation data
+    const { data: convData } = await supabase
+      .from('chat_conversations')
+      .select('id, title, created_at, updated_at')
+      .eq('id', convId)
+      .eq('user_id', user.id)
+      .single();
+
+    if (convData) {
+      setCurrentConversation(convData);
+    }
+
+    // Load messages
     const { data, error } = await supabase
       .from('chat_messages')
       .select('role, content, created_at')
       .eq('conversation_id', convId)
-      .eq('user_id', user.id) // Additional RLS enforcement
+      .eq('user_id', user.id)
       .order('created_at', { ascending: true });
 
     if (!error && data) {
@@ -68,7 +83,7 @@ export const useChatHistory = (conversationId?: string) => {
       .single();
 
     if (!error && data) {
-      setCurrentConversation(data.id);
+      setCurrentConversation(data);
       await loadConversations();
       return data.id;
     }
@@ -83,7 +98,7 @@ export const useChatHistory = (conversationId?: string) => {
     await supabase
       .from('chat_messages')
       .insert({
-        conversation_id: currentConversation,
+        conversation_id: currentConversation.id,
         user_id: user.id,
         role: message.role,
         content: message.content,
@@ -93,7 +108,7 @@ export const useChatHistory = (conversationId?: string) => {
     await supabase
       .from('chat_conversations')
       .update({ updated_at: new Date().toISOString() })
-      .eq('id', currentConversation);
+      .eq('id', currentConversation.id);
   };
 
   // Delete conversation
@@ -105,9 +120,9 @@ export const useChatHistory = (conversationId?: string) => {
       .from('chat_conversations')
       .delete()
       .eq('id', convId)
-      .eq('user_id', user.id); // RLS enforcement
+      .eq('user_id', user.id);
 
-    if (convId === currentConversation) {
+    if (convId === currentConversation?.id) {
       setCurrentConversation(null);
       setMessages([]);
     }
@@ -120,7 +135,7 @@ export const useChatHistory = (conversationId?: string) => {
 
   useEffect(() => {
     if (currentConversation) {
-      loadMessages(currentConversation);
+      loadMessages(currentConversation.id);
     } else {
       setMessages([]);
     }
@@ -137,5 +152,6 @@ export const useChatHistory = (conversationId?: string) => {
     saveMessage,
     deleteConversation,
     loadConversations,
+    loadMessages,
   };
 };

@@ -4,12 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Loader2, ArrowLeft, Compass, LogOut } from "lucide-react";
+import { Send, Loader2, ArrowLeft, Compass, LogOut, Menu } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
 import { streamLegalResearch } from "@/utils/streamChat";
 import { toast as sonnerToast } from "sonner";
 import { useChatHistory } from "@/hooks/useChatHistory";
+import { ConversationSidebar } from "./ConversationSidebar";
 
 interface Message {
   role: "user" | "assistant";
@@ -52,12 +53,16 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     messages,
     setMessages,
     currentConversation,
+    conversations,
     createConversation,
     saveMessage,
+    deleteConversation,
+    loadMessages,
   } = useChatHistory();
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +80,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setInput("");
     
     // Create conversation if this is the first message
-    let conversationId = currentConversation;
+    let conversationId = currentConversation?.id;
     if (!conversationId) {
       conversationId = await createConversation(userMessage);
       if (!conversationId) {
@@ -138,9 +143,29 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
   return (
     <div className="min-h-screen bg-[var(--gradient-bg)] flex flex-col">
+      <ConversationSidebar
+        conversations={conversations}
+        currentConversation={currentConversation}
+        onSelectConversation={(conv) => loadMessages(conv.id)}
+        onDeleteConversation={deleteConversation}
+        onNewConversation={() => {
+          setMessages([]);
+        }}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-xl shadow-lg">
         <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSidebarOpen(true)}
+              className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
+            >
+              <Menu className="w-6 h-6" />
+            </Button>
             <Button
               variant="ghost"
               size="icon"
