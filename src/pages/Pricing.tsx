@@ -11,8 +11,8 @@ const PREMIUM_TIER = {
   name: "Legal Compass Premium",
   price: "$4.99",
   interval: "every 2 weeks",
-  priceId: "price_1SMu3KArhAIMbV73p1v0bQKb",
-  productId: "prod_TJX7wJcaTMnCUB",
+  priceId: "price_1SN0bKArhAIMbV737l0eMYVG",
+  productId: "prod_TJdtoPNUnva1b6",
   features: [
     "Unlimited legal questions",
     "Advanced AI-powered research",
