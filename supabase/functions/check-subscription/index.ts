@@ -42,6 +42,27 @@ serve(async (req) => {
     
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    // Check if user is admin - admins bypass payment
+    const { data: adminCheck } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin')
+      .maybeSingle();
+    
+    if (adminCheck) {
+      logStep("Admin user detected - bypassing payment");
+      return new Response(JSON.stringify({
+        subscribed: true,
+        product_id: 'admin_access',
+        subscription_end: null,
+        is_admin: true
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     
