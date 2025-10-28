@@ -42,37 +42,49 @@ serve(async (req) => {
     const user = userData.user;
     logStep("User authenticated", { userId: user.id });
 
-    // Check subscription status - REQUIRED for access
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2025-08-27.basil",
-    });
-
-    let hasActiveSubscription = false;
+    // Check if user is admin - admins bypass subscription check
+    const { data: adminCheck } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin')
+      .maybeSingle();
     
-    if (user.email) {
-      const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    if (adminCheck) {
+      logStep("Admin user detected - full access granted");
+    } else {
+      // Check subscription status - REQUIRED for non-admin access
+      const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+        apiVersion: "2025-08-27.basil",
+      });
+
+      let hasActiveSubscription = false;
       
-      if (customers.data.length > 0) {
-        const subscriptions = await stripe.subscriptions.list({
-          customer: customers.data[0].id,
-          status: "active",
-          limit: 1,
-        });
+      if (user.email) {
+        const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+        
+        if (customers.data.length > 0) {
+          const subscriptions = await stripe.subscriptions.list({
+            customer: customers.data[0].id,
+            status: "active",
+            limit: 1,
+          });
 
-        hasActiveSubscription = subscriptions.data.length > 0;
-        logStep("Subscription check", { hasActiveSubscription });
-      }
-    }
-
-    if (!hasActiveSubscription) {
-      logStep("Access denied - no active subscription");
-      return new Response(
-        JSON.stringify({ error: "Active subscription required to use the AI assistant" }),
-        {
-          status: 403,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          hasActiveSubscription = subscriptions.data.length > 0;
+          logStep("Subscription check", { hasActiveSubscription });
         }
-      );
+      }
+
+      if (!hasActiveSubscription) {
+        logStep("Access denied - no active subscription");
+        return new Response(
+          JSON.stringify({ error: "Active subscription required to use the AI assistant" }),
+          {
+            status: 403,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
     }
 
     const { messages } = await req.json();
