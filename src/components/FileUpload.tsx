@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useSubscription } from "@/hooks/useSubscription";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Upload, X, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -10,10 +12,18 @@ interface FileUploadProps {
 }
 
 export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) => {
+  const { subscription } = useSubscription();
+  const navigate = useNavigate();
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!subscription?.subscribed) {
+      toast.error("Subscription required to upload files");
+      navigate("/pricing");
+      return;
+    }
+    
     const file = event.target.files?.[0];
     if (file) {
       // Check file size (20MB limit)

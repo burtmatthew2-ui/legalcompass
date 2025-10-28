@@ -1,144 +1,79 @@
 import { Button } from "@/components/ui/button";
-import { Compass, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { Compass, Scale, Shield, Sparkles } from "lucide-react";
 
 interface HeroProps {
   onGetStarted: () => void;
 }
 
 export const Hero = ({ onGetStarted }: HeroProps) => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    toast.success("Signed out successfully");
-  };
-
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Top Navigation */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20">
-        <div className="flex items-center gap-2">
-          <Compass className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-            Legal Compass
-          </span>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            onClick={() => navigate("/pricing")}
-            variant="outline"
-            className="border-white/20 hover:bg-white/10"
-          >
-            Pricing
-          </Button>
-          {user ? (
-            <Button
-              onClick={handleSignOut}
-              variant="outline"
-              className="border-white/20 hover:bg-white/10"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
-          ) : (
-            <Button
-              onClick={() => navigate("/auth")}
-              variant="outline"
-              className="border-white/20 hover:bg-white/10"
-            >
-              Sign In
-            </Button>
-          )}
-        </div>
-      </div>
-      
-      <div className="absolute inset-0 bg-[var(--gradient-bg)]" />
-      
-      {/* Enhanced animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-accent/15 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-glow" />
-      </div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        <div className="mb-12 inline-flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4">
+      <div className="max-w-4xl mx-auto text-center space-y-8">
+        <div className="inline-flex items-center justify-center mb-6">
           <div className="relative">
-            <Compass className="w-32 h-32 text-primary animate-spin-slow drop-shadow-[0_0_30px_rgba(139,92,246,0.5)]" style={{ animationDuration: "20s" }} />
-            <div className="absolute inset-0 bg-primary/30 blur-2xl rounded-full animate-glow" />
+            <Compass className="w-24 h-24 text-primary animate-spin-slow" />
+            <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-glow" />
           </div>
         </div>
 
-        <h1 className="text-7xl md:text-8xl lg:text-9xl font-black mb-8 bg-clip-text text-transparent bg-[var(--gradient-primary)] leading-tight tracking-tight">
-          Legal Compass
-        </h1>
-
-        <p className="text-2xl md:text-3xl text-foreground/90 mb-6 max-w-3xl mx-auto leading-relaxed font-medium">
-          Navigate the complexities of law with AI-powered research
-        </p>
-
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-          Discover legal loopholes and strategies through comprehensive analysis of laws and public databases
-        </p>
-
-        <div className="bg-destructive/15 border-2 border-destructive rounded-2xl p-8 mb-12 max-w-3xl mx-auto backdrop-blur-sm shadow-[0_8px_32px_rgba(239,68,68,0.2)]">
-          <p className="text-destructive font-bold text-2xl mb-3 flex items-center justify-center gap-3">
-            <span className="text-3xl">⚠️</span> Important Legal Disclaimer
-          </p>
-          <p className="text-destructive-foreground/90 text-lg leading-relaxed">
-            This AI-powered tool is for informational and research purposes only. It does NOT provide legal advice 
-            and does NOT replace consultation with a licensed attorney. For legal matters affecting your rights or 
-            obligations, you MUST consult with a qualified attorney in your jurisdiction. Using this service does 
-            not create an attorney-client relationship.
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">Powered by Advanced AI</span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
+            The Most Advanced AI Legal Assistant
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Navigate complex legal matters with cutting-edge AI technology. 
+            Get instant insights, research case law, and discover legal strategies — all powered by the latest AI models.
           </p>
         </div>
 
-        <Button 
-          onClick={onGetStarted}
-          size="lg"
-          className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background font-bold text-2xl px-16 py-10 transition-all duration-500 hover:scale-110 shadow-2xl rounded-2xl group relative overflow-hidden"
-        >
-          <span className="relative z-10 flex items-center gap-3">
-            🚀 Start Your Legal Research
-          </span>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-        </Button>
+        <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-12">
+          <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
+            <Scale className="w-8 h-8 text-primary mb-3 mx-auto" />
+            <h3 className="font-semibold mb-2">Comprehensive Research</h3>
+            <p className="text-sm text-muted-foreground">
+              Access vast legal databases and case law instantly
+            </p>
+          </div>
+          <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
+            <Shield className="w-8 h-8 text-primary mb-3 mx-auto" />
+            <h3 className="font-semibold mb-2">Secure & Private</h3>
+            <p className="text-sm text-muted-foreground">
+              Your legal matters stay confidential with encryption
+            </p>
+          </div>
+          <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
+            <Sparkles className="w-8 h-8 text-primary mb-3 mx-auto" />
+            <h3 className="font-semibold mb-2">Always Up-to-Date</h3>
+            <p className="text-sm text-muted-foreground">
+              Latest AI models trained on current legal standards
+            </p>
+          </div>
+        </div>
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {[
-            { title: "AI-Powered Research", desc: "Deep analysis using multiple legal databases and sources", icon: "🤖" },
-            { title: "Legal Loopholes", desc: "Uncover strategies and interpretations in complex legal frameworks", icon: "🔍" },
-            { title: "Instant Insights", desc: "Get comprehensive legal analysis in seconds", icon: "⚡" }
-          ].map((feature, i) => (
-            <div 
-              key={i} 
-              className="group p-8 rounded-2xl bg-[var(--gradient-card)] backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-[var(--shadow-card)] relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10">
-                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-500">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{feature.title}</h3>
-                <p className="text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
+          <Button
+            onClick={onGetStarted}
+            size="lg"
+            className="bg-gradient-primary hover:opacity-90 text-lg px-8 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+          >
+            Start Your Legal Research
+          </Button>
+          <p className="text-sm text-muted-foreground">
+            Only $4.99 every 2 weeks • Cancel anytime
+          </p>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-border/50">
+          <p className="text-xs text-muted-foreground">
+            <strong>Disclaimer:</strong> This AI assistant provides informational guidance only and does not constitute legal advice. 
+            For specific legal matters, please consult a licensed attorney.
+          </p>
         </div>
       </div>
     </div>

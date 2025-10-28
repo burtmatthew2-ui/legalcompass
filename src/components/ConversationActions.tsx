@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { Download, Share2, BookmarkPlus, Loader2 } from "lucide-react";
+import { Download, Share2, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -22,11 +24,19 @@ interface ConversationActionsProps {
 }
 
 export const ConversationActions = ({ messages, conversationId }: ConversationActionsProps) => {
+  const { subscription } = useSubscription();
+  const navigate = useNavigate();
   const [isExporting, setIsExporting] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [showShareDialog, setShowShareDialog] = useState(false);
 
   const handleExport = () => {
+    if (!subscription?.subscribed) {
+      toast.error("Subscription required to export conversations");
+      navigate("/pricing");
+      return;
+    }
+    
     setIsExporting(true);
     try {
       // Create a text file with conversation
@@ -53,6 +63,12 @@ export const ConversationActions = ({ messages, conversationId }: ConversationAc
   };
 
   const handleShare = async () => {
+    if (!subscription?.subscribed) {
+      toast.error("Subscription required to share conversations");
+      navigate("/pricing");
+      return;
+    }
+    
     if (!conversationId) {
       toast.error("No conversation to share");
       return;

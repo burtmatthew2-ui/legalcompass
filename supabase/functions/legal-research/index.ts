@@ -7,12 +7,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const TIER_MODEL_MAP: Record<string, string> = {
-  "prod_TIAP3IV5EhaFIL": "google/gemini-2.5-flash-lite", // Basic
-  "prod_TIAXB3ezMYE5u5": "google/gemini-2.5-flash",      // Professional
-  "prod_TIAYv6WKBRt2OE": "google/gemini-2.5-pro",        // Enterprise
-};
-
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[LEGAL-RESEARCH] ${step}${detailsStr}`);
@@ -48,18 +42,12 @@ serve(async (req) => {
     const user = userData.user;
     logStep("User authenticated", { userId: user.id });
 
-    const { messages } = await req.json();
-    
-    if (!messages || !Array.isArray(messages)) {
-      throw new Error('Invalid request: messages array is required');
-    }
-
-    // Check subscription and get product_id
+    // Check subscription status - REQUIRED for access
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
 
-    let productId = "prod_TIAP3IV5EhaFIL"; // Default to Basic tier
+    let hasActiveSubscription = false;
     
     if (user.email) {
       const customers = await stripe.customers.list({ email: user.email, limit: 1 });
@@ -71,32 +59,41 @@ serve(async (req) => {
           limit: 1,
         });
 
-        if (subscriptions.data.length > 0) {
-          productId = subscriptions.data[0].items.data[0].price.product as string;
-          logStep("Active subscription found", { productId });
-        }
+        hasActiveSubscription = subscriptions.data.length > 0;
+        logStep("Subscription check", { hasActiveSubscription });
       }
     }
 
-    const model = TIER_MODEL_MAP[productId] || "google/gemini-2.5-flash-lite";
-    logStep("Using AI model", { model, tier: productId });
+    if (!hasActiveSubscription) {
+      logStep("Access denied - no active subscription");
+      return new Response(
+        JSON.stringify({ error: "Active subscription required to use the AI assistant" }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
 
-    // Increment question usage
-    const { data: usageData } = await supabaseClient
-      .from('question_usage')
-      .select('question_count')
-      .eq('user_id', user.id)
-      .single();
+    const { messages } = await req.json();
+    
+    if (!messages || !Array.isArray(messages)) {
+      throw new Error('Invalid request: messages array is required');
+    }
 
+    logStep("Request validated - proceeding with AI research");
+
+    // Increment question usage (optional tracking)
     await supabaseClient
       .from('question_usage')
-      .update({ 
-        question_count: (usageData?.question_count || 0) + 1,
+      .upsert({ 
+        user_id: user.id,
+        question_count: 1,
         updated_at: new Date().toISOString()
-      })
-      .eq('user_id', user.id);
-    
-    logStep("Updated usage count");
+      }, {
+        onConflict: 'user_id',
+        ignoreDuplicates: false
+      });
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -156,7 +153,7 @@ Be thorough, analytical, and helpful while maintaining professional legal resear
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: model,
+        model: "google/gemini-2.5-flash", // Single premium model for all subscribers
         messages: [
           {
             role: "system",
