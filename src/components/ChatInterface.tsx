@@ -11,6 +11,8 @@ import { streamLegalResearch } from "@/utils/streamChat";
 import { toast as sonnerToast } from "sonner";
 import { useChatHistory } from "@/hooks/useChatHistory";
 import { ConversationSidebar } from "./ConversationSidebar";
+import { FileUpload } from "./FileUpload";
+import { ConversationActions } from "./ConversationActions";
 
 interface Message {
   role: "user" | "assistant";
@@ -181,7 +183,11 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               <p className="text-sm text-muted-foreground">Powered by advanced AI analysis</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <ConversationActions 
+              messages={messages} 
+              conversationId={currentConversation?.id || null}
+            />
             <Button
               onClick={() => navigate("/pricing")}
               variant="outline"
@@ -247,7 +253,11 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       </ScrollArea>
 
       <div className="border-t border-border/50 bg-card/30 backdrop-blur-xl shadow-2xl">
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-6">
+        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-6 space-y-4">
+          <FileUpload 
+            conversationId={currentConversation?.id || null}
+            onFileUploaded={(file) => sonnerToast.success(`${file.name} uploaded successfully`)}
+          />
           <div className="flex gap-4">
             <Input
               value={input}

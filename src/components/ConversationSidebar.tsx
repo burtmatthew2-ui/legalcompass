@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MessageSquare, Trash2, Plus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { MessageSquare, Trash2, Plus, X, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
@@ -40,6 +41,7 @@ export const ConversationSidebar = ({
   isOpen,
   onClose,
 }: ConversationSidebarProps) => {
+  const navigate = useNavigate();
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const handleDelete = () => {
@@ -64,10 +66,22 @@ export const ConversationSidebar = ({
             </Button>
           </div>
 
-          <div className="p-4">
+          <div className="p-4 space-y-2">
             <Button onClick={onNewConversation} className="w-full" size="lg">
               <Plus className="h-4 w-4 mr-2" />
               New Conversation
+            </Button>
+            <Button 
+              onClick={() => {
+                navigate("/bookmarks");
+                onClose();
+              }} 
+              variant="outline" 
+              className="w-full" 
+              size="lg"
+            >
+              <Bookmark className="h-4 w-4 mr-2" />
+              Bookmarks
             </Button>
           </div>
 
