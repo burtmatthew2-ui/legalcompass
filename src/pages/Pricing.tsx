@@ -7,46 +7,22 @@ import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
-const PRICING_TIERS = {
-  basic: {
-    name: "Basic",
-    price: "$4.99",
-    priceId: "price_1SLa55ArhAIMbV739y0sARjH",
-    productId: "prod_TIAP3IV5EhaFIL",
-    features: [
-      "50 questions per month",
-      "Streamlined AI assistant",
-      "Basic legal research",
-      "Email support",
-    ],
-  },
-  professional: {
-    name: "Professional",
-    price: "$9.99",
-    priceId: "price_1SLaCsArhAIMbV73oyBD4pTB",
-    productId: "prod_TIAXB3ezMYE5u5",
-    features: [
-      "200 questions per month",
-      "Enhanced AI capabilities",
-      "Advanced legal research",
-      "Priority email support",
-      "Complex question handling",
-    ],
-  },
-  enterprise: {
-    name: "Enterprise",
-    price: "$19.99",
-    priceId: "price_1SLaDCArhAIMbV73x8TebNXr",
-    productId: "prod_TIAYv6WKBRt2OE",
-    features: [
-      "Unlimited questions",
-      "Most advanced AI model",
-      "Premium legal research",
-      "24/7 priority support",
-      "Complex legal challenges",
-      "Dedicated account manager",
-    ],
-  },
+const PREMIUM_TIER = {
+  name: "Legal Compass Premium",
+  price: "$4.99",
+  interval: "every 2 weeks",
+  priceId: "price_1SMu3KArhAIMbV73p1v0bQKb",
+  productId: "prod_TJX7wJcaTMnCUB",
+  features: [
+    "Unlimited legal questions",
+    "Advanced AI-powered research",
+    "File upload & document analysis",
+    "Export conversation history",
+    "Share research findings",
+    "Bookmark important responses",
+    "Priority support",
+    "All future features included",
+  ],
 };
 
 const Pricing = () => {
@@ -127,13 +103,16 @@ const Pricing = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Choose Your Plan
+              Simple, Transparent Pricing
             </h1>
             <p className="text-lg text-muted-foreground">
-              Select the perfect tier for your legal research needs
+              One plan with all features. No hidden fees. Cancel anytime.
             </p>
             {currentSubscription?.subscribed && (
-              <div className="mt-4">
+              <div className="mt-4 space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Subscription ends: {new Date(currentSubscription.subscription_end).toLocaleDateString()}
+                </p>
                 <Button
                   onClick={handleManageSubscription}
                   variant="outline"
@@ -149,56 +128,49 @@ const Pricing = () => {
             )}
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {Object.entries(PRICING_TIERS).map(([key, tier]) => {
-              const isCurrentPlan = currentSubscription?.product_id === tier.productId;
-              return (
-                <Card
-                  key={key}
-                  className={`relative overflow-hidden shadow-card border-white/10 ${
-                    isCurrentPlan ? 'ring-2 ring-primary' : ''
-                  }`}
-                >
-                  {isCurrentPlan && (
-                    <div className="absolute top-0 right-0 bg-gradient-primary text-white px-3 py-1 text-sm font-semibold rounded-bl-lg">
-                      Current Plan
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                    <CardDescription>
-                      <span className="text-4xl font-bold text-foreground">
-                        {tier.price}
-                      </span>
-                      <span className="text-muted-foreground">/month</span>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <ul className="space-y-3">
-                      {tier.features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Button
-                      onClick={() => handleSubscribe(tier.priceId)}
-                      disabled={loading === tier.priceId || isCurrentPlan}
-                      className="w-full bg-gradient-primary hover:opacity-90 transition-all"
-                    >
-                      {loading === tier.priceId ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...</>
-                      ) : isCurrentPlan ? (
-                        'Current Plan'
-                      ) : (
-                        'Subscribe'
-                      )}
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="max-w-lg mx-auto">
+            <Card className={`relative overflow-hidden shadow-2xl border-primary/20 ${
+              currentSubscription?.subscribed ? 'ring-2 ring-primary' : ''
+            }`}>
+              {currentSubscription?.subscribed && (
+                <div className="absolute top-0 right-0 bg-gradient-primary text-white px-4 py-2 text-sm font-semibold rounded-bl-lg">
+                  Active Plan
+                </div>
+              )}
+              <CardHeader className="text-center pb-8">
+                <CardTitle className="text-3xl mb-2">{PREMIUM_TIER.name}</CardTitle>
+                <CardDescription className="text-lg">
+                  <span className="text-5xl font-bold text-foreground block mb-2">
+                    {PREMIUM_TIER.price}
+                  </span>
+                  <span className="text-muted-foreground">{PREMIUM_TIER.interval}</span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <ul className="space-y-4">
+                  {PREMIUM_TIER.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="h-6 w-6 text-primary shrink-0 mt-0.5" />
+                      <span className="text-base">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                {!currentSubscription?.subscribed && (
+                  <Button
+                    onClick={() => handleSubscribe(PREMIUM_TIER.priceId)}
+                    disabled={loading === PREMIUM_TIER.priceId}
+                    size="lg"
+                    className="w-full bg-gradient-primary hover:opacity-90 transition-all text-lg py-6"
+                  >
+                    {loading === PREMIUM_TIER.priceId ? (
+                      <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Processing...</>
+                    ) : (
+                      'Get Started Now'
+                    )}
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
