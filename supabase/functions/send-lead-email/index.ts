@@ -100,7 +100,7 @@ serve(async (req) => {
 
     // Send email via Resend
     const emailResponse = await resend.emails.send({
-      from: "Legal Compass <onboarding@resend.dev>", // Change this to your verified domain
+      from: "Legal Compass <noreply@send.legalcompass.store>",
       to: [recipientEmail],
       subject: subject,
       html: emailWithUnsubscribe,
