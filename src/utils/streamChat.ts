@@ -19,7 +19,9 @@ export async function streamLegalResearch({
     });
 
     if (error) throw error;
+    if (!data) throw new Error("No response from server");
 
+    // The data is the raw Response object from the edge function
     const response = data as Response;
     if (!response.ok || !response.body) {
       throw new Error("Failed to start stream");
