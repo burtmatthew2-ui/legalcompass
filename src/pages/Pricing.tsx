@@ -12,7 +12,7 @@ const PREMIUM_TIER = {
   price: "$9.99",
   interval: "per month",
   priceId: "price_1SNuZKArhAIMbV73QbW8o3hr",
-  productId: "prod_TKZiZz5slcjCAk",
+  productId: "prod_TKZvMFceTK9clf",
   features: [
     "3 questions free trial",
     "All 50 US states + federal law coverage",
