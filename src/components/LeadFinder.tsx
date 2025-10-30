@@ -17,6 +17,7 @@ interface Lead {
   company?: string;
   source?: string;
   relevance?: string;
+  email_draft?: string;
 }
 
 export const LeadFinder = () => {
@@ -63,6 +64,11 @@ export const LeadFinder = () => {
   const copyEmail = (email: string) => {
     navigator.clipboard.writeText(email);
     toast.success("Email copied to clipboard");
+  };
+
+  const copyEmailDraft = (draft: string) => {
+    navigator.clipboard.writeText(draft);
+    toast.success("Email draft copied to clipboard");
   };
 
   const copyAllEmails = () => {
@@ -164,7 +170,7 @@ export const LeadFinder = () => {
               <div className="space-y-4">
                 {leads.map((lead, index) => (
                   <Card key={index} className="bg-muted/50">
-                    <CardContent className="pt-6">
+                    <CardContent className="pt-6 space-y-4">
                       <div className="flex items-start justify-between">
                         <div className="space-y-2 flex-1">
                           <div className="flex items-center gap-2">
@@ -202,6 +208,25 @@ export const LeadFinder = () => {
                           <Copy className="h-4 w-4" />
                         </Button>
                       </div>
+
+                      {lead.email_draft && (
+                        <div className="border-t pt-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h5 className="text-sm font-semibold">Personalized Email Draft</h5>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => copyEmailDraft(lead.email_draft!)}
+                            >
+                              <Copy className="h-4 w-4 mr-2" />
+                              Copy Email
+                            </Button>
+                          </div>
+                          <div className="bg-background/50 p-3 rounded-md text-sm whitespace-pre-wrap">
+                            {lead.email_draft}
+                          </div>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))}

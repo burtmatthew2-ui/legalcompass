@@ -70,7 +70,14 @@ INSTRUCTIONS:
    - Public business registrations
    - Professional social media profiles
 3. Return ONLY publicly available information
-4. Format as a JSON array with structure:
+4. For EACH lead, write a professional, personalized cold email (150-200 words) that:
+   - Addresses them by name
+   - References their specific role/company
+   - Explains how our AI legal research tool solves their specific pain points
+   - Includes a clear call-to-action
+   - Is professional yet friendly
+   - Complies with CAN-SPAM (includes who we are, what we offer, unsubscribe option)
+5. Format as a JSON array with structure:
    [
      {
        "name": "Person/Company Name",
@@ -78,7 +85,8 @@ INSTRUCTIONS:
        "title": "Job Title",
        "company": "Company Name",
        "source": "Where you found this info",
-       "relevance": "Why they might need legal research"
+       "relevance": "Why they might need legal research",
+       "email_draft": "The complete personalized email ready to send"
      }
    ]
 
