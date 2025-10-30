@@ -87,9 +87,18 @@ TARGET AUDIENCE: ${targetAudience}
 INDUSTRY: ${industry || 'general'}
 LOCATION: ${location || 'any'}
 
+PRIORITY TARGETS:
+- Law students (especially 1L, 2L students who are new to legal research and struggling with case law)
+- Small business owners (who need legal guidance but can't afford constant lawyer consultations)
+- Startup founders (dealing with contracts, compliance, employment law)
+- Freelancers and independent contractors (needing help with agreements and legal protections)
+- Non-profit organizations (with limited legal budgets)
+- People facing legal situations for the first time (tenants, landlords, family matters)
+
 INSTRUCTIONS:
 1. Search for businesses, professionals, or individuals who would benefit from affordable legal research
-2. Find their publicly available email addresses from:
+2. Focus on people who are NOT already legal experts - target those who need accessible, easy-to-understand legal information
+3. Find their publicly available email addresses from:
    - Company websites (contact pages, team pages)
    - Professional directories (LinkedIn, industry listings)
    - Public business registrations
