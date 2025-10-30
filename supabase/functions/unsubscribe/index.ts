@@ -1,6 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 
+// HTML escape function to prevent XSS attacks
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -18,13 +28,42 @@ serve(async (req) => {
 
     if (!email) {
       return new Response(
-        'Email parameter is required',
+        `<!DOCTYPE html>
+        <html>
+        <head><title>Invalid Request</title></head>
+        <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+          <h1 style="color: #e53e3e;">Invalid Request</h1>
+          <p>Email parameter is required.</p>
+        </body>
+        </html>`,
         { 
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'text/html' }
         }
       );
     }
+    
+    // Validate email format with regex to prevent XSS
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return new Response(
+        `<!DOCTYPE html>
+        <html>
+        <head><title>Invalid Email</title></head>
+        <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+          <h1 style="color: #e53e3e;">Invalid Email Format</h1>
+          <p>Please provide a valid email address.</p>
+        </body>
+        </html>`,
+        { 
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+        }
+      );
+    }
+    
+    // Sanitize email for safe HTML display
+    const safeEmail = escapeHtml(email);
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -88,7 +127,7 @@ serve(async (req) => {
             <div class="checkmark">✓</div>
             <h1>You've Been Unsubscribed</h1>
             <p>
-              The email address <strong>${email}</strong> has been successfully removed from our mailing list.
+              The email address <strong>${safeEmail}</strong> has been successfully removed from our mailing list.
             </p>
             <p>
               You will no longer receive emails from Legal Compass.

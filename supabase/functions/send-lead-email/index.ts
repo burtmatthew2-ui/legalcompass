@@ -52,11 +52,23 @@ serve(async (req) => {
       );
     }
 
-    const { recipientEmail, recipientName, subject, htmlContent, senderId } = await req.json();
+    const { recipientEmail, recipientName, subject, textContent, senderId } = await req.json();
 
-    if (!recipientEmail || !subject || !htmlContent) {
+    if (!recipientEmail || !subject || !textContent) {
       return new Response(
-        JSON.stringify({ error: "Missing required fields: recipientEmail, subject, htmlContent" }),
+        JSON.stringify({ error: "Missing required fields: recipientEmail, subject, textContent" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(recipientEmail)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -87,23 +99,19 @@ serve(async (req) => {
     // Generate unsubscribe link
     const unsubscribeUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/unsubscribe?email=${encodeURIComponent(recipientEmail)}`;
 
-    // Add unsubscribe link to email
-    const emailWithUnsubscribe = `
-      ${htmlContent}
-      <br><br>
-      <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-      <p style="font-size: 12px; color: #666; text-align: center;">
-        If you'd prefer not to receive future emails, 
-        <a href="${unsubscribeUrl}" style="color: #666; text-decoration: underline;">click here to unsubscribe</a>.
-      </p>
-    `;
+    // Add unsubscribe link to plain text email
+    const emailWithUnsubscribe = `${textContent}
 
-    // Send email via Resend
+---
+If you'd prefer not to receive future emails, click here to unsubscribe:
+${unsubscribeUrl}`;
+
+    // Send email via Resend as PLAIN TEXT (prevents HTML injection)
     const emailResponse = await resend.emails.send({
       from: "Legal Compass <noreply@send.legalcompass.store>",
       to: [recipientEmail],
       subject: subject,
-      html: emailWithUnsubscribe,
+      text: emailWithUnsubscribe,
     });
 
     console.log("Email sent successfully:", emailResponse);

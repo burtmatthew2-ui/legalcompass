@@ -120,7 +120,7 @@ export const LeadFinder = () => {
           recipientEmail: lead.email,
           recipientName: lead.name,
           subject: "Affordable Legal Research with AI",
-          htmlContent: lead.email_draft?.replace(/\n/g, '<br>') || '',
+          textContent: lead.email_draft || '',
           senderId: user.id
         }
       });
@@ -345,7 +345,7 @@ export const LeadFinder = () => {
                             Copy Email
                           </Button>
                         </div>
-                        <div className="bg-background/50 p-3 rounded-md text-sm whitespace-pre-wrap break-words max-w-full overflow-x-auto">
+                        <div className="bg-background/50 p-3 rounded-md text-sm whitespace-pre-wrap break-words max-w-full overflow-x-auto font-mono">
                           {lead.email_draft}
                         </div>
                       </div>
