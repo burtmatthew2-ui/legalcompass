@@ -43,12 +43,18 @@ export const useChatHistory = (conversationId?: string) => {
     setLoading(true);
     
     // Load conversation data
-    const { data: convData } = await supabase
+    const { data: convData, error: convError } = await supabase
       .from('chat_conversations')
       .select('id, title, created_at, updated_at')
       .eq('id', convId)
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
+
+    if (convError) {
+      console.error('Error loading conversation:', convError);
+      setLoading(false);
+      return;
+    }
 
     if (convData) {
       setCurrentConversation(convData);
