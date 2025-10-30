@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Hero } from "@/components/Hero";
 import { ChatInterface } from "@/components/ChatInterface";
 import { Footer } from "@/components/Footer";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -31,16 +32,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1">
-        {showChat ? (
-          <ChatInterface onBack={() => setShowChat(false)} />
-        ) : (
-          <Hero onGetStarted={handleGetStarted} />
-        )}
+    <ErrorBoundary>
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1">
+          {showChat ? (
+            <ChatInterface onBack={() => setShowChat(false)} />
+          ) : (
+            <Hero onGetStarted={handleGetStarted} />
+          )}
+        </div>
+        {!showChat && <Footer />}
       </div>
-      {!showChat && <Footer />}
-    </div>
+    </ErrorBoundary>
   );
 };
 
