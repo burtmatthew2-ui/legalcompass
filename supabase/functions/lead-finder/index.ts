@@ -14,6 +14,17 @@ const inputSchema = z.object({
   location: z.string().trim().max(100, "Location must be less than 100 characters").optional()
 });
 
+// Lead validation schema for AI-generated results
+const leadSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  title: z.string().optional(),
+  company: z.string().optional(),
+  source: z.string().optional(),
+  relevance: z.string().optional(),
+  email_draft: z.string().min(1)
+});
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -177,11 +188,23 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
 
     // Try to extract JSON from the response
     let leads = [];
+    let invalidLeads = [];
     try {
       // Look for JSON array in the response
       const jsonMatch = content.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
-        leads = JSON.parse(jsonMatch[0]);
+        const parsedLeads = JSON.parse(jsonMatch[0]);
+        
+        // Validate each lead and filter out invalid ones
+        for (const lead of parsedLeads) {
+          const validation = leadSchema.safeParse(lead);
+          if (validation.success) {
+            leads.push(validation.data);
+          } else {
+            console.warn('Invalid lead found:', lead, 'Errors:', validation.error.issues);
+            invalidLeads.push({ lead, errors: validation.error.issues });
+          }
+        }
       } else {
         // If no JSON found, return the raw content for manual parsing
         leads = [{ error: "Could not parse AI response", raw: content }];
@@ -194,6 +217,7 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
       JSON.stringify({ 
         success: true,
         leads,
+        invalidCount: invalidLeads.length,
         disclaimer: "These are publicly available contacts found on the internet. Ensure compliance with CAN-SPAM, GDPR, and other email marketing laws."
       }),
       {
