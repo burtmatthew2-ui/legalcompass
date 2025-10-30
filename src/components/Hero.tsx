@@ -86,9 +86,9 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 <div className="flex items-start gap-3">
                   <Globe className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Multi-Jurisdiction Research</h3>
+                    <h3 className="font-semibold mb-1">Comprehensive Multi-Jurisdiction Research</h3>
                     <p className="text-sm text-muted-foreground">
-                      Search across 17+ jurisdictions including US Federal, 20+ states, EU member states, UK, Canada, and Australia
+                      Search across all 50 US states, federal law, EU (all 27 member states), UK, Canada, Australia, and New Zealand—the most comprehensive legal research coverage available
                     </p>
                   </div>
                 </div>
@@ -158,8 +158,11 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
           {/* Simple Features Grid */}
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="text-center p-6">
-              <div className="text-3xl font-bold text-primary mb-2">17+</div>
-              <p className="text-sm text-muted-foreground">Jurisdictions Covered</p>
+              <div className="text-3xl font-bold text-primary mb-2">80+</div>
+              <p className="text-sm text-muted-foreground">
+                Jurisdictions Covered
+                <span className="block text-xs mt-1">(All 50 US States + International)</span>
+              </p>
             </div>
             <div className="text-center p-6">
               <div className="text-3xl font-bold text-primary mb-2">24/7</div>

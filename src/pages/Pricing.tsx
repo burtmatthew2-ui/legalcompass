@@ -15,14 +15,14 @@ const PREMIUM_TIER = {
   productId: "prod_TKZiZz5slcjCAk",
   features: [
     "3 questions free trial",
-    "Multi-jurisdiction research (17+ jurisdictions)",
-    "Case law comparison across states & countries",
+    "All 50 US states + federal law coverage",
+    "EU (all 27 member states), UK, Canada, Australia, NZ",
+    "Case law comparison across jurisdictions",
     "AI-generated legal memo drafts",
     "Regulatory change alerts",
     "Direct links to official sources",
     "File upload & document analysis",
     "Conversation history & bookmarks",
-    "All future features included",
   ],
 };
 
