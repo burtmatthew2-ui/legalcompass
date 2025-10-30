@@ -123,9 +123,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant") {
-          return prev.map((m, i) =>
-            i === prev.length - 1 ? { ...m, content: assistantContent } : m
-          );
+          return prev.slice(0, -1).concat({ role: "assistant", content: assistantContent });
         }
         return [...prev, { role: "assistant", content: assistantContent }];
       });
