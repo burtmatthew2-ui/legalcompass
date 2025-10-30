@@ -99,13 +99,18 @@ INSTRUCTIONS:
    - Addresses them by name
    - References their specific role/company
    - Explains how our AI legal research tool solves their specific pain points
-   - Ends with a link to visit our website
+   - Is signed by Matthew Burt from Legal Compass
+   - Ends with a link to visit our website: https://legalcompass.store
    - Includes an unsubscribe option
    - Is professional yet friendly
    - Complies with CAN-SPAM (includes who we are, what we offer, unsubscribe option)
    
-   IMPORTANT: The email should end with something like:
-   "Learn more and try it out: [Website Link]
+   IMPORTANT: The email should end with:
+   "Learn more and try it out: https://legalcompass.store
+   
+   Best regards,
+   Matthew Burt
+   Legal Compass
    
    If you'd prefer not to receive future emails, please click here to unsubscribe."
    
