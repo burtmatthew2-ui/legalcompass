@@ -52,6 +52,12 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
               <Compass className="w-16 h-16 text-primary" />
             </div>
 
+            {/* Confidentiality Badge */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 border-2 border-primary/30 rounded-full mb-4">
+              <Shield className="w-5 h-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">100% Confidential & Private</span>
+            </div>
+
             <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight max-w-3xl mx-auto">
               Professional Legal Research,
               <span className="block text-primary mt-2">Made Accessible</span>
@@ -135,12 +141,12 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div className="flex items-start gap-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                  <Shield className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Private & Confidential</h3>
+                    <h3 className="font-semibold mb-1 text-primary">100% Private & Confidential</h3>
                     <p className="text-sm text-muted-foreground">
-                      Your conversations are completely isolated and encrypted—we never share data between users
+                      Your conversations are completely isolated and encrypted—we never share your data with anyone. Your legal research stays completely confidential.
                     </p>
                   </div>
                 </div>
