@@ -1,10 +1,18 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Input validation schema
+const inputSchema = z.object({
+  targetAudience: z.string().trim().min(5, "Target audience must be at least 5 characters").max(500, "Target audience must be less than 500 characters"),
+  industry: z.string().trim().max(100, "Industry must be less than 100 characters").optional(),
+  location: z.string().trim().max(100, "Location must be less than 100 characters").optional()
+});
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -49,7 +57,24 @@ serve(async (req) => {
       );
     }
 
-    const { targetAudience, industry, location } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input
+    const validationResult = inputSchema.safeParse(requestBody);
+    if (!validationResult.success) {
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid input parameters",
+          details: validationResult.error.issues.map(i => i.message).join(", ")
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+    
+    const { targetAudience, industry, location } = validationResult.data;
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {

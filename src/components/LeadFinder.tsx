@@ -28,8 +28,33 @@ export const LeadFinder = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   const handleSearch = async () => {
-    if (!targetAudience.trim()) {
+    // Client-side validation
+    const trimmedAudience = targetAudience.trim();
+    const trimmedIndustry = industry.trim();
+    const trimmedLocation = location.trim();
+    
+    if (!trimmedAudience) {
       toast.error("Please describe your target audience");
+      return;
+    }
+    
+    if (trimmedAudience.length < 5) {
+      toast.error("Target audience must be at least 5 characters");
+      return;
+    }
+    
+    if (trimmedAudience.length > 500) {
+      toast.error("Target audience must be less than 500 characters");
+      return;
+    }
+    
+    if (trimmedIndustry.length > 100) {
+      toast.error("Industry must be less than 100 characters");
+      return;
+    }
+    
+    if (trimmedLocation.length > 100) {
+      toast.error("Location must be less than 100 characters");
       return;
     }
 
@@ -39,9 +64,9 @@ export const LeadFinder = () => {
     try {
       const { data, error } = await supabase.functions.invoke('lead-finder', {
         body: {
-          targetAudience,
-          industry,
-          location
+          targetAudience: trimmedAudience,
+          industry: trimmedIndustry || undefined,
+          location: trimmedLocation || undefined,
         }
       });
 
@@ -98,34 +123,37 @@ export const LeadFinder = () => {
           </Alert>
 
           <div className="space-y-2">
-            <Label htmlFor="target">Target Audience *</Label>
+            <Label htmlFor="target">Target Audience * (5-500 characters)</Label>
             <Textarea
               id="target"
               placeholder="e.g., Small business owners who need legal advice, startup founders, freelance consultants..."
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
               className="min-h-[100px]"
+              maxLength={500}
             />
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="industry">Industry (Optional)</Label>
+              <Label htmlFor="industry">Industry (Optional, max 100 chars)</Label>
               <Input
                 id="industry"
                 placeholder="e.g., Tech, Real Estate, Healthcare"
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
+                maxLength={100}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="location">Location (Optional)</Label>
+              <Label htmlFor="location">Location (Optional, max 100 chars)</Label>
               <Input
                 id="location"
                 placeholder="e.g., United States, California, New York"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
+                maxLength={100}
               />
             </div>
           </div>

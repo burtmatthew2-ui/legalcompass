@@ -21,6 +21,11 @@ export default function AdminDashboard() {
   const [emails, setEmails] = useState<UserEmail[]>([]);
   const [copied, setCopied] = useState(false);
 
+  // NOTE: This client-side admin check is for UI purposes only.
+  // All sensitive operations (lead-finder, list-users) are protected by 
+  // server-side admin validation in their respective edge functions.
+  // This prevents the UI from being displayed to non-admins, but security
+  // is enforced at the backend level.
   useEffect(() => {
     checkAdminStatus();
   }, []);
