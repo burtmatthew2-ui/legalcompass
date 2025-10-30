@@ -134,12 +134,27 @@ export const useChatHistory = (conversationId?: string) => {
   }, []);
 
   useEffect(() => {
-    if (currentConversation) {
-      loadMessages(currentConversation.id);
+    if (currentConversation?.id) {
+      const fetchMessages = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from('chat_messages')
+          .select('role, content, created_at')
+          .eq('conversation_id', currentConversation.id)
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: true });
+
+        if (!error && data) {
+          setMessages(data.map(msg => ({ role: msg.role as "user" | "assistant", content: msg.content })));
+        }
+      };
+      fetchMessages();
     } else {
       setMessages([]);
     }
-  }, [currentConversation]);
+  }, [currentConversation?.id]);
 
   return {
     messages,
