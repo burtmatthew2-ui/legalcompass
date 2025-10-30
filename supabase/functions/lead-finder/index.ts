@@ -99,9 +99,18 @@ INSTRUCTIONS:
    - Addresses them by name
    - References their specific role/company
    - Explains how our AI legal research tool solves their specific pain points
-   - Includes a clear call-to-action
+   - Shows them our product with a visual preview and website link
+   - Includes an unsubscribe option
    - Is professional yet friendly
    - Complies with CAN-SPAM (includes who we are, what we offer, unsubscribe option)
+   
+   IMPORTANT: The email should end with something like:
+   "Check out our platform here: [Website Link]
+   
+   [Note: Email will include a screenshot of our landing page showing the product in action]
+   
+   If you'd prefer not to receive future emails, please click here to unsubscribe."
+   
 5. Format as a JSON array with structure:
    [
      {
