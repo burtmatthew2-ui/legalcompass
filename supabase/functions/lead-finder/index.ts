@@ -94,11 +94,13 @@ PRIORITY TARGETS:
 - Freelancers and independent contractors (needing help with agreements and legal protections)
 - Non-profit organizations (with limited legal budgets)
 - People facing legal situations for the first time (tenants, landlords, family matters)
+- Individuals seeking legal advice but cannot afford an attorney (use personal email addresses from social media, forums, community posts)
 
 INSTRUCTIONS:
 1. Search for businesses, professionals, or individuals who would benefit from affordable legal research
 2. Focus on people who are NOT already legal experts - target those who need accessible, easy-to-understand legal information
-3. Find their publicly available email addresses from:
+3. Look for personal email addresses from forums, social media profiles, community discussions, and public posts
+4. Find their publicly available email addresses from:
    - Company websites (contact pages, team pages)
    - Professional directories (LinkedIn, industry listings)
    - Public business registrations
