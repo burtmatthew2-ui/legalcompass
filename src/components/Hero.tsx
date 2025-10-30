@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Compass, Scale, Shield, Sparkles, Settings } from "lucide-react";
+import { Compass, Scale, Shield, FileText, Globe, Bell, Settings, CheckCircle } from "lucide-react";
 import { Testimonials } from "./Testimonials";
 import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
@@ -45,72 +45,130 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
         </div>
       )}
       <div className="flex items-center justify-center px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center justify-center mb-6">
-            <div className="relative">
-              <Compass className="w-24 h-24 text-primary animate-spin-slow" />
-              <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-glow" />
+        <div className="max-w-5xl mx-auto space-y-12">
+          {/* Main Hero Section */}
+          <div className="text-center space-y-6">
+            <div className="inline-flex items-center justify-center mb-4">
+              <Compass className="w-16 h-16 text-primary" />
             </div>
-          </div>
 
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Powered by Advanced AI</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent leading-tight">
-              The Most Advanced AI Legal Assistant
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight max-w-3xl mx-auto">
+              Professional Legal Research,
+              <span className="block text-primary mt-2">Made Accessible</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Navigate complex legal matters with cutting-edge AI technology. 
-              Get instant insights, research case law, and discover legal strategies — all powered by the latest AI models.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              We've built a legal research assistant that gives you access to the same tools used by law firms—without the complexity or cost.
             </p>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-12">
-            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300">
-              <Scale className="w-8 h-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Comprehensive Research</h3>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+              <Button
+                onClick={onGetStarted}
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg font-semibold px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Start Researching
+              </Button>
               <p className="text-sm text-muted-foreground">
-                Access vast legal databases and case law instantly
-              </p>
-            </div>
-            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300">
-              <Shield className="w-8 h-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Secure & Private</h3>
-              <p className="text-sm text-muted-foreground">
-                Your legal matters stay confidential with encryption
-              </p>
-            </div>
-            <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300">
-              <Sparkles className="w-8 h-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Always Up-to-Date</h3>
-              <p className="text-sm text-muted-foreground">
-                Latest AI models trained on current legal standards
+                $4.99 every 2 weeks • Cancel anytime
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
-            <Button
-              onClick={onGetStarted}
-              size="lg"
-              className="bg-[var(--gradient-accent)] hover:opacity-90 text-accent-foreground text-xl font-extrabold px-12 py-8 rounded-2xl shadow-[var(--shadow-accent)] hover:shadow-2xl transition-all duration-300 hover:scale-110 border-2 border-accent/30 animate-glow"
-            >
-              Start Your Legal Research
-            </Button>
-            <p className="text-sm text-muted-foreground">
-              Only $4.99 every 2 weeks • Cancel anytime
-            </p>
+          {/* What You Actually Get */}
+          <div className="bg-card/30 backdrop-blur-sm border border-border/50 rounded-2xl p-8 md:p-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+              What You're Actually Getting
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <Globe className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Multi-Jurisdiction Research</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Search across 17+ jurisdictions including US Federal, 20+ states, EU member states, UK, Canada, and Australia
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Scale className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Case Law Comparison</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Compare how different states or countries handle the same legal issue with direct citations
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <FileText className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Legal Memo Drafts</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Generate professional legal memoranda with proper citations and analysis structure
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <Bell className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Regulatory Updates</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Stay informed about recent law changes and upcoming regulations that might affect your situation
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Shield className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Direct Source Links</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Every citation links directly to the official source (Cornell Law, Congress.gov, EUR-Lex, etc.)
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Private & Confidential</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Your conversations are completely isolated and encrypted—we never share data between users
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-border/50">
+              <p className="text-sm text-muted-foreground text-center max-w-2xl mx-auto">
+                <strong className="text-foreground">Important:</strong> This tool provides research and information to help you understand legal issues. 
+                It's not a replacement for a licensed attorney—for specific legal advice, always consult with a lawyer in your jurisdiction.
+              </p>
+            </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-border/50">
-            <p className="text-xs text-muted-foreground">
-              <strong>Disclaimer:</strong> This AI assistant provides informational guidance only and does not constitute legal advice. 
-              For specific legal matters, please consult a licensed attorney.
-            </p>
+          {/* Simple Features Grid */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="text-center p-6">
+              <div className="text-3xl font-bold text-primary mb-2">17+</div>
+              <p className="text-sm text-muted-foreground">Jurisdictions Covered</p>
+            </div>
+            <div className="text-center p-6">
+              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+              <p className="text-sm text-muted-foreground">Instant Access</p>
+            </div>
+            <div className="text-center p-6">
+              <div className="text-3xl font-bold text-primary mb-2">100%</div>
+              <p className="text-sm text-muted-foreground">Private & Secure</p>
+            </div>
           </div>
         </div>
       </div>
