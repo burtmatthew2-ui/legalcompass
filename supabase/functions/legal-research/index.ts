@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { z } from "https://esm.sh/zod@3.22.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -107,9 +108,29 @@ serve(async (req) => {
     }
 
     const { messages } = await req.json();
-    
-    if (!messages || !Array.isArray(messages)) {
-      throw new Error('Invalid request: messages array is required');
+
+    // Validate input with generous limits for legal research
+    const legalResearchSchema = z.object({
+      messages: z.array(z.object({
+        role: z.enum(['user', 'assistant', 'system']),
+        content: z.string().max(15000, 'Message too long (max 15,000 characters)')
+      })).min(1, 'At least one message required').max(150, 'Too many messages in conversation (max 150)')
+    });
+
+    const validation = legalResearchSchema.safeParse({ messages });
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      console.error('Legal research validation error:', firstError);
+      return new Response(
+        JSON.stringify({ 
+          error: firstError.message,
+          validationFailed: true 
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
     }
 
     logStep("Request validated - proceeding with AI research");

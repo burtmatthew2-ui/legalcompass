@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { z } from "https://esm.sh/zod@3.22.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,6 +32,24 @@ serve(async (req) => {
     }
 
     const { messages } = await req.json();
+
+    // Validate input with generous limits for support conversations
+    const supportChatSchema = z.object({
+      messages: z.array(z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string().max(8000, 'Message too long (max 8,000 characters)')
+      })).min(1, 'At least one message required').max(100, 'Too many messages in conversation (max 100)')
+    });
+
+    const validation = supportChatSchema.safeParse({ messages });
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      console.error('Support chat validation error:', firstError);
+      return new Response(
+        JSON.stringify({ error: firstError.message }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
