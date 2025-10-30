@@ -19,6 +19,7 @@ export const Footer = () => {
             <ul className="space-y-3">
               {[
                 { to: "/pricing", label: "Pricing" },
+                { to: "/install", label: "Install App" },
                 { to: "/security", label: "Security & Privacy", icon: Shield }
               ].map(link => (
                 <li key={link.to}>

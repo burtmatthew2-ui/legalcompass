@@ -39,16 +39,39 @@ export const ConversationActions = ({ messages, conversationId }: ConversationAc
     
     setIsExporting(true);
     try {
-      // Create a text file with conversation
-      const content = messages
-        .map((msg) => `${msg.role.toUpperCase()}:\n${msg.content}\n\n`)
-        .join("---\n\n");
+      // Create a formatted text document
+      const header = `LEGAL COMPASS - RESEARCH CONVERSATION
+Generated: ${new Date().toLocaleString()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-      const blob = new Blob([content], { type: "text/plain" });
+`;
+      
+      const content = messages
+        .map((msg, index) => {
+          const speaker = msg.role === "user" ? "YOU" : "LEGAL COMPASS AI";
+          const timestamp = new Date().toLocaleTimeString();
+          return `[${index + 1}] ${speaker} (${timestamp})
+${msg.content}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`;
+        })
+        .join("\n");
+
+      const footer = `
+DISCLAIMER:
+This conversation contains AI-generated legal research for informational purposes only. 
+It does not constitute legal advice. For specific legal matters, consult a licensed attorney.
+
+Legal Compass © ${new Date().getFullYear()}
+`;
+
+      const fullContent = header + content + footer;
+      const blob = new Blob([fullContent], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `conversation_${Date.now()}.txt`;
+      a.download = `legal-research-${Date.now()}.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

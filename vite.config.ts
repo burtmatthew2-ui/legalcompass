@@ -15,14 +15,15 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico"],
+      includeAssets: ["icon-192.png", "icon-512.png"],
       manifest: {
-        name: "Legal Compass",
-        short_name: "LegalCompass",
-        description: "Your AI-powered legal research assistant",
-        theme_color: "#0F172A",
-        background_color: "#0F172A",
+        name: "Legal Compass - AI Legal Research Assistant",
+        short_name: "Legal Compass",
+        description: "Discover legal loopholes and strategies with AI-powered research",
+        theme_color: "#a855f7",
+        background_color: "#0a0a0f",
         display: "standalone",
+        orientation: "portrait",
         scope: "/",
         start_url: "/",
         icons: [
@@ -44,16 +45,13 @@ export default defineConfig(({ mode }) => ({
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: "CacheFirst",
+            urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
+            handler: "NetworkFirst",
             options: {
-              cacheName: "google-fonts-cache",
+              cacheName: "supabase-cache",
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 7
               }
             }
           }
