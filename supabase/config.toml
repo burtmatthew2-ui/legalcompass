@@ -23,3 +23,12 @@ verify_jwt = true
 
 [functions.unsubscribe]
 verify_jwt = false
+
+[functions.contact-support]
+verify_jwt = true
+
+[functions.support-chat]
+verify_jwt = true
+
+[functions.faq-ai]
+verify_jwt = true
