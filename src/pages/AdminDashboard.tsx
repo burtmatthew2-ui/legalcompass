@@ -4,8 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, Copy, Users, Mail, CheckCircle } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, Copy, Users, Mail, CheckCircle, Search } from "lucide-react";
 import { toast } from "sonner";
+import { LeadFinder } from "@/components/LeadFinder";
 
 interface UserEmail {
   email: string;
@@ -113,81 +115,100 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <Card className="bg-card/90 backdrop-blur-xl border-border/50">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-primary" />
-                  Active User Emails
-                </CardTitle>
-                <CardDescription>
-                  {emails.length} registered users
-                </CardDescription>
-              </div>
-              <Button 
-                onClick={copyAllEmails}
-                className="bg-[var(--gradient-accent)] hover:opacity-90"
-              >
-                {copied ? (
-                  <>
-                    <CheckCircle className="h-4 w-4 mr-2" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy All Emails
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[600px] pr-4">
-              <div className="space-y-3">
-                {emails.map((user, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Mail className="h-4 w-4 text-primary" />
-                      <div>
-                        <p className="font-medium">{user.email}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Joined {new Date(user.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => copyEmail(user.email)}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
+        <Tabs defaultValue="existing" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="existing" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Existing Users
+            </TabsTrigger>
+            <TabsTrigger value="leads" className="flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              Find New Leads
+            </TabsTrigger>
+          </TabsList>
 
-        <Card className="bg-card/90 backdrop-blur-xl border-border/50">
-          <CardHeader>
-            <CardTitle>Cold Email Tips</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm text-muted-foreground">
-            <p>✅ Personalize each email - mention specific legal topics</p>
-            <p>✅ Keep it concise - 3-4 sentences max</p>
-            <p>✅ Include clear value proposition</p>
-            <p>✅ Use a professional email service (not Gmail)</p>
-            <p>✅ Follow CAN-SPAM Act requirements</p>
-            <p>⚠️ Don't spam - space out emails over time</p>
-            <p>⚠️ Always include an unsubscribe option</p>
-          </CardContent>
-        </Card>
+          <TabsContent value="existing">
+            <Card className="bg-card/90 backdrop-blur-xl border-border/50">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Active User Emails
+                    </CardTitle>
+                    <CardDescription>
+                      {emails.length} registered users
+                    </CardDescription>
+                  </div>
+                  <Button 
+                    onClick={copyAllEmails}
+                    className="bg-[var(--gradient-accent)] hover:opacity-90"
+                  >
+                    {copied ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy All Emails
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-[600px] pr-4">
+                  <div className="space-y-3">
+                    {emails.map((user, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Mail className="h-4 w-4 text-primary" />
+                          <div>
+                            <p className="font-medium">{user.email}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Joined {new Date(user.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyEmail(user.email)}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/90 backdrop-blur-xl border-border/50 mt-6">
+              <CardHeader>
+                <CardTitle>Cold Email Tips</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>✅ Personalize each email - mention specific legal topics</p>
+                <p>✅ Keep it concise - 3-4 sentences max</p>
+                <p>✅ Include clear value proposition</p>
+                <p>✅ Use a professional email service (not Gmail)</p>
+                <p>✅ Follow CAN-SPAM Act requirements</p>
+                <p>⚠️ Don't spam - space out emails over time</p>
+                <p>⚠️ Always include an unsubscribe option</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="leads">
+            <LeadFinder />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
