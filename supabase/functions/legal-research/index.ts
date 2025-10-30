@@ -42,7 +42,7 @@ serve(async (req) => {
     const user = userData.user;
     logStep("User authenticated", { userId: user.id });
 
-    // Check if user is admin - admins bypass subscription check
+    // Check if user is admin - admins bypass all checks
     const { data: adminCheck } = await supabaseClient
       .from('user_roles')
       .select('role')
@@ -53,37 +53,56 @@ serve(async (req) => {
     if (adminCheck) {
       logStep("Admin user detected - full access granted");
     } else {
-      // Check subscription status - REQUIRED for non-admin access
-      const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-        apiVersion: "2025-08-27.basil",
-      });
+      // Check free trial usage first
+      const { data: usageData } = await supabaseClient
+        .from('question_usage')
+        .select('question_count')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-      let hasActiveSubscription = false;
-      
-      if (user.email) {
-        const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+      const questionCount = usageData?.question_count || 0;
+      logStep("Question usage check", { questionCount });
+
+      // Check if user has used their 3 free questions
+      if (questionCount >= 3) {
+        // Free trial exhausted - check for subscription
+        const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+          apiVersion: "2025-08-27.basil",
+        });
+
+        let hasActiveSubscription = false;
         
-        if (customers.data.length > 0) {
-          const subscriptions = await stripe.subscriptions.list({
-            customer: customers.data[0].id,
-            status: "active",
-            limit: 1,
-          });
+        if (user.email) {
+          const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+          
+          if (customers.data.length > 0) {
+            const subscriptions = await stripe.subscriptions.list({
+              customer: customers.data[0].id,
+              status: "active",
+              limit: 1,
+            });
 
-          hasActiveSubscription = subscriptions.data.length > 0;
-          logStep("Subscription check", { hasActiveSubscription });
-        }
-      }
-
-      if (!hasActiveSubscription) {
-        logStep("Access denied - no active subscription");
-        return new Response(
-          JSON.stringify({ error: "Active subscription required to use the AI assistant" }),
-          {
-            status: 403,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            hasActiveSubscription = subscriptions.data.length > 0;
+            logStep("Subscription check", { hasActiveSubscription });
           }
-        );
+        }
+
+        if (!hasActiveSubscription) {
+          logStep("Access denied - free trial exhausted, no active subscription");
+          return new Response(
+            JSON.stringify({ 
+              error: "You've used your 3 free questions. Subscribe to continue using Legal Compass.",
+              freeTrialExhausted: true,
+              questionsUsed: questionCount
+            }),
+            {
+              status: 403,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            }
+          );
+        }
+      } else {
+        logStep("Free trial - question allowed", { remaining: 3 - questionCount });
       }
     }
 
@@ -95,17 +114,27 @@ serve(async (req) => {
 
     logStep("Request validated - proceeding with AI research");
 
-    // Increment question usage (optional tracking)
+    // Increment question usage
+    const { data: currentUsage } = await supabaseClient
+      .from('question_usage')
+      .select('question_count')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    const newCount = (currentUsage?.question_count || 0) + 1;
+    
     await supabaseClient
       .from('question_usage')
       .upsert({ 
         user_id: user.id,
-        question_count: 1,
+        question_count: newCount,
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'user_id',
         ignoreDuplicates: false
       });
+
+    logStep("Question count incremented", { newCount });
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {

@@ -15,8 +15,9 @@ import { ConversationSidebar } from "./ConversationSidebar";
 import { FileUpload } from "./FileUpload";
 import { ConversationActions } from "./ConversationActions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CreditCard } from "lucide-react";
+import { CreditCard, Sparkles } from "lucide-react";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
+import { useQuestionUsage } from "@/hooks/useQuestionUsage";
 
 interface Message {
   role: "user" | "assistant";
@@ -68,6 +69,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   } = useChatHistory();
 
   const { subscription, loading: subLoading } = useSubscription();
+  const { questionCount, remainingFreeQuestions, refetch: refetchUsage } = useQuestionUsage();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -83,20 +85,20 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check subscription before allowing message
-    if (!subscription?.subscribed) {
+    // Input validation
+    const trimmedInput = input.trim();
+    if (!trimmedInput || isLoading) return;
+    
+    // Check if user has free questions or subscription (admins bypass)
+    if (!isAdmin && !subscription?.subscribed && remainingFreeQuestions <= 0) {
       toast({
-        title: "Subscription Required",
-        description: "Please subscribe to use the AI assistant",
+        title: "Free Trial Exhausted",
+        description: "You've used your 3 free questions. Subscribe to continue!",
         variant: "destructive",
       });
       navigate("/pricing");
       return;
     }
-    
-    // Input validation
-    const trimmedInput = input.trim();
-    if (!trimmedInput || isLoading) return;
     
     if (trimmedInput.length > 5000) {
       toast({
@@ -172,14 +174,20 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
   return (
     <div className="min-h-screen bg-[var(--gradient-bg)] flex flex-col">
-      {!subscription?.subscribed && !subLoading && (
-        <Alert className="m-6 border-destructive bg-destructive/10">
-          <CreditCard className="h-4 w-4" />
+      {!isAdmin && !subscription?.subscribed && !subLoading && (
+        <Alert className={`m-6 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-destructive bg-destructive/10'}`}>
+          {remainingFreeQuestions > 0 ? <Sparkles className="h-4 w-4" /> : <CreditCard className="h-4 w-4" />}
           <AlertDescription className="flex items-center justify-between">
-            <span>Subscription required to use the AI assistant</span>
-            <Button onClick={() => navigate("/pricing")} size="sm" variant="destructive">
-              Subscribe Now
-            </Button>
+            <span>
+              {remainingFreeQuestions > 0 
+                ? `Free Trial: ${remainingFreeQuestions} question${remainingFreeQuestions === 1 ? '' : 's'} remaining` 
+                : "You've used your 3 free questions. Subscribe to continue!"}
+            </span>
+            {remainingFreeQuestions === 0 && (
+              <Button onClick={() => navigate("/pricing")} size="sm" variant="destructive">
+                Subscribe Now
+              </Button>
+            )}
           </AlertDescription>
         </Alert>
       )}

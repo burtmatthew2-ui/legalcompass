@@ -8,19 +8,20 @@ import { Check, Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 const PREMIUM_TIER = {
-  name: "Legal Compass Premium",
-  price: "$4.99",
-  interval: "every 2 weeks",
-  priceId: "price_1SN0bKArhAIMbV737l0eMYVG",
-  productId: "prod_TJdtoPNUnva1b6",
+  name: "Legal Compass Pro",
+  price: "$9.99",
+  interval: "per month",
+  priceId: "price_1SNuZKArhAIMbV73QbW8o3hr",
+  productId: "prod_TKZiZz5slcjCAk",
   features: [
-    "Unlimited legal questions",
-    "Advanced AI-powered research",
+    "3 questions free trial",
+    "Multi-jurisdiction research (17+ jurisdictions)",
+    "Case law comparison across states & countries",
+    "AI-generated legal memo drafts",
+    "Regulatory change alerts",
+    "Direct links to official sources",
     "File upload & document analysis",
-    "Export conversation history",
-    "Share research findings",
-    "Bookmark important responses",
-    "Priority support",
+    "Conversation history & bookmarks",
     "All future features included",
   ],
 };
@@ -103,10 +104,10 @@ const Pricing = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Simple, Transparent Pricing
+              Try It Free, Then Subscribe
             </h1>
-            <p className="text-lg text-muted-foreground">
-              One plan with all features. No hidden fees. Cancel anytime.
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Get 3 professional legal research questions absolutely free. Then continue with unlimited access for just $9.99/month—90% less than enterprise legal tools.
             </p>
             {currentSubscription?.subscribed && (
               <div className="mt-4 space-y-2">
