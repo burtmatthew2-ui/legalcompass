@@ -63,18 +63,6 @@ serve(async (req) => {
         }
       );
     }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(recipientEmail)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid email format" }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
 
     // Check if email is unsubscribed
     const { data: unsubscribed } = await supabaseClient
@@ -99,14 +87,15 @@ serve(async (req) => {
     // Generate unsubscribe link
     const unsubscribeUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/unsubscribe?email=${encodeURIComponent(recipientEmail)}`;
 
-    // Add unsubscribe link to plain text email
+    // Add unsubscribe footer to plain text email (prevents HTML injection)
     const emailWithUnsubscribe = `${textContent}
 
----
-If you'd prefer not to receive future emails, click here to unsubscribe:
+────────────────────────────────────────
+
+If you'd prefer not to receive future emails, you can unsubscribe here:
 ${unsubscribeUrl}`;
 
-    // Send email via Resend as PLAIN TEXT (prevents HTML injection)
+    // Send email via Resend as PLAIN TEXT only (prevents HTML injection)
     const emailResponse = await resend.emails.send({
       from: "Legal Compass <noreply@send.legalcompass.store>",
       to: [recipientEmail],
