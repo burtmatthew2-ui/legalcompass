@@ -11,3 +11,15 @@ verify_jwt = true
 
 [functions.customer-portal]
 verify_jwt = true
+
+[functions.lead-finder]
+verify_jwt = true
+
+[functions.list-users]
+verify_jwt = true
+
+[functions.send-lead-email]
+verify_jwt = true
+
+[functions.unsubscribe]
+verify_jwt = false

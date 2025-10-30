@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Search, Mail, Copy, AlertTriangle } from "lucide-react";
+import { Loader2, Search, Mail, Copy, AlertTriangle, Send, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -26,6 +26,8 @@ export const LeadFinder = () => {
   const [location, setLocation] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [sendingEmails, setSendingEmails] = useState<Set<string>>(new Set());
+  const [sentEmails, setSentEmails] = useState<Set<string>>(new Set());
 
   const handleSearch = async () => {
     // Client-side validation
@@ -100,6 +102,68 @@ export const LeadFinder = () => {
     const emails = leads.map(lead => lead.email).join(', ');
     navigator.clipboard.writeText(emails);
     toast.success(`Copied ${leads.length} emails`);
+  };
+
+  const sendEmail = async (lead: Lead) => {
+    setSendingEmails(prev => new Set(prev).add(lead.email));
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast.error("You must be logged in to send emails");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('send-lead-email', {
+        body: {
+          recipientEmail: lead.email,
+          recipientName: lead.name,
+          subject: "Affordable Legal Research with AI",
+          htmlContent: lead.email_draft?.replace(/\n/g, '<br>') || '',
+          senderId: user.id
+        }
+      });
+
+      if (error) {
+        if (data?.unsubscribed) {
+          toast.error(`${lead.email} has unsubscribed`);
+        } else {
+          throw error;
+        }
+      } else {
+        setSentEmails(prev => new Set(prev).add(lead.email));
+        toast.success(`Email sent to ${lead.name}`);
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error(`Failed to send email to ${lead.name}`);
+    } finally {
+      setSendingEmails(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(lead.email);
+        return newSet;
+      });
+    }
+  };
+
+  const sendAllEmails = async () => {
+    const unsent = leads.filter(lead => !sentEmails.has(lead.email));
+    
+    if (unsent.length === 0) {
+      toast.info("All emails have already been sent");
+      return;
+    }
+
+    toast.info(`Sending ${unsent.length} emails...`);
+    
+    for (const lead of unsent) {
+      await sendEmail(lead);
+      // Small delay between sends to avoid rate limits
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    
+    toast.success(`Finished sending ${unsent.length} emails`);
   };
 
   return (
@@ -182,15 +246,21 @@ export const LeadFinder = () => {
       {leads.length > 0 && (
         <Card className="bg-card/90 backdrop-blur-xl border-border/50">
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
                 <CardTitle>Found Leads ({leads.length})</CardTitle>
                 <CardDescription>Publicly available contact information</CardDescription>
               </div>
-              <Button onClick={copyAllEmails} variant="outline">
-                <Copy className="h-4 w-4 mr-2" />
-                Copy All Emails
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={copyAllEmails} variant="outline">
+                  <Copy className="h-4 w-4 mr-2" />
+                  Copy All Emails
+                </Button>
+                <Button onClick={sendAllEmails} className="bg-[var(--gradient-accent)] hover:opacity-90">
+                  <Send className="h-4 w-4 mr-2" />
+                  Send All ({leads.filter(l => !sentEmails.has(l.email)).length})
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent className="max-h-[600px] overflow-y-auto">
@@ -227,13 +297,39 @@ export const LeadFinder = () => {
                         </div>
                       </div>
                       
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => copyEmail(lead.email)}
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyEmail(lead.email)}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant={sentEmails.has(lead.email) ? "outline" : "default"}
+                          size="sm"
+                          onClick={() => sendEmail(lead)}
+                          disabled={sendingEmails.has(lead.email) || sentEmails.has(lead.email)}
+                          className={sentEmails.has(lead.email) ? "" : "bg-[var(--gradient-accent)] hover:opacity-90"}
+                        >
+                          {sendingEmails.has(lead.email) ? (
+                            <>
+                              <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                              Sending
+                            </>
+                          ) : sentEmails.has(lead.email) ? (
+                            <>
+                              <CheckCircle className="h-4 w-4 mr-1" />
+                              Sent
+                            </>
+                          ) : (
+                            <>
+                              <Send className="h-4 w-4 mr-1" />
+                              Send
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </div>
 
                     {lead.email_draft && (
