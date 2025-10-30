@@ -18,12 +18,31 @@ export async function streamLegalResearch({
       body: { messages },
     });
 
-    if (error) throw error;
+    if (error) {
+      // Check for free trial exhaustion or subscription errors
+      if (error.message?.includes("free trial") || error.message?.includes("Subscribe")) {
+        throw new Error("TRIAL_EXHAUSTED");
+      }
+      throw error;
+    }
     if (!data) throw new Error("No response from server");
 
     // The data is the raw Response object from the edge function
     const response = data as Response;
-    if (!response.ok || !response.body) {
+    
+    // Check if response indicates an error (403 for trial exhausted)
+    if (!response.ok) {
+      if (response.status === 403) {
+        const errorData = await response.json();
+        if (errorData.freeTrialExhausted) {
+          throw new Error("TRIAL_EXHAUSTED");
+        }
+        throw new Error(errorData.error || "Access denied");
+      }
+      throw new Error("Failed to start stream");
+    }
+    
+    if (!response.body) {
       throw new Error("Failed to start stream");
     }
 

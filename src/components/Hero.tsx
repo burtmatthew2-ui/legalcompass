@@ -67,10 +67,10 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg font-semibold px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                Try 3 Questions Free
+                Try It For Free
               </Button>
               <p className="text-sm text-muted-foreground">
-                Then $9.99/month • Cancel anytime
+                3 free questions • Then $9.99/month
               </p>
             </div>
           </div>

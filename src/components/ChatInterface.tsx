@@ -18,6 +18,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CreditCard, Sparkles } from "lucide-react";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useQuestionUsage } from "@/hooks/useQuestionUsage";
+import { SubscriptionDialog } from "./SubscriptionDialog";
 
 interface Message {
   role: "user" | "assistant";
@@ -73,6 +74,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -149,31 +151,40 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         messages: [...messages, userMsg],
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
-          // Save assistant message to database
+          // Refresh question count and save message
+          await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });
           setIsLoading(false);
         },
         onError: (error) => {
-          toast({
-            title: "Error",
-            description: error,
-            variant: "destructive",
-          });
+          // Handle free trial exhaustion with clean dialog
+          if (error === "TRIAL_EXHAUSTED") {
+            setIsLoading(false);
+            setShowSubscriptionDialog(true);
+            // Remove the user's question since it wasn't processed
+            setMessages(prev => prev.slice(0, -1));
+            return;
+          }
+          
+          // Handle other errors
+          sonnerToast.error(error || "Failed to get response. Please try again.");
           setIsLoading(false);
+          setMessages(prev => prev.slice(0, -1));
         },
       });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to get response. Please try again.",
-        variant: "destructive",
-      });
+      sonnerToast.error("Failed to get response. Please try again.");
       setIsLoading(false);
+      setMessages(prev => prev.slice(0, -1));
     }
   };
 
   return (
     <div className="min-h-screen bg-[var(--gradient-bg)] flex flex-col">
+      <SubscriptionDialog 
+        open={showSubscriptionDialog} 
+        onOpenChange={setShowSubscriptionDialog}
+      />
       {!isAdmin && !subscription?.subscribed && !subLoading && (
         <Alert className={`m-6 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-destructive bg-destructive/10'}`}>
           {remainingFreeQuestions > 0 ? <Sparkles className="h-4 w-4" /> : <CreditCard className="h-4 w-4" />}
