@@ -193,73 +193,71 @@ export const LeadFinder = () => {
               </Button>
             </div>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[500px] pr-4">
-              <div className="space-y-4">
-                {leads.map((lead, index) => (
-                  <Card key={index} className="bg-muted/50">
-                    <CardContent className="pt-6 space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2 flex-1">
-                          <div className="flex items-center gap-2">
-                            <Mail className="h-4 w-4 text-primary" />
-                            <h4 className="font-semibold">{lead.name}</h4>
-                          </div>
-                          
-                          <div className="text-sm space-y-1">
-                            <p className="flex items-center gap-2">
-                              <span className="text-muted-foreground">Email:</span>
-                              <code className="text-primary">{lead.email}</code>
-                            </p>
-                            {lead.title && (
-                              <p className="text-muted-foreground">Title: {lead.title}</p>
-                            )}
-                            {lead.company && (
-                              <p className="text-muted-foreground">Company: {lead.company}</p>
-                            )}
-                            {lead.source && (
-                              <p className="text-xs text-muted-foreground">Source: {lead.source}</p>
-                            )}
-                            {lead.relevance && (
-                              <p className="text-xs text-muted-foreground italic">
-                                Why: {lead.relevance}
-                              </p>
-                            )}
-                          </div>
+          <CardContent className="max-h-[600px] overflow-y-auto">
+            <div className="space-y-4 pr-4">
+              {leads.map((lead, index) => (
+                <Card key={index} className="bg-muted/50">
+                  <CardContent className="pt-6 space-y-4">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-2 flex-1">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4 text-primary" />
+                          <h4 className="font-semibold">{lead.name}</h4>
                         </div>
                         
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyEmail(lead.email)}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      </div>
-
-                      {lead.email_draft && (
-                        <div className="border-t pt-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <h5 className="text-sm font-semibold">Personalized Email Draft</h5>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => copyEmailDraft(lead.email_draft!)}
-                            >
-                              <Copy className="h-4 w-4 mr-2" />
-                              Copy Email
-                            </Button>
-                          </div>
-                          <div className="bg-background/50 p-3 rounded-md text-sm whitespace-pre-wrap">
-                            {lead.email_draft}
-                          </div>
+                        <div className="text-sm space-y-1">
+                          <p className="flex items-center gap-2">
+                            <span className="text-muted-foreground">Email:</span>
+                            <code className="text-primary">{lead.email}</code>
+                          </p>
+                          {lead.title && (
+                            <p className="text-muted-foreground">Title: {lead.title}</p>
+                          )}
+                          {lead.company && (
+                            <p className="text-muted-foreground">Company: {lead.company}</p>
+                          )}
+                          {lead.source && (
+                            <p className="text-xs text-muted-foreground">Source: {lead.source}</p>
+                          )}
+                          {lead.relevance && (
+                            <p className="text-xs text-muted-foreground italic">
+                              Why: {lead.relevance}
+                            </p>
+                          )}
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </ScrollArea>
+                      </div>
+                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => copyEmail(lead.email)}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {lead.email_draft && (
+                      <div className="border-t pt-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-sm font-semibold">Personalized Email Draft</h5>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => copyEmailDraft(lead.email_draft!)}
+                          >
+                            <Copy className="h-4 w-4 mr-2" />
+                            Copy Email
+                          </Button>
+                        </div>
+                        <div className="bg-background/50 p-3 rounded-md text-sm whitespace-pre-wrap break-words max-w-full overflow-x-auto">
+                          {lead.email_draft}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
