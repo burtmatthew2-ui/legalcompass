@@ -92,9 +92,20 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       return;
     }
     
-    if (!input.trim() || isLoading) return;
+    // Input validation
+    const trimmedInput = input.trim();
+    if (!trimmedInput || isLoading) return;
+    
+    if (trimmedInput.length > 5000) {
+      toast({
+        title: "Message Too Long",
+        description: "Please limit your message to 5000 characters",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    const userMessage = input.trim();
+    const userMessage = trimmedInput;
     setInput("");
     
     // Create conversation if this is the first message
