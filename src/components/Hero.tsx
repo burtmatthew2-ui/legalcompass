@@ -1,16 +1,49 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Compass, Scale, Shield, Sparkles } from "lucide-react";
+import { Compass, Scale, Shield, Sparkles, Settings } from "lucide-react";
 import { Testimonials } from "./Testimonials";
 import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 interface HeroProps {
   onGetStarted: () => void;
 }
 
 export const Hero = ({ onGetStarted }: HeroProps) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+  const { isAdmin } = useAdminStatus();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      {isAdmin && (
+        <div className="fixed top-4 right-4 z-50">
+          <Button
+            onClick={() => navigate("/admin")}
+            variant="outline"
+            size="sm"
+            className="bg-card/90 backdrop-blur-sm border-primary/30 hover:bg-primary/10"
+          >
+            <Settings className="h-4 w-4 mr-2" />
+            Admin Dashboard
+          </Button>
+        </div>
+      )}
       <div className="flex items-center justify-center px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center justify-center mb-6">

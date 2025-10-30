@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Loader2, ArrowLeft, Compass, LogOut, Menu } from "lucide-react";
+import { Send, Loader2, ArrowLeft, Compass, LogOut, Menu, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "./ChatMessage";
 import { streamLegalResearch } from "@/utils/streamChat";
@@ -16,6 +16,7 @@ import { FileUpload } from "./FileUpload";
 import { ConversationActions } from "./ConversationActions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CreditCard } from "lucide-react";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 interface Message {
   role: "user" | "assistant";
@@ -29,6 +30,7 @@ interface ChatInterfaceProps {
 export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+  const { isAdmin } = useAdminStatus();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -225,6 +227,17 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               messages={messages} 
               conversationId={currentConversation?.id || null}
             />
+            {isAdmin && (
+              <Button
+                onClick={() => navigate("/admin")}
+                variant="outline"
+                size="sm"
+                className="border-primary/30 hover:bg-primary/10"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Admin
+              </Button>
+            )}
             <Button
               onClick={() => navigate("/pricing")}
               variant="outline"
