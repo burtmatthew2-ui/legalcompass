@@ -58,14 +58,11 @@ export default function AdminDashboard() {
 
   const loadUserEmails = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('email, created_at')
-        .order('created_at', { ascending: false });
+      const { data, error } = await supabase.functions.invoke('list-users');
 
       if (error) throw error;
       
-      setEmails(data?.filter(p => p.email) as UserEmail[] || []);
+      setEmails(data?.users || []);
     } catch (error) {
       console.error("Error loading emails:", error);
       toast.error("Failed to load user emails");
