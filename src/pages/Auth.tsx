@@ -11,7 +11,12 @@ import { z } from "zod";
 
 const authSchema = z.object({
   email: z.string().email("Invalid email address").max(255, "Email too long"),
-  password: z.string().min(6, "Password must be at least 6 characters").max(100, "Password too long"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password too long")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character"),
 });
 
 const Auth = () => {
@@ -143,8 +148,11 @@ const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={8}
               />
+              <p className="text-xs text-muted-foreground mt-1">
+                Must be 8+ characters with uppercase, lowercase, and special character
+              </p>
             </div>
             <Button
               type="submit"
