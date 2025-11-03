@@ -132,6 +132,11 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setMessages((prev) => [...prev, userMsg]);
     await saveMessage(userMsg);
     
+    // Update usage count immediately for UI feedback
+    if (!isAdmin && !subscription?.subscribed) {
+      await refetchUsage();
+    }
+    
     setIsLoading(true);
 
     let assistantContent = "";

@@ -74,8 +74,18 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white text-base font-semibold px-10 py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
-                Start Free Trial
+                {user ? "Go to Chat" : "Start Free Trial"}
               </Button>
+              {!user && (
+                <Button
+                  onClick={() => navigate("/auth")}
+                  size="lg"
+                  variant="outline"
+                  className="text-base font-semibold px-10 py-6 rounded-lg border-slate-300 hover:bg-slate-50"
+                >
+                  Sign In
+                </Button>
+              )}
               <Button
                 onClick={() => navigate("/resources")}
                 size="lg"

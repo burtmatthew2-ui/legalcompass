@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Hero } from "@/components/Hero";
 import { ChatInterface } from "@/components/ChatInterface";
@@ -8,12 +8,17 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [showChat, setShowChat] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      // Auto-show chat if user is logged in and chat param is set
+      if (session?.user && searchParams.get('chat') === 'true') {
+        setShowChat(true);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -21,7 +26,7 @@ const Index = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [searchParams]);
 
   const handleGetStarted = () => {
     if (!user) {

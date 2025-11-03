@@ -24,7 +24,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       <div
         className={`max-w-[75%] rounded-2xl p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
           isUser
-            ? "bg-[var(--gradient-accent)] text-background font-medium"
+            ? "bg-primary text-primary-foreground font-medium"
             : "bg-card/70 border border-border/50 text-foreground hover:border-primary/30"
         }`}
       >
