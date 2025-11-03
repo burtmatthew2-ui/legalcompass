@@ -24,6 +24,13 @@ import FightSpeedingTicketCalifornia from "./pages/resources/FightSpeedingTicket
 import FightSpeedingTicketTexas from "./pages/resources/FightSpeedingTicketTexas";
 import FightSpeedingTicketNewYork from "./pages/resources/FightSpeedingTicketNewYork";
 import SmallClaimsCourtProcess from "./pages/resources/SmallClaimsCourtProcess";
+import EvictionNoticeLaws from "./pages/resources/EvictionNoticeLaws";
+import SecurityDepositReturnTimeline from "./pages/resources/SecurityDepositReturnTimeline";
+import BreachOfContractFreelancers from "./pages/resources/BreachOfContractFreelancers";
+import DefamationOnlineReputation from "./pages/resources/DefamationOnlineReputation";
+import DivorceCustodyBasics from "./pages/resources/DivorceCustodyBasics";
+import ConsumerRefundRights from "./pages/resources/ConsumerRefundRights";
+import WriteCeaseDesistLetter from "./pages/resources/WriteCeaseDesistLetter";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -55,6 +62,13 @@ const App = () => (
           <Route path="/resources/fight-speeding-ticket-texas" element={<FightSpeedingTicketTexas />} />
           <Route path="/resources/fight-speeding-ticket-new-york" element={<FightSpeedingTicketNewYork />} />
           <Route path="/resources/small-claims-court-process" element={<SmallClaimsCourtProcess />} />
+          <Route path="/resources/eviction-notice-laws" element={<EvictionNoticeLaws />} />
+          <Route path="/resources/security-deposit-return-timeline" element={<SecurityDepositReturnTimeline />} />
+          <Route path="/resources/breach-of-contract-freelancers" element={<BreachOfContractFreelancers />} />
+          <Route path="/resources/defamation-online-reputation" element={<DefamationOnlineReputation />} />
+          <Route path="/resources/divorce-custody-basics" element={<DivorceCustodyBasics />} />
+          <Route path="/resources/consumer-refund-rights" element={<ConsumerRefundRights />} />
+          <Route path="/resources/write-cease-desist-letter" element={<WriteCeaseDesistLetter />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
