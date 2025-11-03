@@ -156,7 +156,7 @@ const Auth = () => {
             </div>
             <Button
               type="submit"
-              className="w-full bg-gradient-primary hover:opacity-90 transition-all"
+              className="w-full"
               disabled={loading}
             >
               {loading ? "Processing..." : isLogin ? "Sign In" : "Sign Up"}
