@@ -13,13 +13,16 @@ export async function streamLegalResearch({
   onDone: () => void;
   onError?: (error: string) => void;
 }) {
+  console.log("🚀 Starting stream with", messages.length, "messages");
+  let hasReceivedContent = false;
+  
   try {
     const { data, error } = await supabase.functions.invoke("legal-research", {
       body: { messages },
     });
 
     if (error) {
-      // Check for free trial exhaustion or subscription errors
+      console.error("❌ Supabase invoke error:", error);
       if (error.message?.includes("free trial") || error.message?.includes("Subscribe")) {
         throw new Error("TRIAL_EXHAUSTED");
       }
@@ -27,10 +30,9 @@ export async function streamLegalResearch({
     }
     if (!data) throw new Error("No response from server");
 
-    // The data is the raw Response object from the edge function
     const response = data as Response;
+    console.log("📡 Response status:", response.status);
     
-    // Check if response indicates an error (403 for trial exhausted)
     if (!response.ok) {
       if (response.status === 403) {
         const errorData = await response.json();
@@ -39,50 +41,71 @@ export async function streamLegalResearch({
         }
         throw new Error(errorData.error || "Access denied");
       }
-      throw new Error("Failed to start stream");
+      throw new Error(`Server error: ${response.status}`);
     }
     
     if (!response.body) {
-      throw new Error("Failed to start stream");
+      throw new Error("No response body");
     }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let textBuffer = "";
     let streamDone = false;
+    let chunkCount = 0;
+
+    console.log("📥 Starting to read stream...");
 
     while (!streamDone) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      textBuffer += decoder.decode(value, { stream: true });
-
-      let newlineIndex: number;
-      while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
-        let line = textBuffer.slice(0, newlineIndex);
-        textBuffer = textBuffer.slice(newlineIndex + 1);
-
-        if (line.endsWith("\r")) line = line.slice(0, -1);
-        if (line.startsWith(":") || line.trim() === "") continue;
-        if (!line.startsWith("data: ")) continue;
-
-        const jsonStr = line.slice(6).trim();
-        if (jsonStr === "[DONE]") {
-          streamDone = true;
+      try {
+        const { done, value } = await reader.read();
+        if (done) {
+          console.log("✅ Stream completed, received", chunkCount, "chunks");
           break;
         }
+        
+        const chunk = decoder.decode(value, { stream: true });
+        textBuffer += chunk;
+        chunkCount++;
 
-        try {
-          const parsed = JSON.parse(jsonStr);
-          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-          if (content) onDelta(content);
-        } catch {
-          textBuffer = line + "\n" + textBuffer;
-          break;
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") {
+            console.log("🏁 Received [DONE] signal");
+            streamDone = true;
+            break;
+          }
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              hasReceivedContent = true;
+              onDelta(content);
+            }
+          } catch (parseError) {
+            console.warn("⚠️ Failed to parse chunk, will retry:", parseError);
+            textBuffer = line + "\n" + textBuffer;
+            break;
+          }
         }
+      } catch (readError) {
+        console.error("❌ Error reading stream chunk:", readError);
+        throw readError;
       }
     }
 
+    // Process any remaining buffer
     if (textBuffer.trim()) {
+      console.log("📝 Processing remaining buffer...");
       for (let raw of textBuffer.split("\n")) {
         if (!raw) continue;
         if (raw.endsWith("\r")) raw = raw.slice(0, -1);
@@ -93,18 +116,35 @@ export async function streamLegalResearch({
         try {
           const parsed = JSON.parse(jsonStr);
           const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-          if (content) onDelta(content);
+          if (content) {
+            hasReceivedContent = true;
+            onDelta(content);
+          }
         } catch {
-          /* ignore partial leftovers */
+          console.warn("⚠️ Ignoring unparseable buffer fragment");
         }
       }
     }
 
+    console.log("✨ Stream processing complete, content received:", hasReceivedContent);
     onDone();
+    
   } catch (error) {
-    console.error("Stream error:", error);
+    console.error("💥 Stream error:", error);
+    console.error("Error details:", {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      hasReceivedContent
+    });
+    
     if (onError) {
       onError(error instanceof Error ? error.message : "Failed to get response");
+    }
+    
+    // If we received some content before the error, still call onDone to preserve it
+    if (hasReceivedContent) {
+      console.log("⚠️ Calling onDone despite error to preserve partial content");
+      onDone();
     }
   }
 }
