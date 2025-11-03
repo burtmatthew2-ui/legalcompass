@@ -75,10 +75,18 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
               >
                 Try It For Free
               </Button>
-              <p className="text-sm text-muted-foreground">
-                3 free questions • Then $9.99/month
-              </p>
+              <Button
+                onClick={() => navigate("/resources")}
+                size="lg"
+                variant="outline"
+                className="text-lg font-semibold px-8 py-6 rounded-xl"
+              >
+                Legal Resources
+              </Button>
             </div>
+            <p className="text-sm text-muted-foreground text-center">
+              3 free questions • Then $9.99/month
+            </p>
           </div>
 
           {/* What You Actually Get */}

@@ -15,6 +15,15 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import Install from "./pages/Install";
 import AdminDashboard from "./pages/AdminDashboard";
+import Resources from "./pages/Resources";
+import TenantRightsCalifornia from "./pages/resources/TenantRightsCalifornia";
+import TenantRightsNewYork from "./pages/resources/TenantRightsNewYork";
+import TenantRightsTexas from "./pages/resources/TenantRightsTexas";
+import TenantRightsFlorida from "./pages/resources/TenantRightsFlorida";
+import FightSpeedingTicketCalifornia from "./pages/resources/FightSpeedingTicketCalifornia";
+import FightSpeedingTicketTexas from "./pages/resources/FightSpeedingTicketTexas";
+import FightSpeedingTicketNewYork from "./pages/resources/FightSpeedingTicketNewYork";
+import SmallClaimsCourtProcess from "./pages/resources/SmallClaimsCourtProcess";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -37,6 +46,15 @@ const App = () => (
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/install" element={<Install />} />
           <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/resources/tenant-rights-california" element={<TenantRightsCalifornia />} />
+          <Route path="/resources/tenant-rights-new-york" element={<TenantRightsNewYork />} />
+          <Route path="/resources/tenant-rights-texas" element={<TenantRightsTexas />} />
+          <Route path="/resources/tenant-rights-florida" element={<TenantRightsFlorida />} />
+          <Route path="/resources/fight-speeding-ticket-california" element={<FightSpeedingTicketCalifornia />} />
+          <Route path="/resources/fight-speeding-ticket-texas" element={<FightSpeedingTicketTexas />} />
+          <Route path="/resources/fight-speeding-ticket-new-york" element={<FightSpeedingTicketNewYork />} />
+          <Route path="/resources/small-claims-court-process" element={<SmallClaimsCourtProcess />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
