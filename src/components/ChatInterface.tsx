@@ -215,30 +215,30 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="border-b border-border/50 bg-card/30 backdrop-blur-xl shadow-lg">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+      <div className="border-b border-slate-200 bg-white shadow-sm">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsSidebarOpen(true)}
-              className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
+              className="hover:bg-slate-100 rounded-md"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 text-slate-600" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={onBack}
-              className="hover:bg-primary/20 hover:text-primary transition-all duration-300 rounded-xl"
+              className="hover:bg-slate-100 rounded-md"
             >
-              <ArrowLeft className="w-6 h-6" />
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
             </Button>
             <div>
-              <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-[var(--gradient-primary)]">
+              <h2 className="text-xl font-semibold text-slate-900">
                 Legal Research Assistant
               </h2>
-              <p className="text-sm text-muted-foreground">Powered by advanced AI analysis</p>
+              <p className="text-xs text-slate-500">Professional AI-powered analysis</p>
             </div>
           </div>
           <div className="flex gap-2 items-center">
@@ -251,7 +251,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                 onClick={() => navigate("/admin")}
                 variant="outline"
                 size="sm"
-                className="border-primary/30 hover:bg-primary/10"
+                className="border-slate-300 hover:bg-slate-50"
               >
                 <Settings className="h-4 w-4 mr-2" />
                 Admin
@@ -261,7 +261,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               onClick={() => navigate("/pricing")}
               variant="outline"
               size="sm"
-              className="border-white/20 hover:bg-white/10"
+              className="border-primary/30 hover:bg-primary/5 text-primary"
             >
               Upgrade
             </Button>
@@ -269,28 +269,25 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               onClick={handleSignOut}
               variant="ghost"
               size="icon"
-              className="hover:bg-white/10"
+              className="hover:bg-slate-100 rounded-md"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4 text-slate-600" />
             </Button>
           </div>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-6" ref={scrollAreaRef}>
-        <div className="max-w-5xl mx-auto py-12 space-y-8">
+      <ScrollArea className="flex-1 px-6 bg-slate-50" ref={scrollAreaRef}>
+        <div className="max-w-5xl mx-auto py-12 space-y-6">
           {messages.length === 0 ? (
-            <div className="text-center py-24">
-              <div className="mb-8 inline-flex items-center justify-center">
-                <div className="relative">
-                  <Compass className="w-20 h-20 text-primary animate-spin-slow" />
-                  <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-glow" />
-                </div>
+            <div className="text-center py-20">
+              <div className="mb-6 inline-flex items-center justify-center">
+                <Compass className="w-16 h-16 text-primary" />
               </div>
-              <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
+              <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
                 Ask me anything about legal matters, and I'll research applicable laws and databases to help you discover insights and strategies.
               </p>
-              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3 max-w-3xl mx-auto">
                 {[
                   "What are the legal requirements for starting a business?",
                   "How do I protect my intellectual property?",
@@ -300,7 +297,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                   <button
                     key={i}
                     onClick={() => setInput(example)}
-                    className="p-4 text-left rounded-xl bg-card/50 border border-border/50 hover:border-primary/50 hover:bg-card/70 transition-all duration-300 text-sm text-muted-foreground hover:text-foreground"
+                    className="p-4 text-left rounded-lg bg-white border border-slate-200 hover:border-primary hover:bg-slate-50 transition-all text-sm text-slate-700 shadow-sm"
                   >
                     "{example}"
                   </button>
@@ -313,34 +310,34 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
             ))
           )}
           {isLoading && (
-            <div className="flex items-center gap-4 p-6 rounded-2xl bg-card/50 border border-primary/30">
-              <Loader2 className="w-6 h-6 animate-spin text-primary" />
-              <span className="text-foreground font-medium">Researching legal databases and analyzing regulations...</span>
+            <div className="flex items-center gap-4 p-5 rounded-lg bg-white border border-primary/30 shadow-sm">
+              <Loader2 className="w-5 h-5 animate-spin text-primary" />
+              <span className="text-slate-700 font-medium">Researching legal databases and analyzing regulations...</span>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border/50 bg-card/30 backdrop-blur-xl shadow-2xl">
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-6 space-y-4">
+      <div className="border-t border-slate-200 bg-white shadow-lg">
+        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-5 space-y-3">
           <FileUpload 
             conversationId={currentConversation?.id || null}
             onFileUploaded={(file) => sonnerToast.success(`${file.name} uploaded successfully`)}
           />
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about legal loopholes, regulations, or strategies..."
-              className="flex-1 bg-secondary/50 border-border/50 focus:border-primary text-lg py-6 rounded-2xl backdrop-blur-sm"
+              placeholder="Ask about legal matters, regulations, or strategies..."
+              className="flex-1 bg-white border-slate-300 focus:border-primary text-base py-5 rounded-lg"
               disabled={isLoading}
             />
             <Button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-[var(--gradient-accent)] hover:shadow-[var(--shadow-accent)] text-background px-8 py-6 text-lg font-semibold rounded-2xl transition-all duration-300 hover:scale-105"
+              className="bg-primary hover:bg-primary/90 text-white px-6 py-5 text-base font-semibold rounded-lg shadow-sm"
             >
-              <Send className="w-6 h-6" />
+              <Send className="w-5 h-5" />
             </Button>
           </div>
         </form>
