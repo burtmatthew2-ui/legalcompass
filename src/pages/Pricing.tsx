@@ -9,10 +9,11 @@ import { Footer } from "@/components/Footer";
 
 const PREMIUM_TIER = {
   name: "Legal Compass Pro",
-  price: "$9.99",
+  price: "$4.99",
+  originalPrice: "$9.99",
   interval: "per month",
   priceId: "price_1SNuZKArhAIMbV73QbW8o3hr",
-  productId: "prod_TKZvMFceTK9clf",
+  productId: "prod_TMFlPpHhdISKJS",
   features: [
     "3 questions free trial",
     "All 50 US states + federal law coverage",
@@ -107,7 +108,7 @@ const Pricing = () => {
               Try It Free, Then Subscribe
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Get 3 professional legal research questions absolutely free. Then continue with unlimited access for just $9.99/month—90% less than enterprise legal tools.
+              Get 3 professional legal research questions absolutely free. Then continue with unlimited access for just <span className="line-through text-muted-foreground/60">{PREMIUM_TIER.originalPrice}</span> <span className="font-bold text-accent">{PREMIUM_TIER.price}/month</span> (50% off!)—90% less than enterprise legal tools.
             </p>
             {currentSubscription?.subscribed && (
               <div className="mt-4 space-y-2">
@@ -141,10 +142,16 @@ const Pricing = () => {
               <CardHeader className="text-center pb-8">
                 <CardTitle className="text-3xl mb-2">{PREMIUM_TIER.name}</CardTitle>
                 <CardDescription className="text-lg">
-                  <span className="text-5xl font-bold text-foreground block mb-2">
-                    {PREMIUM_TIER.price}
-                  </span>
-                  <span className="text-muted-foreground">{PREMIUM_TIER.interval}</span>
+                  <div className="space-y-1">
+                    <span className="text-2xl line-through text-muted-foreground/60 block">
+                      {PREMIUM_TIER.originalPrice}
+                    </span>
+                    <span className="text-5xl font-bold text-foreground block">
+                      {PREMIUM_TIER.price}
+                    </span>
+                    <span className="text-accent font-semibold block">50% OFF</span>
+                    <span className="text-muted-foreground">{PREMIUM_TIER.interval}</span>
+                  </div>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">

@@ -31,7 +31,7 @@ export const SubscriptionDialog = ({ open, onOpenChange }: SubscriptionDialogPro
             Ready for Unlimited Access?
           </DialogTitle>
           <DialogDescription className="text-center text-base pt-2">
-            You've used your 3 free questions! Continue with professional legal research for just $9.99/month.
+            You've used your 3 free questions! Continue with professional legal research for just <span className="line-through text-muted-foreground/60">$9.99</span> <span className="font-bold text-accent">$4.99/month</span> (50% off!)
           </DialogDescription>
         </DialogHeader>
         
@@ -60,7 +60,7 @@ export const SubscriptionDialog = ({ open, onOpenChange }: SubscriptionDialogPro
             className="w-full bg-primary hover:bg-primary/90"
             size="lg"
           >
-            View Plans - $9.99/month
+            View Plans - <span className="line-through mx-1">$9.99</span> $4.99/month
           </Button>
           <Button
             onClick={() => onOpenChange(false)}

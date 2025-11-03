@@ -86,7 +86,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
               </Button>
             </div>
             <p className="text-sm text-slate-500 text-center font-medium">
-              3 free questions • Then $9.99/month • Cancel anytime
+              3 free questions • Then <span className="line-through">$9.99</span> <span className="font-bold text-accent">$4.99/month</span> (50% off!) • Cancel anytime
             </p>
           </div>
 
