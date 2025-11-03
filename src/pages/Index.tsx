@@ -5,6 +5,7 @@ import { Hero } from "@/components/Hero";
 import { ChatInterface } from "@/components/ChatInterface";
 import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Navbar } from "@/components/Navbar";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen flex flex-col">
+        {!showChat && <Navbar />}
         <div className="flex-1">
           {showChat ? (
             <ChatInterface onBack={() => setShowChat(false)} />
