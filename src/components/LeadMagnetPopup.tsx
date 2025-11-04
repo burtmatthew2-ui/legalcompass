@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileText, X } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
 export const LeadMagnetPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,21 +28,48 @@ export const LeadMagnetPopup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !email.includes("@") || !name) {
-      toast.error("Please fill in all fields");
+    // Validate with zod
+    const leadSchema = z.object({
+      name: z.string().trim().min(1, "Name is required").max(100, "Name too long"),
+      email: z.string().trim().email("Invalid email address").max(255, "Email too long")
+    });
+
+    const validation = leadSchema.safeParse({ name: name.trim(), email: email.trim() });
+    if (!validation.success) {
+      toast.error(validation.error.issues[0].message);
       return;
     }
 
     setIsLoading(true);
     
-    // Simulate download
-    setTimeout(() => {
-      toast.success("Check your email! Your guide is on its way.");
+    try {
+      const { error } = await supabase
+        .from('newsletter_signups')
+        .insert({
+          email: validation.data.email,
+          name: validation.data.name,
+          source: 'lead_magnet'
+        });
+
+      if (error) {
+        if (error.message.includes('duplicate')) {
+          toast.success("Check your email! Your guide is on its way.");
+        } else {
+          throw error;
+        }
+      } else {
+        toast.success("Check your email! Your guide is on its way.");
+      }
+      
       setIsOpen(false);
       setEmail("");
       setName("");
+    } catch (error) {
+      console.error('Lead magnet signup error:', error);
+      toast.error("Failed to send guide. Please try again later.");
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

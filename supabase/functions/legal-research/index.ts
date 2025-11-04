@@ -354,8 +354,19 @@ Remember: Write like a knowledgeable colleague having a conversation, not like a
     });
   } catch (error) {
     console.error('Error in legal-research function:', error);
+    
+    // Sanitize error message for client
+    let userMessage = 'An internal error occurred while processing your request';
+    if (error instanceof Error) {
+      if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('not authenticated')) {
+        userMessage = 'Authentication required';
+      } else if (error.message.toLowerCase().includes('usage limit')) {
+        userMessage = error.message; // Usage limit messages are safe to show
+      }
+    }
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: userMessage }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

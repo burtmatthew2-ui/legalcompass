@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
 export const NewsletterSignup = () => {
   const [email, setEmail] = useState("");
@@ -11,19 +13,43 @@ export const NewsletterSignup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !email.includes("@")) {
-      toast.error("Please enter a valid email address");
+    // Validate email with zod
+    const emailSchema = z.object({
+      email: z.string().trim().email("Invalid email address").max(255, "Email too long")
+    });
+
+    const validation = emailSchema.safeParse({ email: email.trim() });
+    if (!validation.success) {
+      toast.error(validation.error.issues[0].message);
       return;
     }
 
     setIsLoading(true);
     
-    // Simulate newsletter signup
-    setTimeout(() => {
-      toast.success("Thanks for subscribing! Check your inbox for legal tips.");
-      setEmail("");
+    try {
+      const { error } = await supabase
+        .from('newsletter_signups')
+        .insert({
+          email: validation.data.email,
+          source: 'newsletter'
+        });
+
+      if (error) {
+        if (error.message.includes('duplicate')) {
+          toast.error("You're already subscribed to our newsletter!");
+        } else {
+          throw error;
+        }
+      } else {
+        toast.success("Thanks for subscribing! Check your inbox for legal tips.");
+        setEmail("");
+      }
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
+      toast.error("Failed to subscribe. Please try again later.");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

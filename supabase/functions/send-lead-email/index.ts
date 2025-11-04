@@ -150,8 +150,18 @@ ${unsubscribeUrl}`;
         });
     }
 
+    // Sanitize error for client
+    let userMessage = 'An error occurred while sending email';
+    if (error instanceof Error) {
+      if (error.message.includes('Admin access required')) {
+        userMessage = 'Admin access required';
+      } else if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('not authenticated')) {
+        userMessage = 'Authentication required';
+      }
+    }
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: userMessage }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

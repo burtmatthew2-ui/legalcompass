@@ -120,8 +120,15 @@ Provide helpful, accurate answers in 2-3 sentences. If you don't know something,
     );
   } catch (error) {
     console.error("Error in faq-ai function:", error);
+    
+    // Sanitize error for client
+    let userMessage = 'An error occurred while processing your question';
+    if (error instanceof Error && error.message.toLowerCase().includes('question')) {
+      userMessage = error.message; // Question-related errors are safe to show
+    }
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: userMessage }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

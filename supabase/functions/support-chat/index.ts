@@ -112,8 +112,16 @@ Be professional, helpful, and concise in your responses.`;
     );
   } catch (error) {
     console.error("Error in support-chat function:", error);
+    // Sanitize error for client
+    let userMessage = 'An error occurred while processing your support request';
+    if (error instanceof Error) {
+      if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('not authenticated')) {
+        userMessage = 'Authentication required';
+      }
+    }
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: userMessage }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

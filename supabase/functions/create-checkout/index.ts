@@ -66,8 +66,18 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Error in create-checkout:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    
+    // Sanitize error for client
+    let userMessage = 'An error occurred while creating checkout session';
+    if (error instanceof Error) {
+      if (error.message.toLowerCase().includes('price id')) {
+        userMessage = error.message; // Price ID errors are safe to show
+      } else if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('not authenticated')) {
+        userMessage = 'Authentication required';
+      }
+    }
+    
+    return new Response(JSON.stringify({ error: userMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

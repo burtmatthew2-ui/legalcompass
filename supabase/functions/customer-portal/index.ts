@@ -67,7 +67,18 @@ serve(async (req) => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     logStep("ERROR in customer-portal", { message: errorMessage });
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    
+    // Sanitize error for client
+    let userMessage = 'An error occurred while accessing customer portal';
+    if (error instanceof Error) {
+      if (errorMessage.includes('No Stripe customer found')) {
+        userMessage = 'No subscription found. Please subscribe first.';
+      } else if (errorMessage.toLowerCase().includes('unauthorized') || errorMessage.toLowerCase().includes('not authenticated')) {
+        userMessage = 'Authentication required';
+      }
+    }
+    
+    return new Response(JSON.stringify({ error: userMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

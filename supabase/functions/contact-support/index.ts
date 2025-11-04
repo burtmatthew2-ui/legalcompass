@@ -32,7 +32,8 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { name, email, subject, message } = await req.json();
+    const body = await req.json();
+    const { name, email, subject, message } = body;
 
     // Server-side validation matching client schema with generous limits
     const contactSchema = z.object({
