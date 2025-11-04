@@ -74,7 +74,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white text-base font-semibold px-10 py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
               >
-                {user ? "Go to Chat" : "Start Free Trial"}
+                {user ? "Access Research Assistant" : "Start Free Trial"}
               </Button>
               {!user && (
                 <Button
