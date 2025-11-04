@@ -43,6 +43,13 @@ export const Navbar = () => {
           {/* Navigation Links */}
           <div className="flex items-center gap-4">
             <Button
+              onClick={() => navigate("/about")}
+              variant="ghost"
+              className="text-slate-700 hover:text-primary"
+            >
+              About
+            </Button>
+            <Button
               onClick={() => navigate("/resources")}
               variant="ghost"
               className="text-slate-700 hover:text-primary"

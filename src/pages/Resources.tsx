@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { BookOpen, ArrowRight, Home } from "lucide-react";
 import { Helmet } from "react-helmet";
 
@@ -205,8 +206,13 @@ const Resources = () => {
               );
             })}
 
+            {/* Newsletter */}
+            <div className="mt-16">
+              <NewsletterSignup />
+            </div>
+
             {/* CTA Section */}
-            <div className="mt-16 bg-primary/10 border-2 border-primary/30 rounded-2xl p-8 text-center">
+            <div className="mt-8 bg-primary/10 border-2 border-primary/30 rounded-2xl p-8 text-center">
               <h2 className="text-2xl font-bold mb-4">Need Personalized Legal Research?</h2>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                 These guides provide general information. For research specific to your situation, try Legal Compass AI—get instant answers with case law citations.

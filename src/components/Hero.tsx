@@ -6,6 +6,7 @@ import { Compass, Scale, Shield, FileText, Globe, Bell, Settings, CheckCircle } 
 import { Testimonials } from "./Testimonials";
 import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
+import { NewsletterSignup } from "./NewsletterSignup";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 interface HeroProps {
@@ -238,6 +239,13 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
 
       {/* Testimonials */}
       <Testimonials />
+
+      {/* Newsletter Signup */}
+      <div className="px-6 pb-12">
+        <div className="max-w-5xl mx-auto">
+          <NewsletterSignup />
+        </div>
+      </div>
 
       {/* FAQ */}
       <FAQ />

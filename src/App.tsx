@@ -17,6 +17,7 @@ import RefundPolicy from "./pages/RefundPolicy";
 import Install from "./pages/Install";
 import AdminDashboard from "./pages/AdminDashboard";
 import Resources from "./pages/Resources";
+import About from "./pages/About";
 import TenantRightsCalifornia from "./pages/resources/TenantRightsCalifornia";
 import TenantRightsNewYork from "./pages/resources/TenantRightsNewYork";
 import TenantRightsTexas from "./pages/resources/TenantRightsTexas";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/about" element={<About />} />
           <Route path="/security" element={<Security />} />
           <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/support" element={<ProtectedRoute><Support /></ProtectedRoute>} />

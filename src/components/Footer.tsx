@@ -35,6 +35,7 @@ export const Footer = () => {
             <h3 className="font-bold text-lg mb-6 text-foreground">Resources</h3>
             <ul className="space-y-3">
               {[
+                { to: "/about", label: "About Us" },
                 { to: "/resources", label: "All Legal Guides" },
                 { to: "/pricing", label: "Pricing" },
                 { to: "/install", label: "Install App" },

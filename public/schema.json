@@ -31,6 +31,9 @@
         "height": 512
       },
       "description": "Legal Compass provides AI-powered legal research tools and comprehensive free legal guides to help people understand their legal rights and options.",
+      "sameAs": [
+        "https://legalcompass.shop/about"
+      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "Customer Support",

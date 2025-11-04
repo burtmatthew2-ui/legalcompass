@@ -6,6 +6,7 @@ import { ChatInterface } from "@/components/ChatInterface";
 import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navbar } from "@/components/Navbar";
+import { LeadMagnetPopup } from "@/components/LeadMagnetPopup";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Index = () => {
 
   return (
     <ErrorBoundary>
+      <LeadMagnetPopup />
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
         <div className="flex-1">
