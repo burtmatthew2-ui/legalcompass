@@ -54,6 +54,21 @@ const Dashboard = () => {
             </p>
           </div>
 
+          {/* Legal Disclaimer */}
+          <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-6 max-w-3xl mx-auto">
+            <div className="flex items-start gap-3">
+              <Shield className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-bold text-amber-900 mb-2">Important Legal Notice</h3>
+                <p className="text-sm text-amber-800 leading-relaxed">
+                  This platform provides legal information and research tools to help you understand legal issues. 
+                  <strong className="font-semibold"> This is not a substitute for a licensed attorney.</strong> For specific legal advice 
+                  about your situation, always consult with a qualified lawyer in your jurisdiction.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Main Navigation Cards */}
           <div className="grid md:grid-cols-2 gap-6 mt-8">
             <Card 
