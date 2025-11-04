@@ -43,8 +43,30 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("User not authenticated");
 
+      // Server-side validation via edge function
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      const { data: validationResult, error: validationError } = await supabase.functions.invoke(
+        'validate-file-upload',
+        {
+          body: formData,
+        }
+      );
+
+      if (validationError) {
+        throw new Error(validationError.message || "File validation failed");
+      }
+
+      if (!validationResult?.valid) {
+        throw new Error(validationResult?.error || "File validation failed");
+      }
+
+      // Use sanitized filename from validation
+      const sanitizedFilename = validationResult.sanitizedFilename || selectedFile.name;
+      const filePath = `${user.id}/${Date.now()}_${sanitizedFilename}`;
+
       // Upload to storage
-      const filePath = `${user.id}/${Date.now()}_${selectedFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from("legal-documents")
         .upload(filePath, selectedFile);
@@ -57,7 +79,7 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
         .insert({
           user_id: user.id,
           conversation_id: conversationId,
-          file_name: selectedFile.name,
+          file_name: sanitizedFilename,
           file_path: filePath,
           file_size: selectedFile.size,
           mime_type: selectedFile.type,
@@ -67,7 +89,7 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
 
       toast.success("File uploaded successfully");
       setSelectedFile(null);
-      onFileUploaded?.({ name: selectedFile.name, path: filePath });
+      onFileUploaded?.({ name: sanitizedFilename, path: filePath });
     } catch (error: any) {
       console.error("Upload error:", error);
       toast.error(error.message || "Failed to upload file");
