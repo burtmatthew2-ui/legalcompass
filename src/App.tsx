@@ -32,6 +32,11 @@ import DefamationOnlineReputation from "./pages/resources/DefamationOnlineReputa
 import DivorceCustodyBasics from "./pages/resources/DivorceCustodyBasics";
 import ConsumerRefundRights from "./pages/resources/ConsumerRefundRights";
 import WriteCeaseDesistLetter from "./pages/resources/WriteCeaseDesistLetter";
+import FileBankruptcy from "./pages/resources/FileBankruptcy";
+import WorkersCompensation from "./pages/resources/WorkersCompensation";
+import ChildSupport from "./pages/resources/ChildSupport";
+import EmploymentDiscrimination from "./pages/resources/EmploymentDiscrimination";
+import ExpungeCriminalRecord from "./pages/resources/ExpungeCriminalRecord";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -71,6 +76,11 @@ const App = () => (
           <Route path="/resources/divorce-custody-basics" element={<DivorceCustodyBasics />} />
           <Route path="/resources/consumer-refund-rights" element={<ConsumerRefundRights />} />
           <Route path="/resources/write-cease-desist-letter" element={<WriteCeaseDesistLetter />} />
+          <Route path="/resources/file-bankruptcy" element={<FileBankruptcy />} />
+          <Route path="/resources/workers-compensation" element={<WorkersCompensation />} />
+          <Route path="/resources/child-support" element={<ChildSupport />} />
+          <Route path="/resources/employment-discrimination" element={<EmploymentDiscrimination />} />
+          <Route path="/resources/expunge-criminal-record" element={<ExpungeCriminalRecord />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

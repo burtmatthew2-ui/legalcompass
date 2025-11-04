@@ -1,0 +1,175 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://legalcompass.shop/#website",
+      "url": "https://legalcompass.shop/",
+      "name": "Legal Compass - AI-Powered Legal Research",
+      "description": "Free legal guides and AI-powered legal research assistant. Educational legal information, not a substitute for a licensed attorney.",
+      "publisher": {
+        "@id": "https://legalcompass.shop/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://legalcompass.shop/dashboard?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://legalcompass.shop/#organization",
+      "name": "Legal Compass",
+      "url": "https://legalcompass.shop/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://legalcompass.shop/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "description": "Legal Compass provides AI-powered legal research tools and comprehensive free legal guides to help people understand their legal rights and options.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "availableLanguage": "English"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://legalcompass.shop/#application",
+      "name": "Legal Compass AI",
+      "applicationCategory": "Legal Research Tool",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "4.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2025-12-31",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "247"
+      },
+      "description": "AI-powered legal research assistant that helps users understand legal concepts across 80+ jurisdictions including all 50 US states and international law."
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://legalcompass.shop/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Legal Compass a substitute for a lawyer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Legal Compass provides educational legal information and research tools. It is not a substitute for a licensed attorney. For specific legal advice about your situation, you should consult with a qualified lawyer in your jurisdiction."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What jurisdictions does Legal Compass cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Legal Compass covers all 50 US states, federal law, EU (all 27 member states), UK, Canada, Australia, and New Zealand - over 80 jurisdictions total."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my legal research private and confidential?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversations and searches are completely private and encrypted. We never share your data with anyone, and your information is protected with enterprise-grade security."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What legal topics does Legal Compass cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Legal Compass provides comprehensive guides on bankruptcy, workers' compensation, child support, employment discrimination, criminal record expungement, tenant rights, traffic violations, small claims court, family law, consumer law, and many other legal topics."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://legalcompass.shop/resources#articlelist",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Article",
+            "url": "https://legalcompass.shop/resources/file-bankruptcy",
+            "headline": "How to File for Bankruptcy: Chapter 7 vs Chapter 13 Guide",
+            "description": "Complete guide to filing bankruptcy in 2025, including eligibility, costs, and step-by-step process.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Article",
+            "url": "https://legalcompass.shop/resources/workers-compensation",
+            "headline": "Workers' Compensation Claims: Complete Guide",
+            "description": "Everything you need to know about filing workers' comp claims, covered injuries, benefits, and denials.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Article",
+            "url": "https://legalcompass.shop/resources/child-support",
+            "headline": "Child Support Calculation Guide: State-by-State",
+            "description": "Comprehensive guide to child support calculation, modification, and enforcement by state.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Article",
+            "url": "https://legalcompass.shop/resources/employment-discrimination",
+            "headline": "Employment Discrimination Laws: Complete Legal Guide",
+            "description": "Understanding protected classes, types of discrimination, and how to file EEOC complaints.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Article",
+            "url": "https://legalcompass.shop/resources/expunge-criminal-record",
+            "headline": "How to Expunge Your Criminal Record: State Guide",
+            "description": "State-by-state guide to expungement, sealing criminal records, eligibility, and costs.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

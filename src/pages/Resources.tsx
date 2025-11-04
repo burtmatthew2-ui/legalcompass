@@ -94,6 +94,36 @@ const resources = [
     slug: "write-cease-desist-letter",
     description: "Draft effective cease and desist letters for harassment, infringement, and contract violations.",
     category: "Legal Documents"
+  },
+  {
+    title: "How to File for Bankruptcy: Chapter 7 vs 13",
+    slug: "file-bankruptcy",
+    description: "Complete guide to filing bankruptcy, eligibility requirements, costs, and step-by-step process.",
+    category: "Financial Law"
+  },
+  {
+    title: "Workers' Compensation Claims Guide",
+    slug: "workers-compensation",
+    description: "Everything you need to know about filing workers' comp claims, benefits, and what to do if denied.",
+    category: "Employment Law"
+  },
+  {
+    title: "Child Support Calculation & Guidelines",
+    slug: "child-support",
+    description: "State-by-state child support calculation methods, modification process, and enforcement.",
+    category: "Family Law"
+  },
+  {
+    title: "Employment Discrimination Laws",
+    slug: "employment-discrimination",
+    description: "Understanding protected classes, types of discrimination, and how to file an EEOC complaint.",
+    category: "Employment Law"
+  },
+  {
+    title: "How to Expunge Your Criminal Record",
+    slug: "expunge-criminal-record",
+    description: "State-by-state guide to expungement, eligibility requirements, costs, and the complete process.",
+    category: "Criminal Law"
   }
 ];
 

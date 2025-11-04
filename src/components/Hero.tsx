@@ -173,10 +173,40 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
 
             <div className="mt-10 pt-8 border-t border-slate-200">
-              <p className="text-sm text-slate-600 text-center max-w-2xl mx-auto leading-relaxed">
-                <strong className="text-slate-900 font-semibold">Important:</strong> This tool provides research and information to help you understand legal issues. 
-                It's not a replacement for a licensed attorney—for specific legal advice, always consult with a lawyer in your jurisdiction.
-              </p>
+              <div className="space-y-4">
+                <h3 className="font-semibold text-slate-900 text-center text-lg">How This Platform Works</h3>
+                <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto text-sm text-slate-600">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>AI-Powered Research:</strong> Uses advanced AI to search legal databases and provide relevant information</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>Educational Only:</strong> Provides information to help you understand legal concepts, not legal advice</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>Not a Law Firm:</strong> We don't practice law or represent clients—we help you research and understand</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>Attorney Connection:</strong> We can help you find qualified attorneys when you need professional representation</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>Verify Everything:</strong> Always verify legal information with official sources and consult an attorney for your specific situation</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p><strong>Privacy First:</strong> Your searches and conversations are completely private and encrypted—we never share your data</p>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-600 text-center max-w-2xl mx-auto leading-relaxed pt-4 border-t border-slate-200">
+                  <strong className="text-slate-900 font-semibold">Transparency Note:</strong> Legal Compass is a legal research platform, not a substitute for a licensed attorney. 
+                  Our AI provides educational information based on publicly available legal resources. For specific legal advice tailored to your situation, 
+                  always consult with a qualified lawyer in your jurisdiction.
+                </p>
+              </div>
             </div>
           </div>
 
