@@ -8,11 +8,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useEffect, useState } from "react";
+import type { User } from "@/types/user";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { isAdmin } = useAdminStatus();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -47,7 +48,7 @@ const Dashboard = () => {
           {/* Welcome Header */}
           <div className="text-center space-y-3">
             <h1 className="text-4xl font-bold text-slate-900">
-              Welcome Back{user?.email ? `, ${user.email.split('@')[0]}` : ''}!
+              Welcome Back{user?.email ? `, ${user.email.split('@')[0] || 'User'}` : ''}!
             </h1>
             <p className="text-lg text-slate-600">
               Choose where you'd like to go

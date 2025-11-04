@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Loader2, ArrowLeft, Compass, LogOut, Menu, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { ChatMessage } from "./ChatMessage";
+import { ChatMessageMemo } from "./ChatMessageMemo";
 import { streamLegalResearch } from "@/utils/streamChat";
 import { toast as sonnerToast } from "sonner";
 import { useChatHistory } from "@/hooks/useChatHistory";
@@ -19,6 +19,7 @@ import { CreditCard, Sparkles } from "lucide-react";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useQuestionUsage } from "@/hooks/useQuestionUsage";
 import { SubscriptionDialog } from "./SubscriptionDialog";
+import type { User } from "@/types/user";
 
 interface Message {
   role: "user" | "assistant";
@@ -31,7 +32,7 @@ interface ChatInterfaceProps {
 
 export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { isAdmin } = useAdminStatus();
 
   useEffect(() => {
@@ -311,7 +312,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
             </div>
           ) : (
             messages.map((message, index) => (
-              <ChatMessage key={index} message={message} />
+              <ChatMessageMemo key={index} message={message} />
             ))
           )}
           {isLoading && (

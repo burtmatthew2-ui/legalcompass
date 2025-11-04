@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/utils/logger";
 
 export const useAdminStatus = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -18,10 +19,10 @@ export const useAdminStatus = () => {
   const checkAdminStatus = async () => {
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
-      console.log("🔍 Admin check - User:", user?.email, "Error:", userError);
+      logger.log("🔍 Admin check - User:", user?.email, "Error:", userError);
       
       if (!user) {
-        console.log("❌ No user found");
+        logger.log("❌ No user found");
         setIsAdmin(false);
         setLoading(false);
         return;
@@ -34,13 +35,13 @@ export const useAdminStatus = () => {
         .eq('role', 'admin')
         .maybeSingle();
 
-      console.log("🔍 Admin check - User ID:", user.id);
-      console.log("🔍 Admin check - Role data:", roleData, "Error:", roleError);
-      console.log("✅ Is Admin:", !!roleData);
+      logger.log("🔍 Admin check - User ID:", user.id);
+      logger.log("🔍 Admin check - Role data:", roleData, "Error:", roleError);
+      logger.log("✅ Is Admin:", !!roleData);
       
       setIsAdmin(!!roleData);
     } catch (error) {
-      console.error("❌ Admin check error:", error);
+      logger.error("❌ Admin check error:", error);
       setIsAdmin(false);
     } finally {
       setLoading(false);

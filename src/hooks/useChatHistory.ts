@@ -42,36 +42,41 @@ export const useChatHistory = (conversationId?: string) => {
 
     setLoading(true);
     
-    // Load conversation data
-    const { data: convData, error: convError } = await supabase
-      .from('chat_conversations')
-      .select('id, title, created_at, updated_at')
-      .eq('id', convId)
-      .eq('user_id', user.id)
-      .maybeSingle();
+    try {
+      // Load conversation data and messages in parallel
+      const [convResult, messagesResult] = await Promise.all([
+        supabase
+          .from('chat_conversations')
+          .select('id, title, created_at, updated_at')
+          .eq('id', convId)
+          .eq('user_id', user.id)
+          .maybeSingle(),
+        supabase
+          .from('chat_messages')
+          .select('role, content, created_at')
+          .eq('conversation_id', convId)
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: true })
+      ]);
 
-    if (convError) {
-      console.error('Error loading conversation:', convError);
+      if (convResult.error) {
+        console.error('Error loading conversation:', convResult.error);
+        return;
+      }
+
+      if (convResult.data) {
+        setCurrentConversation(convResult.data);
+      }
+
+      if (!messagesResult.error && messagesResult.data) {
+        setMessages(messagesResult.data.map(msg => ({ 
+          role: msg.role as "user" | "assistant", 
+          content: msg.content 
+        })));
+      }
+    } finally {
       setLoading(false);
-      return;
     }
-
-    if (convData) {
-      setCurrentConversation(convData);
-    }
-
-    // Load messages
-    const { data, error } = await supabase
-      .from('chat_messages')
-      .select('role, content, created_at')
-      .eq('conversation_id', convId)
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true });
-
-    if (!error && data) {
-      setMessages(data.map(msg => ({ role: msg.role as "user" | "assistant", content: msg.content })));
-    }
-    setLoading(false);
   };
 
   // Create new conversation
@@ -79,11 +84,17 @@ export const useChatHistory = (conversationId?: string) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
 
+    // Truncate to avoid issues with very long first messages
+    const maxLength = 50;
+    const title = firstMessage.length > maxLength 
+      ? firstMessage.substring(0, maxLength) + '...' 
+      : firstMessage;
+
     const { data, error } = await supabase
       .from('chat_conversations')
       .insert({
         user_id: user.id,
-        title: firstMessage.substring(0, 50) + (firstMessage.length > 50 ? '...' : ''),
+        title,
       })
       .select()
       .single();
@@ -138,29 +149,6 @@ export const useChatHistory = (conversationId?: string) => {
   useEffect(() => {
     loadConversations();
   }, []);
-
-  useEffect(() => {
-    if (currentConversation?.id) {
-      const fetchMessages = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        const { data, error } = await supabase
-          .from('chat_messages')
-          .select('role, content, created_at')
-          .eq('conversation_id', currentConversation.id)
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: true });
-
-        if (!error && data) {
-          setMessages(data.map(msg => ({ role: msg.role as "user" | "assistant", content: msg.content })));
-        }
-      };
-      fetchMessages();
-    } else {
-      setMessages([]);
-    }
-  }, [currentConversation?.id]);
 
   return {
     messages,

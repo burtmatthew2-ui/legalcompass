@@ -8,6 +8,7 @@ import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
+import type { User } from "@/types/user";
 
 interface HeroProps {
   onGetStarted: () => void;
@@ -15,7 +16,7 @@ interface HeroProps {
 
 export const Hero = ({ onGetStarted }: HeroProps) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const { isAdmin } = useAdminStatus();
 
   useEffect(() => {

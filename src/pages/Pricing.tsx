@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import type { User, SubscriptionStatus } from "@/types/user";
 
 const PREMIUM_TIER = {
   name: "Legal Compass Pro",
@@ -29,8 +30,8 @@ const PREMIUM_TIER = {
 
 const Pricing = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
-  const [currentSubscription, setCurrentSubscription] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [currentSubscription, setCurrentSubscription] = useState<SubscriptionStatus | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const Pricing = () => {
 
       if (error) throw error;
       if (data?.url) {
-        window.open(data.url, '_blank');
+        window.location.href = data.url;
       }
     } catch (error: any) {
       toast.error(error.message || "Failed to create checkout session");
@@ -90,7 +91,7 @@ const Pricing = () => {
       const { data, error } = await supabase.functions.invoke('customer-portal');
       if (error) throw error;
       if (data?.url) {
-        window.open(data.url, '_blank');
+        window.location.href = data.url;
       }
     } catch (error: any) {
       toast.error(error.message || "Failed to open customer portal");

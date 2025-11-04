@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { logger } from "./logger";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -13,7 +14,7 @@ export async function streamLegalResearch({
   onDone: () => void;
   onError?: (error: string) => void;
 }) {
-  console.log("🚀 Starting stream with", messages.length, "messages");
+  logger.log("🚀 Starting stream with", messages.length, "messages");
   let hasReceivedContent = false;
   
   try {
@@ -22,7 +23,7 @@ export async function streamLegalResearch({
     });
 
     if (error) {
-      console.error("❌ Supabase invoke error:", error);
+      logger.error("❌ Supabase invoke error:", error);
       if (error.message?.includes("free trial") || error.message?.includes("Subscribe")) {
         throw new Error("TRIAL_EXHAUSTED");
       }
@@ -31,7 +32,7 @@ export async function streamLegalResearch({
     if (!data) throw new Error("No response from server");
 
     const response = data as Response;
-    console.log("📡 Response status:", response.status);
+    logger.log("📡 Response status:", response.status);
     
     if (!response.ok) {
       if (response.status === 403) {
@@ -54,13 +55,13 @@ export async function streamLegalResearch({
     let streamDone = false;
     let chunkCount = 0;
 
-    console.log("📥 Starting to read stream...");
+    logger.log("📥 Starting to read stream...");
 
     while (!streamDone) {
       try {
         const { done, value } = await reader.read();
         if (done) {
-          console.log("✅ Stream completed, received", chunkCount, "chunks");
+          logger.log("✅ Stream completed, received", chunkCount, "chunks");
           break;
         }
         
@@ -79,7 +80,7 @@ export async function streamLegalResearch({
 
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") {
-            console.log("🏁 Received [DONE] signal");
+            logger.log("🏁 Received [DONE] signal");
             streamDone = true;
             break;
           }
@@ -92,20 +93,20 @@ export async function streamLegalResearch({
               onDelta(content);
             }
           } catch (parseError) {
-            console.warn("⚠️ Failed to parse chunk, will retry:", parseError);
+            logger.warn("⚠️ Failed to parse chunk, will retry:", parseError);
             textBuffer = line + "\n" + textBuffer;
             break;
           }
         }
       } catch (readError) {
-        console.error("❌ Error reading stream chunk:", readError);
+        logger.error("❌ Error reading stream chunk:", readError);
         throw readError;
       }
     }
 
     // Process any remaining buffer
     if (textBuffer.trim()) {
-      console.log("📝 Processing remaining buffer...");
+      logger.log("📝 Processing remaining buffer...");
       for (let raw of textBuffer.split("\n")) {
         if (!raw) continue;
         if (raw.endsWith("\r")) raw = raw.slice(0, -1);
@@ -121,17 +122,17 @@ export async function streamLegalResearch({
             onDelta(content);
           }
         } catch {
-          console.warn("⚠️ Ignoring unparseable buffer fragment");
+          logger.warn("⚠️ Ignoring unparseable buffer fragment");
         }
       }
     }
 
-    console.log("✨ Stream processing complete, content received:", hasReceivedContent);
+    logger.log("✨ Stream processing complete, content received:", hasReceivedContent);
     onDone();
     
   } catch (error) {
-    console.error("💥 Stream error:", error);
-    console.error("Error details:", {
+    logger.error("💥 Stream error:", error);
+    logger.error("Error details:", {
       name: error instanceof Error ? error.name : 'Unknown',
       message: error instanceof Error ? error.message : String(error),
       hasReceivedContent
@@ -143,7 +144,7 @@ export async function streamLegalResearch({
     
     // If we received some content before the error, still call onDone to preserve it
     if (hasReceivedContent) {
-      console.log("⚠️ Calling onDone despite error to preserve partial content");
+      logger.log("⚠️ Calling onDone despite error to preserve partial content");
       onDone();
     }
   }
