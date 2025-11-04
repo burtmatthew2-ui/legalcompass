@@ -125,6 +125,48 @@ const resources = [
     slug: "expunge-criminal-record",
     description: "State-by-state guide to expungement, eligibility requirements, costs, and the complete process.",
     category: "Criminal Law"
+  },
+  {
+    title: "How to Get a Restraining Order",
+    slug: "restraining-order-guide",
+    description: "Complete guide to obtaining restraining orders, including types, filing process, and evidence needed.",
+    category: "Personal Rights"
+  },
+  {
+    title: "Probate Process Guide",
+    slug: "probate-process",
+    description: "Navigate estate settlement, executor duties, probate court procedures, and avoiding probate.",
+    category: "Estate Planning"
+  },
+  {
+    title: "Power of Attorney Guide",
+    slug: "power-of-attorney-guide",
+    description: "Complete guide to POA types, creation process, agent duties, and healthcare directives.",
+    category: "Estate Planning"
+  },
+  {
+    title: "DUI Defense Guide",
+    slug: "dui-defense-guide",
+    description: "Understanding DUI penalties, arrest procedures, defenses, and how to fight drunk driving charges.",
+    category: "Criminal Law"
+  },
+  {
+    title: "How to Reinstate a Suspended License",
+    slug: "reinstate-drivers-license",
+    description: "Complete reinstatement guide for suspended or revoked driver's licenses including requirements and costs.",
+    category: "Traffic Law"
+  },
+  {
+    title: "How to Form an LLC",
+    slug: "llc-formation-guide",
+    description: "Step-by-step guide to LLC formation, operating agreements, tax benefits, and state requirements.",
+    category: "Business Law"
+  },
+  {
+    title: "Child Custody Modification Guide",
+    slug: "custody-modification-guide",
+    description: "How to modify custody orders, legal requirements, evidence needed, and court procedures.",
+    category: "Family Law"
   }
 ];
 
