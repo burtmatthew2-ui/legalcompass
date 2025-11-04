@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navbar } from "@/components/Navbar";
 import { LeadMagnetPopup } from "@/components/LeadMagnetPopup";
+import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 
 const Index = () => {
@@ -41,6 +42,16 @@ const Index = () => {
 
   return (
     <ErrorBoundary>
+      <Helmet>
+        <title>Legal Compass - AI Legal Research Tool | Affordable Legal Information</title>
+        <meta name="description" content="Professional AI-powered legal research tool for everyone. Get instant legal information across all 50 US states and international jurisdictions. 3 free questions, then $4.99/month." />
+        <meta name="keywords" content="legal research, AI legal tool, legal information, case law research, legal questions, affordable legal help, legal research platform" />
+        <link rel="canonical" href="https://legalcompass.shop/" />
+        <meta property="og:title" content="Legal Compass - AI Legal Research Tool" />
+        <meta property="og:description" content="Professional legal research accessible to everyone. 80+ jurisdictions, case law citations, 24/7 access." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/" />
+      </Helmet>
       <LeadMagnetPopup />
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}

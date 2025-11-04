@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet";
 import type { User, SubscriptionStatus } from "@/types/user";
 
 const PREMIUM_TIER = {
@@ -101,8 +102,17 @@ const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1 bg-gradient-to-br from-background via-background to-primary/5 py-12 px-4">
+    <>
+      <Helmet>
+        <title>Pricing - Legal Compass | $4.99/month (50% Off) | 3 Free Questions</title>
+        <meta name="description" content="Try Legal Compass free with 3 questions. Then just $4.99/month for unlimited legal research across 80+ jurisdictions. 90% less than enterprise legal tools. Cancel anytime." />
+        <meta name="keywords" content="legal research pricing, affordable legal tool, legal subscription, AI legal research cost, cheap legal research" />
+        <link rel="canonical" href="https://legalcompass.shop/pricing" />
+        <meta property="og:title" content="Legal Compass Pricing - $4.99/month" />
+        <meta property="og:description" content="Professional legal research for everyone. 3 free questions, then $4.99/month." />
+      </Helmet>
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1 bg-gradient-to-br from-background via-background to-primary/5 py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
@@ -185,6 +195,7 @@ const Pricing = () => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 

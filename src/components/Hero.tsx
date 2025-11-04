@@ -62,8 +62,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight max-w-4xl mx-auto">
-              Professional Legal Research
-              <span className="block text-primary mt-2">Accessible to Everyone</span>
+              AI-Powered Legal Research Tool for Everyone
             </h1>
             
             <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-light">
