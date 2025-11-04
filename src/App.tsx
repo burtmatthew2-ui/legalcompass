@@ -39,6 +39,18 @@ import WorkersCompensation from "./pages/resources/WorkersCompensation";
 import ChildSupport from "./pages/resources/ChildSupport";
 import EmploymentDiscrimination from "./pages/resources/EmploymentDiscrimination";
 import ExpungeCriminalRecord from "./pages/resources/ExpungeCriminalRecord";
+import RestrainingOrderGuide from "./pages/resources/RestrainingOrderGuide";
+import ProbateProcess from "./pages/resources/ProbateProcess";
+import PowerOfAttorneyGuide from "./pages/resources/PowerOfAttorneyGuide";
+import DUIDefenseGuide from "./pages/resources/DUIDefenseGuide";
+import ReinstateDriversLicense from "./pages/resources/ReinstateDriversLicense";
+import LLCFormationGuide from "./pages/resources/LLCFormationGuide";
+import CustodyModificationGuide from "./pages/resources/CustodyModificationGuide";
+import TrademarkRegistrationGuide from "./pages/resources/TrademarkRegistrationGuide";
+import HarassmentLawGuide from "./pages/resources/HarassmentLawGuide";
+import LegalResourcesTools from "./pages/resources/LegalResourcesTools";
+import PersonalInjuryClaims from "./pages/resources/PersonalInjuryClaims";
+import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -85,6 +97,18 @@ const App = () => (
           <Route path="/resources/child-support" element={<ChildSupport />} />
           <Route path="/resources/employment-discrimination" element={<EmploymentDiscrimination />} />
           <Route path="/resources/expunge-criminal-record" element={<ExpungeCriminalRecord />} />
+          <Route path="/resources/restraining-order-guide" element={<RestrainingOrderGuide />} />
+          <Route path="/resources/probate-process" element={<ProbateProcess />} />
+          <Route path="/resources/power-of-attorney-guide" element={<PowerOfAttorneyGuide />} />
+          <Route path="/resources/dui-defense-guide" element={<DUIDefenseGuide />} />
+          <Route path="/resources/reinstate-drivers-license" element={<ReinstateDriversLicense />} />
+          <Route path="/resources/llc-formation-guide" element={<LLCFormationGuide />} />
+          <Route path="/resources/custody-modification-guide" element={<CustodyModificationGuide />} />
+          <Route path="/resources/trademark-registration-guide" element={<TrademarkRegistrationGuide />} />
+          <Route path="/resources/harassment-law-guide" element={<HarassmentLawGuide />} />
+          <Route path="/resources/legal-resources-tools" element={<LegalResourcesTools />} />
+          <Route path="/resources/personal-injury-claims" element={<PersonalInjuryClaims />} />
+          <Route path="/resources/landlord-tenant-disputes" element={<LandlordTenantDisputes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
           </Routes>

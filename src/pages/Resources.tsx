@@ -179,6 +179,24 @@ const resources = [
     slug: "harassment-law-guide",
     description: "Legal definition of harassment, police harassment, workplace harassment, and how to stop it.",
     category: "Personal Rights"
+  },
+  {
+    title: "Legal Resources & Research Tools",
+    slug: "legal-resources-tools",
+    description: "Directory of free legal research tools including the Constitution, federal/state laws, court systems, and legal forms.",
+    category: "Legal Resources"
+  },
+  {
+    title: "Personal Injury Claims Guide",
+    slug: "personal-injury-claims",
+    description: "Complete guide to filing personal injury claims, settlement negotiation, and understanding what your case is worth.",
+    category: "Personal Injury"
+  },
+  {
+    title: "Landlord-Tenant Disputes Resolution",
+    slug: "landlord-tenant-disputes",
+    description: "How to resolve common rental disputes including security deposits, repairs, evictions, and lease violations.",
+    category: "Tenant Rights"
   }
 ];
 

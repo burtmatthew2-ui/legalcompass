@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ShareButton } from "@/components/ShareButton";
-import { RelatedArticles } from "@/components/RelatedArticles";
+
 import { ArticleAuthor } from "@/components/ArticleAuthor";
 import { Home } from "lucide-react";
 import { Helmet } from "react-helmet";
@@ -455,8 +455,6 @@ const LandlordTenantDisputes = () => {
               </section>
             </div>
           </article>
-
-          <RelatedArticles currentSlug="landlord-tenant-disputes" />
         </div>
         <Footer />
       </div>
