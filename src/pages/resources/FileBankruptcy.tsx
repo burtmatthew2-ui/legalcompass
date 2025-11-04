@@ -2,6 +2,10 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { LegalDisclaimer } from "@/components/LegalDisclaimer";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { ArticleAuthor } from "@/components/ArticleAuthor";
+import { CitationFooter } from "@/components/CitationFooter";
 
 const FileBankruptcy = () => {
   return (
@@ -38,9 +42,13 @@ const FileBankruptcy = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
               How to File for Bankruptcy: Complete Guide for 2025
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-muted-foreground mb-6">
               Understanding Chapter 7 vs Chapter 13 bankruptcy, eligibility requirements, costs, and the step-by-step filing process
             </p>
+
+            <VerifiedBadge lastReviewed="2025-01-15" />
+            <ArticleAuthor />
+            <LegalDisclaimer />
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-foreground">What is Bankruptcy?</h2>
@@ -223,7 +231,28 @@ const FileBankruptcy = () => {
               </Link>
             </div>
 
-            <div className="border-t pt-8">
+            <CitationFooter sources={[
+              {
+                title: "United States Courts - Bankruptcy Basics",
+                url: "https://www.uscourts.gov/services-forms/bankruptcy/bankruptcy-basics",
+                description: "Official guidance from the federal judiciary on bankruptcy procedures and requirements."
+              },
+              {
+                title: "11 U.S.C. § 101 et seq. - Bankruptcy Code",
+                description: "Federal bankruptcy statutes governing all bankruptcy proceedings in the United States."
+              },
+              {
+                title: "U.S. Department of Justice - U.S. Trustee Program",
+                url: "https://www.justice.gov/ust",
+                description: "Information on bankruptcy trustees, filing requirements, and consumer education."
+              },
+              {
+                title: "Federal Rules of Bankruptcy Procedure",
+                description: "Official procedural rules for bankruptcy cases in federal courts, updated annually."
+              }
+            ]} />
+
+            <div className="border-t pt-8 mt-8">
               <h3 className="text-xl font-semibold mb-4 text-foreground">Related Resources</h3>
               <div className="grid gap-3">
                 <Link to="/resources/small-claims-court-process" className="text-primary hover:underline">

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import { Shield } from "lucide-react";
+import { Shield, BookOpen, Scale, Lock } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -8,10 +8,27 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <h3 className="font-bold text-2xl mb-4 bg-clip-text text-transparent bg-[var(--gradient-primary)]">Legal Compass</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              AI-powered legal research tool. Not a substitute for professional legal advice.
+            <h3 className="font-bold text-2xl mb-4 flex items-center gap-2 text-foreground">
+              <Scale className="h-6 w-6 text-primary" />
+              Legal Compass
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              Professional legal research platform providing educational resources and AI-powered guidance.
             </p>
+            <div className="flex flex-col gap-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-3 w-3 text-primary" />
+                <span>Educational Resources Only</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Scale className="h-3 w-3 text-primary" />
+                <span>Not a Law Firm</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Lock className="h-3 w-3 text-primary" />
+                <span>Privacy Guaranteed</span>
+              </div>
+            </div>
           </div>
           
           <div>
@@ -74,8 +91,21 @@ export const Footer = () => {
         
         <Separator className="mb-8 bg-border/50" />
         
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Legal Compass. All rights reserved.</p>
+        <div className="space-y-4">
+          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
+            <p className="text-xs text-amber-900 dark:text-amber-100 text-center">
+              <strong className="font-semibold">Important Legal Notice:</strong> Legal Compass provides general legal information and educational resources only. 
+              We are not a law firm and do not provide legal advice or representation. The information on this platform should not be relied upon as 
+              legal advice for any specific situation. Always consult with a licensed attorney for guidance on your particular circumstances.
+            </p>
+          </div>
+          
+          <div className="text-center space-y-2">
+            <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Legal Compass. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">
+              Information compiled from public legal sources and reviewed for general accuracy. Laws vary by jurisdiction and change frequently.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
