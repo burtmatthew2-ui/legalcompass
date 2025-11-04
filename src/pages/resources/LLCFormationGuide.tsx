@@ -197,12 +197,43 @@ export default function LLCFormationGuide() {
                       <li>• Not contain restricted words (Bank, Insurance, University) without approval</li>
                       <li>• Comply with your state's naming rules</li>
                     </ul>
-                    <p className="text-sm mb-3"><strong>Name Search Tools:</strong></p>
-                    <ul className="text-sm space-y-1">
-                      <li>• Search your state's business entity database (usually on Secretary of State website)</li>
-                      <li>• Check domain availability (e.g., GoDaddy, Namecheap)</li>
-                      <li>• Search USPTO trademark database (tmsearch.uspto.gov)</li>
+                    
+                    <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 p-4 rounded mb-4">
+                      <p className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">📍 Where to Check Name Availability:</p>
+                      <ol className="text-sm text-blue-800 dark:text-blue-300 space-y-2">
+                        <li><strong>1. Go to your state's Secretary of State website</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• California: bizfileonline.sos.ca.gov</li>
+                            <li>• New York: dos.ny.gov/business-entity-search</li>
+                            <li>• Texas: mycpa.cpa.state.tx.us/coa</li>
+                            <li>• Florida: dos.myflorida.com/sunbiz</li>
+                          </ul>
+                        </li>
+                        <li><strong>2. Look for "Business Entity Search" or "Name Availability"</strong></li>
+                        <li><strong>3. Type your desired name (without LLC at first)</strong></li>
+                        <li><strong>4. Check if any similar names exist</strong></li>
+                        <li><strong>5. Reserve the name (optional but recommended)</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Cost: $10-$50 (holds name for 60-120 days)</li>
+                            <li>• Gives you time to prepare paperwork</li>
+                            <li>• Prevents others from taking your name</li>
+                          </ul>
+                        </li>
+                      </ol>
+                    </div>
+
+                    <p className="text-sm mb-3"><strong>Pro Tips for Choosing a Name:</strong></p>
+                    <ul className="text-sm space-y-2 mb-4">
+                      <li>• Check if matching .com domain is available (GoDaddy.com, Namecheap.com)</li>
+                      <li>• Search USPTO trademark database (tmsearch.uspto.gov) to avoid infringement</li>
+                      <li>• Make it memorable and easy to spell</li>
+                      <li>• Avoid names too similar to competitors</li>
+                      <li>• Consider future expansion (don't limit yourself geographically)</li>
                     </ul>
+
+                    <p className="text-xs text-muted-foreground italic">
+                      Example: "Smith Consulting LLC" is better than "Smith San Diego Consulting LLC" if you might expand to other cities
+                    </p>
                   </div>
 
                   <div className="border-l-4 border-primary pl-6">
@@ -227,20 +258,121 @@ export default function LLCFormationGuide() {
                     <p className="mb-3">
                       This is the official document that creates your LLC. File with your state's Secretary of State office.
                     </p>
-                    <p className="mb-3"><strong>Information required:</strong></p>
+
+                    <div className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 p-4 rounded mb-4">
+                      <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mb-3">📍 EXACTLY Where to File (Step-by-Step):</p>
+                      
+                      <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mb-2">Option 1: Online Filing (Recommended - Fastest)</p>
+                      <ol className="text-sm text-emerald-800 dark:text-emerald-300 space-y-2 mb-4">
+                        <li><strong>1. Go to your state's SOS website business filing portal</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• CA: bizfileonline.sos.ca.gov → "File a New Business"</li>
+                            <li>• NY: dos.ny.gov → "Corporations" → "LLC"</li>
+                            <li>• TX: direct.sos.state.tx.us/acct/acct-login.asp</li>
+                            <li>• FL: dos.myflorida.com/sunbiz → "File Now"</li>
+                          </ul>
+                        </li>
+                        <li><strong>2. Create an account (username, password, email)</strong></li>
+                        <li><strong>3. Click "File a New LLC" or similar button</strong></li>
+                        <li><strong>4. Fill out online form (takes 15-30 minutes)</strong></li>
+                        <li><strong>5. Pay filing fee with credit/debit card</strong></li>
+                        <li><strong>6. Download/print confirmation immediately</strong></li>
+                        <li><strong>7. Wait 1-5 business days for approval email</strong></li>
+                      </ol>
+
+                      <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mb-2">Option 2: In-Person Filing</p>
+                      <ol className="text-sm text-emerald-800 dark:text-emerald-300 space-y-2 mb-4">
+                        <li><strong>1. Download forms from state website OR get at office</strong></li>
+                        <li><strong>2. Fill out forms completely (use black ink, print clearly)</strong></li>
+                        <li><strong>3. Make copies for your records (2-3 copies)</strong></li>
+                        <li><strong>4. Find your nearest Secretary of State office</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Google "[Your State] Secretary of State office locations"</li>
+                            <li>• Check office hours (typically 8am-5pm weekdays)</li>
+                            <li>• Note: Some states only have one main office in capital</li>
+                          </ul>
+                        </li>
+                        <li><strong>5. Bring to office:</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Completed Articles of Organization</li>
+                            <li>• Filing fee (cash, check, or card - call ahead to confirm)</li>
+                            <li>• Photo ID</li>
+                            <li>• Registered agent consent form (if separate person)</li>
+                          </ul>
+                        </li>
+                        <li><strong>6. At the office:</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Check in at reception / take a number</li>
+                            <li>• Tell clerk "I'm filing Articles of Organization for a new LLC"</li>
+                            <li>• Submit documents and payment</li>
+                            <li>• They'll review for completeness (5-10 minutes)</li>
+                            <li>• Get stamped/filed copy as receipt</li>
+                          </ul>
+                        </li>
+                        <li><strong>7. Processing: Same day to 2 weeks depending on state</strong></li>
+                      </ol>
+
+                      <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mb-2">Option 3: Mail Filing</p>
+                      <ol className="text-sm text-emerald-800 dark:text-emerald-300 space-y-2">
+                        <li><strong>1. Download and print forms from state website</strong></li>
+                        <li><strong>2. Fill out completely (black ink, legible)</strong></li>
+                        <li><strong>3. Get money order or check for exact filing fee</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Make payable to "[State] Secretary of State"</li>
+                            <li>• Include LLC name in memo line</li>
+                          </ul>
+                        </li>
+                        <li><strong>4. Mail to address on form</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            <li>• Use certified mail with return receipt (tracking)</li>
+                            <li>• Keep copies of everything</li>
+                          </ul>
+                        </li>
+                        <li><strong>5. Wait 2-6 weeks for processed documents to return</strong></li>
+                      </ol>
+                    </div>
+
+                    <p className="text-sm mb-3"><strong>Information You'll Need to Provide:</strong></p>
                     <ul className="space-y-2 mb-4">
-                      <li>• LLC name and address</li>
-                      <li>• Registered agent name and address</li>
-                      <li>• Purpose of LLC (can be general)</li>
-                      <li>• Member/manager information</li>
-                      <li>• Duration (perpetual or specific end date)</li>
+                      <li>• <strong>LLC name:</strong> Exactly as you want it (include "LLC")</li>
+                      <li>• <strong>Principal office address:</strong> Physical address (can be home address)</li>
+                      <li>• <strong>Mailing address:</strong> If different from principal address</li>
+                      <li>• <strong>Registered agent:</strong> Name, address, and signature</li>
+                      <li>• <strong>Management structure:</strong> Member-managed or manager-managed</li>
+                      <li>• <strong>Purpose:</strong> "Any lawful purpose" works in most states</li>
+                      <li>• <strong>Organizer info:</strong> Your name, address, signature</li>
+                      <li>• <strong>Effective date:</strong> Usually "upon filing" or specific date</li>
                     </ul>
-                    <p className="mb-3"><strong>Filing methods:</strong></p>
-                    <ul className="space-y-2 mb-4">
-                      <li>• <strong>Online:</strong> Most states allow online filing (fastest - 1-3 days)</li>
-                      <li>• <strong>Mail:</strong> Send forms + payment by mail (1-4 weeks)</li>
-                      <li>• <strong>In-person:</strong> Visit Secretary of State office (same day in some states)</li>
-                    </ul>
+
+                    <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 p-4 rounded">
+                      <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-2">💰 Filing Fees by State (2025):</p>
+                      <div className="grid grid-cols-2 gap-2 text-xs text-amber-800 dark:text-amber-300">
+                        <div>
+                          <p>• Alabama: $200</p>
+                          <p>• Alaska: $250</p>
+                          <p>• Arizona: $50</p>
+                          <p>• California: $70</p>
+                          <p>• Colorado: $50</p>
+                          <p>• Delaware: $90</p>
+                          <p>• Florida: $125</p>
+                          <p>• Georgia: $100</p>
+                          <p>• Illinois: $150</p>
+                          <p>• Kentucky: $40</p>
+                        </div>
+                        <div>
+                          <p>• Massachusetts: $500</p>
+                          <p>• Nevada: $425</p>
+                          <p>• New York: $200</p>
+                          <p>• Ohio: $99</p>
+                          <p>• Pennsylvania: $125</p>
+                          <p>• Texas: $300</p>
+                          <p>• Virginia: $100</p>
+                          <p>• Washington: $200</p>
+                          <p>• Wisconsin: $130</p>
+                          <p>• Wyoming: $100</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="border-l-4 border-primary pl-6">

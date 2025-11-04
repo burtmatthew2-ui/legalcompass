@@ -167,6 +167,18 @@ const resources = [
     slug: "custody-modification-guide",
     description: "How to modify custody orders, legal requirements, evidence needed, and court procedures.",
     category: "Family Law"
+  },
+  {
+    title: "Trademark Registration Guide",
+    slug: "trademark-registration-guide",
+    description: "Complete USPTO guide to registering trademarks and protecting your brand name and logo.",
+    category: "Business Law"
+  },
+  {
+    title: "What Constitutes Harassment",
+    slug: "harassment-law-guide",
+    description: "Legal definition of harassment, police harassment, workplace harassment, and how to stop it.",
+    category: "Personal Rights"
   }
 ];
 
