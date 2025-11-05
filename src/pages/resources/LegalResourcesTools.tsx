@@ -15,6 +15,50 @@ const LegalResourcesTools = () => {
         <meta name="description" content="Comprehensive directory of free legal research tools including the Constitution, federal and state laws, court systems, legal forms, and Legal Compass AI for instant legal answers." />
         <meta name="keywords" content="legal research tools, free legal resources, US Constitution, state laws, federal laws, legal forms, legal aid, law library, legal compass" />
         <link rel="canonical" href="https://legalcompass.shop/resources/legal-resources-tools" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/legal-resources-tools" />
+        <meta property="og:title" content="Free Legal Resources & Research Tools | Legal Compass" />
+        <meta property="og:description" content="Comprehensive directory of free legal research tools including the Constitution, federal and state laws, court systems, legal forms, and Legal Compass AI for instant legal answers." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Legal Resources" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/legal-resources-tools" />
+        <meta name="twitter:title" content="Free Legal Resources & Research Tools | Legal Compass" />
+        <meta name="twitter:description" content="Comprehensive directory of free legal research tools including the Constitution, federal and state laws, court systems, legal forms, and Legal Compass AI." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Free Legal Resources & Research Tools",
+            "description": "Comprehensive directory of free legal research tools including the Constitution, federal and state laws, court systems, legal forms, and Legal Compass AI for instant legal answers.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/legal-resources-tools"
+            },
+            "articleSection": "Legal Resources",
+            "keywords": "legal research tools, free legal resources, US Constitution, state laws, federal laws, legal forms, legal aid, law library"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">

@@ -15,6 +15,50 @@ const LandlordTenantDisputes = () => {
         <meta name="description" content="Complete guide to resolving landlord-tenant disputes: security deposits, repairs, evictions, lease violations, rent increases, and tenant rights. Steps to file complaints and win in court." />
         <meta name="keywords" content="landlord tenant dispute, rental dispute, security deposit dispute, eviction defense, tenant rights, landlord responsibilities, housing court, rent dispute, lease violation" />
         <link rel="canonical" href="https://legalcompass.shop/resources/landlord-tenant-disputes" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/landlord-tenant-disputes" />
+        <meta property="og:title" content="Landlord-Tenant Disputes: How to Resolve Rental Issues 2024" />
+        <meta property="og:description" content="Complete guide to resolving landlord-tenant disputes: security deposits, repairs, evictions, lease violations, rent increases, and tenant rights." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Tenant Rights" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/landlord-tenant-disputes" />
+        <meta name="twitter:title" content="Landlord-Tenant Disputes: How to Resolve Rental Issues 2024" />
+        <meta name="twitter:description" content="Complete guide to resolving landlord-tenant disputes: security deposits, repairs, evictions, lease violations, and tenant rights." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "How to Resolve Landlord-Tenant Disputes: Your Complete Guide",
+            "description": "From security deposit fights to eviction defense, learn how to resolve common rental disputes, enforce your rights, and navigate housing court.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/landlord-tenant-disputes"
+            },
+            "articleSection": "Tenant Rights",
+            "keywords": "landlord tenant dispute, rental dispute, security deposit dispute, eviction defense, tenant rights, landlord responsibilities, housing court, rent dispute, lease violation"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">

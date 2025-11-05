@@ -15,6 +15,50 @@ const PersonalInjuryClaims = () => {
         <meta name="description" content="Complete guide to filing personal injury claims: injury types, claim process, settlement negotiation, statute of limitations, and what your case is worth. Free legal consultation tips." />
         <meta name="keywords" content="personal injury claim, injury settlement, accident lawyer, personal injury lawsuit, claim process, injury compensation, negligence claim, settlement negotiation" />
         <link rel="canonical" href="https://legalcompass.shop/resources/personal-injury-claims" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/personal-injury-claims" />
+        <meta property="og:title" content="Personal Injury Claims Guide: Steps, Timeline & Settlement 2024" />
+        <meta property="og:description" content="Complete guide to filing personal injury claims: injury types, claim process, settlement negotiation, statute of limitations, and what your case is worth." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Personal Injury" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/personal-injury-claims" />
+        <meta name="twitter:title" content="Personal Injury Claims Guide: Steps, Timeline & Settlement 2024" />
+        <meta name="twitter:description" content="Complete guide to filing personal injury claims: injury types, claim process, settlement negotiation, statute of limitations, and what your case is worth." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Personal Injury Claims: Complete Guide to Filing & Winning Your Case",
+            "description": "Step-by-step guide to filing personal injury claims, negotiating settlements, and understanding what your case is worth after an accident or injury.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/personal-injury-claims"
+            },
+            "articleSection": "Personal Injury",
+            "keywords": "personal injury claim, injury settlement, accident lawyer, personal injury lawsuit, claim process, injury compensation, negligence claim, settlement negotiation"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">
