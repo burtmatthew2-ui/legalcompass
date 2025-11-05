@@ -12,7 +12,6 @@ export const useSubscription = () => {
   const [loading, setLoading] = useState(true);
 
   const checkSubscription = async () => {
-    setLoading(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
@@ -25,24 +24,32 @@ export const useSubscription = () => {
       if (error) throw error;
       
       setSubscription(data);
+      setLoading(false);
     } catch (error) {
       console.error('Error checking subscription:', error);
       setSubscription({ subscribed: false, product_id: null, subscription_end: null });
-    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    checkSubscription();
+    let mounted = true;
+
+    if (mounted) {
+      checkSubscription();
+    }
 
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(() => {
-      setTimeout(() => {
-        checkSubscription();
-      }, 0);
+      if (mounted) {
+        setLoading(true);
+        setTimeout(() => checkSubscription(), 0);
+      }
     });
 
-    return () => authSubscription.unsubscribe();
+    return () => {
+      mounted = false;
+      authSubscription.unsubscribe();
+    };
   }, []);
 
   return { subscription, loading, checkSubscription };
