@@ -174,7 +174,28 @@ const Pricing = () => {
                     </li>
                   ))}
                 </ul>
-                {!currentSubscription?.subscribed && (
+                {currentSubscription?.subscribed ? (
+                  <div className="space-y-3">
+                    <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg text-center">
+                      <p className="text-sm font-medium text-primary">
+                        ✓ You're subscribed to this plan
+                      </p>
+                    </div>
+                    <Button
+                      onClick={handleManageSubscription}
+                      variant="outline"
+                      size="lg"
+                      disabled={loading === 'portal'}
+                      className="w-full"
+                    >
+                      {loading === 'portal' ? (
+                        <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Loading...</>
+                      ) : (
+                        'Manage Subscription'
+                      )}
+                    </Button>
+                  </div>
+                ) : (
                   <Button
                     onClick={() => handleSubscribe(PREMIUM_TIER.priceId)}
                     disabled={loading === PREMIUM_TIER.priceId}
