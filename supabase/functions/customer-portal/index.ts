@@ -46,7 +46,11 @@ serve(async (req) => {
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     
     if (customers.data.length === 0) {
-      throw new Error("No Stripe customer found for this user");
+      logStep("No customer found - user needs to subscribe first");
+      return new Response(JSON.stringify({ error: "No subscription found. Please subscribe first." }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
     }
     
     const customerId = customers.data[0].id;
@@ -68,17 +72,7 @@ serve(async (req) => {
     const errorMessage = error instanceof Error ? error.message : String(error);
     logStep("ERROR in customer-portal", { message: errorMessage });
     
-    // Sanitize error for client
-    let userMessage = 'An error occurred while accessing customer portal';
-    if (error instanceof Error) {
-      if (errorMessage.includes('No Stripe customer found')) {
-        userMessage = 'No subscription found. Please subscribe first.';
-      } else if (errorMessage.toLowerCase().includes('unauthorized') || errorMessage.toLowerCase().includes('not authenticated')) {
-        userMessage = 'Authentication required';
-      }
-    }
-    
-    return new Response(JSON.stringify({ error: userMessage }), {
+    return new Response(JSON.stringify({ error: "An error occurred while accessing customer portal" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
