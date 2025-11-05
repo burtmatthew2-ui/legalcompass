@@ -35,12 +35,12 @@ export default function ProbateProcess() {
         <title>Probate Process Guide: How to Settle an Estate Step-by-Step 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to the probate process. Learn how to navigate estate settlement, executor duties, court procedures, and avoiding probate. Updated 2025." />
         <meta name="keywords" content="probate process, estate settlement, executor duties, probate court, how to avoid probate, estate administration, will probate, probate attorney" />
-        <link rel="canonical" href="https://legalcompass.app/resources/probate-process" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/probate-process" />
         
         <meta property="og:title" content="Probate Process Guide: How to Settle an Estate Step-by-Step 2025" />
         <meta property="og:description" content="Complete guide to the probate process. Learn how to navigate estate settlement, executor duties, and court procedures." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/probate-process" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/probate-process" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function ProbateProcess() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

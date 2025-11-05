@@ -35,12 +35,12 @@ export default function RestrainingOrderGuide() {
         <title>How to Get a Restraining Order: Complete Step-by-Step Guide 2025 | Legal Compass</title>
         <meta name="description" content="Learn how to obtain a restraining order, including types of protection orders, filing requirements, court procedures, and what evidence you need. Free comprehensive guide updated for 2025." />
         <meta name="keywords" content="restraining order, protection order, how to get restraining order, temporary restraining order, domestic violence order, harassment protection, court order protection" />
-        <link rel="canonical" href="https://legalcompass.app/resources/restraining-order-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/restraining-order-guide" />
         
         <meta property="og:title" content="How to Get a Restraining Order: Complete Step-by-Step Guide 2025" />
         <meta property="og:description" content="Learn how to obtain a restraining order, including types of protection orders, filing requirements, court procedures, and what evidence you need." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/restraining-order-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/restraining-order-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function RestrainingOrderGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

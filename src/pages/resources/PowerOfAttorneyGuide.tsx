@@ -35,12 +35,12 @@ export default function PowerOfAttorneyGuide() {
         <title>Power of Attorney Guide: Types, How to Get One & What It Means 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to power of attorney. Learn about POA types, how to create one, agent duties, and when POA terminates. Free comprehensive guide updated 2025." />
         <meta name="keywords" content="power of attorney, POA, durable power of attorney, medical power of attorney, financial POA, how to get power of attorney, attorney in fact" />
-        <link rel="canonical" href="https://legalcompass.app/resources/power-of-attorney-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/power-of-attorney-guide" />
         
         <meta property="og:title" content="Power of Attorney Guide: Types, How to Get One & What It Means 2025" />
         <meta property="og:description" content="Complete guide to power of attorney. Learn about POA types, how to create one, and agent duties." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/power-of-attorney-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/power-of-attorney-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function PowerOfAttorneyGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

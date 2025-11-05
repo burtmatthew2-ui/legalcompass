@@ -35,12 +35,12 @@ export default function CustodyModificationGuide() {
         <title>How to Modify Child Custody: Complete Guide 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to modifying child custody orders. Learn when you can change custody, the legal process, required evidence, and how to win a custody modification case." />
         <meta name="keywords" content="modify custody, change custody order, custody modification, child custody change, modify visitation, material change in circumstances" />
-        <link rel="canonical" href="https://legalcompass.app/resources/custody-modification-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/custody-modification-guide" />
         
         <meta property="og:title" content="How to Modify Child Custody: Complete Guide 2025" />
         <meta property="og:description" content="Learn when and how to modify child custody orders, including legal requirements and evidence needed." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/custody-modification-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/custody-modification-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function CustodyModificationGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

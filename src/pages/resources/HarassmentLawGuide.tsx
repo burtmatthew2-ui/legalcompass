@@ -35,12 +35,12 @@ export default function HarassmentLawGuide() {
         <title>What Constitutes Harassment: Legal Definition, Laws & Your Rights 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to harassment laws. Learn what legally constitutes harassment, workplace harassment, police harassment, stalking laws, and how to stop harassment legally." />
         <meta name="keywords" content="what is harassment, harassment laws, police harassment, workplace harassment, stalking laws, sexual harassment, stop harassment legally" />
-        <link rel="canonical" href="https://legalcompass.app/resources/harassment-law-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/harassment-law-guide" />
         
         <meta property="og:title" content="What Constitutes Harassment: Legal Definition, Laws & Your Rights 2025" />
         <meta property="og:description" content="Understand what legally constitutes harassment, your rights, and how to stop it." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/harassment-law-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/harassment-law-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function HarassmentLawGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

@@ -35,12 +35,12 @@ export default function TrademarkRegistrationGuide() {
         <title>How to Register a Trademark: Complete USPTO Guide 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to trademark registration. Learn how to register a trademark with USPTO, costs, requirements, and how to protect your brand name and logo." />
         <meta name="keywords" content="register trademark, trademark registration, USPTO trademark, trademark application, protect brand name, trademark cost, TM symbol" />
-        <link rel="canonical" href="https://legalcompass.app/resources/trademark-registration-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/trademark-registration-guide" />
         
         <meta property="og:title" content="How to Register a Trademark: Complete USPTO Guide 2025" />
         <meta property="og:description" content="Learn how to register your trademark with the USPTO including costs, requirements, and step-by-step process." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/trademark-registration-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/trademark-registration-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function TrademarkRegistrationGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

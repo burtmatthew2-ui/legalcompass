@@ -35,12 +35,12 @@ export default function DUIDefenseGuide() {
         <title>DUI Defense Guide: Penalties, Process & How to Fight DUI Charges 2025 | Legal Compass</title>
         <meta name="description" content="Complete DUI defense guide. Learn about DUI penalties, arrest procedures, defenses, license suspension, and how to fight drunk driving charges. Updated 2025." />
         <meta name="keywords" content="DUI defense, DWI charges, drunk driving penalties, fight DUI, DUI lawyer, BAC limit, field sobriety test, DUI first offense" />
-        <link rel="canonical" href="https://legalcompass.app/resources/dui-defense-guide" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/dui-defense-guide" />
         
         <meta property="og:title" content="DUI Defense Guide: Penalties, Process & How to Fight DUI Charges 2025" />
         <meta property="og:description" content="Complete DUI defense guide. Learn about DUI penalties, arrest procedures, and defenses." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/dui-defense-guide" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/dui-defense-guide" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function DUIDefenseGuide() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",

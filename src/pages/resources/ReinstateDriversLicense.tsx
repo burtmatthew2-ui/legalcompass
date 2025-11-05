@@ -35,12 +35,12 @@ export default function ReinstateDriversLicense() {
         <title>How to Reinstate a Suspended or Revoked Driver's License 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to reinstating a suspended or revoked driver's license. Learn about reinstatement requirements, fees, SR-22 insurance, and how to get your license back fast." />
         <meta name="keywords" content="reinstate suspended license, revoked license, suspended drivers license, license reinstatement, SR-22 insurance, driving with suspended license, DMV reinstatement" />
-        <link rel="canonical" href="https://legalcompass.app/resources/reinstate-drivers-license" />
+        <link rel="canonical" href="https://legalcompass.shop/resources/reinstate-drivers-license" />
         
         <meta property="og:title" content="How to Reinstate a Suspended or Revoked Driver's License 2025" />
         <meta property="og:description" content="Complete guide to reinstating a suspended or revoked driver's license including requirements, fees, and step-by-step process." />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://legalcompass.app/resources/reinstate-drivers-license" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/reinstate-drivers-license" />
         
         <script type="application/ld+json">
           {JSON.stringify({
@@ -57,7 +57,7 @@ export default function ReinstateDriversLicense() {
               "name": "Legal Compass",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://legalcompass.app/icon-512.png"
+                "url": "https://legalcompass.shop/icon-512.png"
               }
             },
             "datePublished": "2025-01-15",
