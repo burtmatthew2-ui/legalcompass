@@ -17,6 +17,50 @@ const EmploymentDiscrimination = () => {
           content="employment discrimination, workplace discrimination, EEOC complaint, wrongful termination, hostile work environment, age discrimination, race discrimination, gender discrimination, disability discrimination" 
         />
         <link rel="canonical" href="https://legalcompass.shop/resources/employment-discrimination" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/employment-discrimination" />
+        <meta property="og:title" content="Employment Discrimination Laws: Types, Examples & How to File a Claim" />
+        <meta property="og:description" content="Complete guide to employment discrimination laws in 2025. Learn about protected classes, types of discrimination, how to file EEOC complaints, and your rights as an employee." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Employment Law" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/employment-discrimination" />
+        <meta name="twitter:title" content="Employment Discrimination Laws: Types, Examples & How to File a Claim" />
+        <meta name="twitter:description" content="Complete guide to employment discrimination laws in 2025. Learn about protected classes, types of discrimination, how to file EEOC complaints, and your rights as an employee." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Employment Discrimination Laws: Types, Examples & How to File a Claim",
+            "description": "Complete guide to employment discrimination laws in 2025. Learn about protected classes, types of discrimination, how to file EEOC complaints, and your rights as an employee.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/employment-discrimination"
+            },
+            "articleSection": "Employment Law",
+            "keywords": "employment discrimination, workplace discrimination, EEOC complaint, wrongful termination, hostile work environment, age discrimination, race discrimination, gender discrimination, disability discrimination"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">

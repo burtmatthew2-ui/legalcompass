@@ -12,6 +12,50 @@ const EvictionNoticeLaws = () => {
         <meta name="description" content="State-by-state guide to eviction notice requirements, timelines, and tenant defenses. Understand your rights when facing eviction." />
         <meta name="keywords" content="eviction notice laws, eviction process by state, tenant eviction rights, eviction notice requirements, fight eviction" />
         <link rel="canonical" href="https://legalcompass.shop/resources/eviction-notice-laws" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/eviction-notice-laws" />
+        <meta property="og:title" content="Eviction Notice Laws by State: Complete Guide 2025" />
+        <meta property="og:description" content="State-by-state guide to eviction notice requirements, timelines, and tenant defenses. Understand your rights when facing eviction." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Tenant Rights" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/eviction-notice-laws" />
+        <meta name="twitter:title" content="Eviction Notice Laws by State: Complete Guide 2025" />
+        <meta name="twitter:description" content="State-by-state guide to eviction notice requirements, timelines, and tenant defenses. Understand your rights when facing eviction." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Eviction Notice Laws by State: Complete Guide 2025",
+            "description": "State-by-state guide to eviction notice requirements, timelines, and tenant defenses. Understand your rights when facing eviction.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/eviction-notice-laws"
+            },
+            "articleSection": "Tenant Rights",
+            "keywords": "eviction notice laws, eviction process by state, tenant eviction rights, eviction notice requirements, fight eviction"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">

@@ -21,6 +21,50 @@ const FileBankruptcy = () => {
           content="how to file for bankruptcy, chapter 7 bankruptcy, chapter 13 bankruptcy, bankruptcy process, bankruptcy eligibility, bankruptcy cost, debt relief, bankruptcy attorney" 
         />
         <link rel="canonical" href="https://legalcompass.shop/resources/file-bankruptcy" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/file-bankruptcy" />
+        <meta property="og:title" content="How to File for Bankruptcy: Chapter 7 vs Chapter 13 Guide" />
+        <meta property="og:description" content="Complete guide to filing bankruptcy in 2025. Learn the differences between Chapter 7 and Chapter 13, eligibility requirements, costs, and step-by-step filing process." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Financial Law" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/file-bankruptcy" />
+        <meta name="twitter:title" content="How to File for Bankruptcy: Chapter 7 vs Chapter 13 Guide" />
+        <meta name="twitter:description" content="Complete guide to filing bankruptcy in 2025. Learn the differences between Chapter 7 and Chapter 13, eligibility requirements, costs, and step-by-step filing process." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "How to File for Bankruptcy: Complete Guide for 2025",
+            "description": "Understanding Chapter 7 vs Chapter 13 bankruptcy, eligibility requirements, costs, and the step-by-step filing process",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/file-bankruptcy"
+            },
+            "articleSection": "Financial Law",
+            "keywords": "how to file for bankruptcy, chapter 7 bankruptcy, chapter 13 bankruptcy, bankruptcy process, bankruptcy eligibility, bankruptcy cost, debt relief, bankruptcy attorney"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">

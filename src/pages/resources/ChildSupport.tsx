@@ -17,6 +17,50 @@ const ChildSupport = () => {
           content="child support, child support calculation, child support guidelines, child support modification, child support enforcement, child support arrears, child custody, family law" 
         />
         <link rel="canonical" href="https://legalcompass.shop/resources/child-support" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/child-support" />
+        <meta property="og:title" content="Child Support Calculation Guide: How Much, Who Pays & State Laws" />
+        <meta property="og:description" content="Complete guide to child support in 2025: calculation methods, state-by-state guidelines, how to modify support orders, enforcement, and what happens if you can't pay." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Family Law" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/child-support" />
+        <meta name="twitter:title" content="Child Support Calculation Guide: How Much, Who Pays & State Laws" />
+        <meta name="twitter:description" content="Complete guide to child support in 2025: calculation methods, state-by-state guidelines, how to modify support orders, enforcement, and what happens if you can't pay." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Child Support: Complete Calculation & Guidelines for 2025",
+            "description": "Understanding how child support is calculated, state-specific guidelines, modification process, and enforcement",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/child-support"
+            },
+            "articleSection": "Family Law",
+            "keywords": "child support, child support calculation, child support guidelines, child support modification, child support enforcement, child support arrears, child custody, family law"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">

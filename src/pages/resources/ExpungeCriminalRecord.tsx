@@ -17,6 +17,50 @@ const ExpungeCriminalRecord = () => {
           content="expunge criminal record, expungement, seal criminal record, clear criminal record, background check, record sealing, clean slate, expungement eligibility, criminal record removal" 
         />
         <link rel="canonical" href="https://legalcompass.shop/resources/expunge-criminal-record" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/expunge-criminal-record" />
+        <meta property="og:title" content="How to Expunge a Criminal Record: State-by-State Guide 2025" />
+        <meta property="og:description" content="Complete guide to expunging or sealing criminal records in 2025. Learn eligibility requirements, waiting periods, costs, and step-by-step process by state." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Criminal Law" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/expunge-criminal-record" />
+        <meta name="twitter:title" content="How to Expunge a Criminal Record: State-by-State Guide 2025" />
+        <meta name="twitter:description" content="Complete guide to expunging or sealing criminal records in 2025. Learn eligibility requirements, waiting periods, costs, and step-by-step process by state." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "How to Expunge a Criminal Record: State-by-State Guide 2025",
+            "description": "Complete guide to expunging or sealing criminal records in 2025. Learn eligibility requirements, waiting periods, costs, and step-by-step process by state.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/expunge-criminal-record"
+            },
+            "articleSection": "Criminal Law",
+            "keywords": "expunge criminal record, expungement, seal criminal record, clear criminal record, background check, record sealing, clean slate, expungement eligibility, criminal record removal"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">

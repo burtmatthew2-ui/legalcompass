@@ -12,6 +12,50 @@ const WriteCeaseDesistLetter = () => {
         <meta name="description" content="Draft effective cease and desist letters for harassment, copyright infringement, defamation, and contract violations. Templates and examples included." />
         <meta name="keywords" content="cease and desist letter, stop harassment letter, copyright cease and desist, defamation letter, cease and desist template" />
         <link rel="canonical" href="https://legalcompass.shop/resources/write-cease-desist-letter" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/write-cease-desist-letter" />
+        <meta property="og:title" content="How to Write a Cease and Desist Letter" />
+        <meta property="og:description" content="Draft effective cease and desist letters for harassment, copyright infringement, defamation, and contract violations. Templates and examples included." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Legal Documents" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/write-cease-desist-letter" />
+        <meta name="twitter:title" content="How to Write a Cease and Desist Letter" />
+        <meta name="twitter:description" content="Draft effective cease and desist letters for harassment, copyright infringement, defamation, and contract violations. Templates and examples included." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "How to Write a Cease and Desist Letter",
+            "description": "Draft effective cease and desist letters for harassment, copyright infringement, defamation, and contract violations. Templates and examples included.",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/write-cease-desist-letter"
+            },
+            "articleSection": "Legal Documents",
+            "keywords": "cease and desist letter, stop harassment letter, copyright cease and desist, defamation letter, cease and desist template"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">

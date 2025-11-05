@@ -17,6 +17,50 @@ const WorkersCompensation = () => {
           content="workers compensation, workers comp claim, workplace injury, occupational disease, workers comp benefits, workers comp denial, workers comp attorney, injured at work" 
         />
         <link rel="canonical" href="https://legalcompass.shop/resources/workers-compensation" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://legalcompass.shop/resources/workers-compensation" />
+        <meta property="og:title" content="Workers' Compensation Claims: Complete Guide to Filing & Benefits" />
+        <meta property="og:description" content="Learn how to file a workers' compensation claim, what injuries are covered, benefit types, timelines, and common reasons claims are denied. State-by-state guide for 2025." />
+        <meta property="og:site_name" content="Legal Compass" />
+        <meta property="article:published_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:modified_time" content="2025-01-15T00:00:00Z" />
+        <meta property="article:author" content="Legal Compass Team" />
+        <meta property="article:section" content="Employment Law" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://legalcompass.shop/resources/workers-compensation" />
+        <meta name="twitter:title" content="Workers' Compensation Claims: Complete Guide to Filing & Benefits" />
+        <meta name="twitter:description" content="Learn how to file a workers' compensation claim, what injuries are covered, benefit types, timelines, and common reasons claims are denied." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Workers' Compensation Claims: Complete Guide for 2025",
+            "description": "Everything you need to know about filing workers' comp claims, covered injuries, benefits, and what to do if your claim is denied",
+            "author": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "url": "https://legalcompass.shop"
+            },
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://legalcompass.shop/resources/workers-compensation"
+            },
+            "articleSection": "Employment Law",
+            "keywords": "workers compensation, workers comp claim, workplace injury, occupational disease, workers comp benefits, workers comp denial, workers comp attorney, injured at work"
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
