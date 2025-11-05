@@ -20,13 +20,22 @@ export const useSubscription = () => {
         return;
       }
 
-      const { data, error } = await supabase.functions.invoke('check-subscription');
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Subscription check timeout')), 5000)
+      );
+
+      const checkPromise = supabase.functions.invoke('check-subscription');
+
+      const { data, error } = await Promise.race([checkPromise, timeoutPromise]) as any;
+      
       if (error) throw error;
       
       setSubscription(data);
       setLoading(false);
     } catch (error) {
       console.error('Error checking subscription:', error);
+      // Don't block UI - set default state and continue
       setSubscription({ subscribed: false, product_id: null, subscription_end: null });
       setLoading(false);
     }
