@@ -38,11 +38,6 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
   const handleUpload = async () => {
     if (!selectedFile) return;
 
-    if (!conversationId) {
-      toast.error("Please start a conversation first before uploading files");
-      return;
-    }
-
     setUploading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
