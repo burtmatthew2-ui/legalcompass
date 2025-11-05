@@ -76,6 +76,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<{ name: string; path: string } | null>(null);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -112,7 +113,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       return;
     }
 
-    const userMessage = trimmedInput;
+    let userMessage = trimmedInput;
+    
+    // Add file context if uploaded
+    if (uploadedFile) {
+      userMessage += `\n\n[Attached Document: ${uploadedFile.name}]`;
+    }
+    
     setInput("");
     
     // Create conversation if this is the first message
@@ -161,6 +168,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
           await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });
           setIsLoading(false);
+          setUploadedFile(null); // Clear uploaded file after processing
         },
         onError: (error) => {
           // Handle free trial exhaustion with clean dialog
@@ -328,13 +336,30 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-5 space-y-3">
           <FileUpload 
             conversationId={currentConversation?.id || null}
-            onFileUploaded={(file) => sonnerToast.success(`${file.name} uploaded successfully`)}
+            onFileUploaded={(file) => {
+              setUploadedFile(file);
+              sonnerToast.success(`${file.name} uploaded - add your question and send`);
+            }}
           />
+          {uploadedFile && (
+            <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg text-sm">
+              <span className="text-primary font-medium">📎 {uploadedFile.name}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setUploadedFile(null)}
+                className="ml-auto h-6 px-2"
+              >
+                Remove
+              </Button>
+            </div>
+          )}
           <div className="flex gap-3">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about legal matters, regulations, or strategies..."
+              placeholder={uploadedFile ? "Ask a question about the uploaded document..." : "Ask about legal matters, regulations, or strategies..."}
               className="flex-1 bg-white border-slate-300 focus:border-primary text-base py-5 rounded-lg"
               disabled={isLoading}
             />
