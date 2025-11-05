@@ -33,23 +33,13 @@ export const useSubscription = () => {
   };
 
   useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      checkSubscription();
-    }
+    checkSubscription();
 
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(() => {
-      if (mounted) {
-        setLoading(true);
-        setTimeout(() => checkSubscription(), 0);
-      }
+      checkSubscription();
     });
 
-    return () => {
-      mounted = false;
-      authSubscription.unsubscribe();
-    };
+    return () => authSubscription.unsubscribe();
   }, []);
 
   return { subscription, loading, checkSubscription };
