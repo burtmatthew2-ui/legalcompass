@@ -10,7 +10,9 @@ export const useAdminStatus = () => {
     checkAdminStatus();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      checkAdminStatus();
+      setTimeout(() => {
+        checkAdminStatus();
+      }, 0);
     });
 
     return () => subscription.unsubscribe();

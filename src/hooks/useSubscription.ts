@@ -36,9 +36,10 @@ export const useSubscription = () => {
   useEffect(() => {
     checkSubscription();
 
-    // Check subscription on auth state change
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(() => {
-      checkSubscription();
+      setTimeout(() => {
+        checkSubscription();
+      }, 0);
     });
 
     return () => authSubscription.unsubscribe();
