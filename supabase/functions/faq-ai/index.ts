@@ -7,28 +7,87 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting storage (in-memory for demo - consider Redis for production)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 3; // requests per hour for unauthenticated users
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds
+
+function getRateLimitKey(req: Request): string {
+  // Use IP address for rate limiting
+  const forwarded = req.headers.get('x-forwarded-for');
+  const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
+  return `ratelimit:${ip}`;
+}
+
+function checkRateLimit(key: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = rateLimitMap.get(key);
+
+  if (!record || now > record.resetTime) {
+    // New window
+    rateLimitMap.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return { allowed: true, remaining: RATE_LIMIT - 1 };
+  }
+
+  if (record.count >= RATE_LIMIT) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  record.count++;
+  return { allowed: true, remaining: RATE_LIMIT - record.count };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // Initialize Supabase client
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      {
-        global: {
-          headers: { Authorization: req.headers.get("Authorization")! },
-        },
-      }
+      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
     );
 
-    const {
-      data: { user },
-    } = await supabaseClient.auth.getUser();
+    // Check if user is authenticated (optional for this endpoint)
+    let isAuthenticated = false;
+    const authHeader = req.headers.get("Authorization");
+    
+    if (authHeader) {
+      try {
+        const { data: { user } } = await supabaseClient.auth.getUser(authHeader.replace("Bearer ", ""));
+        isAuthenticated = !!user;
+      } catch {
+        // Not authenticated, continue as guest
+      }
+    }
 
-    if (!user) {
-      throw new Error("Unauthorized");
+    // Apply rate limiting only for unauthenticated users
+    if (!isAuthenticated) {
+      const rateLimitKey = getRateLimitKey(req);
+      const { allowed, remaining } = checkRateLimit(rateLimitKey);
+      
+      if (!allowed) {
+        return new Response(
+          JSON.stringify({ 
+            error: "Rate limit exceeded. Please sign up for unlimited questions.",
+            rateLimit: {
+              limit: RATE_LIMIT,
+              remaining: 0,
+              resetIn: "1 hour"
+            }
+          }),
+          { 
+            status: 429, 
+            headers: { 
+              ...corsHeaders, 
+              "Content-Type": "application/json",
+              "X-RateLimit-Limit": RATE_LIMIT.toString(),
+              "X-RateLimit-Remaining": "0"
+            } 
+          }
+        );
+      }
     }
 
     const { question } = await req.json();
@@ -111,8 +170,13 @@ Provide helpful, accurate answers in 2-3 sentences. If you don't know something,
       throw new Error("No response from AI");
     }
 
+    // Add watermark for unauthenticated users
+    const finalAnswer = isAuthenticated 
+      ? answer 
+      : `${answer}\n\n---\n💡 Sign up for unlimited questions and full access to Legal Compass!`;
+
     return new Response(
-      JSON.stringify({ answer }),
+      JSON.stringify({ answer: finalAnswer }),
       {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

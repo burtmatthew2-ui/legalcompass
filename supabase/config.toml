@@ -31,7 +31,7 @@ verify_jwt = true
 verify_jwt = true
 
 [functions.faq-ai]
-verify_jwt = true
+verify_jwt = false
 
 [functions.validate-file-upload]
 verify_jwt = true

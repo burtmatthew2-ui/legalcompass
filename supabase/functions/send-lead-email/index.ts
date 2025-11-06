@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 import { Resend } from "https://esm.sh/resend@4.0.0";
+import { z } from "https://esm.sh/zod@3.22.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,6 +9,15 @@ const corsHeaders = {
 };
 
 const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
+
+// Input validation schema
+const emailSchema = z.object({
+  recipientEmail: z.string().trim().email('Invalid email address').max(255, 'Email too long'),
+  recipientName: z.string().trim().max(100, 'Name too long').optional(),
+  subject: z.string().trim().min(1, 'Subject required').max(200, 'Subject too long'),
+  textContent: z.string().trim().min(1, 'Content required').max(5000, 'Content too long (max 5,000 characters)'),
+  senderId: z.string().uuid('Invalid sender ID').optional()
+});
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -52,17 +62,26 @@ serve(async (req) => {
       );
     }
 
-    const { recipientEmail, recipientName, subject, textContent, senderId } = await req.json();
-
-    if (!recipientEmail || !subject || !textContent) {
+    const requestData = await req.json();
+    
+    // Validate input
+    const validation = emailSchema.safeParse(requestData);
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      console.error('Email validation error:', firstError);
       return new Response(
-        JSON.stringify({ error: "Missing required fields: recipientEmail, subject, textContent" }),
+        JSON.stringify({ 
+          error: "Invalid input", 
+          details: firstError.message 
+        }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       );
     }
+
+    const { recipientEmail, recipientName, subject, textContent, senderId } = validation.data;
 
     // Check if email is unsubscribed
     const { data: unsubscribed } = await supabaseClient
