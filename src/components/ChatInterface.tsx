@@ -16,6 +16,7 @@ import { FileUpload } from "./FileUpload";
 import { ConversationActions } from "./ConversationActions";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CreditCard, Sparkles } from "lucide-react";
+import { UploadedFilePreview } from "./UploadedFilePreview";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useQuestionUsage } from "@/hooks/useQuestionUsage";
 import { SubscriptionDialog } from "./SubscriptionDialog";
@@ -257,11 +258,19 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               <p className="text-xs text-slate-500">Professional AI-powered analysis</p>
             </div>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center flex-wrap">
             <ConversationActions 
               messages={messages} 
               conversationId={currentConversation?.id || null}
             />
+            <Button
+              onClick={() => navigate("/pricing")}
+              variant="outline"
+              size="sm"
+              className="border-primary/30 hover:bg-primary/5 text-primary"
+            >
+              Upgrade
+            </Button>
             {isAdmin && (
               <Button
                 onClick={() => navigate("/admin")}
@@ -273,14 +282,6 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                 Admin
               </Button>
             )}
-            <Button
-              onClick={() => navigate("/pricing")}
-              variant="outline"
-              size="sm"
-              className="border-primary/30 hover:bg-primary/5 text-primary"
-            >
-              Upgrade
-            </Button>
             <Button
               onClick={handleSignOut}
               variant="ghost"
@@ -341,6 +342,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
             onFileUploaded={(file) => {
               setUploadedFiles(prev => [...prev, file]);
               sonnerToast.success(`${file.name} uploaded and ready for AI review`);
+            }}
+          />
+          <UploadedFilePreview 
+            files={uploadedFiles}
+            onRemove={(index) => {
+              setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+              sonnerToast.info("File removed");
             }}
           />
           <div className="flex gap-3">
