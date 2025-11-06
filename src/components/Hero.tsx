@@ -62,11 +62,11 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight max-w-4xl mx-auto">
-              AI-Powered Legal Research Tool for Everyone
+              Get Instant Legal Answers in Seconds
             </h1>
             
             <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-light">
-              Access the same legal research tools used by law firms—without the complexity or cost.
+              Professional AI-powered legal research that saves you time and money. No waiting, no expensive consultations.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">

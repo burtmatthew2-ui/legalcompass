@@ -7,6 +7,13 @@ import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navbar } from "@/components/Navbar";
 import { LeadMagnetPopup } from "@/components/LeadMagnetPopup";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+import { InstantDemoWidget } from "@/components/InstantDemoWidget";
+import { ComparisonTable } from "@/components/ComparisonTable";
+import { LiveStatsCounter } from "@/components/LiveStatsCounter";
+import { ExampleChatWidget } from "@/components/ExampleChatWidget";
+import { TrustBadges } from "@/components/TrustBadges";
+import { Testimonials } from "@/components/Testimonials";
 import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 
@@ -52,6 +59,7 @@ const Index = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/" />
       </Helmet>
+      <ExitIntentPopup />
       <LeadMagnetPopup />
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
@@ -59,7 +67,29 @@ const Index = () => {
           {showChat ? (
             <ChatInterface onBack={() => setShowChat(false)} />
           ) : (
-            <Hero onGetStarted={handleGetStarted} />
+            <>
+              <Hero onGetStarted={handleGetStarted} />
+              
+              {/* Live Stats - Social Proof */}
+              <LiveStatsCounter />
+              
+              {/* Trust Badges - moved higher */}
+              <TrustBadges />
+              
+              {/* Instant Demo Widget */}
+              <div className="py-12 px-6">
+                <InstantDemoWidget />
+              </div>
+              
+              {/* Example Chat */}
+              <ExampleChatWidget />
+              
+              {/* Testimonials - moved higher */}
+              <Testimonials />
+              
+              {/* Comparison Table */}
+              <ComparisonTable />
+            </>
           )}
         </div>
         {!showChat && <Footer />}
