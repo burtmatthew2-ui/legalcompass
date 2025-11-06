@@ -5,11 +5,13 @@ type Message = { role: "user" | "assistant"; content: string };
 
 export async function streamLegalResearch({
   messages,
+  uploadedFiles,
   onDelta,
   onDone,
   onError,
 }: {
   messages: Message[];
+  uploadedFiles?: Array<{ name: string; path: string }>;
   onDelta: (deltaText: string) => void;
   onDone: () => void;
   onError?: (error: string) => void;
@@ -19,7 +21,7 @@ export async function streamLegalResearch({
   
   try {
     const { data, error } = await supabase.functions.invoke("legal-research", {
-      body: { messages },
+      body: { messages, uploadedFiles },
     });
 
     if (error) {

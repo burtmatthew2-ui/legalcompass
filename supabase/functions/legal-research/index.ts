@@ -107,17 +107,21 @@ serve(async (req) => {
       }
     }
 
-    const { messages } = await req.json();
+    const { messages, uploadedFiles } = await req.json();
 
     // Validate input with generous limits for legal research
     const legalResearchSchema = z.object({
       messages: z.array(z.object({
         role: z.enum(['user', 'assistant', 'system']),
         content: z.string().max(15000, 'Message too long (max 15,000 characters)')
-      })).min(1, 'At least one message required').max(150, 'Too many messages in conversation (max 150)')
+      })).min(1, 'At least one message required').max(150, 'Too many messages in conversation (max 150)'),
+      uploadedFiles: z.array(z.object({
+        name: z.string(),
+        path: z.string()
+      })).optional()
     });
 
-    const validation = legalResearchSchema.safeParse({ messages });
+    const validation = legalResearchSchema.safeParse({ messages, uploadedFiles });
     if (!validation.success) {
       const firstError = validation.error.issues[0];
       console.error('Legal research validation error:', firstError);
@@ -134,6 +138,32 @@ serve(async (req) => {
     }
 
     logStep("Request validated - proceeding with AI research");
+
+    // Fetch uploaded file contents if any
+    let fileContents = '';
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      logStep("Processing uploaded files", { count: uploadedFiles.length });
+      
+      for (const file of uploadedFiles) {
+        try {
+          const { data: fileData, error: fileError } = await supabaseClient.storage
+            .from('legal-documents')
+            .download(file.path);
+          
+          if (fileError) {
+            console.error(`Error downloading file ${file.name}:`, fileError);
+            continue;
+          }
+          
+          // Convert file to text (handle PDF, DOC, TXT, etc.)
+          const text = await fileData.text();
+          fileContents += `\n\n--- Document: ${file.name} ---\n${text}\n--- End of ${file.name} ---\n`;
+          logStep("File processed", { fileName: file.name, length: text.length });
+        } catch (error) {
+          console.error(`Error processing file ${file.name}:`, error);
+        }
+      }
+    }
 
     // Increment question usage
     const { data: currentUsage } = await supabaseClient
@@ -162,7 +192,9 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const systemPrompt = `You are an experienced attorney providing strategic legal counsel. You analyze cases, evaluate options, and provide professional opinions on the best course of action. You write in a natural, conversational style—like a seasoned lawyer advising a client, not like an AI assistant.
+    let systemPrompt = `You are an experienced attorney providing strategic legal counsel. You analyze cases, evaluate options, and provide professional opinions on the best course of action. You write in a natural, conversational style—like a seasoned lawyer advising a client, not like an AI assistant.
+
+${fileContents ? `\n📄 UPLOADED DOCUMENTS FOR REVIEW:\nThe client has provided the following documents for your review and analysis. Please reference these documents in your legal analysis:\n${fileContents}\n` : ''}
 
 ⚠️ CRITICAL CITATION REQUIREMENT - READ THIS FIRST:
 YOU MUST PROVIDE CLICKABLE SOURCE LINKS FOR EVERY LEGAL REFERENCE. This is MANDATORY, not optional.
@@ -304,7 +336,9 @@ Write responses in a natural, flowing style—not as rigid sections. But general
 - Tactical recommendations and key considerations
 - Any recent legal developments that could impact their case
 
-Remember: Write like an attorney counseling a client—provide clear strategic advice, evaluate their chances, and recommend the path most likely to achieve their goals. Be thorough but approachable. Be professional but human.`;
+Remember: Write like an attorney counseling a client—provide clear strategic advice, evaluate their chances, and recommend the path most likely to achieve their goals. Be thorough but approachable. Be professional but human.
+
+${fileContents ? '\n⚠️ IMPORTANT: The client has uploaded documents for your review. Make sure to acknowledge and analyze these documents in your response. Reference specific sections, clauses, or details from the uploaded documents in your legal analysis.' : ''}`;
 
     console.log('Making request to Lovable AI Gateway...');
     

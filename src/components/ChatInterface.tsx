@@ -76,6 +76,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<Array<{ name: string; path: string }>>([]);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -129,7 +130,14 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       }
     }
 
-    const userMsg: Message = { role: "user", content: userMessage };
+    // Append file context if files are uploaded
+    let messageContent = userMessage;
+    if (uploadedFiles.length > 0) {
+      const fileContext = uploadedFiles.map(f => `[Uploaded Document: ${f.name}]`).join('\n');
+      messageContent = `${userMessage}\n\n${fileContext}`;
+    }
+
+    const userMsg: Message = { role: "user", content: messageContent };
     setMessages((prev) => [...prev, userMsg]);
     await saveMessage(userMsg);
     
@@ -155,11 +163,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     try {
       await streamLegalResearch({
         messages: [...messages, userMsg],
+        uploadedFiles: uploadedFiles,
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
           // Refresh question count and save message
           await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });
+          setUploadedFiles([]); // Clear uploaded files after response
           setIsLoading(false);
         },
         onError: (error) => {
@@ -328,7 +338,10 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-5 space-y-3">
           <FileUpload 
             conversationId={currentConversation?.id || null}
-            onFileUploaded={(file) => sonnerToast.success(`${file.name} uploaded successfully`)}
+            onFileUploaded={(file) => {
+              setUploadedFiles(prev => [...prev, file]);
+              sonnerToast.success(`${file.name} uploaded and ready for AI review`);
+            }}
           />
           <div className="flex gap-3">
             <Input
