@@ -22,13 +22,13 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       )}
       
       <div
-        className={`max-w-[75%] rounded-2xl p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
+        className={`max-w-[75%] rounded-2xl p-6 shadow-lg backdrop-blur-sm transition-all duration-300 overflow-hidden ${
           isUser
             ? "bg-primary text-primary-foreground font-medium"
             : "bg-card/70 border border-border/50 text-foreground hover:border-primary/30"
         }`}
       >
-        <div className="prose prose-invert max-w-none [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-2xl [&>h2]:text-xl [&>h3]:text-lg">
+        <div className="prose prose-invert max-w-none break-words overflow-wrap-anywhere [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-2xl [&>h2]:text-xl [&>h3]:text-lg [&>pre]:overflow-x-auto [&>pre]:max-w-full">
           <ReactMarkdown>{message.content}</ReactMarkdown>
         </div>
       </div>

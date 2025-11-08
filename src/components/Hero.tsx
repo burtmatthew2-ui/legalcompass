@@ -62,11 +62,12 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight max-w-4xl mx-auto">
-              Get Instant Legal Answers in Seconds
+              Legal Help When You Need It Most
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-light">
-              Professional AI-powered legal research that saves you time and money. No waiting, no expensive consultations.
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              We help you find the right legal help, faster — no confusion, no expensive lawyers, no legal jargon. 
+              <span className="block mt-2 font-medium text-slate-700">Just clear answers and real support when you're stuck.</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
@@ -97,15 +98,18 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
               </Button>
             </div>
             <p className="text-sm text-slate-500 text-center font-medium">
-              3 free questions • Then <span className="line-through">$9.99</span> <span className="font-bold text-accent">$4.99/month</span> (50% off!) • Cancel anytime
+              <span className="text-green-600 font-bold">Always free to browse</span> • 3 free AI questions • Then <span className="line-through">$9.99</span> <span className="font-bold text-accent">$4.99/month</span> (50% off!) • Cancel anytime
             </p>
           </div>
 
           {/* What You Actually Get */}
           <div className="bg-white border border-slate-200 rounded-xl p-8 md:p-12 shadow-sm">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-slate-900">
-              Comprehensive Legal Research Tools
+              Everything You Need to Navigate Your Legal Issue
             </h2>
+            <p className="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
+              Built for people without money or legal knowledge — because everyone deserves access to justice
+            </p>
             
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="space-y-6">

@@ -6,6 +6,7 @@ import { ChatInterface } from "@/components/ChatInterface";
 import { Footer } from "@/components/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Navbar } from "@/components/Navbar";
+import { ToolsSidebar } from "@/components/ToolsSidebar";
 import { LeadMagnetPopup } from "@/components/LeadMagnetPopup";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InstantDemoWidget } from "@/components/InstantDemoWidget";
@@ -14,6 +15,10 @@ import { LiveStatsCounter } from "@/components/LiveStatsCounter";
 import { ExampleChatWidget } from "@/components/ExampleChatWidget";
 import { TrustBadges } from "@/components/TrustBadges";
 import { Testimonials } from "@/components/Testimonials";
+import { HowItWorks } from "@/components/HowItWorks";
+import { LegalDirectionFinder } from "@/components/LegalDirectionFinder";
+import { DocumentHub } from "@/components/DocumentHub";
+import { LocalHelpFinder } from "@/components/LocalHelpFinder";
 import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 
@@ -50,12 +55,12 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Legal Compass - AI Legal Research Tool | Affordable Legal Information</title>
-        <meta name="description" content="Professional AI-powered legal research tool for everyone. Get instant legal information across all 50 US states and international jurisdictions. 3 free questions, then $4.99/month." />
-        <meta name="keywords" content="legal research, AI legal tool, legal information, case law research, legal questions, affordable legal help, legal research platform" />
+        <title>Legal Compass - Free Legal Help | Find Affordable Legal Assistance</title>
+        <meta name="description" content="Free legal help for everyone. Find affordable lawyers, download free templates, get AI-powered legal guidance. Built for people who can't afford expensive legal fees." />
+        <meta name="keywords" content="free legal help, affordable legal advice, legal aid, free legal templates, find lawyer, legal assistance, pro bono lawyers" />
         <link rel="canonical" href="https://legalcompass.shop/" />
-        <meta property="og:title" content="Legal Compass - AI Legal Research Tool" />
-        <meta property="og:description" content="Professional legal research accessible to everyone. 80+ jurisdictions, case law citations, 24/7 access." />
+        <meta property="og:title" content="Legal Compass - Free Legal Help for Everyone" />
+        <meta property="og:description" content="Find free legal resources, affordable lawyers, and AI-powered guidance. Because everyone deserves access to justice." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/" />
       </Helmet>
@@ -63,6 +68,7 @@ const Index = () => {
       <LeadMagnetPopup />
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
+        {!showChat && <ToolsSidebar />}
         <div className="flex-1">
           {showChat ? (
             <ChatInterface onBack={() => setShowChat(false)} />
@@ -70,21 +76,33 @@ const Index = () => {
             <>
               <Hero onGetStarted={handleGetStarted} />
               
+              {/* How It Works Section */}
+              <HowItWorks />
+              
               {/* Live Stats - Social Proof */}
               <LiveStatsCounter />
               
-              {/* Trust Badges - moved higher */}
+              {/* Legal Direction Finder - Interactive Quiz */}
+              <LegalDirectionFinder />
+              
+              {/* Document Hub - Free Templates */}
+              <DocumentHub />
+              
+              {/* Local Help Finder */}
+              <LocalHelpFinder />
+              
+              {/* Trust Badges */}
               <TrustBadges />
               
               {/* Instant Demo Widget */}
-              <div className="py-12 px-6">
+              <div className="py-12 px-6 bg-slate-50">
                 <InstantDemoWidget />
               </div>
               
               {/* Example Chat */}
               <ExampleChatWidget />
               
-              {/* Testimonials - moved higher */}
+              {/* Testimonials */}
               <Testimonials />
               
               {/* Comparison Table */}

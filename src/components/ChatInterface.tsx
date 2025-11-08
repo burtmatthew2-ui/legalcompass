@@ -164,13 +164,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     try {
       await streamLegalResearch({
         messages: [...messages, userMsg],
-        uploadedFiles: uploadedFiles,
+        uploadedFiles: uploadedFiles.length > 0 ? uploadedFiles : undefined, // Only send if files exist in current session
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
           // Refresh question count and save message
           await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });
-          setUploadedFiles([]); // Clear uploaded files after response
+          setUploadedFiles([]); // Clear uploaded files after successful response
           setIsLoading(false);
         },
         onError: (error) => {
