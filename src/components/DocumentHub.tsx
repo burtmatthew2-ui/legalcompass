@@ -2,50 +2,68 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { FileText, Download } from "lucide-react";
 import { toast } from "sonner";
+import { downloadTemplate, templates } from "@/utils/templateGenerator";
 
 interface Document {
   title: string;
   description: string;
   category: string;
+  templateKey: string;
 }
 
 const documents: Document[] = [
   {
     title: "Cease & Desist Letter Template",
     description: "Professional template to stop harassment or unwanted contact",
-    category: "General"
+    category: "General",
+    templateKey: "cease-desist"
   },
   {
     title: "Security Deposit Demand Letter",
     description: "Request return of your security deposit from landlord",
-    category: "Housing"
+    category: "Housing",
+    templateKey: "security-deposit"
   },
   {
     title: "Small Claims Court Guide",
     description: "Step-by-step guide to filing in small claims court",
-    category: "Court"
+    category: "Court",
+    templateKey: "small-claims"
   },
   {
     title: "Power of Attorney Form",
     description: "Grant someone authority to act on your behalf",
-    category: "Estate"
+    category: "Estate",
+    templateKey: "power-of-attorney"
   },
   {
     title: "FMLA Leave Request",
     description: "Request family or medical leave from your employer",
-    category: "Employment"
+    category: "Employment",
+    templateKey: "fmla-leave"
   },
   {
     title: "Rental Agreement Checklist",
     description: "What to look for before signing a lease",
-    category: "Housing"
+    category: "Housing",
+    templateKey: "rental-checklist"
   },
 ];
 
 export const DocumentHub = () => {
-  const handleDownload = (docTitle: string) => {
-    toast.success(`Preparing "${docTitle}" for download...`);
-    // In a real implementation, this would download the actual document
+  const handleDownload = (doc: Document) => {
+    try {
+      const fileName = doc.title.toLowerCase().replace(/\s+/g, '-');
+      downloadTemplate(doc.templateKey, fileName);
+      toast.success(`"${doc.title}" downloaded successfully!`, {
+        description: "Check your downloads folder"
+      });
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Download failed", {
+        description: "Please try again or contact support if the issue persists"
+      });
+    }
   };
 
   return (
@@ -77,7 +95,7 @@ export const DocumentHub = () => {
                     size="sm"
                     variant="outline"
                     className="w-full"
-                    onClick={() => handleDownload(doc.title)}
+                    onClick={() => handleDownload(doc)}
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download Free
@@ -89,9 +107,9 @@ export const DocumentHub = () => {
         </div>
 
         <div className="text-center mt-8">
-          <Button variant="outline" size="lg">
-            View All Templates (50+ Documents)
-          </Button>
+          <p className="text-sm text-slate-500">
+            All templates are professional-grade and customizable for your specific situation
+          </p>
         </div>
       </div>
     </section>

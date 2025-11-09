@@ -59,11 +59,25 @@ export async function streamLegalResearch({
 
     logger.log("📥 Starting to read stream...");
 
+    // Throttle delta updates to prevent UI freeze on mobile
+    let updateBuffer = "";
+    let lastUpdateTime = Date.now();
+    const UPDATE_INTERVAL = 50; // ms - update UI every 50ms max
+
+    const flushBuffer = () => {
+      if (updateBuffer) {
+        onDelta(updateBuffer);
+        updateBuffer = "";
+        lastUpdateTime = Date.now();
+      }
+    };
+
     while (!streamDone) {
       try {
         const { done, value } = await reader.read();
         if (done) {
           logger.log("✅ Stream completed, received", chunkCount, "chunks");
+          flushBuffer(); // Flush any remaining content
           break;
         }
         
@@ -83,6 +97,7 @@ export async function streamLegalResearch({
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") {
             logger.log("🏁 Received [DONE] signal");
+            flushBuffer(); // Flush before marking done
             streamDone = true;
             break;
           }
@@ -92,7 +107,13 @@ export async function streamLegalResearch({
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             if (content) {
               hasReceivedContent = true;
-              onDelta(content);
+              updateBuffer += content;
+              
+              // Throttle updates to prevent mobile freeze
+              const now = Date.now();
+              if (now - lastUpdateTime >= UPDATE_INTERVAL) {
+                flushBuffer();
+              }
             }
           } catch (parseError) {
             logger.warn("⚠️ Failed to parse chunk, will retry:", parseError);
@@ -102,6 +123,7 @@ export async function streamLegalResearch({
         }
       } catch (readError) {
         logger.error("❌ Error reading stream chunk:", readError);
+        flushBuffer(); // Flush before throwing
         throw readError;
       }
     }
