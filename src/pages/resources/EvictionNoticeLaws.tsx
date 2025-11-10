@@ -89,8 +89,23 @@ const EvictionNoticeLaws = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Understand eviction notice requirements across all US states, including the different types of notices (pay or quit, cure or quit, unconditional quit), state-specific notice periods, proper service requirements, and most importantly—your legal defenses against eviction. This guide explains what landlords must do to legally evict and what tenants can do to fight back.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Eviction laws differ dramatically by state—from 3-day notices in Texas to 90-day protections in parts of New York. This guide breaks down state-specific requirements and, unlike generic eviction articles, focuses equally on tenant defenses like improper notice, retaliation, and habitability issues that can stop evictions in their tracks.
+                </p>
+              </div>
+
               <p>
-                Eviction is a legal process that landlords must follow to remove a tenant from a rental property. While specific procedures vary by state, all jurisdictions require landlords to provide proper notice before filing an eviction lawsuit. Understanding your state's eviction laws is crucial for both protecting your rights as a tenant and preparing an effective defense.
+                Receiving an eviction notice feels scary, but it doesn't mean you have to move out immediately. Eviction is a formal legal process with strict rules landlords must follow. From providing proper notice to proving their case in court, landlords who cut corners risk having their eviction thrown out. Here's what you need to know about eviction notice laws and your rights as a tenant.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Types of Eviction Notices</h2>

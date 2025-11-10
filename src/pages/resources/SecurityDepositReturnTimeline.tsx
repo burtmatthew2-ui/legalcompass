@@ -45,8 +45,23 @@ const SecurityDepositReturnTimeline = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Discover exactly when your landlord must return your security deposit in all 50 states, what deductions are legally allowed (and which aren't), penalties landlords face for violations, and your step-by-step options to recover wrongfully withheld deposits. State-specific timelines range from 14 to 60 days—know your rights.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Security deposit laws vary dramatically by state, and most tenants don't realize landlords face real penalties for violations. This guide provides the actual statutory deadlines for all 50 states, explains what "normal wear and tear" really means legally, and details the double/triple damage penalties that make fighting worthwhile.
+                </p>
+              </div>
+
               <p>
-                Security deposits are one of the most common sources of landlord-tenant disputes. Every state has specific laws governing when landlords must return deposits, what deductions are allowed, and penalties for noncompliance. Understanding your state's timeline and requirements is essential to recovering your money.
+                Security deposits represent hundreds or thousands of dollars that belong to you—not your landlord. Yet deposit disputes are among the most common landlord-tenant conflicts because many landlords try to keep money they're not entitled to. State laws protect you with strict return deadlines and penalties for violations. Here's exactly what you need to know to get your full deposit back.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Security Deposit Return Deadlines by State</h2>

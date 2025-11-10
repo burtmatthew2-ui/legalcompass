@@ -89,8 +89,23 @@ const WriteCeaseDesistLetter = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Learn how to write a legally effective cease and desist letter for harassment, copyright infringement, defamation, or contract violations. This guide covers the essential elements your letter must include, proper tone and language, how to send it for maximum legal impact, and what to do if the recipient ignores your demand.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Unlike generic templates, this guide explains the strategy behind each section of a cease and desist letter—when to cite specific laws, how to make credible legal threats without overreaching, and the crucial difference between a letter that gets ignored and one that prompts immediate compliance.
+                </p>
+              </div>
+
               <p>
-                A cease and desist letter is a formal written demand for someone to stop engaging in illegal or harmful conduct. It's often the first step before pursuing legal action and can resolve disputes without expensive litigation. Whether you're dealing with harassment, copyright infringement, defamation, or contract violations, a well-drafted cease and desist letter can be a powerful tool.
+                Before you file an expensive lawsuit, send a cease and desist letter. It's a formal demand to stop harmful conduct—whether that's harassment, infringement, defamation, or breach of contract. Many disputes end here because recipients realize you're serious and knowledgeable about your rights. Here's how to write one that actually works.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">When to Send a Cease and Desist Letter</h2>

@@ -47,8 +47,23 @@ const TenantRightsCalifornia = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  This comprehensive guide walks you through your rights as a California tenant, including security deposit limits and return timelines, just-cause eviction protections under AB 1482, your landlord's repair obligations, rent control caps, and privacy rights. Whether you're dealing with a security deposit dispute or facing eviction, you'll find state-specific legal protections explained in plain English.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Unlike generic tenant rights pages, this resource focuses exclusively on California's tenant protection laws—widely considered the strongest in the nation. We break down complex statutes like Civil Code § 1950.5 and the Tenant Protection Act of 2019 into actionable advice you can use today, whether you're in Los Angeles, San Francisco, or any California city.
+                </p>
+              </div>
+
               <p>
-                California has some of the strongest tenant protection laws in the United States. Whether you're renting an apartment in Los Angeles, San Francisco, or anywhere else in the Golden State, understanding your rights is essential to protecting yourself from unlawful landlord practices.
+                If you're renting anywhere in California, you have powerful legal protections that many tenants don't even know exist. From strict security deposit rules to just-cause eviction requirements, California law is designed to prevent landlord abuse and ensure safe, habitable housing. Let's break down exactly what you're entitled to under state law.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Security Deposit Rights</h2>

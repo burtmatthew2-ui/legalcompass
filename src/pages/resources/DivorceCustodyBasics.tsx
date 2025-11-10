@@ -89,8 +89,23 @@ const DivorceCustodyBasics = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  This comprehensive state-by-state guide walks you through divorce and child custody fundamentals, including types of divorce (contested vs. uncontested), residency requirements, the difference between legal and physical custody, child support calculations, property division methods (community property vs. equitable distribution), and when you need an attorney versus when mediation might work.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Family law varies dramatically by state, but this guide identifies the universal principles that apply everywhere while highlighting critical state-specific differences. Whether you're in a community property state or an equitable distribution state, you'll understand how the law treats custody, support, and marital assets where you live.
+                </p>
+              </div>
+
               <p>
-                Divorce and child custody are among the most emotionally challenging legal processes. While each state has its own family law statutes, understanding the common principles, procedures, and standards can help you navigate this difficult time and protect your rights and your children's best interests.
+                Going through divorce and custody battles ranks among life's most stressful experiences. The legal system can feel overwhelming, especially when your children's future is at stake. While state laws differ, certain core principles and procedures apply nationwide. This guide breaks down everything you need to know about divorce and custody in plain English.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Types of Divorce</h2>

@@ -45,8 +45,23 @@ const SmallClaimsCourtProcess = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  This step-by-step guide explains how to file and win in small claims court, covering state-specific dollar limits, how to file your claim correctly, evidence preparation, courtroom procedures, and most importantly—how to collect your judgment after you win. Perfect for disputes under $10,000 where hiring an attorney would cost more than the case is worth.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Most small claims guides tell you how to file but don't explain what happens in the courtroom or how to actually collect your money afterward. This resource walks you through the entire process from start to finish, including the often-overlooked collection process that determines whether your victory actually means anything.
+                </p>
+              </div>
+
               <p>
-                Small claims court provides an affordable, streamlined way to resolve disputes without hiring an attorney. Whether you're suing for property damage, breach of contract, unpaid wages, or security deposit issues, small claims court offers a simplified process designed for everyday people. This guide walks you through every step, from filing to winning your case.
+                Small claims court levels the playing field. You don't need a lawyer or legal expertise to sue someone for damages under your state's limit. Whether you're recovering an unpaid debt, fighting a security deposit dispute, or seeking compensation for property damage, small claims court offers a fast, affordable path to justice. Here's exactly how to navigate the process.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Understanding Small Claims Court Limits</h2>
