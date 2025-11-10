@@ -2,10 +2,19 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
+      <Helmet>
+        <title>Privacy Policy | Legal Compass - AI Legal Research</title>
+        <meta name="description" content="Legal Compass privacy policy. Learn how we collect, use, and protect your personal information when you use our AI legal research services." />
+        <meta name="keywords" content="privacy policy, data protection, legal compass privacy, user data security" />
+        <link rel="canonical" href="https://legalcompass.shop/privacy-policy" />
+      </Helmet>
+      
+      <div className="min-h-screen flex flex-col">
       <div className="flex-1 bg-background">
         <div className="max-w-4xl mx-auto px-6 py-12">
           <Link to="/">
@@ -159,6 +168,7 @@ const PrivacyPolicy = () => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 

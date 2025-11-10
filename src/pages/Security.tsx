@@ -1,10 +1,19 @@
 import { Shield, Lock, Database, Eye, Key, FileCheck } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet";
 
 const Security = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <>
+      <Helmet>
+        <title>Security & Privacy | Legal Compass - Enterprise-Grade Protection</title>
+        <meta name="description" content="Legal Compass security features: end-to-end encryption, row-level security, AI confidentiality, and data privacy protection for your legal consultations." />
+        <meta name="keywords" content="legal data security, encrypted legal research, privacy protection, secure legal consultation, data encryption" />
+        <link rel="canonical" href="https://legalcompass.shop/security" />
+      </Helmet>
+      
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center mb-6">
@@ -146,6 +155,7 @@ const Security = () => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 

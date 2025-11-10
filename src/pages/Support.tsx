@@ -7,13 +7,22 @@ import { useNavigate } from "react-router-dom";
 import { ContactForm } from "@/components/support/ContactForm";
 import { LiveChatWidget } from "@/components/support/LiveChatWidget";
 import { AIFaq } from "@/components/support/AIFaq";
+import { Helmet } from "react-helmet";
 
 const Support = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("faq");
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <Helmet>
+        <title>Customer Support | Legal Compass - Get Help with AI Legal Research</title>
+        <meta name="description" content="Need help with Legal Compass? Access our AI FAQ, contact form, or live chat support for assistance with your legal research questions." />
+        <meta name="keywords" content="legal compass support, customer service, legal research help, AI legal assistant support" />
+        <link rel="canonical" href="https://legalcompass.shop/support" />
+      </Helmet>
+      
+      <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
@@ -73,6 +82,7 @@ const Support = () => {
         </Card>
       </main>
     </div>
+    </>
   );
 };
 

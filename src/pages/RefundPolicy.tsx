@@ -2,10 +2,19 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet";
 
 const RefundPolicy = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
+      <Helmet>
+        <title>No Refund Policy | Legal Compass - All Sales Final</title>
+        <meta name="description" content="Legal Compass refund policy. All sales are final. Learn about our no-refund policy, subscription cancellation, and billing terms." />
+        <meta name="keywords" content="refund policy, no refund, subscription cancellation, legal compass billing" />
+        <link rel="canonical" href="https://legalcompass.shop/refund-policy" />
+      </Helmet>
+      
+      <div className="min-h-screen flex flex-col">
       <div className="flex-1 bg-background">
         <div className="max-w-4xl mx-auto px-6 py-12">
           <Link to="/">
@@ -162,6 +171,7 @@ const RefundPolicy = () => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 
