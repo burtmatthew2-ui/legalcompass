@@ -69,7 +69,7 @@ const Index = () => {
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
         {!showChat && <ToolsSidebar />}
-        <div className="flex-1">
+        <main className="flex-1">
           {showChat ? (
             <ChatInterface onBack={() => setShowChat(false)} />
           ) : (
@@ -109,7 +109,7 @@ const Index = () => {
               <ComparisonTable />
             </>
           )}
-        </div>
+        </main>
         {!showChat && <Footer />}
       </div>
     </ErrorBoundary>
