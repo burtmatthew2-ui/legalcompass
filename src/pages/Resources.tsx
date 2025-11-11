@@ -2,8 +2,14 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { BookOpen, ArrowRight, Home } from "lucide-react";
+import { BookOpen, ArrowRight, Home, ChevronDown } from "lucide-react";
 import { Helmet } from "react-helmet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { useState } from "react";
 
 const resources = [
   {
@@ -203,6 +209,16 @@ const resources = [
 const categories = Array.from(new Set(resources.map(r => r.category)));
 
 const Resources = () => {
+  const [openCategories, setOpenCategories] = useState<string[]>([]);
+
+  const toggleCategory = (category: string) => {
+    setOpenCategories(prev => 
+      prev.includes(category) 
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
+
   return (
     <>
       <Helmet>
@@ -245,38 +261,61 @@ const Resources = () => {
               </p>
             </div>
 
-            {/* Browse by Category */}
-            {categories.map(category => {
-              const categoryResources = resources.filter(r => r.category === category);
-              return (
-                <div key={category} className="mb-12">
-                  <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-                    <span className="h-1 w-8 bg-primary rounded"></span>
-                    {category}
-                  </h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categoryResources.map(resource => (
-                      <Link
-                        key={resource.slug}
-                        to={`/resources/${resource.slug}`}
-                        className="group bg-card border border-border rounded-lg p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-                      >
-                        <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                          {resource.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          {resource.description}
-                        </p>
-                        <div className="flex items-center text-primary text-sm font-medium">
-                          Read Guide
-                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            {/* Browse by Category - Collapsible Sections */}
+            <div className="space-y-4">
+              {categories.map(category => {
+                const categoryResources = resources.filter(r => r.category === category);
+                const isOpen = openCategories.includes(category);
+                
+                return (
+                  <Collapsible
+                    key={category}
+                    open={isOpen}
+                    onOpenChange={() => toggleCategory(category)}
+                    className="border border-border rounded-lg bg-card/50 backdrop-blur-sm"
+                  >
+                    <CollapsibleTrigger className="flex w-full items-center justify-between p-6 hover:bg-muted/50 transition-colors rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <span className="h-1 w-8 bg-primary rounded"></span>
+                        <h2 className="text-xl md:text-2xl font-bold text-foreground">
+                          {category}
+                        </h2>
+                        <span className="text-sm text-muted-foreground">
+                          ({categoryResources.length} {categoryResources.length === 1 ? 'guide' : 'guides'})
+                        </span>
+                      </div>
+                      <ChevronDown 
+                        className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="px-6 pb-6">
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+                        {categoryResources.map(resource => (
+                          <Link
+                            key={resource.slug}
+                            to={`/resources/${resource.slug}`}
+                            className="group bg-card border border-border rounded-lg p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
+                          >
+                            <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                              {resource.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              {resource.description}
+                            </p>
+                            <div className="flex items-center text-primary text-sm font-medium">
+                              Read Guide
+                              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                );
+              })}
+            </div>
 
             {/* Newsletter */}
             <div className="mt-16">
