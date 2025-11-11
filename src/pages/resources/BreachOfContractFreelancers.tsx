@@ -45,8 +45,16 @@ const BreachOfContractFreelancers = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <p className="text-lg font-medium text-foreground/90 bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                In this guide, you'll learn exactly what to do when a client violates your freelance contract. We cover the legal definition of breach, how to send a proper demand letter, available legal remedies, and proven strategies to recover your unpaid fees.
+              </p>
+              
+              <p className="text-muted-foreground/90 italic">
+                What makes this guide different: Unlike generic contract law resources, this guide is specifically tailored for freelancers and independent contractors. We focus on practical, cost-effective solutions that don't require expensive attorneys—helping you get paid without breaking the bank.
+              </p>
+
               <p>
-                As a freelancer, you rely on contracts to define project scope, payment terms, and deliverables. When clients fail to pay, refuse to accept work, or otherwise violate the agreement, they've committed a breach of contract. Understanding your legal rights and remedies can help you recover unpaid fees and protect your business.
+                As a freelancer, you rely on contracts to define project scope, payment terms, and deliverables. When clients fail to pay, refuse to accept work, or otherwise violate the agreement, they have committed a breach of contract. Understanding your legal rights and remedies can help you recover unpaid fees and protect your business.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">What Constitutes Breach of Contract?</h2>

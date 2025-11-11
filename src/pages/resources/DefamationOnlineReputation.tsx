@@ -45,6 +45,14 @@ const DefamationOnlineReputation = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <p className="text-lg font-medium text-foreground/90 bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                This comprehensive guide teaches you how to identify actionable defamation, understand the difference between libel and slander, and take effective legal action to protect your reputation online. You'll learn the exact steps to remove false content and pursue damages.
+              </p>
+              
+              <p className="text-muted-foreground/90 italic">
+                Why this guide stands out: We focus specifically on modern digital defamation—covering social media attacks, fake reviews, and revenge websites. You'll get practical strategies for online reputation management alongside traditional legal remedies, something general defamation guides rarely address.
+              </p>
+
               <p>
                 In the digital age, your reputation can be damaged in seconds through false online reviews, social media posts, or blog articles. Defamation law protects individuals and businesses from false statements that harm their reputation. Understanding when speech crosses the line from opinion to defamation—and what legal remedies are available—is crucial for protecting yourself online.
               </p>

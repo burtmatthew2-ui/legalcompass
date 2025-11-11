@@ -45,8 +45,16 @@ const ConsumerRefundRights = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <p className="text-lg font-medium text-foreground/90 bg-primary/5 p-4 rounded-lg border-l-4 border-primary">
+                In this guide, you'll discover your legal rights to refunds under federal and state consumer protection laws. Learn when you're entitled to your money back, how to file chargebacks, and the exact steps to take when companies refuse refunds.
+              </p>
+              
+              <p className="text-muted-foreground/90 italic">
+                How this guide helps you: Beyond explaining general consumer rights, we provide actionable tactics for getting refunds from stubborn companies—including credit card chargeback strategies, escalation techniques, and small claims court procedures. You'll get real-world solutions, not just legal theory.
+              </p>
+
               <p>
-                As a consumer, you have legal protections when purchasing products and services. While many people believe "all sales are final," federal and state consumer protection laws provide rights to refunds and returns in various situations. Understanding these rights can help you recover money for defective products, undelivered goods, and unsatisfactory services.
+                As a consumer, you have legal protections when purchasing products and services. While many people believe all sales are final, federal and state consumer protection laws provide rights to refunds and returns in various situations. Understanding these rights can help you recover money for defective products, undelivered goods, and unsatisfactory services.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Federal Consumer Protection Laws</h2>
