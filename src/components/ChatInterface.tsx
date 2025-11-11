@@ -150,15 +150,28 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     let assistantContent = "";
+    let updateTimeoutId: NodeJS.Timeout | null = null;
+    
     const upsertAssistant = (chunk: string) => {
       assistantContent += chunk;
-      setMessages((prev) => {
-        const last = prev[prev.length - 1];
-        if (last?.role === "assistant") {
-          return prev.slice(0, -1).concat({ role: "assistant", content: assistantContent });
-        }
-        return [...prev, { role: "assistant", content: assistantContent }];
-      });
+      
+      // Debounce UI updates to prevent freezing
+      if (updateTimeoutId) {
+        clearTimeout(updateTimeoutId);
+      }
+      
+      updateTimeoutId = setTimeout(() => {
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "assistant") {
+            // Efficiently update only the last message
+            const newMessages = [...prev];
+            newMessages[newMessages.length - 1] = { role: "assistant", content: assistantContent };
+            return newMessages;
+          }
+          return [...prev, { role: "assistant", content: assistantContent }];
+        });
+      }, 16); // ~60fps update rate
     };
 
     try {
@@ -167,6 +180,20 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         uploadedFiles: uploadedFiles.length > 0 ? uploadedFiles : undefined, // Only send if files exist in current session
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
+          // Clear any pending updates
+          if (updateTimeoutId) {
+            clearTimeout(updateTimeoutId);
+          }
+          // Final update with complete content
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last?.role === "assistant") {
+              const newMessages = [...prev];
+              newMessages[newMessages.length - 1] = { role: "assistant", content: assistantContent };
+              return newMessages;
+            }
+            return [...prev, { role: "assistant", content: assistantContent }];
+          });
           // Refresh question count and save message
           await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });

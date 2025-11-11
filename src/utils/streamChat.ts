@@ -59,16 +59,16 @@ export async function streamLegalResearch({
 
     logger.log("📥 Starting to read stream...");
 
-    // Throttle delta updates to prevent UI freeze on mobile
+    // Optimize stream processing for smooth rendering
     let updateBuffer = "";
-    let lastUpdateTime = Date.now();
-    const UPDATE_INTERVAL = 50; // ms - update UI every 50ms max
+    const BATCH_SIZE = 10; // Process chunks in batches
+    let chunksSinceUpdate = 0;
 
     const flushBuffer = () => {
       if (updateBuffer) {
         onDelta(updateBuffer);
         updateBuffer = "";
-        lastUpdateTime = Date.now();
+        chunksSinceUpdate = 0;
       }
     };
 
@@ -108,10 +108,10 @@ export async function streamLegalResearch({
             if (content) {
               hasReceivedContent = true;
               updateBuffer += content;
+              chunksSinceUpdate++;
               
-              // Throttle updates to prevent mobile freeze
-              const now = Date.now();
-              if (now - lastUpdateTime >= UPDATE_INTERVAL) {
+              // Batch updates to reduce re-renders
+              if (chunksSinceUpdate >= BATCH_SIZE) {
                 flushBuffer();
               }
             }
