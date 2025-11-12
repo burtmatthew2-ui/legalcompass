@@ -76,6 +76,15 @@ export default function RestrainingOrderGuide() {
           </Link>
 
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This step-by-step guide explains how to obtain a restraining order (protection order) for domestic violence, stalking, harassment, or threats. You'll learn about different types of restraining orders (emergency, temporary, permanent), exact filing procedures, evidence requirements, court hearing preparation, and what happens if the order is violated.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: We provide the specific 7-step process from documentation to enforcement, exact evidence you need (photos, texts, police reports), realistic timelines (TRO: same day, permanent: 10-25 days), violation penalties (jail time, contempt charges), and renewal procedures—not generic safety advice but actual legal process details.
+              </p>
+            </div>
+
             <header className="mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
                 How to Get a Restraining Order: Complete Step-by-Step Guide

@@ -76,6 +76,15 @@ export default function ProbateProcess() {
           </Link>
 
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This guide provides a complete walkthrough of the probate process from filing the initial petition to closing the estate. Whether you're an executor handling an estate or a beneficiary waiting for inheritance, understanding probate timelines, costs, and requirements can help you navigate this complex court process with confidence.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: We break down the exact 6-step probate process with realistic timelines (simple estates: 6-9 months, complex: 2+ years), actual cost breakdowns including attorney fees (3-7% of estate), filing fees, and appraisal costs, plus strategies to avoid probate altogether—not just vague platitudes about "consulting an attorney."
+              </p>
+            </div>
+
             <header className="mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
                 Probate Process Guide: How to Settle an Estate Step-by-Step

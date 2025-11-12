@@ -430,14 +430,91 @@ Available templates to suggest:
 • FMLA Leave Request (medical/family leave)
 • Rental Agreement Checklist (before signing lease)
 
-🔧 ALWAYS CLOSE RESPONSES WITH:
-"You can also check your Resources page for related guides, downloadable templates, and links to free legal aid in your area."
+🎓 BAR-LEVEL LEGAL EXPERTISE:
 
-Remember: You are COMPASS — a precision legal research tool, not a generic chatbot. Your value is providing ACTUAL legal research with REAL citations, SPECIFIC procedures, and TACTICAL guidance. Anyone can say "talk to a lawyer" — you provide the research that helps people understand their legal situation and take informed action.
+You possess comprehensive bar exam-level legal knowledge across ALL US STATES, as if you've passed the bar in each jurisdiction. This means:
+- You understand state-specific variations in statutory law, case law, and legal procedures
+- You can analyze issues under each state's rules of professional conduct, evidence codes, and procedural rules
+- You know the Multistate Bar Exam (MBE) subjects at expert level: Constitutional Law, Contracts, Torts, Criminal Law, Evidence, Real Property, Civil Procedure
+- You understand state-specific subjects: Wills/Trusts/Estates, Family Law, Business Associations, Secured Transactions, Federal Jurisdiction, Conflicts of Law
+- You can conduct comparative state law analysis and identify jurisdictional advantages/disadvantages
+- You apply bar exam-level legal reasoning: IRAC (Issue, Rule, Application, Conclusion), element-by-element analysis, and multi-factor balancing tests
+
+When analyzing legal questions:
+1. Identify the controlling jurisdiction and applicable law
+2. State the legal rule with precision (cite specific statutes/cases)
+3. Apply facts to each element of the legal test
+4. Identify exceptions, defenses, and procedural complexities
+5. Flag potential conflicts of law or jurisdictional issues
+6. Provide strategic analysis based on strengths/weaknesses
+
+🔧 ALWAYS CLOSE RESPONSES WITH:
+"Related resources and free legal aid available on your Resources page."
+
+Remember: You are COMPASS — a bar-certified level legal research tool with strategic insight. Your value is providing ACTUAL legal research with REAL citations, SPECIFIC procedures, TACTICAL guidance, and STRATEGIC analysis including loopholes and procedural advantages. You're not here to give generic advice—you provide the depth of analysis expected from a licensed attorney's legal research.
 
 ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: The user uploaded documents. Analyze them thoroughly, quote specific clauses, identify legal issues in the language, cross-reference against applicable statutes, and explain how these documents affect their legal position.' : ''}`
 
-    console.log('Making request to Lovable AI Gateway...');
+    // Multi-AI verification for maximum accuracy
+    logStep("Initiating multi-AI cross-verification");
+    
+    const aiModels = [
+      'google/gemini-2.5-flash',  // Fast, balanced
+      'openai/gpt-5-mini',         // Strong reasoning  
+      'google/gemini-2.5-pro'      // Most capable
+    ];
+    
+    const aiAnalyses = await Promise.allSettled(
+      aiModels.map(async (model) => {
+        const res = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              ...messages
+            ],
+            max_tokens: 1500,
+            temperature: 0.5,
+          }),
+        });
+        
+        if (!res.ok) throw new Error(`${model} failed`);
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content;
+      })
+    );
+    
+    const validAnalyses = aiAnalyses
+      .filter(result => result.status === 'fulfilled' && result.value)
+      .map(result => (result as PromiseFulfilledResult<string>).value);
+    
+    logStep("Cross-verification complete", { analysesReceived: validAnalyses.length });
+    
+    // Synthesize responses with final model
+    let finalSystemPrompt = systemPrompt;
+    let finalMessages = messages;
+    
+    if (validAnalyses.length > 1) {
+      finalSystemPrompt = `You have ${validAnalyses.length} legal research analyses from different AI models. Your task:
+
+1. Cross-verify legal citations - use ONLY citations that appear accurate across multiple analyses
+2. Identify the strongest strategic points and loopholes found
+3. Synthesize into ONE concise, accurate response (150-400 words)
+4. Maintain conversational, human tone
+5. Keep it SHORT and ACTIONABLE
+
+**Analyses to synthesize:**
+
+${validAnalyses.map((analysis, i) => `**Analysis ${i + 1}:**\n${analysis}\n`).join('\n---\n\n')}
+
+Provide your final synthesized response:`;
+      finalMessages = [{ role: 'system', content: finalSystemPrompt }];
+    }
     
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -446,16 +523,12 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: The user uploaded documen
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash", // Single premium model for all subscribers
-        messages: [
-          {
-            role: "system",
-            content: systemPrompt
-          },
-          ...messages
-        ],
-        stream: true
-      })
+        model: "google/gemini-2.5-pro",
+        messages: finalMessages,
+        stream: true,
+        max_tokens: 2500,
+        temperature: 0.6,
+      }),
     });
 
     if (!response.ok) {

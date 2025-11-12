@@ -76,6 +76,15 @@ export default function PowerOfAttorneyGuide() {
           </Link>
 
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This comprehensive guide explains every type of power of attorney, how to create one legally, agent duties and responsibilities, and when POAs terminate. Whether you're planning for incapacity, managing someone else's affairs, or simply want to understand your options, this guide walks you through the entire process step-by-step.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: Unlike general overviews, we provide exact state-by-state signing requirements, specific examples of agent powers, detailed fiduciary duty obligations, precise termination rules, and the critical differences between durable, springing, and limited POAs—with actual form sources and costs.
+              </p>
+            </div>
+
             <header className="mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
                 Power of Attorney Guide: Types, How to Get One & What It Means
