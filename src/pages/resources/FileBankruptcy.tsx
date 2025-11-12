@@ -83,6 +83,15 @@ const FileBankruptcy = () => {
 
         <main className="container mx-auto px-4 py-12 max-w-4xl">
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This comprehensive guide walks you through the entire bankruptcy filing process, helping you understand your options, eligibility requirements, and costs. Whether you're considering Chapter 7 or Chapter 13, we break down the legal jargon into clear, actionable steps.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: We provide specific filing fee amounts, exact form numbers, realistic timelines, and state-by-state exemption differences—not just generic advice. You'll get precise procedural guidance that actually helps you navigate the bankruptcy process.
+              </p>
+            </div>
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
               How to File for Bankruptcy: Complete Guide for 2025
             </h1>

@@ -79,6 +79,15 @@ const ChildSupport = () => {
 
         <main className="container mx-auto px-4 py-12 max-w-4xl">
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This guide breaks down how child support is calculated in every state, what factors affect payment amounts, and how to modify or enforce orders. Whether you're paying or receiving child support, understanding the calculation methods and your legal rights is essential.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: We provide actual calculation formulas by state, specific percentage breakdowns, average payment amounts by state, exact modification requirements, and enforcement methods with realistic timelines—not vague generalizations.
+              </p>
+            </div>
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
               Child Support: Complete Calculation & Guidelines for 2025
             </h1>

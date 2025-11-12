@@ -76,6 +76,15 @@ export default function HarassmentLawGuide() {
           </Link>
 
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This guide provides a clear legal definition of harassment, explains different types (workplace, stalking, cyberbullying, police harassment), and outlines your legal options for stopping it. Whether you're dealing with an ex-partner, neighbor, or workplace harassment, you'll learn exactly what constitutes illegal harassment and how to protect yourself.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: We explain the precise legal elements required to prove harassment, provide specific examples of what does and doesn't qualify, detail exact steps for obtaining restraining orders (including forms and timelines), and clarify when police harassment crosses legal boundaries—with citations to actual statutes and case law.
+              </p>
+            </div>
+
             <header className="mb-8">
               <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
                 What Constitutes Harassment: Legal Definition, Laws & Your Rights

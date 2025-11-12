@@ -79,6 +79,15 @@ const WorkersCompensation = () => {
 
         <main className="container mx-auto px-4 py-12 max-w-4xl">
           <article>
+            <div className="mb-6">
+              <p className="text-base text-muted-foreground mb-4">
+                This guide provides comprehensive information on filing workers' compensation claims, understanding your rights, and navigating the claims process. Whether you've suffered a workplace injury or occupational disease, we explain exactly what you're entitled to and how to protect your benefits.
+              </p>
+              <p className="text-sm text-muted-foreground italic">
+                What makes this guide unique: Unlike generic overviews, we include state-specific reporting deadlines, actual benefit calculation formulas, specific reasons claims are denied, and step-by-step appeals processes with realistic timelines and costs.
+              </p>
+            </div>
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
               Workers' Compensation Claims: Complete Guide for 2025
             </h1>
