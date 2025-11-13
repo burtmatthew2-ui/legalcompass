@@ -33,10 +33,7 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    // Get upcoming deadlines (within 48 hours) that haven't sent reminders
-    const twoDaysFromNow = new Date();
-    twoDaysFromNow.setHours(twoDaysFromNow.getHours() + 48);
-
+    // Get all upcoming deadlines that haven't sent reminders
     const { data: upcomingDeadlines, error: deadlinesError } = await supabaseClient
       .from('case_deadlines')
       .select(`
@@ -45,19 +42,39 @@ serve(async (req) => {
         lawyer_profiles!inner(email, full_name)
       `)
       .eq('reminder_sent', false)
-      .lte('deadline_date', twoDaysFromNow.toISOString())
       .gte('deadline_date', new Date().toISOString());
 
     if (deadlinesError) throw deadlinesError;
 
     logStep("Found deadlines", { count: upcomingDeadlines?.length || 0 });
 
-    // Send reminders
+    // Send reminders based on notification timing preference
     for (const deadline of upcomingDeadlines || []) {
       try {
-        const hoursUntil = Math.floor(
-          (new Date(deadline.deadline_date).getTime() - new Date().getTime()) / (1000 * 60 * 60)
-        );
+        const now = new Date();
+        const deadlineDate = new Date(deadline.deadline_date);
+        const hoursUntil = Math.floor((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60));
+        
+        // Determine if we should send notification based on timing preference
+        const timingMap: Record<string, number> = {
+          '1_week': 168,    // 7 days
+          '3_days': 72,     // 3 days
+          '2_days': 48,     // 2 days
+          '1_day': 24,      // 1 day
+          '12_hours': 12    // 12 hours
+        };
+        
+        const notificationThreshold = timingMap[deadline.notification_timing] || 48;
+        
+        // Skip if not yet time to send notification
+        if (hoursUntil > notificationThreshold) {
+          continue;
+        }
+        
+        // Skip if already past the deadline
+        if (hoursUntil < 0) {
+          continue;
+        }
 
         await resend.emails.send({
           from: "Legal Compass <deadlines@legalcompass.app>",

@@ -54,6 +54,7 @@ export type Database = {
           id: string
           lawyer_id: string
           lead_id: string
+          notification_timing: string
           reminder_sent: boolean | null
           title: string
         }
@@ -64,6 +65,7 @@ export type Database = {
           id?: string
           lawyer_id: string
           lead_id: string
+          notification_timing?: string
           reminder_sent?: boolean | null
           title: string
         }
@@ -74,6 +76,7 @@ export type Database = {
           id?: string
           lawyer_id?: string
           lead_id?: string
+          notification_timing?: string
           reminder_sent?: boolean | null
           title?: string
         }
