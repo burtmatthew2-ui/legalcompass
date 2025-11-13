@@ -62,21 +62,23 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-primary to-slate-700 leading-tight max-w-5xl mx-auto">
-              Your Legal Compass in Uncertain Times
+              Legal Guidance for Everyone
             </h1>
             
             <p className="text-lg md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light">
-              <span className="font-semibold text-primary">Professional legal research</span> meets <span className="font-semibold text-primary">accessible guidance</span>—powerful tools for every legal journey.
-              <span className="block mt-4 text-xl font-medium text-slate-800">Clear answers. Real support. Bar-level AI expertise.</span>
+              <span className="font-semibold text-primary">Individuals:</span> Get AI-powered legal help, submit cases, and connect with verified lawyers for just <span className="font-bold text-accent">$4.99/month</span>
+            </p>
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light mt-2">
+              <span className="font-semibold text-primary">Lawyers:</span> Access pre-qualified leads in your practice area. Pay only for leads you choose—no subscriptions.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
               <Button
-                onClick={onGetStarted}
+                onClick={() => navigate("/get-started")}
                 size="lg"
                 className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white text-lg font-bold px-12 py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover-scale"
               >
-                {user ? "Get Instant Answers" : "Try 3 Questions Free"}
+                Get Started
               </Button>
               {!user && (
                 <Button
@@ -98,120 +100,133 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 Legal Resources
               </Button>
             </div>
-            <p className="text-base text-slate-600 text-center font-medium">
-              <span className="text-green-600 font-bold">Always free to explore</span> • 3 free AI consultations • Then <span className="line-through text-slate-400">$9.99</span> <span className="font-bold text-2xl text-accent">$4.99/month</span> <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-bold ml-2">50% OFF</span> • Cancel anytime
-            </p>
           </div>
 
-          {/* What You Actually Get */}
+          {/* Dual Portal Features */}
           <div className="bg-gradient-to-br from-white via-primary/5 to-white border-2 border-primary/20 rounded-2xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300">
             <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4 text-slate-900">
-              Bar-Level AI Legal Research Platform
+              Choose Your Path
             </h2>
             <p className="text-center text-lg text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              <span className="font-bold text-primary">Sophisticated research tools</span> meet <span className="font-bold text-primary">intuitive guidance</span>—because <span className="italic">everyone deserves access to justice</span>
+              Whether you need legal help or you are a lawyer looking for clients, Legal Compass connects you.
             </p>
             
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Globe className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-slate-900">Multi-Jurisdiction Research</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Search across all 50 US states, federal law, EU (all 27 member states), UK, Canada, Australia, and New Zealand
-                    </p>
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {/* Individual Users Section */}
+              <div className="bg-white border-2 border-primary/30 rounded-xl p-6 space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <Scale className="w-8 h-8 text-primary" />
+                  <h3 className="text-2xl font-bold text-slate-900">For Individuals</h3>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">Submit unlimited legal cases with AI-generated Snapshot Briefs</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">Get matched with verified lawyers in your state</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">Download your case summaries as PDFs</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">Access AI legal research across 80+ jurisdictions</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">Free legal templates and document hub</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Scale className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-slate-900">Case Law Comparison</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Compare how different jurisdictions handle the same legal issue with direct citations
-                    </p>
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="text-center mb-4">
+                    <p className="text-sm text-slate-600">Just</p>
+                    <p className="text-3xl font-bold text-accent">$4.99<span className="text-lg text-slate-600">/month</span></p>
+                    <p className="text-sm text-slate-500 line-through">Regular $9.99/month</p>
                   </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <FileText className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-slate-900">Legal Memo Drafts</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Generate professional legal memoranda with proper citations and analysis structure
-                    </p>
-                  </div>
+                  <Button 
+                    onClick={() => navigate("/get-started")}
+                    className="w-full"
+                    size="lg"
+                  >
+                    Submit a Case
+                  </Button>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Bell className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-slate-900">Regulatory Updates</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Stay informed about recent law changes and upcoming regulations that might affect your situation
-                    </p>
+              {/* Lawyers Section */}
+              <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl p-6 space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="w-8 h-8 text-accent" />
+                  <h3 className="text-2xl font-bold">For Lawyers</h3>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">Access pre-qualified leads in your practice areas</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">AI-verified credentials for instant approval</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">Email notifications for new matching leads</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">Only pay for leads you choose to purchase</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <p className="text-sm">No monthly subscriptions or hidden fees</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Shield className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-slate-900">Direct Source Links</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Every citation links directly to the official source (Cornell Law, Congress.gov, EUR-Lex, etc.)
-                    </p>
+                <div className="pt-4 border-t border-slate-700">
+                  <div className="text-center mb-4">
+                    <p className="text-sm text-slate-300">Pay per lead</p>
+                    <p className="text-3xl font-bold text-accent">$50-$90</p>
+                    <p className="text-sm text-slate-400">Based on case urgency</p>
                   </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-5 bg-blue-50 rounded-lg border border-blue-100">
-                  <Shield className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-2 text-primary">100% Private & Confidential</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Your conversations are completely isolated and encrypted—we never share your data with anyone.
-                    </p>
-                  </div>
+                  <Button 
+                    onClick={() => navigate("/get-started")}
+                    variant="secondary"
+                    className="w-full bg-accent hover:bg-accent/90 text-slate-900"
+                    size="lg"
+                  >
+                    Join as a Lawyer
+                  </Button>
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 pt-8 border-t border-slate-200">
-              <div className="space-y-4">
-                <h3 className="font-semibold text-slate-900 text-center text-lg">How This Platform Works</h3>
-                <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto text-sm text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>AI-Powered Research:</strong> Uses advanced AI to search legal databases and provide relevant information</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>Educational Only:</strong> Provides information to help you understand legal concepts, not legal advice</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>Not a Law Firm:</strong> We don't practice law or represent clients—we help you research and understand</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>Attorney Connection:</strong> We can help you find qualified attorneys when you need professional representation</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>Verify Everything:</strong> Always verify legal information with official sources and consult an attorney for your specific situation</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p><strong>Privacy First:</strong> Your searches and conversations are completely private and encrypted—we never share your data</p>
-                  </div>
+            {/* Platform Features */}
+            <div className="mt-12 pt-8 border-t border-slate-200">
+              <h3 className="text-2xl font-bold text-center mb-8 text-slate-900">Complete Legal Platform</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Globe className="w-8 h-8 text-primary mb-2" />
+                  <h4 className="font-bold text-slate-900">Multi-Jurisdiction</h4>
+                  <p className="text-sm text-slate-600">80+ jurisdictions including all US states, EU, UK, Canada, Australia</p>
                 </div>
-                <p className="text-sm text-slate-600 text-center max-w-2xl mx-auto leading-relaxed pt-4 border-t border-slate-200">
-                  <strong className="text-slate-900 font-semibold">Transparency Note:</strong> Legal Compass is a legal research platform, not a substitute for a licensed attorney. 
-                  Our AI provides educational information based on publicly available legal resources. For specific legal advice tailored to your situation, 
-                  always consult with a qualified lawyer in your jurisdiction.
-                </p>
+
+                <div className="space-y-2">
+                  <FileText className="w-8 h-8 text-primary mb-2" />
+                  <h4 className="font-bold text-slate-900">AI Snapshot Briefs</h4>
+                  <p className="text-sm text-slate-600">Automated case summaries with legal analysis and citations</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Shield className="w-8 h-8 text-primary mb-2" />
+                  <h4 className="font-bold text-slate-900">Verified Lawyers</h4>
+                  <p className="text-sm text-slate-600">AI-verified bar credentials ensure legitimate professionals</p>
+                </div>
               </div>
             </div>
           </div>
