@@ -138,24 +138,15 @@ const ClientCaseView = () => {
                     <div className="flex gap-2 pt-2">
                       <Button
                         variant="default"
-                        onClick={() => navigate(`/case/${caseItem.id}`)}
-                        className="flex-1"
+                        onClick={() => navigate(`/client-case/${caseItem.id}`)}
+                        className="w-full"
                       >
-                        <MessageSquare className="w-4 h-4 mr-2" />
-                        Messages
+                        View Case Dashboard
                         {caseItem.unread_messages > 0 && (
                           <Badge variant="destructive" className="ml-2">
-                            {caseItem.unread_messages}
+                            {caseItem.unread_messages} new
                           </Badge>
                         )}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() => navigate(`/case/${caseItem.id}?tab=documents`)}
-                        className="flex-1"
-                      >
-                        <FileText className="w-4 h-4 mr-2" />
-                        Documents
                       </Button>
                     </div>
                   )}

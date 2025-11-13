@@ -62,3 +62,9 @@ verify_jwt = true
 
 [functions.send-newsletter-confirmation]
 verify_jwt = false
+
+[functions.notify-client-case-accepted]
+verify_jwt = false
+
+[functions.request-lawyer-removal]
+verify_jwt = false

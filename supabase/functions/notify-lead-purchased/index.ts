@@ -76,6 +76,15 @@ serve(async (req) => {
       `,
     });
 
+    // Notify client that their case has been accepted
+    const { error: clientNotifyError } = await supabaseClient.functions.invoke('notify-client-case-accepted', {
+      body: { leadId, lawyerId }
+    });
+
+    if (clientNotifyError) {
+      console.error('Failed to notify client:', clientNotifyError);
+    }
+
     return new Response(
       JSON.stringify({ success: true }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
