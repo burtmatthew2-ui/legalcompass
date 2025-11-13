@@ -50,40 +50,40 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
       <div className="flex items-center justify-center px-4 py-16 md:py-24">
         <div className="max-w-6xl mx-auto space-y-16">
           {/* Main Hero Section */}
-          <div className="text-center space-y-8">
+          <div className="text-center space-y-8 animate-fade-in">
             <div className="inline-flex items-center justify-center mb-2">
-              <Compass className="w-14 h-14 text-primary" />
+              <Compass className="w-14 h-14 text-primary animate-pulse" />
             </div>
 
             {/* Confidentiality Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary/5 border border-primary/20 rounded-full">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary/5 border border-primary/20 rounded-full hover-scale">
               <Shield className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-primary">100% Confidential & Private</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight max-w-4xl mx-auto">
-              Legal Help When You Need It Most
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-primary to-slate-700 leading-tight max-w-5xl mx-auto">
+              Your Legal Compass in Uncertain Times
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              We help you find the right legal help, faster — no confusion, no expensive lawyers, no legal jargon. 
-              <span className="block mt-2 font-medium text-slate-700">Just clear answers and real support when you're stuck.</span>
+            <p className="text-lg md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light">
+              Whether you're a <span className="font-semibold text-primary">top attorney</span> seeking cutting-edge research or someone who <span className="font-semibold text-primary">can't afford a lawyer</span>—you've found the right place.
+              <span className="block mt-4 text-xl font-medium text-slate-800">Clear answers. Real support. Bar-level AI expertise.</span>
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
               <Button
                 onClick={onGetStarted}
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-white text-base font-semibold px-10 py-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white text-lg font-bold px-12 py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover-scale"
               >
-                {user ? "Ask a Question" : "Start Free Trial"}
+                {user ? "Get Instant Answers" : "Try 3 Questions Free"}
               </Button>
               {!user && (
                 <Button
                   onClick={() => navigate("/auth")}
                   size="lg"
                   variant="outline"
-                  className="text-base font-semibold px-10 py-6 rounded-lg border-slate-300 hover:bg-slate-50"
+                  className="text-lg font-semibold px-12 py-7 rounded-xl border-2 border-slate-300 hover:bg-slate-50 hover:border-primary transition-all duration-300"
                 >
                   Sign In
                 </Button>
@@ -92,23 +92,24 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                 onClick={() => navigate("/resources")}
                 size="lg"
                 variant="outline"
-                className="text-base font-semibold px-10 py-6 rounded-lg border-slate-300 hover:bg-slate-50"
+                className="text-lg font-semibold px-12 py-7 rounded-xl border-2 border-slate-300 hover:bg-slate-50 hover:border-primary transition-all duration-300"
               >
+                <FileText className="w-5 h-5 mr-2" />
                 Legal Resources
               </Button>
             </div>
-            <p className="text-sm text-slate-500 text-center font-medium">
-              <span className="text-green-600 font-bold">Always free to browse</span> • 3 free AI questions • Then <span className="line-through">$9.99</span> <span className="font-bold text-accent">$4.99/month</span> (50% off!) • Cancel anytime
+            <p className="text-base text-slate-600 text-center font-medium">
+              <span className="text-green-600 font-bold">Always free to explore</span> • 3 free AI consultations • Then <span className="line-through text-slate-400">$9.99</span> <span className="font-bold text-2xl text-accent">$4.99/month</span> <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-bold ml-2">50% OFF</span> • Cancel anytime
             </p>
           </div>
 
           {/* What You Actually Get */}
-          <div className="bg-white border border-slate-200 rounded-xl p-8 md:p-12 shadow-sm">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-slate-900">
-              Everything You Need to Navigate Your Legal Issue
+          <div className="bg-gradient-to-br from-white via-primary/5 to-white border-2 border-primary/20 rounded-2xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all duration-300">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4 text-slate-900">
+              Bar-Level AI Legal Research Platform
             </h2>
-            <p className="text-center text-slate-600 mb-8 max-w-2xl mx-auto">
-              Built for people without money or legal knowledge — because everyone deserves access to justice
+            <p className="text-center text-lg text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              Built for <span className="font-bold text-primary">attorneys</span> seeking comprehensive research and <span className="font-bold text-primary">individuals</span> who can't afford legal fees—because <span className="italic">everyone deserves access to justice</span>
             </p>
             
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
