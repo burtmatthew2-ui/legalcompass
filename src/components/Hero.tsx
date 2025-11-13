@@ -34,12 +34,12 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white">
       {user && isAdmin && (
-        <div className="fixed top-4 right-4 z-50">
+        <div className="fixed top-20 right-4 z-40">
           <Button
             onClick={() => navigate("/admin")}
             variant="outline"
             size="sm"
-            className="bg-white border-slate-300 hover:bg-slate-50 font-medium"
+            className="bg-white border-slate-300 hover:bg-slate-50 font-medium shadow-lg"
           >
             <Settings className="h-4 w-4 mr-2" />
             Admin Dashboard

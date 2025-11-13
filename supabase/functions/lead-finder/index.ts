@@ -162,14 +162,14 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
         messages: [
           {
             role: "system",
-            content: "You are a lead generation AI that finds publicly available contact information for potential B2B customers. You only return information that is publicly listed and accessible. You format all responses as valid JSON arrays."
+            content: "You are a lead generation AI that finds publicly available contact information for potential B2B customers. You only return information that is publicly listed and accessible. You format all responses as valid JSON arrays. IMPORTANT: Always generate DIFFERENT, UNIQUE leads for each request based on the specific input criteria."
           },
           {
             role: "user",
             content: searchPrompt
           }
         ],
-        temperature: 0.3,
+        temperature: 0.9,
       })
     });
 
