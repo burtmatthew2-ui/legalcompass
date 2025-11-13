@@ -41,7 +41,17 @@ export const NewsletterSignup = () => {
           throw error;
         }
       } else {
-        toast.success("Thanks for subscribing! Check your inbox for legal tips.");
+        // Send confirmation email
+        const { error: emailError } = await supabase.functions.invoke('send-newsletter-confirmation', {
+          body: { email: validation.data.email }
+        });
+
+        if (emailError) {
+          console.error('Error sending confirmation email:', emailError);
+          // Still show success since database insert worked
+        }
+
+        toast.success("Thanks for subscribing! Check your inbox for confirmation.");
         setEmail("");
       }
     } catch (error) {
