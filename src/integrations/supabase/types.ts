@@ -46,6 +46,47 @@ export type Database = {
           },
         ]
       }
+      case_deadlines: {
+        Row: {
+          created_at: string
+          deadline_date: string
+          description: string | null
+          id: string
+          lawyer_id: string
+          lead_id: string
+          reminder_sent: boolean | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          deadline_date: string
+          description?: string | null
+          id?: string
+          lawyer_id: string
+          lead_id: string
+          reminder_sent?: boolean | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          deadline_date?: string
+          description?: string | null
+          id?: string
+          lawyer_id?: string
+          lead_id?: string
+          reminder_sent?: boolean | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_deadlines_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       case_documents: {
         Row: {
           created_at: string
@@ -86,6 +127,53 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "case_documents_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      case_meetings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          lawyer_id: string
+          lead_id: string
+          location: string | null
+          meeting_date: string
+          meeting_type: string | null
+          status: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          lawyer_id: string
+          lead_id: string
+          location?: string | null
+          meeting_date: string
+          meeting_type?: string | null
+          status?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          lawyer_id?: string
+          lead_id?: string
+          location?: string | null
+          meeting_date?: string
+          meeting_type?: string | null
+          status?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_meetings_lead_id_fkey"
             columns: ["lead_id"]
             isOneToOne: false
             referencedRelation: "legal_cases"

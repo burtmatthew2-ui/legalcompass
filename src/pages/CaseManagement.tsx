@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Helmet } from "react-helmet";
-import { ArrowLeft, Send, FileText, Upload } from "lucide-react";
+import { ArrowLeft, Send, FileText, Upload, Calendar, Clock, AlertCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CaseMessage {
   id: string;
@@ -36,21 +39,46 @@ interface LegalCase {
   urgency_level: string;
   description: string;
   snapshot_brief: string;
+  status: string;
+}
+
+interface CaseDeadline {
+  id: string;
+  title: string;
+  description: string | null;
+  deadline_date: string;
+  reminder_sent: boolean;
+}
+
+interface CaseMeeting {
+  id: string;
+  title: string;
+  description: string | null;
+  meeting_date: string;
+  location: string | null;
+  meeting_type: 'in-person' | 'phone' | 'video';
+  status: 'scheduled' | 'completed' | 'cancelled';
 }
 
 const CaseManagement = () => {
   const { leadId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   
   const [caseData, setCaseData] = useState<LegalCase | null>(null);
   const [messages, setMessages] = useState<CaseMessage[]>([]);
   const [documents, setDocuments] = useState<CaseDocument[]>([]);
+  const [deadlines, setDeadlines] = useState<CaseDeadline[]>([]);
+  const [meetings, setMeetings] = useState<CaseMeeting[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [newDocRequest, setNewDocRequest] = useState("");
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [userType, setUserType] = useState<'lawyer' | 'client' | null>(null);
+  const [showCloseDialog, setShowCloseDialog] = useState(false);
+  const [closeReason, setCloseReason] = useState("");
+  const [closeAction, setCloseAction] = useState<'closed' | 'dropped'>('closed');
 
   useEffect(() => {
     loadCaseData();

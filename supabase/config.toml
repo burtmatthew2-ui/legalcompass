@@ -50,3 +50,9 @@ verify_jwt = false
 
 [functions.notify-lead-purchased]
 verify_jwt = false
+
+[functions.send-deadline-reminders]
+verify_jwt = false
+
+[functions.close-case]
+verify_jwt = true
