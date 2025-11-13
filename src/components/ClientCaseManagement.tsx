@@ -7,12 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Send, Upload, Calendar, AlertTriangle, Mail, Phone } from "lucide-react";
+import { ArrowLeft, Send, Upload, Calendar, AlertTriangle, Mail, Phone, Star } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { CalendarExport } from "@/components/CalendarExport";
 import { CaseTimeline } from "@/components/CaseTimeline";
+import { CaseProgressTracker } from "@/components/CaseProgressTracker";
+import { LawyerRatingDialog } from "@/components/LawyerRatingDialog";
+import { Helmet } from "react-helmet";
 
 interface CaseMessage {
   id: string;
@@ -43,6 +46,7 @@ interface LegalCase {
 }
 
 interface LawyerInfo {
+  user_id: string;
   full_name: string;
   email: string;
   practice_areas: string[];
@@ -77,6 +81,7 @@ export const ClientCaseManagement = () => {
   const [showRemovalDialog, setShowRemovalDialog] = useState(false);
   const [removalReason, setRemovalReason] = useState("");
   const [submittingRemoval, setSubmittingRemoval] = useState(false);
+  const [showRatingDialog, setShowRatingDialog] = useState(false);
 
   useEffect(() => {
     loadCaseData();
@@ -316,15 +321,23 @@ export const ClientCaseManagement = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <Button
-        variant="ghost"
-        className="mb-4"
-        onClick={() => navigate('/dashboard')}
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to My Cases
-      </Button>
+    <>
+      <Helmet>
+        <title>Case Management - Legal Compass</title>
+      </Helmet>
+
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="mb-4">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/dashboard')}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to My Cases
+          </Button>
+        </div>
+
+        <CaseProgressTracker status={caseData?.status as any} />
 
       <Card className="mb-6">
         <CardHeader>
@@ -370,9 +383,10 @@ export const ClientCaseManagement = () => {
           <TabsTrigger value="messages">Messages</TabsTrigger>
           <TabsTrigger value="documents">Documents</TabsTrigger>
           <TabsTrigger value="calendar">Calendar</TabsTrigger>
-          <TabsTrigger value="timeline">Timeline</TabsTrigger>
-          <TabsTrigger value="actions">Actions</TabsTrigger>
-        </TabsList>
+            <TabsTrigger value="timeline">Timeline</TabsTrigger>
+            <TabsTrigger value="actions">Actions</TabsTrigger>
+            {caseData?.status === 'closed' && <TabsTrigger value="rating">Rate Lawyer</TabsTrigger>}
+          </TabsList>
 
         <TabsContent value="messages">
           <Card>
@@ -611,7 +625,35 @@ export const ClientCaseManagement = () => {
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="rating">
+          <Card>
+            <CardHeader>
+              <CardTitle>Rate Your Experience</CardTitle>
+              <CardDescription>
+                Help others by sharing your experience with {lawyerInfo?.full_name}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={() => setShowRatingDialog(true)}>
+                <Star className="w-4 h-4 mr-2" />
+                Submit Rating
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
+
+      {lawyerInfo && (
+        <LawyerRatingDialog
+          open={showRatingDialog}
+          onOpenChange={setShowRatingDialog}
+          leadId={leadId!}
+          lawyerId={lawyerInfo.user_id}
+          lawyerName={lawyerInfo.full_name}
+        />
+      )}
     </div>
+  </>
   );
 };
