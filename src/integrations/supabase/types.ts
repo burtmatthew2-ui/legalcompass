@@ -46,6 +46,88 @@ export type Database = {
           },
         ]
       }
+      case_documents: {
+        Row: {
+          created_at: string
+          document_name: string
+          document_path: string | null
+          id: string
+          lead_id: string
+          notes: string | null
+          requested_by: string
+          status: string
+          uploaded_at: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          document_name: string
+          document_path?: string | null
+          id?: string
+          lead_id: string
+          notes?: string | null
+          requested_by: string
+          status?: string
+          uploaded_at?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          document_name?: string
+          document_path?: string | null
+          id?: string
+          lead_id?: string
+          notes?: string | null
+          requested_by?: string
+          status?: string
+          uploaded_at?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_documents_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      case_messages: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string
+          message_content: string
+          sender_id: string
+          sender_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id: string
+          message_content: string
+          sender_id: string
+          sender_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string
+          message_content?: string
+          sender_id?: string
+          sender_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_messages_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_conversations: {
         Row: {
           created_at: string
@@ -214,6 +296,7 @@ export type Database = {
           lawyer_id: string
           lead_id: string
           purchased_at: string | null
+          status: string | null
         }
         Insert: {
           amount_paid: number
@@ -221,6 +304,7 @@ export type Database = {
           lawyer_id: string
           lead_id: string
           purchased_at?: string | null
+          status?: string | null
         }
         Update: {
           amount_paid?: number
@@ -228,6 +312,7 @@ export type Database = {
           lawyer_id?: string
           lead_id?: string
           purchased_at?: string | null
+          status?: string | null
         }
         Relationships: [
           {

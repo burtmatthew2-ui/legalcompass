@@ -272,6 +272,12 @@ const LawyerDashboard = () => {
                           <h4 className="font-semibold mb-2">Full Case Details:</h4>
                           <pre className="whitespace-pre-wrap text-sm">{lead.snapshot_brief}</pre>
                         </div>
+                        <Button 
+                          className="w-full"
+                          onClick={() => window.location.href = `/case/${lead.id}`}
+                        >
+                          Manage Case
+                        </Button>
                       </CardContent>
                     </Card>
                   ))

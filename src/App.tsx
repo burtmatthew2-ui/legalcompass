@@ -23,6 +23,7 @@ import GetStarted from "./pages/GetStarted";
 import UserPortal from "./pages/UserPortal";
 import LawyerSignup from "./pages/LawyerSignup";
 import LawyerDashboard from "./pages/LawyerDashboard";
+import CaseManagement from "./pages/CaseManagement";
 import TenantRightsCalifornia from "./pages/resources/TenantRightsCalifornia";
 import TenantRightsNewYork from "./pages/resources/TenantRightsNewYork";
 import TenantRightsTexas from "./pages/resources/TenantRightsTexas";
@@ -73,6 +74,7 @@ const App = () => (
           <Route path="/user-portal" element={<ProtectedRoute><UserPortal /></ProtectedRoute>} />
           <Route path="/lawyer-signup" element={<ProtectedRoute><LawyerSignup /></ProtectedRoute>} />
           <Route path="/lawyer-dashboard" element={<ProtectedRoute><LawyerDashboard /></ProtectedRoute>} />
+          <Route path="/case/:leadId" element={<ProtectedRoute><CaseManagement /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
