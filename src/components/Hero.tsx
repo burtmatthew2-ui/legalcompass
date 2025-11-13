@@ -66,7 +66,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </h1>
             
             <p className="text-lg md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light">
-              Whether you're a <span className="font-semibold text-primary">top attorney</span> seeking cutting-edge research or someone who <span className="font-semibold text-primary">can't afford a lawyer</span>—you've found the right place.
+              <span className="font-semibold text-primary">Professional legal research</span> meets <span className="font-semibold text-primary">accessible guidance</span>—powerful tools for every legal journey.
               <span className="block mt-4 text-xl font-medium text-slate-800">Clear answers. Real support. Bar-level AI expertise.</span>
             </p>
 
@@ -109,7 +109,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
               Bar-Level AI Legal Research Platform
             </h2>
             <p className="text-center text-lg text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Built for <span className="font-bold text-primary">attorneys</span> seeking comprehensive research and <span className="font-bold text-primary">individuals</span> who can't afford legal fees—because <span className="italic">everyone deserves access to justice</span>
+              <span className="font-bold text-primary">Sophisticated research tools</span> meet <span className="font-bold text-primary">intuitive guidance</span>—because <span className="italic">everyone deserves access to justice</span>
             </p>
             
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
