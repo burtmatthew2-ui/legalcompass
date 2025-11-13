@@ -165,6 +165,119 @@ export type Database = {
         }
         Relationships: []
       }
+      lawyer_profiles: {
+        Row: {
+          bar_number: string
+          bio: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          practice_areas: string[]
+          states_licensed: string[]
+          updated_at: string | null
+          user_id: string
+          verified_status: boolean | null
+        }
+        Insert: {
+          bar_number: string
+          bio?: string | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          practice_areas: string[]
+          states_licensed: string[]
+          updated_at?: string | null
+          user_id: string
+          verified_status?: boolean | null
+        }
+        Update: {
+          bar_number?: string
+          bio?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          practice_areas?: string[]
+          states_licensed?: string[]
+          updated_at?: string | null
+          user_id?: string
+          verified_status?: boolean | null
+        }
+        Relationships: []
+      }
+      lead_purchases: {
+        Row: {
+          amount_paid: number
+          id: string
+          lawyer_id: string
+          lead_id: string
+          purchased_at: string | null
+        }
+        Insert: {
+          amount_paid: number
+          id?: string
+          lawyer_id: string
+          lead_id: string
+          purchased_at?: string | null
+        }
+        Update: {
+          amount_paid?: number
+          id?: string
+          lawyer_id?: string
+          lead_id?: string
+          purchased_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_purchases_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_cases: {
+        Row: {
+          created_at: string | null
+          description: string
+          id: string
+          legal_topic: string
+          snapshot_brief: string | null
+          state: string
+          status: string | null
+          updated_at: string | null
+          urgency_level: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          id?: string
+          legal_topic: string
+          snapshot_brief?: string | null
+          state: string
+          status?: string | null
+          updated_at?: string | null
+          urgency_level: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          id?: string
+          legal_topic?: string
+          snapshot_brief?: string | null
+          state?: string
+          status?: string | null
+          updated_at?: string | null
+          urgency_level?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       newsletter_signups: {
         Row: {
           created_at: string
@@ -194,16 +307,19 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
+          user_type: Database["public"]["Enums"]["user_type"] | null
         }
         Insert: {
           created_at?: string | null
           email: string
           id: string
+          user_type?: Database["public"]["Enums"]["user_type"] | null
         }
         Update: {
           created_at?: string | null
           email?: string
           id?: string
+          user_type?: Database["public"]["Enums"]["user_type"] | null
         }
         Relationships: []
       }
@@ -350,6 +466,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      user_type: "individual" | "lawyer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -478,6 +595,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      user_type: ["individual", "lawyer"],
     },
   },
 } as const
