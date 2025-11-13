@@ -463,45 +463,107 @@ export type Database = {
       }
       lawyer_profiles: {
         Row: {
+          average_rating: number | null
           bar_number: string
           bio: string | null
           created_at: string | null
           email: string
           full_name: string
           id: string
+          journey_story: string | null
+          law_school: string | null
           practice_areas: string[]
+          profile_image_url: string | null
+          specializations: string[] | null
           states_licensed: string[]
+          total_ratings: number | null
           updated_at: string | null
           user_id: string
           verified_status: boolean | null
+          years_of_experience: number | null
         }
         Insert: {
+          average_rating?: number | null
           bar_number: string
           bio?: string | null
           created_at?: string | null
           email: string
           full_name: string
           id?: string
+          journey_story?: string | null
+          law_school?: string | null
           practice_areas: string[]
+          profile_image_url?: string | null
+          specializations?: string[] | null
           states_licensed: string[]
+          total_ratings?: number | null
           updated_at?: string | null
           user_id: string
           verified_status?: boolean | null
+          years_of_experience?: number | null
         }
         Update: {
+          average_rating?: number | null
           bar_number?: string
           bio?: string | null
           created_at?: string | null
           email?: string
           full_name?: string
           id?: string
+          journey_story?: string | null
+          law_school?: string | null
           practice_areas?: string[]
+          profile_image_url?: string | null
+          specializations?: string[] | null
           states_licensed?: string[]
+          total_ratings?: number | null
           updated_at?: string | null
           user_id?: string
           verified_status?: boolean | null
+          years_of_experience?: number | null
         }
         Relationships: []
+      }
+      lawyer_ratings: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          lawyer_id: string
+          lead_id: string | null
+          rating: number
+          review: string | null
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          lawyer_id: string
+          lead_id?: string | null
+          rating: number
+          review?: string | null
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          lawyer_id?: string
+          lead_id?: string | null
+          rating?: number
+          review?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lawyer_ratings_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lead_purchases: {
         Row: {

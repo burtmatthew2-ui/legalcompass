@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { MessageSquare, FileText } from "lucide-react";
+import { MessageSquare, FileText, Users } from "lucide-react";
+import { LawyerSelector } from "@/components/LawyerSelector";
 
 interface ClientCase {
   id: string;
@@ -17,11 +18,13 @@ interface ClientCase {
   created_at: string;
   has_lawyer: boolean;
   unread_messages: number;
+  lawyer_count?: number;
 }
 
 const ClientCaseView = () => {
   const [cases, setCases] = useState<ClientCase[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCaseForLawyers, setSelectedCaseForLawyers] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -46,6 +49,12 @@ const ClientCaseView = () => {
       // Check which cases have been purchased (have a lawyer)
       const casesWithStatus = await Promise.all(
         (userCases || []).map(async (caseItem) => {
+          // Count how many lawyers purchased this lead
+          const { count: lawyerCount } = await supabase
+            .from('lead_purchases')
+            .select('*', { count: 'exact', head: true })
+            .eq('lead_id', caseItem.id);
+
           const { data: purchase } = await supabase
             .from('lead_purchases')
             .select('id')
@@ -62,7 +71,8 @@ const ClientCaseView = () => {
           return {
             ...caseItem,
             has_lawyer: !!purchase,
-            unread_messages: count || 0
+            unread_messages: count || 0,
+            lawyer_count: lawyerCount || 0
           };
         })
       );
@@ -135,7 +145,17 @@ const ClientCaseView = () => {
                   </div>
 
                   {caseItem.has_lawyer && (
-                    <div className="flex gap-2 pt-2">
+                    <div className="space-y-2 pt-2">
+                      {(caseItem.lawyer_count || 0) > 1 && (
+                        <Button
+                          variant="outline"
+                          onClick={() => setSelectedCaseForLawyers(caseItem.id)}
+                          className="w-full"
+                        >
+                          <Users className="w-4 h-4 mr-2" />
+                          View {caseItem.lawyer_count} Interested Lawyers
+                        </Button>
+                      )}
                       <Button
                         variant="default"
                         onClick={() => navigate(`/client-case/${caseItem.id}`)}
@@ -161,6 +181,18 @@ const ClientCaseView = () => {
             </Card>
           ))}
         </div>
+      )}
+
+      {selectedCaseForLawyers && (
+        <LawyerSelector
+          leadId={selectedCaseForLawyers}
+          open={!!selectedCaseForLawyers}
+          onOpenChange={(open) => !open && setSelectedCaseForLawyers(null)}
+          onLawyerSelected={() => {
+            loadCases();
+            setSelectedCaseForLawyers(null);
+          }}
+        />
       )}
     </div>
   );

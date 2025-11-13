@@ -36,8 +36,20 @@ export const LawyerRatingDialog = ({ open, onOpenChange, leadId, lawyerId, lawye
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // In a real implementation, you'd save this to a lawyer_ratings table
-      // For now, we'll just log the activity
+      // Save rating to database
+      const { error: ratingError } = await supabase
+        .from('lawyer_ratings')
+        .upsert({
+          lawyer_id: lawyerId,
+          client_id: user.id,
+          lead_id: leadId,
+          rating,
+          review: review.trim() || null
+        });
+
+      if (ratingError) throw ratingError;
+
+      // Also log the activity
       await supabase.functions.invoke('log-activity', {
         body: {
           leadId,

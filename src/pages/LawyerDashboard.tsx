@@ -9,6 +9,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, AlertCircle, BarChart3 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TemplateManager } from "@/components/TemplateManager";
+import { TeamManagement } from "@/components/TeamManagement";
+import { LawyerProfileEditor } from "@/components/LawyerProfileEditor";
 
 interface LawyerProfile {
   id: string;
@@ -193,9 +196,12 @@ const LawyerDashboard = () => {
           </div>
 
           <Tabs defaultValue="available" className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsList className="grid w-full max-w-4xl grid-cols-5">
               <TabsTrigger value="available">Available Leads</TabsTrigger>
-              <TabsTrigger value="purchased">My Purchased Leads</TabsTrigger>
+              <TabsTrigger value="purchased">My Cases</TabsTrigger>
+              <TabsTrigger value="profile">My Profile</TabsTrigger>
+              <TabsTrigger value="templates">Templates</TabsTrigger>
+              <TabsTrigger value="team">Team</TabsTrigger>
             </TabsList>
 
             <TabsContent value="available" className="space-y-4">
@@ -291,6 +297,18 @@ const LawyerDashboard = () => {
                   ))
                 )}
               </div>
+            </TabsContent>
+
+            <TabsContent value="profile">
+              <LawyerProfileEditor />
+            </TabsContent>
+
+            <TabsContent value="templates">
+              <TemplateManager />
+            </TabsContent>
+
+            <TabsContent value="team">
+              <TeamManagement />
             </TabsContent>
           </Tabs>
         </div>
