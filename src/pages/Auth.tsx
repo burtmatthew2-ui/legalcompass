@@ -123,7 +123,9 @@ const Auth = () => {
           }
         }
 
-        toast.success("Account created! You can now sign in. All your data is encrypted.");
+        toast.success("Account created! Please check your email to verify your account before signing in.", {
+          duration: 6000
+        });
         setIsLogin(true);
         setPassword("");
         setAcceptedTos(false);
