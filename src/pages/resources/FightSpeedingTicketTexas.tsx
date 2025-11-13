@@ -45,8 +45,23 @@ const FightSpeedingTicketTexas = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Discover Texas-specific options like defensive driving dismissal, deferred disposition probation, and when to demand a jury trial—strategies that can keep tickets off your record completely.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> Texas gives you multiple escape hatches other states don't offer—defensive driving can wipe the ticket entirely, deferred disposition puts it on probation, and you have a constitutional right to a jury trial for ANY traffic offense. We break down exactly when to use each strategy.
+                </p>
+              </div>
+
               <p>
-                Texas speeding tickets can cost hundreds of dollars in fines, add points to your driving record, and increase insurance premiums for years. However, Texas law gives you several options to contest citations or minimize their impact. Understanding these options and how to effectively challenge a ticket can save you money and protect your driving record.
+                Texas doesn't mess around with speeding tickets—fines, points, insurance hikes that stick for years. But Texas law also gives you options that most states don't. From defensive driving courses that make tickets disappear to deferred disposition that keeps your record clean, there are real ways out if you know how the system works.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Your Options After Receiving a Ticket</h2>

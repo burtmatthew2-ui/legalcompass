@@ -45,8 +45,23 @@ const FightSpeedingTicketNewYork = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Learn how to fight a speeding ticket in New York, including the DMV point system, Traffic Violations Bureau procedures, plea bargain differences between NYC and upstate courts, and proven defenses to protect your license.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> New York has two completely different systems—TVB in NYC (no plea bargains) versus traditional courts upstate (plea bargains available). This guide explains exactly which rules apply to your ticket location and how to maximize your chances of dismissal or reduction.
+                </p>
+              </div>
+
               <p>
-                New York speeding tickets carry hefty fines, DMV points, and a mandatory Driver Responsibility Assessment if you accumulate 6 or more points within 18 months. Fighting a ticket in New York requires understanding the state's unique traffic court system and point structure. This guide provides strategies to contest your citation and protect your driving record.
+                A speeding ticket in New York hits harder than most states—fines pile up fast, DMV points stack quickly, and hit 6 points within 18 months and you're paying a $300 Driver Responsibility Assessment on top of everything else. Fighting it might seem overwhelming, but understanding NY's unique traffic court system gives you real options to protect your record.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Understanding New York's Point System</h2>

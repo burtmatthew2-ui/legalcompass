@@ -45,8 +45,23 @@ const FightSpeedingTicketCalifornia = () => {
             </div>
 
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
+              <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-8">
+                <p className="text-lg font-medium mb-3">
+                  What You'll Learn on This Page
+                </p>
+                <p className="text-muted-foreground">
+                  Master California's unique Trial by Written Declaration process, understand traffic school eligibility, and learn effective defenses against speeding tickets—all without stepping foot in court.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 p-6 rounded-lg mb-8">
+                <p className="text-muted-foreground italic">
+                  <strong>What makes this guide unique:</strong> California is the ONLY state that lets you fight a ticket without ever appearing in court through Trial by Written Declaration—and if you lose, you get a do-over with an in-person trial. We show you exactly how to use this two-shot strategy to beat or reduce your ticket.
+                </p>
+              </div>
+
               <p>
-                Receiving a speeding ticket in California can result in fines exceeding $500 (including court fees and penalty assessments), points on your driving record, and increased insurance rates. However, you have the right to contest the ticket. This guide explains your options and the most effective strategies for fighting a California speeding ticket.
+                That speeding ticket you just got? It's gonna cost way more than the number printed on it. California fines balloon with court fees and penalty assessments—a "$35 ticket" becomes $500 real fast. Plus points on your license mean insurance hikes for years. But here's the thing: you've got options most people don't even know exist.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Your Three Options After Receiving a Ticket</h2>

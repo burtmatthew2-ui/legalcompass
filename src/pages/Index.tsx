@@ -77,13 +77,17 @@ const Index = () => {
               <Hero onGetStarted={handleGetStarted} />
               
               {/* How It Works Section */}
-              <HowItWorks />
+              <div id="how-it-works">
+                <HowItWorks />
+              </div>
               
               {/* Live Stats - Social Proof */}
               <LiveStatsCounter />
               
               {/* Legal Direction Finder - Interactive Quiz */}
-              <LegalDirectionFinder />
+              <div id="tools">
+                <LegalDirectionFinder />
+              </div>
               
               {/* Document Hub - Free Templates */}
               <DocumentHub />
@@ -106,7 +110,9 @@ const Index = () => {
               <Testimonials />
               
               {/* Comparison Table */}
-              <ComparisonTable />
+              <div id="comparison">
+                <ComparisonTable />
+              </div>
             </>
           )}
         </main>
