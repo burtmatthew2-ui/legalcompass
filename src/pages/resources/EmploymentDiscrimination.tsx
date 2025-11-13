@@ -78,13 +78,22 @@ const EmploymentDiscrimination = () => {
         </header>
 
         <main className="container mx-auto px-4 py-12 max-w-4xl">
-          <article>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-              Employment Discrimination: Complete Legal Guide for 2025
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Understanding your rights, types of discrimination, protected classes, and how to file an EEOC complaint
-            </p>
+            <article>
+              <div className="mb-6">
+                <p className="text-base text-muted-foreground mb-4">
+                  Getting fired, passed over, or harassed because of who you are is illegal. This guide breaks down what counts as employment discrimination, who's protected, and exactly how to file an EEOC complaint.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  What makes this guide unique: We explain the exact legal standards for proving discrimination (disparate treatment vs. disparate impact), provide specific examples of what does and doesn't qualify, detail the actual EEOC complaint process with timelines (180-300 days to file or you lose your claim), and clarify when you can sue versus when EEOC handles it—not vague talk about "workplace fairness."
+                </p>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                Employment Discrimination: Complete Legal Guide for 2025
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8">
+                Understanding your rights, types of discrimination, protected classes, and how to file an EEOC complaint
+              </p>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-foreground">What is Employment Discrimination?</h2>

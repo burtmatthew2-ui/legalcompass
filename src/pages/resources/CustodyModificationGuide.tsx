@@ -75,22 +75,29 @@ export default function CustodyModificationGuide() {
             Back to Resources
           </Link>
 
-          <article>
-            <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-                How to Modify Child Custody: Complete Guide
-              </h1>
-              <VerifiedBadge lastReviewed="2025-01-15" />
-            </header>
+            <article>
+              <div className="mb-6">
+                <p className="text-base text-muted-foreground mb-4">
+                  Learn when and how to modify custody orders—whether you need more time with your child or the current setup isn't working. This guide shows you what courts actually look for and the real steps to take.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  What makes this guide unique: Courts don't change custody lightly. We explain the exact "material change" standard you must prove, provide concrete examples of valid and invalid reasons, detail the actual modification process with timelines, and show you what evidence wins and loses cases—not just broad "best interest" platitudes.
+                </p>
+              </div>
 
-            <ArticleAuthor />
+              <header className="mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                  How to Modify Child Custody: Complete Guide
+                </h1>
+                <VerifiedBadge lastReviewed="2025-01-15" />
+              </header>
 
-            <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Life circumstances change, and sometimes custody arrangements need to change too. Whether you're seeking 
-                more time with your child or believe the current arrangement isn't in their best interest, this guide 
-                explains the custody modification process and what courts look for.
-              </p>
+              <ArticleAuthor />
+
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                  Life changes—jobs, moves, new relationships. Sometimes custody arrangements need to change too. But courts don't modify custody just because you ask nicely. You need to prove a real, significant change that affects your child's wellbeing. Here's what that actually means and how to do it.
+                </p>
 
               <div className="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-6 mb-8 rounded-r">
                 <div className="flex items-start">

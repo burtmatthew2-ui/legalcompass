@@ -78,13 +78,22 @@ const ExpungeCriminalRecord = () => {
         </header>
 
         <main className="container mx-auto px-4 py-12 max-w-4xl">
-          <article>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-              How to Expunge Your Criminal Record: Complete Guide for 2025
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              State-by-state guide to expungement, sealing, and clearing your criminal record
-            </p>
+            <article>
+              <div className="mb-6">
+                <p className="text-base text-muted-foreground mb-4">
+                  A criminal record blocks jobs, housing, loans—even after you've paid your debt. Expungement can wipe it clean. This guide shows you which records qualify, state-by-state waiting periods, costs, and the exact steps to clear your record.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  What makes this guide unique: Expungement laws vary wildly by state. We provide specific waiting periods, filing fees, and eligibility requirements for major states (CA, TX, FL, NY, IL, PA), explain the difference between expungement and sealing, detail what shows up after expungement (it's not always invisible), and walk through the actual petition process—not generic "clean slate" promises.
+                </p>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                How to Expunge Your Criminal Record: Complete Guide for 2025
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8">
+                State-by-state guide to expungement, sealing, and clearing your criminal record
+              </p>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-foreground">What is Expungement?</h2>

@@ -81,10 +81,10 @@ const ChildSupport = () => {
           <article>
             <div className="mb-6">
               <p className="text-base text-muted-foreground mb-4">
-                This guide breaks down how child support is calculated in every state, what factors affect payment amounts, and how to modify or enforce orders. Whether you're paying or receiving child support, understanding the calculation methods and your legal rights is essential.
+                Learn how child support works—what you'll pay, what you'll get, and how to modify orders when life changes. This guide covers calculation methods, state differences, and the real steps to take when you need an adjustment.
               </p>
               <p className="text-sm text-muted-foreground italic">
-                What makes this guide unique: We provide actual calculation formulas by state, specific percentage breakdowns, average payment amounts by state, exact modification requirements, and enforcement methods with realistic timelines—not vague generalizations.
+                What makes this guide unique: We give you actual state formulas, percentage breakdowns, average payment amounts by state, exact modification requirements, and enforcement methods with realistic timelines—not vague generalizations about "best interests" and "factors considered."
               </p>
             </div>
 

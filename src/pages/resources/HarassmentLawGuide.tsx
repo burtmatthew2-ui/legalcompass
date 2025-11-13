@@ -75,31 +75,29 @@ export default function HarassmentLawGuide() {
             Back to Resources
           </Link>
 
-          <article>
-            <div className="mb-6">
-              <p className="text-base text-muted-foreground mb-4">
-                This guide provides a clear legal definition of harassment, explains different types (workplace, stalking, cyberbullying, police harassment), and outlines your legal options for stopping it. Whether you're dealing with an ex-partner, neighbor, or workplace harassment, you'll learn exactly what constitutes illegal harassment and how to protect yourself.
-              </p>
-              <p className="text-sm text-muted-foreground italic">
-                What makes this guide unique: We explain the precise legal elements required to prove harassment, provide specific examples of what does and doesn't qualify, detail exact steps for obtaining restraining orders (including forms and timelines), and clarify when police harassment crosses legal boundaries—with citations to actual statutes and case law.
-              </p>
-            </div>
+            <article>
+              <div className="mb-6">
+                <p className="text-base text-muted-foreground mb-4">
+                  Learn what legally counts as harassment—from exes who won't leave you alone to workplace bullying to police targeting. This guide explains when annoying behavior crosses into illegal territory and what you can do about it.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  What makes this guide unique: We break down the precise legal elements needed to prove harassment (repeated conduct + reasonable person standard), provide specific examples of what qualifies versus what doesn't, detail exact steps for restraining orders with forms and timelines, and explain when police harassment crosses legal lines—with citations to actual statutes, not feel-good platitudes about "standing up for yourself."
+                </p>
+              </div>
 
-            <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-                What Constitutes Harassment: Legal Definition, Laws & Your Rights
-              </h1>
-              <VerifiedBadge lastReviewed="2025-01-15" />
-            </header>
+              <header className="mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                  What Constitutes Harassment: Legal Definition, Laws & Your Rights
+                </h1>
+                <VerifiedBadge lastReviewed="2025-01-15" />
+              </header>
 
-            <ArticleAuthor />
+              <ArticleAuthor />
 
-            <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Harassment is unwanted behavior that threatens, intimidates, or causes emotional distress. Whether from 
-                a neighbor, coworker, ex-partner, or even law enforcement, understanding what legally constitutes harassment 
-                is essential to protecting yourself and knowing when you can take legal action.
-              </p>
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                  Someone won't stop calling you. A coworker makes every shift miserable. Your ex keeps showing up. When does annoying become illegal? Understanding what legally constitutes harassment is the first step to knowing when you can take action and actually get it to stop.
+                </p>
 
               <div className="bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 p-6 mb-8 rounded-r">
                 <div className="flex items-start">

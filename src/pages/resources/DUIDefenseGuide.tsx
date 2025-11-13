@@ -75,22 +75,29 @@ export default function DUIDefenseGuide() {
             Back to Resources
           </Link>
 
-          <article>
-            <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-                DUI Defense Guide: Penalties, Process & How to Fight Charges
-              </h1>
-              <VerifiedBadge lastReviewed="2025-01-15" />
-            </header>
+            <article>
+              <div className="mb-6">
+                <p className="text-base text-muted-foreground mb-4">
+                  A DUI arrest can wreck your life—license suspended, thousands in fines, maybe jail time. This guide explains penalties, the arrest process, real defenses that work, and what you need to do immediately to protect yourself.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  What makes this guide unique: We detail specific penalties by offense (1st, 2nd, 3rd DUI with actual dollar amounts), explain your rights at each arrest stage (you CAN refuse field sobriety tests), provide concrete defenses that challenge breathalyzer accuracy and police procedures, and include critical deadlines (you have 10 days to request DMV hearing or lose your license automatically).
+                </p>
+              </div>
 
-            <ArticleAuthor />
+              <header className="mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                  DUI Defense Guide: Penalties, Process & How to Fight Charges
+                </h1>
+                <VerifiedBadge lastReviewed="2025-01-15" />
+              </header>
 
-            <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Being arrested for DUI (Driving Under the Influence) or DWI (Driving While Intoxicated) is serious and can 
-                have life-altering consequences. Understanding your rights, the legal process, and potential defenses is 
-                crucial to protecting your future.
-              </p>
+              <ArticleAuthor />
+
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                  Getting arrested for DUI feels like the end of the world—license gone, job at risk, thousands you don't have to spend. Understanding your rights, what actually happens next, and what defenses might work can make the difference between a dismissal and a conviction that follows you for years.
+                </p>
 
               <div className="bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 p-6 mb-8 rounded-r">
                 <div className="flex items-start">
