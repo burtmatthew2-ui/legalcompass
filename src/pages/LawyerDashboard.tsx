@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, BarChart3 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -28,6 +29,7 @@ interface LegalCase {
 }
 
 const LawyerDashboard = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<LawyerProfile | null>(null);
@@ -179,9 +181,15 @@ const LawyerDashboard = () => {
 
       <div className="min-h-screen bg-background p-4">
         <div className="max-w-6xl mx-auto py-8 space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">Welcome, {profile.full_name}</h1>
-            <p className="text-muted-foreground">Manage your leads and profile</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">Welcome, {profile.full_name}</h1>
+              <p className="text-muted-foreground">Manage your leads and profile</p>
+            </div>
+            <Button onClick={() => navigate('/analytics')}>
+              <BarChart3 className="w-4 h-4 mr-2" />
+              View Analytics
+            </Button>
           </div>
 
           <Tabs defaultValue="available" className="w-full">

@@ -13,6 +13,9 @@ import { ArrowLeft, Send, FileText, Upload, Calendar, Clock, AlertCircle } from 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CaseNotes } from "@/components/CaseNotes";
+import { CaseTimeline } from "@/components/CaseTimeline";
+import { CalendarExport } from "@/components/CalendarExport";
 
 interface CaseMessage {
   id: string;
@@ -195,6 +198,21 @@ const CaseManagement = () => {
     }
   };
 
+  const logActivity = async (activityType: string, description: string, metadata?: any) => {
+    if (!currentUserId || !userType) return;
+
+    await supabase.functions.invoke('log-activity', {
+      body: {
+        leadId,
+        activityType,
+        actorId: currentUserId,
+        actorType: userType,
+        description,
+        metadata
+      }
+    });
+  };
+
   const sendMessage = async () => {
     if (!newMessage.trim() || !userType || !currentUserId) return;
 
@@ -209,6 +227,8 @@ const CaseManagement = () => {
         });
 
       if (error) throw error;
+
+      await logActivity('message', `${userType === 'lawyer' ? 'Lawyer' : 'Client'} sent a message`);
 
       setNewMessage("");
       
@@ -240,6 +260,8 @@ const CaseManagement = () => {
         });
 
       if (error) throw error;
+
+      await logActivity('document', `Lawyer requested document: ${newDocRequest.trim()}`);
 
       setNewDocRequest("");
       loadCaseData(); // Refresh documents
@@ -275,6 +297,11 @@ const CaseManagement = () => {
         });
 
       if (error) throw error;
+
+      await logActivity('deadline', `Deadline created: ${newDeadline.title}`, {
+        deadline_date: newDeadline.deadline_date,
+        notification_timing: newDeadline.notification_timing
+      });
 
       setNewDeadline({ title: '', description: '', deadline_date: '', notification_timing: '2_days' });
       loadCaseData();
@@ -312,6 +339,11 @@ const CaseManagement = () => {
 
       if (error) throw error;
 
+      await logActivity('meeting', `Meeting scheduled: ${newMeeting.title}`, {
+        meeting_date: newMeeting.meeting_date,
+        meeting_type: newMeeting.meeting_type
+      });
+
       setNewMeeting({ title: '', description: '', meeting_date: '', location: '', meeting_type: 'video' });
       loadCaseData();
       
@@ -340,6 +372,8 @@ const CaseManagement = () => {
       });
 
       if (response.error) throw response.error;
+
+      await logActivity('status_change', `Case ${closeAction}: ${closeReason}`);
 
       toast({
         title: "Case closed",
@@ -403,11 +437,13 @@ const CaseManagement = () => {
         </Card>
 
         <Tabs defaultValue="messages" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="documents">Documents</TabsTrigger>
+            {userType === 'lawyer' && <TabsTrigger value="notes">Notes</TabsTrigger>}
             {userType === 'lawyer' && <TabsTrigger value="deadlines">Deadlines</TabsTrigger>}
             {userType === 'lawyer' && <TabsTrigger value="meetings">Meetings</TabsTrigger>}
+            <TabsTrigger value="timeline">Timeline</TabsTrigger>
           </TabsList>
 
           <TabsContent value="messages">
@@ -539,6 +575,12 @@ const CaseManagement = () => {
 
           {userType === 'lawyer' && (
             <>
+              <TabsContent value="notes">
+                {currentUserId && (
+                  <CaseNotes leadId={leadId!} lawyerId={currentUserId} />
+                )}
+              </TabsContent>
+
               <TabsContent value="deadlines">
                 <Card>
                   <CardHeader>
@@ -748,7 +790,34 @@ const CaseManagement = () => {
               </TabsContent>
             </>
           )}
+
+          <TabsContent value="timeline">
+            <CaseTimeline leadId={leadId!} />
+          </TabsContent>
         </Tabs>
+
+        {userType === 'lawyer' && currentUserId && deadlines.length + meetings.length > 0 && (
+          <div className="mt-6">
+            <CalendarExport
+              events={[
+                ...deadlines.map(d => ({
+                  id: d.id,
+                  title: `Deadline: ${d.title}`,
+                  description: d.description || undefined,
+                  start: new Date(d.deadline_date)
+                })),
+                ...meetings.map(m => ({
+                  id: m.id,
+                  title: m.title,
+                  description: m.description || undefined,
+                  start: new Date(m.meeting_date),
+                  location: m.location || undefined
+                }))
+              ]}
+              calendarName={`${caseData.legal_topic} - Case Calendar`}
+            />
+          </div>
+        )}
 
         {userType === 'lawyer' && (
           <Card className="mt-6">

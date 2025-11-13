@@ -46,6 +46,47 @@ export type Database = {
           },
         ]
       }
+      case_activity_log: {
+        Row: {
+          activity_type: string
+          actor_id: string
+          actor_type: string
+          created_at: string
+          description: string
+          id: string
+          lead_id: string
+          metadata: Json | null
+        }
+        Insert: {
+          activity_type: string
+          actor_id: string
+          actor_type: string
+          created_at?: string
+          description: string
+          id?: string
+          lead_id: string
+          metadata?: Json | null
+        }
+        Update: {
+          activity_type?: string
+          actor_id?: string
+          actor_type?: string
+          created_at?: string
+          description?: string
+          id?: string
+          lead_id?: string
+          metadata?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_activity_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       case_deadlines: {
         Row: {
           created_at: string
@@ -219,6 +260,47 @@ export type Database = {
           },
         ]
       }
+      case_notes: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          lawyer_id: string
+          lead_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          lawyer_id: string
+          lead_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          lawyer_id?: string
+          lead_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chat_conversations: {
         Row: {
           created_at: string
@@ -274,6 +356,47 @@ export type Database = {
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_versions: {
+        Row: {
+          created_at: string
+          document_id: string
+          file_path: string
+          file_size: number
+          id: string
+          upload_notes: string | null
+          uploaded_by: string
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          file_path: string
+          file_size: number
+          id?: string
+          upload_notes?: string | null
+          uploaded_by: string
+          version_number: number
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          file_path?: string
+          file_size?: number
+          id?: string
+          upload_notes?: string | null
+          uploaded_by?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_versions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "case_documents"
             referencedColumns: ["id"]
           },
         ]

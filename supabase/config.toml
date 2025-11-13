@@ -56,3 +56,9 @@ verify_jwt = false
 
 [functions.close-case]
 verify_jwt = true
+
+[functions.log-activity]
+verify_jwt = true
+
+[functions.send-newsletter-confirmation]
+verify_jwt = false
