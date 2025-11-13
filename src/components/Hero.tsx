@@ -90,13 +90,23 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               {user ? (
-                <Button 
-                  size="lg" 
-                  className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
-                  onClick={() => navigate('/get-started')}
-                >
-                  Access Your Dashboard
-                </Button>
+                <>
+                  <Button 
+                    size="lg" 
+                    className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+                    onClick={() => navigate('/get-started')}
+                  >
+                    Find an Attorney
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="text-lg px-8 py-6 border-2"
+                    onClick={onGetStarted}
+                  >
+                    Chat with AI
+                  </Button>
+                </>
               ) : (
                 <>
                   <Button 
