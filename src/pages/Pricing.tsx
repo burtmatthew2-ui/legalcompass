@@ -17,7 +17,10 @@ const PREMIUM_TIER = {
   priceId: "price_1SNuZKArhAIMbV73QbW8o3hr",
   productId: "prod_TMFlPpHhdISKJS",
   features: [
-    "3 questions free trial",
+    "Unlimited legal case submissions",
+    "AI-generated Snapshot Briefs for your cases",
+    "Connect with verified lawyers",
+    "Download case summaries as PDFs",
     "All 50 US states + federal law coverage",
     "EU (all 27 member states), UK, Canada, Australia, NZ",
     "Case law comparison across jurisdictions",

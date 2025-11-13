@@ -38,6 +38,14 @@ export const SubscriptionDialog = ({ open, onOpenChange }: SubscriptionDialogPro
         <div className="space-y-3 py-4">
           <div className="flex items-start gap-3">
             <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+            <p className="text-sm">Unlimited legal case submissions with AI Snapshot Briefs</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+            <p className="text-sm">Connect with verified lawyers for your cases</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
             <p className="text-sm">Multi-jurisdiction research (17+ jurisdictions)</p>
           </div>
           <div className="flex items-start gap-3">

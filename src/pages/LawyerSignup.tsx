@@ -103,7 +103,7 @@ const LawyerSignup = () => {
         return;
       }
 
-      const { error } = await supabase
+      const { data: profileData, error } = await supabase
         .from("lawyer_profiles")
         .insert({
           user_id: user.id,
@@ -114,14 +114,45 @@ const LawyerSignup = () => {
           practice_areas: formData.practiceAreas,
           bio: formData.bio,
           verified_status: false
-        });
+        })
+        .select()
+        .single();
 
       if (error) throw error;
 
+      // Trigger AI verification
       toast({
-        title: "Application submitted!",
-        description: "Your profile is pending verification. You'll be notified once approved."
+        title: "Verifying credentials...",
+        description: "Our AI is checking your bar credentials"
       });
+
+      const { data: verificationData, error: verifyError } = await supabase.functions.invoke(
+        'verify-lawyer',
+        {
+          body: { lawyerId: profileData.id }
+        }
+      );
+
+      if (verifyError) {
+        console.error("Verification error:", verifyError);
+        toast({
+          title: "Application submitted!",
+          description: "Your profile will be manually reviewed. You'll be notified once approved.",
+          duration: 5000
+        });
+      } else if (verificationData?.autoVerified) {
+        toast({
+          title: "Verified!",
+          description: "Your credentials have been verified. Welcome to Legal Compass!",
+          duration: 5000
+        });
+      } else {
+        toast({
+          title: "Application submitted!",
+          description: verificationData?.message || "Your profile is pending verification.",
+          duration: 5000
+        });
+      }
 
       navigate("/lawyer-dashboard");
     } catch (error: any) {

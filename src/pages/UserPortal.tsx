@@ -54,6 +54,7 @@ const UserPortal = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check if user has premium subscription
     if (!subscription?.subscribed && !subLoading) {
       setShowSubscriptionDialog(true);
       return;
