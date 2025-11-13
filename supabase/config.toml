@@ -38,3 +38,15 @@ verify_jwt = true
 
 [functions.verify-lawyer]
 verify_jwt = false
+
+[functions.purchase-lead]
+verify_jwt = true
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.notify-new-lead]
+verify_jwt = false
+
+[functions.notify-lead-purchased]
+verify_jwt = false

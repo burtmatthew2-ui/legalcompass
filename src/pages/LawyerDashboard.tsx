@@ -94,10 +94,30 @@ const LawyerDashboard = () => {
   };
 
   const handlePurchaseLead = async (leadId: string) => {
-    toast({
-      title: "Coming soon",
-      description: "Stripe payment integration for lead purchases will be available shortly."
-    });
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.functions.invoke("purchase-lead", {
+        body: { leadId }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.open(data.url, '_blank');
+        toast({
+          title: "Redirecting to checkout",
+          description: "Complete your payment to access the full lead details"
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Purchase failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -181,7 +201,11 @@ const LawyerDashboard = () => {
                     </CardContent>
                   </Card>
                 ) : (
-                  availableLeads.map((lead) => (
+                  availableLeads.map((lead) => {
+                    const price = lead.urgency_level === "high" ? "$90" : 
+                                 lead.urgency_level === "medium" ? "$70" : "$50";
+                    
+                    return (
                     <Card key={lead.id}>
                       <CardHeader>
                         <div className="flex items-start justify-between">
@@ -197,13 +221,29 @@ const LawyerDashboard = () => {
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
-                        <p className="text-sm line-clamp-3">{lead.description}</p>
-                        <Button onClick={() => handlePurchaseLead(lead.id)} className="w-full">
-                          View Details & Purchase Lead ($75)
-                        </Button>
+                        <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary">
+                          <p className="text-sm font-medium mb-2">Preview:</p>
+                          <p className="text-sm line-clamp-2">{lead.description}</p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Full case details available after purchase
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between pt-2">
+                          <div className="text-lg font-bold text-primary">{price}</div>
+                          <Button onClick={() => handlePurchaseLead(lead.id)} disabled={loading}>
+                            {loading ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Processing...
+                              </>
+                            ) : (
+                              `Purchase Lead (${price})`
+                            )}
+                          </Button>
+                        </div>
                       </CardContent>
                     </Card>
-                  ))
+                  )})
                 )}
               </div>
             </TabsContent>

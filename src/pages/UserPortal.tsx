@@ -98,6 +98,16 @@ const UserPortal = () => {
         title: "Case submitted successfully!",
         description: "Your Snapshot Brief has been created and is now visible to verified lawyers."
       });
+
+      // Notify matching lawyers
+      try {
+        await supabase.functions.invoke("notify-new-lead", {
+          body: { caseId: data.id }
+        });
+      } catch (notifyError) {
+        console.error("Failed to notify lawyers:", notifyError);
+        // Don't show error to user - this is background notification
+      }
     } catch (error: any) {
       toast({
         title: "Error submitting case",
