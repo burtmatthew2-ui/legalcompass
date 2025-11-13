@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Compass, Shield } from "lucide-react";
@@ -25,6 +26,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [acceptedTos, setAcceptedTos] = useState(false);
+  const [subscribeNewsletter, setSubscribeNewsletter] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -53,6 +56,13 @@ const Auth = () => {
       if (!validation.success) {
         const firstError = validation.error.errors[0];
         toast.error(firstError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Check TOS acceptance for signup
+      if (!isLogin && !acceptedTos) {
+        toast.error("You must accept the Terms of Service to create an account");
         setLoading(false);
         return;
       }
@@ -93,9 +103,31 @@ const Auth = () => {
           setLoading(false);
           return;
         }
+
+        // If user opted in for newsletter, subscribe them
+        if (subscribeNewsletter) {
+          try {
+            const { error: newsletterError } = await supabase
+              .from('newsletter_signups')
+              .insert({ email: email.trim(), source: 'signup' });
+            
+            if (!newsletterError) {
+              // Send newsletter confirmation
+              await supabase.functions.invoke('send-newsletter-confirmation', {
+                body: { email: email.trim() }
+              });
+            }
+          } catch (newsletterError) {
+            // Don't block signup if newsletter fails
+            console.error('Newsletter signup error:', newsletterError);
+          }
+        }
+
         toast.success("Account created! You can now sign in. All your data is encrypted.");
         setIsLogin(true);
         setPassword("");
+        setAcceptedTos(false);
+        setSubscribeNewsletter(false);
       }
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");
@@ -154,6 +186,57 @@ const Auth = () => {
                 Must be 8+ characters with uppercase, lowercase, and special character
               </p>
             </div>
+            
+            {!isLogin && (
+              <div className="space-y-3 pt-2">
+                <div className="flex items-start space-x-3">
+                  <Checkbox 
+                    id="tos" 
+                    checked={acceptedTos}
+                    onCheckedChange={(checked) => setAcceptedTos(checked as boolean)}
+                    className="mt-1"
+                  />
+                  <label
+                    htmlFor="tos"
+                    className="text-sm leading-relaxed cursor-pointer"
+                  >
+                    I accept the{" "}
+                    <a
+                      href="/terms-of-service"
+                      target="_blank"
+                      className="text-primary hover:underline"
+                    >
+                      Terms of Service
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="/privacy-policy"
+                      target="_blank"
+                      className="text-primary hover:underline"
+                    >
+                      Privacy Policy
+                    </a>
+                    <span className="text-destructive ml-1">*</span>
+                  </label>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <Checkbox 
+                    id="newsletter" 
+                    checked={subscribeNewsletter}
+                    onCheckedChange={(checked) => setSubscribeNewsletter(checked as boolean)}
+                    className="mt-1"
+                  />
+                  <label
+                    htmlFor="newsletter"
+                    className="text-sm leading-relaxed cursor-pointer text-muted-foreground"
+                  >
+                    Subscribe to our newsletter for legal tips and updates (optional)
+                  </label>
+                </div>
+              </div>
+            )}
+
             <Button
               type="submit"
               className="w-full"
