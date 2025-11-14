@@ -372,6 +372,95 @@ export type Database = {
           },
         ]
       }
+      commission_agreements: {
+        Row: {
+          agreed_at: string
+          commission_rate: number
+          contract_text: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          lawyer_id: string
+          signature_data: string
+          user_agent: string | null
+        }
+        Insert: {
+          agreed_at?: string
+          commission_rate?: number
+          contract_text: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          lawyer_id: string
+          signature_data: string
+          user_agent?: string | null
+        }
+        Update: {
+          agreed_at?: string
+          commission_rate?: number
+          contract_text?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          lawyer_id?: string
+          signature_data?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      commission_tracking: {
+        Row: {
+          case_value: number
+          client_id: string
+          commission_amount: number
+          commission_rate: number
+          created_at: string
+          id: string
+          lawyer_id: string
+          lead_id: string
+          paid_at: string | null
+          payment_status: string
+          reported_at: string
+          updated_at: string
+        }
+        Insert: {
+          case_value: number
+          client_id: string
+          commission_amount: number
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          lawyer_id: string
+          lead_id: string
+          paid_at?: string | null
+          payment_status?: string
+          reported_at?: string
+          updated_at?: string
+        }
+        Update: {
+          case_value?: number
+          client_id?: string
+          commission_amount?: number
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          lawyer_id?: string
+          lead_id?: string
+          paid_at?: string | null
+          payment_status?: string
+          reported_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_tracking_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "legal_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       document_signatures: {
         Row: {
           created_at: string
