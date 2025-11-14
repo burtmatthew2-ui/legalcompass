@@ -116,7 +116,7 @@ const Auth = () => {
         }
         toast.success("Welcome back! Your data is encrypted and secure.");
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email: email.trim(),
           password,
           options: {
@@ -132,6 +132,20 @@ const Auth = () => {
           }
           setLoading(false);
           return;
+        }
+
+        // Save user role after successful signup
+        if (signUpData.user) {
+          const { error: roleError } = await supabase
+            .from("user_roles")
+            .insert({
+              user_id: signUpData.user.id,
+              role: userType
+            });
+
+          if (roleError) {
+            console.error("Error saving user role:", roleError);
+          }
         }
 
         // If user opted in for newsletter, subscribe them
@@ -160,6 +174,7 @@ const Auth = () => {
         setPassword("");
         setAcceptedTos(false);
         setSubscribeNewsletter(false);
+        setUserType("client");
       }
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");
@@ -220,7 +235,25 @@ const Auth = () => {
             </div>
             
             {!isLogin && (
-              <div className="space-y-3 pt-2">
+              <div className="space-y-4 pt-2">
+                <div className="space-y-2">
+                  <Label>I am signing up as:</Label>
+                  <RadioGroup value={userType} onValueChange={(value) => setUserType(value as "client" | "attorney")}>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="client" id="client" />
+                      <Label htmlFor="client" className="cursor-pointer font-normal">
+                        Client - I need legal help
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="attorney" id="attorney" />
+                      <Label htmlFor="attorney" className="cursor-pointer font-normal">
+                        Attorney - I want to offer legal services
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
                 <div className="flex items-start space-x-3">
                   <Checkbox 
                     id="tos" 
