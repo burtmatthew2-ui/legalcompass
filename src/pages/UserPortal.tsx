@@ -195,10 +195,10 @@ Format the response in a warm, professional tone. End with: "Would you like me t
           description: formData.description,
           urgency_level: formData.urgencyLevel,
           status: "open",
-          snapshot_brief: aiSummary
-        })
-        .select()
-        .single();
+        snapshot_brief: aiSummary
+      })
+      .select()
+      .maybeSingle();
 
       if (error) throw error;
 

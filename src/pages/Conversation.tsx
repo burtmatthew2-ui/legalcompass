@@ -63,7 +63,7 @@ export default function Conversation() {
           .from('legal_cases')
           .select('legal_topic, user_id')
           .eq('id', leadId)
-          .single();
+          .maybeSingle();
 
         if (caseError) throw caseError;
         setCaseTitle(caseData.legal_topic);
@@ -74,7 +74,7 @@ export default function Conversation() {
             .from('profiles')
             .select('email')
             .eq('id', caseData.user_id)
-            .single();
+            .maybeSingle();
           
           setOtherPartyName(clientProfile?.email || 'Client');
         } else {
@@ -82,7 +82,7 @@ export default function Conversation() {
             .from('lead_purchases')
             .select('lawyer_profiles:lawyer_id(full_name, email)')
             .eq('lead_id', leadId)
-            .single();
+            .maybeSingle();
 
           const lawyerProfile = (purchase as any)?.lawyer_profiles;
           setOtherPartyName(lawyerProfile?.full_name || lawyerProfile?.email || 'Attorney');

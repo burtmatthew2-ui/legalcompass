@@ -113,10 +113,10 @@ const LawyerSignup = () => {
           bar_number: formData.barNumber,
           practice_areas: formData.practiceAreas,
           bio: formData.bio,
-          verified_status: false
-        })
-        .select()
-        .single();
+        verified_status: false
+      })
+      .select()
+      .maybeSingle();
 
       if (error) throw error;
 
