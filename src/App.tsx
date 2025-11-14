@@ -63,6 +63,7 @@ import LegalResourcesTools from "./pages/resources/LegalResourcesTools";
 import PersonalInjuryClaims from "./pages/resources/PersonalInjuryClaims";
 import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
 import FindLawyers from "./pages/FindLawyers";
+import AttorneyProfile from "./pages/AttorneyProfile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -77,6 +78,7 @@ const App = () => (
           <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/find-lawyers" element={<FindLawyers />} />
+          <Route path="/attorney/:id" element={<AttorneyProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
