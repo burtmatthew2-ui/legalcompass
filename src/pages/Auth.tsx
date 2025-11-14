@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { Compass, Shield } from "lucide-react";
 import { z } from "zod";
@@ -28,18 +29,47 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [acceptedTos, setAcceptedTos] = useState(false);
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(false);
+  const [userType, setUserType] = useState<"client" | "attorney">("client");
 
   useEffect(() => {
     // Check if user is already logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/dashboard");
+        // Fetch user role and redirect accordingly
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .single();
+        
+        if (roleData?.role === "attorney") {
+          navigate("/attorney-dashboard");
+        } else if (roleData?.role === "client") {
+          navigate("/client-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       }
-    });
+    };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session) {
-        navigate("/dashboard");
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .single();
+        
+        if (roleData?.role === "attorney") {
+          navigate("/attorney-dashboard");
+        } else if (roleData?.role === "client") {
+          navigate("/client-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       }
     });
 
