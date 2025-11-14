@@ -140,6 +140,7 @@ export type Database = {
           lead_id: string
           notes: string | null
           requested_by: string
+          signature_required: boolean
           status: string
           uploaded_at: string | null
           uploaded_by: string | null
@@ -152,6 +153,7 @@ export type Database = {
           lead_id: string
           notes?: string | null
           requested_by: string
+          signature_required?: boolean
           status?: string
           uploaded_at?: string | null
           uploaded_by?: string | null
@@ -164,6 +166,7 @@ export type Database = {
           lead_id?: string
           notes?: string | null
           requested_by?: string
+          signature_required?: boolean
           status?: string
           uploaded_at?: string | null
           uploaded_by?: string | null
@@ -227,26 +230,35 @@ export type Database = {
       }
       case_messages: {
         Row: {
+          attachments: Json | null
           created_at: string
           id: string
           lead_id: string
           message_content: string
+          read_by_client: boolean | null
+          read_by_lawyer: boolean | null
           sender_id: string
           sender_type: string
         }
         Insert: {
+          attachments?: Json | null
           created_at?: string
           id?: string
           lead_id: string
           message_content: string
+          read_by_client?: boolean | null
+          read_by_lawyer?: boolean | null
           sender_id: string
           sender_type: string
         }
         Update: {
+          attachments?: Json | null
           created_at?: string
           id?: string
           lead_id?: string
           message_content?: string
+          read_by_client?: boolean | null
+          read_by_lawyer?: boolean | null
           sender_id?: string
           sender_type?: string
         }
@@ -360,6 +372,50 @@ export type Database = {
           },
         ]
       }
+      document_signatures: {
+        Row: {
+          created_at: string
+          document_id: string
+          id: string
+          ip_address: string | null
+          signature_data: string
+          signed_at: string
+          signer_id: string
+          signer_type: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          id?: string
+          ip_address?: string | null
+          signature_data: string
+          signed_at?: string
+          signer_id: string
+          signer_type: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          id?: string
+          ip_address?: string | null
+          signature_data?: string
+          signed_at?: string
+          signer_id?: string
+          signer_type?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_signatures_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "case_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       document_versions: {
         Row: {
           created_at: string
@@ -461,6 +517,36 @@ export type Database = {
         }
         Relationships: []
       }
+      lawyer_payment_preferences: {
+        Row: {
+          commission_rate: number
+          created_at: string
+          id: string
+          lawyer_id: string
+          lead_credits_remaining: number
+          pricing_model: string
+          updated_at: string
+        }
+        Insert: {
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          lawyer_id: string
+          lead_credits_remaining?: number
+          pricing_model?: string
+          updated_at?: string
+        }
+        Update: {
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          lawyer_id?: string
+          lead_credits_remaining?: number
+          pricing_model?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lawyer_profiles: {
         Row: {
           average_rating: number | null
@@ -468,14 +554,17 @@ export type Database = {
           bio: string | null
           created_at: string | null
           email: string
+          free_lead_used: boolean | null
           full_name: string
           id: string
           journey_story: string | null
           law_school: string | null
           practice_areas: string[]
+          pricing_model: string | null
           profile_image_url: string | null
           specializations: string[] | null
           states_licensed: string[]
+          total_leads_purchased: number | null
           total_ratings: number | null
           updated_at: string | null
           user_id: string
@@ -488,14 +577,17 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           email: string
+          free_lead_used?: boolean | null
           full_name: string
           id?: string
           journey_story?: string | null
           law_school?: string | null
           practice_areas: string[]
+          pricing_model?: string | null
           profile_image_url?: string | null
           specializations?: string[] | null
           states_licensed: string[]
+          total_leads_purchased?: number | null
           total_ratings?: number | null
           updated_at?: string | null
           user_id: string
@@ -508,14 +600,17 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           email?: string
+          free_lead_used?: boolean | null
           full_name?: string
           id?: string
           journey_story?: string | null
           law_school?: string | null
           practice_areas?: string[]
+          pricing_model?: string | null
           profile_image_url?: string | null
           specializations?: string[] | null
           states_licensed?: string[]
+          total_leads_purchased?: number | null
           total_ratings?: number | null
           updated_at?: string | null
           user_id?: string
@@ -564,6 +659,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      lead_pricing_tiers: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          leads_count: number
+          price_per_lead: number
+          stripe_price_id: string
+          stripe_product_id: string
+          tier_name: string
+          total_price: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          leads_count: number
+          price_per_lead: number
+          stripe_price_id: string
+          stripe_product_id: string
+          tier_name: string
+          total_price: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          leads_count?: number
+          price_per_lead?: number
+          stripe_price_id?: string
+          stripe_product_id?: string
+          tier_name?: string
+          total_price?: number
+        }
+        Relationships: []
       }
       lead_purchases: {
         Row: {
@@ -639,6 +770,36 @@ export type Database = {
         }
         Relationships: []
       }
+      message_notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          lead_id: string
+          message: string
+          notification_type: string
+          read: boolean | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          lead_id: string
+          message: string
+          notification_type: string
+          read?: boolean | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          lead_id?: string
+          message?: string
+          notification_type?: string
+          read?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       newsletter_signups: {
         Row: {
           created_at: string
@@ -660,6 +821,93 @@ export type Database = {
           id?: string
           name?: string | null
           source?: string
+        }
+        Relationships: []
+      }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          deadline_reminder_timing: string
+          email_notifications: boolean
+          id: string
+          notify_case_accepted: boolean
+          notify_case_updates: boolean
+          notify_deadlines: boolean
+          notify_new_leads: boolean
+          notify_new_messages: boolean
+          phone_number: string | null
+          sms_notifications: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deadline_reminder_timing?: string
+          email_notifications?: boolean
+          id?: string
+          notify_case_accepted?: boolean
+          notify_case_updates?: boolean
+          notify_deadlines?: boolean
+          notify_new_leads?: boolean
+          notify_new_messages?: boolean
+          phone_number?: string | null
+          sms_notifications?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deadline_reminder_timing?: string
+          email_notifications?: boolean
+          id?: string
+          notify_case_accepted?: boolean
+          notify_case_updates?: boolean
+          notify_deadlines?: boolean
+          notify_new_leads?: boolean
+          notify_new_messages?: boolean
+          phone_number?: string | null
+          sms_notifications?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_queue: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          message: string
+          metadata: Json | null
+          notification_type: string
+          sent_at: string | null
+          status: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message: string
+          metadata?: Json | null
+          notification_type: string
+          sent_at?: string | null
+          status?: string
+          subject: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message?: string
+          metadata?: Json | null
+          notification_type?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -765,7 +1013,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
-          role: Database["public"]["Enums"]["app_role"]
+          role?: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
@@ -817,6 +1065,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_unread_message_count: {
+        Args: { user_id: string; user_role: string }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -824,9 +1076,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      mark_messages_as_read: {
+        Args: { p_lead_id: string; p_user_id: string; p_user_role: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "client" | "attorney"
       user_type: "individual" | "lawyer"
     }
     CompositeTypes: {
@@ -955,7 +1211,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "client", "attorney"],
       user_type: ["individual", "lawyer"],
     },
   },
