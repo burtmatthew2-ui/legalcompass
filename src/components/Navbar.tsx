@@ -44,11 +44,11 @@ export const Navbar = () => {
           {/* Navigation Links */}
           <div className="flex items-center gap-4">
             <Button
-              onClick={() => navigate("/about")}
+              onClick={() => navigate("/find-lawyers")}
               variant="ghost"
-              className="text-slate-700 hover:text-primary"
+              className="text-slate-700 hover:text-primary font-medium"
             >
-              About
+              Find Lawyers
             </Button>
             <Button
               onClick={() => navigate("/resources")}

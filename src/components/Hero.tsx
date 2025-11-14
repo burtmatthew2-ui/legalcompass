@@ -94,9 +94,9 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                   <Button 
                     size="lg" 
                     className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
-                    onClick={() => navigate('/get-started')}
+                    onClick={() => navigate('/find-lawyers')}
                   >
-                    Find an Attorney
+                    Find a Lawyer
                   </Button>
                   <Button 
                     size="lg" 
@@ -104,7 +104,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                     className="text-lg px-8 py-6 border-2"
                     onClick={onGetStarted}
                   >
-                    Chat with AI
+                    AI Legal Chat
                   </Button>
                 </>
               ) : (
@@ -112,9 +112,9 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                   <Button 
                     size="lg" 
                     className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
-                    onClick={() => navigate('/get-started')}
+                    onClick={() => navigate('/find-lawyers')}
                   >
-                    Get Started Now
+                    Find a Lawyer
                   </Button>
                   <Button 
                     size="lg" 
@@ -122,7 +122,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                     className="text-lg px-8 py-6 border-2"
                     onClick={() => navigate('/lawyer-signup')}
                   >
-                    Join as a Lawyer
+                    Join as Attorney
                   </Button>
                 </>
               )}

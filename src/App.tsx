@@ -62,6 +62,7 @@ import HarassmentLawGuide from "./pages/resources/HarassmentLawGuide";
 import LegalResourcesTools from "./pages/resources/LegalResourcesTools";
 import PersonalInjuryClaims from "./pages/resources/PersonalInjuryClaims";
 import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
+import FindLawyers from "./pages/FindLawyers";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -75,6 +76,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/find-lawyers" element={<FindLawyers />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
