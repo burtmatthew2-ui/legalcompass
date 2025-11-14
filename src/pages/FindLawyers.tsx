@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ConsultationRequestDialog } from "@/components/ConsultationRequestDialog";
 import { Search, Star, MapPin, Briefcase, Award, Filter, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -54,6 +55,8 @@ export default function FindLawyers() {
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedPracticeArea, setSelectedPracticeArea] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("rating");
+  const [showConsultationDialog, setShowConsultationDialog] = useState(false);
+  const [selectedLawyerId, setSelectedLawyerId] = useState<string>("");
 
   useEffect(() => {
     fetchLawyers();
@@ -351,6 +354,12 @@ export default function FindLawyers() {
 
         <Footer />
       </div>
+
+      <ConsultationRequestDialog
+        open={showConsultationDialog}
+        onOpenChange={setShowConsultationDialog}
+        preselectedLawyerId={selectedLawyerId}
+      />
     </>
   );
 }
