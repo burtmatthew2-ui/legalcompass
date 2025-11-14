@@ -10,15 +10,19 @@ import {
   BookOpen,
   Settings,
   LogOut,
-  Scale
+  Scale,
+  Mail
 } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useUnreadMessages } from "@/hooks/useUnreadMessages";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const ClientDashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const { unreadCount } = useUnreadMessages();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -41,6 +45,7 @@ const ClientDashboard = () => {
   const clientMenuItems = [
     { title: "Dashboard", icon: MessageSquare, path: "/client-dashboard" },
     { title: "Chat with AI", icon: MessageSquare, path: "/?chat=true" },
+    { title: "Messages", icon: Mail, path: "/messages", badge: unreadCount > 0 ? unreadCount : undefined },
     { title: "Find Attorney", icon: Search, path: "/user-portal" },
     { title: "My Cases", icon: FileText, path: "/case-management" },
     { title: "Resources", icon: BookOpen, path: "/resources" },
@@ -62,9 +67,16 @@ const ClientDashboard = () => {
                 <SidebarMenu>
                   {clientMenuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton onClick={() => navigate(item.path)}>
-                        <item.icon className="h-4 w-4 mr-2" />
-                        <span>{item.title}</span>
+                      <SidebarMenuButton onClick={() => navigate(item.path)} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <item.icon className="h-4 w-4 mr-2" />
+                          <span>{item.title}</span>
+                        </div>
+                        {item.badge && (
+                          <Badge variant="destructive" className="ml-auto rounded-full">
+                            {item.badge}
+                          </Badge>
+                        )}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
