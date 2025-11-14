@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ConsultationRequestDialog } from "@/components/ConsultationRequestDialog";
 import { Star, MapPin, Briefcase, GraduationCap, Award, Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
 
@@ -44,6 +45,7 @@ export default function AttorneyProfile() {
   const [lawyer, setLawyer] = useState<LawyerProfile | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showConsultationDialog, setShowConsultationDialog] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -94,7 +96,7 @@ export default function AttorneyProfile() {
       return;
     }
 
-    navigate("/user-portal", { state: { selectedLawyerId: id } });
+    setShowConsultationDialog(true);
   };
 
   const renderStars = (rating: number) => {
@@ -315,6 +317,13 @@ export default function AttorneyProfile() {
 
         <Footer />
       </div>
+
+      <ConsultationRequestDialog
+        open={showConsultationDialog}
+        onOpenChange={setShowConsultationDialog}
+        preselectedLawyerId={id}
+        preselectedPracticeArea={lawyer?.practice_areas[0]}
+      />
     </>
   );
 }
