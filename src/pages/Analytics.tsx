@@ -29,7 +29,7 @@ const AnalyticsPage = () => {
       .from('lawyer_profiles')
       .select('*')
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
 
     if (!lawyerProfile || !lawyerProfile.verified_status) {
       navigate('/lawyer-dashboard');

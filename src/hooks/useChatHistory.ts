@@ -97,7 +97,7 @@ export const useChatHistory = (conversationId?: string) => {
         title,
       })
       .select()
-      .single();
+      .maybeSingle();
 
     if (!error && data) {
       setCurrentConversation(data);

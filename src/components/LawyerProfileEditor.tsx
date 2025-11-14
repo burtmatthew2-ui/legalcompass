@@ -38,7 +38,7 @@ export const LawyerProfileEditor = () => {
         .from('lawyer_profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 

@@ -138,7 +138,7 @@ const CaseManagement = () => {
         .from('legal_cases')
         .select('*')
         .eq('id', leadId)
-        .single();
+        .maybeSingle();
 
       if (caseError) throw caseError;
       setCaseData(caseInfo);

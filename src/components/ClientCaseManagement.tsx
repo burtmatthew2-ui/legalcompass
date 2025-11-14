@@ -126,7 +126,7 @@ export const ClientCaseManagement = () => {
         .select('*')
         .eq('id', leadId)
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (caseError) throw caseError;
       setCaseData(caseInfo);

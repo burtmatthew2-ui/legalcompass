@@ -41,7 +41,7 @@ const Auth = () => {
           .from("user_roles")
           .select("role")
           .eq("user_id", session.user.id)
-          .single();
+          .maybeSingle();
         
         if (roleData?.role === "attorney") {
           navigate("/attorney-dashboard");
@@ -61,7 +61,7 @@ const Auth = () => {
           .from("user_roles")
           .select("role")
           .eq("user_id", session.user.id)
-          .single();
+          .maybeSingle();
         
         if (roleData?.role === "attorney") {
           navigate("/attorney-dashboard");

@@ -63,7 +63,7 @@ export default function Messages() {
                 .eq('lead_id', purchase.lead_id)
                 .order('created_at', { ascending: false })
                 .limit(1)
-                .single();
+                .maybeSingle();
 
               const { data: unreadMessages } = await supabase
                 .from('case_messages')
@@ -110,7 +110,7 @@ export default function Messages() {
                 .eq('lead_id', legalCase.id)
                 .order('created_at', { ascending: false })
                 .limit(1)
-                .single();
+                .maybeSingle();
 
               const { data: unreadMessages } = await supabase
                 .from('case_messages')
