@@ -9,6 +9,16 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Send, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
+import { MessageAttachments } from '@/components/MessageAttachments';
+import { FileUploadButton } from '@/components/FileUploadButton';
+
+interface Attachment {
+  file_name: string;
+  file_path: string;
+  file_type: string;
+  file_size: number;
+  uploaded_at: string;
+}
 
 interface Message {
   id: string;
@@ -16,6 +26,7 @@ interface Message {
   sender_type: string;
   message_content: string;
   created_at: string;
+  attachments?: Attachment[];
 }
 
 export default function Conversation() {
@@ -28,6 +39,8 @@ export default function Conversation() {
   const [sending, setSending] = useState(false);
   const [caseTitle, setCaseTitle] = useState('');
   const [otherPartyName, setOtherPartyName] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -75,15 +88,15 @@ export default function Conversation() {
           setOtherPartyName(lawyerProfile?.full_name || lawyerProfile?.email || 'Attorney');
         }
 
-        // Fetch messages
+        // Fetch messages with attachments
         const { data: messagesData, error: messagesError } = await supabase
           .from('case_messages')
-          .select('*')
+          .select('id, sender_id, sender_type, message_content, created_at, attachments')
           .eq('lead_id', leadId)
           .order('created_at', { ascending: true });
 
         if (messagesError) throw messagesError;
-        setMessages(messagesData || []);
+        setMessages((messagesData || []) as unknown as Message[]);
 
         // Mark messages as read
         await supabase.rpc('mark_messages_as_read', {
@@ -130,31 +143,64 @@ export default function Conversation() {
   }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!newMessage.trim() || sending || !leadId) return;
+    if ((!newMessage.trim() && selectedFiles.length === 0) || sending || !leadId) return;
 
     setSending(true);
+    setUploading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
+      let attachments: Attachment[] = [];
+
+      // Upload files if any
+      if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${user.id}/${leadId}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('legal-documents')
+            .upload(fileName, file);
+
+          if (uploadError) throw uploadError;
+
+          attachments.push({
+            file_name: file.name,
+            file_path: fileName,
+            file_type: file.type,
+            file_size: file.size,
+            uploaded_at: new Date().toISOString()
+          });
+        }
+      }
+
+      const messageData: any = {
+        lead_id: leadId,
+        sender_id: user.id,
+        sender_type: role,
+        message_content: newMessage.trim() || '(attachment)'
+      };
+
+      if (attachments.length > 0) {
+        messageData.attachments = attachments;
+      }
+
       const { error } = await supabase
         .from('case_messages')
-        .insert({
-          lead_id: leadId,
-          sender_id: user.id,
-          sender_type: role,
-          message_content: newMessage.trim()
-        });
+        .insert(messageData);
 
       if (error) throw error;
 
       setNewMessage('');
+      setSelectedFiles([]);
       toast.success('Message sent');
     } catch (error: any) {
       console.error('Error sending message:', error);
       toast.error('Failed to send message');
     } finally {
       setSending(false);
+      setUploading(false);
     }
   };
 
@@ -208,7 +254,12 @@ export default function Conversation() {
                               : 'bg-muted'
                           }`}
                         >
-                          <p className="text-sm">{message.message_content}</p>
+                          {message.message_content && message.message_content !== '(attachment)' && (
+                            <p className="text-sm">{message.message_content}</p>
+                          )}
+                          {message.attachments && message.attachments.length > 0 && (
+                            <MessageAttachments attachments={message.attachments} />
+                          )}
                           <p className={`text-xs mt-1 ${isOwnMessage ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
                             {new Date(message.created_at).toLocaleString()}
                           </p>
@@ -220,32 +271,44 @@ export default function Conversation() {
                 <div ref={messagesEndRef} />
               </div>
 
-              <div className="flex gap-2">
-                <Textarea
-                  placeholder={`Message ${otherPartyName}...`}
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSendMessage();
-                    }
+              <div className="space-y-2">
+                <FileUploadButton
+                  onFilesSelected={setSelectedFiles}
+                  selectedFiles={selectedFiles}
+                  onRemoveFile={(index) => {
+                    setSelectedFiles(files => files.filter((_, i) => i !== index));
                   }}
-                  className="flex-1"
-                  rows={3}
+                  disabled={sending || uploading}
                 />
-                <Button
-                  onClick={handleSendMessage}
-                  disabled={!newMessage.trim() || sending}
-                  size="icon"
-                  className="h-full"
-                >
-                  {sending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                </Button>
+                
+                <div className="flex gap-2">
+                  <Textarea
+                    placeholder={`Message ${otherPartyName}...`}
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    className="flex-1"
+                    rows={3}
+                    disabled={uploading}
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={(!newMessage.trim() && selectedFiles.length === 0) || sending || uploading}
+                    size="icon"
+                    className="h-full"
+                  >
+                    {sending || uploading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
