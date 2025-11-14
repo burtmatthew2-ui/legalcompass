@@ -11,7 +11,9 @@ import {
   Settings,
   LogOut,
   DollarSign,
-  Calendar
+  Calendar,
+  MessageSquare,
+  BookOpen
 } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { toast } from "sonner";
@@ -41,9 +43,11 @@ const AttorneyDashboard = () => {
 
   const attorneyMenuItems = [
     { title: "Dashboard", icon: Briefcase, path: "/attorney-dashboard" },
+    { title: "AI Research", icon: MessageSquare, path: "/?chat=true" },
     { title: "Available Leads", icon: Users, path: "/lawyer-dashboard" },
     { title: "My Cases", icon: FileText, path: "/case-management" },
     { title: "Analytics", icon: BarChart3, path: "/analytics" },
+    { title: "Resources", icon: BookOpen, path: "/resources" },
     { title: "Billing", icon: DollarSign, path: "/user-portal" },
     { title: "Calendar", icon: Calendar, path: "/calendar" },
     { title: "Settings", icon: Settings, path: "/settings" },
@@ -141,6 +145,24 @@ const AttorneyDashboard = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card 
                 className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
+                onClick={() => navigate("/?chat=true")}
+              >
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                    <MessageSquare className="w-6 h-6 text-primary" />
+                  </div>
+                  <CardTitle>AI Research</CardTitle>
+                  <CardDescription>
+                    Quick legal research and insights
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full">Start Research</Button>
+                </CardContent>
+              </Card>
+
+              <Card 
+                className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
                 onClick={() => navigate("/lawyer-dashboard")}
               >
                 <CardHeader>
@@ -190,24 +212,6 @@ const AttorneyDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <Button className="w-full">View Analytics</Button>
-                </CardContent>
-              </Card>
-
-              <Card 
-                className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
-                onClick={() => navigate("/user-portal")}
-              >
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                    <DollarSign className="w-6 h-6 text-primary" />
-                  </div>
-                  <CardTitle>Billing</CardTitle>
-                  <CardDescription>
-                    Manage payments and invoices
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full">View Billing</Button>
                 </CardContent>
               </Card>
             </div>
