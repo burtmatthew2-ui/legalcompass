@@ -9,6 +9,8 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AttorneyDashboard from "./pages/AttorneyDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
+import Messages from "./pages/Messages";
+import Conversation from "./pages/Conversation";
 import Pricing from "./pages/Pricing";
 import Security from "./pages/Security";
 import Bookmarks from "./pages/Bookmarks";
@@ -77,6 +79,8 @@ const App = () => (
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
           <Route path="/client-dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
+          <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+          <Route path="/conversation/:leadId" element={<ProtectedRoute><Conversation /></ProtectedRoute>} />
           <Route path="/user-portal" element={<ProtectedRoute><UserPortal /></ProtectedRoute>} />
           <Route path="/lawyer-signup" element={<ProtectedRoute><LawyerSignup /></ProtectedRoute>} />
           <Route path="/lawyer-dashboard" element={<ProtectedRoute><LawyerDashboard /></ProtectedRoute>} />
