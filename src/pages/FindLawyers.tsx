@@ -320,12 +320,21 @@ export default function FindLawyers() {
                   )}
 
                   {/* CTA */}
-                  <Button 
-                    onClick={() => handleRequestConsultation(lawyer.user_id)}
-                    className="w-full"
-                  >
-                    Request Consultation
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => navigate(`/attorney/${lawyer.user_id}`)}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      View Profile
+                    </Button>
+                    <Button 
+                      onClick={() => handleRequestConsultation(lawyer.user_id)}
+                      className="flex-1"
+                    >
+                      Request Consultation
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
