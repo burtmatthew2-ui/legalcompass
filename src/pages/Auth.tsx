@@ -174,7 +174,6 @@ const Auth = () => {
         setPassword("");
         setAcceptedTos(false);
         setSubscribeNewsletter(false);
-        setUserType("client");
       }
     } catch (error: any) {
       toast.error("An unexpected error occurred. Please try again.");
