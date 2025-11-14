@@ -81,17 +81,65 @@ serve(async (req) => {
 
     logStep("Lead fetched", { urgency: lead.urgency_level });
 
-    // Calculate price based on urgency
-    let amount = 5000; // $50 in cents (default/low)
-    if (lead.urgency_level === "medium") {
-      amount = 7000; // $70
-    } else if (lead.urgency_level === "high") {
-      amount = 9000; // $90
+    // Check if lawyer has signed commission agreement
+    const { data: agreement, error: agreementError } = await supabaseClient
+      .from('commission_agreements')
+      .select('id')
+      .eq('lawyer_id', user.id)
+      .maybeSingle();
+
+    if (!agreement) {
+      throw new Error("Commission agreement not signed. Please complete onboarding.");
+    }
+    logStep("Commission agreement verified");
+
+    // Check if this is their free lead
+    const { data: paymentPrefs, error: prefsError } = await supabaseClient
+      .from('lawyer_payment_preferences')
+      .select('*')
+      .eq('lawyer_id', user.id)
+      .maybeSingle();
+
+    if (prefsError) throw prefsError;
+
+    const isFree = paymentPrefs?.lead_credits_remaining > 0;
+    logStep("Free lead check", { isFree, creditsRemaining: paymentPrefs?.lead_credits_remaining });
+
+    if (isFree) {
+      // Use free credit
+      const { error: updateError } = await supabaseClient
+        .from('lawyer_payment_preferences')
+        .update({ 
+          lead_credits_remaining: paymentPrefs.lead_credits_remaining - 1 
+        })
+        .eq('lawyer_id', user.id);
+
+      if (updateError) throw updateError;
+
+      // Create lead purchase record
+      const { error: purchaseError } = await supabaseClient
+        .from('lead_purchases')
+        .insert({
+          lawyer_id: user.id,
+          lead_id: leadId,
+          amount_paid: 0,
+          status: 'active'
+        });
+
+      if (purchaseError) throw purchaseError;
+
+      logStep("Free lead claimed successfully");
+      return new Response(JSON.stringify({ 
+        success: true, 
+        isFree: true,
+        message: "Free lead claimed successfully!" 
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
     }
 
-    logStep("Price calculated", { amount: amount / 100 });
-
-    // Initialize Stripe
+    // Paid lead - Initialize Stripe
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("Stripe not configured");
 
@@ -104,7 +152,7 @@ serve(async (req) => {
       customerId = customers.data[0].id;
     }
 
-    logStep("Creating Stripe checkout session");
+    logStep("Creating Stripe checkout session for paid lead");
 
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
@@ -113,21 +161,14 @@ serve(async (req) => {
       mode: "payment",
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `Legal Lead - ${lead.legal_topic}`,
-              description: `${lead.state} - ${lead.urgency_level} urgency case`,
-            },
-            unit_amount: amount,
-          },
+          price: "price_1STVBLArhAIMbV737qNvOHLh", // $35 lead purchase
           quantity: 1,
         },
       ],
       metadata: {
         lead_id: leadId,
         lawyer_id: user.id,
-        amount_paid: amount,
+        amount_paid: 3500,
       },
       success_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=success&lead=${leadId}`,
       cancel_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=cancelled`,
@@ -136,7 +177,7 @@ serve(async (req) => {
     logStep("Checkout session created", { sessionId: session.id });
 
     return new Response(
-      JSON.stringify({ url: session.url }),
+      JSON.stringify({ url: session.url, isFree: false }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
