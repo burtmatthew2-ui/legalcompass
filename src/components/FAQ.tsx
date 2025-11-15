@@ -34,12 +34,12 @@ const faqs = [
 
 export const FAQ = () => {
   return (
-    <div className="py-16 px-6 bg-card/30">
+    <div className="py-8 md:py-16 px-6 bg-card/30">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-[var(--gradient-primary)]">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-2 bg-clip-text text-transparent bg-[var(--gradient-primary)]">
           Frequently Asked Questions
         </h2>
-        <p className="text-center text-muted-foreground mb-12">
+        <p className="text-center text-muted-foreground mb-8">
           Everything you need to know about Legal Compass
         </p>
         
