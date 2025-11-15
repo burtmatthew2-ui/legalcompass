@@ -9,7 +9,8 @@ const testimonials = [
     location: "California",
     content: "Legal Compass matched me with an amazing family law attorney within 24 hours. The secure messaging and document signing made everything so easy during a difficult time.",
     rating: 5,
-    caseType: "Family Law"
+    caseType: "Family Law",
+    avatarColor: "from-rose-500 to-pink-600"
   },
   {
     name: "James K.",
@@ -17,7 +18,8 @@ const testimonials = [
     location: "Texas",
     content: "I was being evicted unfairly and didn't know what to do. Legal Compass connected me with a tenant rights attorney who helped me understand my rights and fight back successfully.",
     rating: 5,
-    caseType: "Landlord-Tenant"
+    caseType: "Landlord-Tenant",
+    avatarColor: "from-blue-500 to-indigo-600"
   },
   {
     name: "Maria R.",
@@ -25,7 +27,8 @@ const testimonials = [
     location: "Florida",
     content: "The platform made it so simple to get legal help for my real estate closing. My attorney was responsive, professional, and the whole process was transparent.",
     rating: 5,
-    caseType: "Real Estate"
+    caseType: "Real Estate",
+    avatarColor: "from-emerald-500 to-teal-600"
   }
 ];
 
@@ -48,9 +51,10 @@ export const Testimonials = () => {
           </p>
           <div className="flex items-center justify-center gap-2 text-sm">
             <div className="flex -space-x-2">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background" />
-              ))}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-background" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 border-2 border-background" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 border-2 border-background" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 border-2 border-background" />
             </div>
             <span className="text-muted-foreground">
               <strong className="text-foreground">10,000+</strong> satisfied clients
@@ -94,8 +98,8 @@ export const Testimonials = () => {
 
                 {/* Author info */}
                 <div className="flex items-center gap-3 pt-6 border-t border-border/50">
-                  <Avatar className="w-12 h-12 border-2 border-primary/20">
-                    <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold">
+                  <Avatar className="w-12 h-12 border-2 border-border">
+                    <AvatarFallback className={`bg-gradient-to-br ${testimonial.avatarColor} text-white font-bold`}>
                       {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
