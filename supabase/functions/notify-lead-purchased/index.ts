@@ -26,7 +26,24 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    const { leadId, lawyerId } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!requestBody.leadId || !uuidRegex.test(requestBody.leadId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid leadId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+    if (!requestBody.lawyerId || !uuidRegex.test(requestBody.lawyerId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid lawyerId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    const { leadId, lawyerId } = requestBody;
 
     // Get lead and lawyer details
     const { data: lead } = await supabaseClient

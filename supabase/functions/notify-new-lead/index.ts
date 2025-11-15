@@ -32,7 +32,18 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    const { caseId } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!requestBody.caseId || !uuidRegex.test(requestBody.caseId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid caseId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    const { caseId } = requestBody;
     logStep("Received case ID", { caseId });
 
     // Get case details

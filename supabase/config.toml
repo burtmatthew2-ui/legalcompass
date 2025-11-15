@@ -37,7 +37,7 @@ verify_jwt = false
 verify_jwt = true
 
 [functions.verify-lawyer]
-verify_jwt = false
+verify_jwt = true
 
 [functions.purchase-lead]
 verify_jwt = true
@@ -46,13 +46,13 @@ verify_jwt = true
 verify_jwt = false
 
 [functions.notify-new-lead]
-verify_jwt = false
+verify_jwt = true
 
 [functions.notify-lead-purchased]
-verify_jwt = false
+verify_jwt = true
 
 [functions.send-deadline-reminders]
-verify_jwt = false
+verify_jwt = true
 
 [functions.close-case]
 verify_jwt = true
@@ -64,7 +64,7 @@ verify_jwt = true
 verify_jwt = false
 
 [functions.notify-client-case-accepted]
-verify_jwt = false
+verify_jwt = true
 
 [functions.request-lawyer-removal]
 verify_jwt = false
