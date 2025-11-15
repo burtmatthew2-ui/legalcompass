@@ -96,8 +96,47 @@ serve(async (req) => {
     const timestamp = new Date().toISOString();
     const randomSeed = Math.random().toString(36).substring(7);
 
+    // Determine search type based on targetAudience
+    const isSearchingForLawyers = targetAudience.toLowerCase().includes('lawyer') || 
+                                   targetAudience.toLowerCase().includes('attorney') ||
+                                   targetAudience.toLowerCase().includes('legal professional');
+
     // STEP 1: Use web search to find real current leads
-    const webSearchPrompt = `Search the web RIGHT NOW (${timestamp}) for real people who need legal help but can't afford attorneys. Focus on:
+    let webSearchPrompt: string;
+    
+    if (isSearchingForLawyers) {
+      webSearchPrompt = `Search the web RIGHT NOW (${timestamp}) for real lawyers and attorneys who are actively seeking clients or struggling to find new clients. Focus on:
+
+SEARCH CRITERIA:
+- Location: ${location || 'United States'}
+- Practice Area: ${industry || 'general practice'}
+- Target: ${targetAudience}
+
+SEARCH SOURCES TO CHECK:
+1. LinkedIn posts from new lawyers discussing client acquisition challenges
+2. Legal professional forums (Above the Law, Law School Expert, etc.) where attorneys discuss marketing
+3. Reddit r/LawFirm, r/Lawyers where attorneys ask for client development advice
+4. State bar association directories showing newly admitted attorneys
+5. Solo practitioner forums and communities
+6. Legal marketing discussion groups
+7. Young lawyers division websites and forums
+8. Avvo, FindLaw attorney profiles showing low client reviews or new practices
+9. Legal tech communities where lawyers discuss practice management
+10. Law school alumni networks where new grads seek guidance
+
+PRIORITY: Find REAL, CURRENT attorneys (from the last 60 days) who:
+- Are newly admitted to the bar (0-5 years experience)
+- Are starting solo practices or small firms
+- Have explicitly mentioned struggling to find clients
+- Are seeking client development strategies
+- Have posted contact information (email, LinkedIn, law firm website)
+- Are actively seeking to grow their practice
+
+Return 10-15 REAL attorneys with their publicly available information including where you found them and what practice areas they focus on. Include direct links to posts/profiles where possible.
+
+IMPORTANT: This is ${timestamp} - search for CURRENT, RECENT posts and attorneys. Random seed: ${randomSeed}`;
+    } else {
+      webSearchPrompt = `Search the web RIGHT NOW (${timestamp}) for real people who need legal help but can't afford attorneys. Focus on:
 
 SEARCH CRITERIA:
 - Location: ${location || 'United States'}
@@ -105,16 +144,18 @@ SEARCH CRITERIA:
 - Target: ${targetAudience}
 
 SEARCH SOURCES TO CHECK:
-1. Reddit posts in r/legaladvice, r/personalfinance asking for help with legal issues
+1. Reddit posts in r/legaladvice, r/personalfinance, r/povertyfinance asking for help with legal issues
 2. Quora questions about legal problems from people who mention they can't afford lawyers
-3. Twitter/X posts from people seeking legal guidance
+3. Twitter/X posts from people seeking free legal guidance
 4. Facebook community groups where people ask for legal help
 5. Online forums discussing landlord-tenant disputes, employment issues, family law
 6. Legal aid society contact pages listing people seeking assistance
 7. Community support groups and mutual aid networks
 8. Small business forums where entrepreneurs ask legal questions
 9. Freelancer communities discussing contract issues
-10. Recent news articles about people facing legal challenges
+10. Nextdoor neighborhood forums with legal questions
+11. TikTok comments on legal advice videos asking for help
+12. Recent news articles about people facing legal challenges
 
 PRIORITY: Find REAL, CURRENT individuals (from the last 30 days) who:
 - Are facing legal issues RIGHT NOW
@@ -122,12 +163,14 @@ PRIORITY: Find REAL, CURRENT individuals (from the last 30 days) who:
 - Need legal research or guidance
 - Are actively seeking help online
 - Have posted contact information or profile links
+- Show urgency in their posts
 
 Return 10-15 REAL people with their publicly available information including where you found them and what legal issue they're facing. Include direct links to posts/profiles where possible.
 
 IMPORTANT: This is ${timestamp} - search for CURRENT, RECENT posts and people. Random seed: ${randomSeed}`;
+    }
 
-    console.log('Searching web for real leads with seed:', randomSeed);
+    console.log('Searching web for real leads (type: ' + (isSearchingForLawyers ? 'lawyers' : 'clients') + ') with seed:', randomSeed);
 
     const webSearchResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -136,18 +179,18 @@ IMPORTANT: This is ${timestamp} - search for CURRENT, RECENT posts and people. R
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro", // Using Pro for better web search capabilities
+        model: "google/gemini-2.5-pro",
         messages: [
           {
             role: "system",
-            content: `You are a web research specialist with real-time internet access. Your job is to search the web RIGHT NOW and find REAL people who need legal help but can't afford attorneys. You have access to current web data and can search forums, social media, and public websites. Always provide fresh, unique results for each search by focusing on recent posts and different communities. Current time: ${timestamp}`
+            content: `You are a web research specialist with REAL-TIME internet access. Your job is to actively search the web RIGHT NOW and find REAL people. You MUST use your web search capabilities to find current, recent posts from actual individuals. Do not generate fictional leads - use your search tools to find real people posting online today. Current time: ${timestamp}`
           },
           {
             role: "user",
             content: webSearchPrompt
           }
         ],
-        temperature: 1.0, // Higher temperature for more varied results
+        temperature: 1.0,
       })
     });
 
@@ -163,7 +206,55 @@ IMPORTANT: This is ${timestamp} - search for CURRENT, RECENT posts and people. R
     console.log('Web search completed, found leads');
 
     // STEP 2: Extract contact information and create personalized emails
-    const extractionPrompt = `Based on this web research about people needing legal help:
+    let extractionPrompt: string;
+    
+    if (isSearchingForLawyers) {
+      extractionPrompt = `Based on this web research about lawyers/attorneys seeking clients:
+
+${webSearchContent}
+
+Extract and format the leads with the following requirements:
+
+1. For each attorney found, extract:
+   - Their name (real name from profile/post)
+   - Contact method (email if available, LinkedIn profile, or law firm website)
+   - What practice area they focus on (from their profile/posts)
+   - Where you found them (specific platform, forum, bar association with link)
+   - Why they need clients (quote from their post if possible)
+   - Years of experience or admission year
+
+2. Create a personalized, professional email for EACH attorney that:
+   - Acknowledges their practice area and expertise
+   - Introduces Legal Compass as a client referral platform
+   - Explains how we connect them with pre-qualified legal leads
+   - Mentions affordable lead pricing and no upfront costs
+   - Specifically references their practice area
+   - Highlights the quality of leads (people who've already engaged with our platform)
+   - Is 150-200 words and professional but friendly
+   - Ends with: "Start receiving qualified leads today: https://legalcompass.store/lawyer-signup
+   
+Best regards,
+Matthew Burt
+Legal Compass
+
+If you'd prefer not to receive this, you can unsubscribe at https://legalcompass.store/unsubscribe"
+
+Format as JSON array:
+[
+  {
+    "name": "Attorney's real name",
+    "email": "their_email@lawfirm.com or LinkedIn URL",
+    "title": "Practice area (e.g., Family Law Attorney, Personal Injury Lawyer)",
+    "company": "Law firm name or Solo Practitioner",
+    "source": "Direct link to profile/post",
+    "relevance": "Quote showing they need clients or years admitted to bar",
+    "email_draft": "Complete personalized email"
+  }
+]
+
+CRITICAL: Only include attorneys with actual contact information. If no email, use their LinkedIn URL or law firm website. Only include REAL attorneys from the web search results. Do NOT make up fictional leads.`;
+    } else {
+      extractionPrompt = `Based on this web research about people needing legal help:
 
 ${webSearchContent}
 
@@ -206,6 +297,7 @@ Format as JSON array:
 ]
 
 CRITICAL: Only include people with actual contact information. If no email, use their social media handle. Only include REAL people from the web search results. Do NOT make up fictional leads.`;
+    }
 
     const extractionResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -273,6 +365,27 @@ CRITICAL: Only include people with actual contact information. If no email, use 
 
     console.log(`Successfully generated ${leads.length} valid leads, ${invalidLeads.length} invalid leads filtered out`);
 
+    if (leads.length === 0) {
+      console.error('No valid leads found. Web search content:', webSearchContent?.substring(0, 500));
+      console.error('Extraction result:', content?.substring(0, 500));
+      
+      return new Response(
+        JSON.stringify({ 
+          error: 'No valid leads found in search results. The AI may not have found any matching individuals with contact information. Please try different search criteria or a different location.',
+          debug: {
+            webSearchContentLength: webSearchContent?.length || 0,
+            extractionContentLength: content?.length || 0,
+            timestamp,
+            searchType: isSearchingForLawyers ? 'lawyers' : 'clients'
+          }
+        }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     return new Response(
       JSON.stringify({ 
         leads,
@@ -280,7 +393,8 @@ CRITICAL: Only include people with actual contact information. If no email, use 
           total: leads.length,
           timestamp,
           searchSeed: randomSeed,
-          filtered: invalidLeads.length
+          filtered: invalidLeads.length,
+          searchType: isSearchingForLawyers ? 'lawyers' : 'clients'
         },
         disclaimer: "These are real people found from current web searches. Ensure compliance with CAN-SPAM, GDPR, and other email marketing laws."
       }),
