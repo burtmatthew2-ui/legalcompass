@@ -92,66 +92,122 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
-    const searchPrompt = `Find potential customers for a legal research AI tool. Search the web for publicly available contact information.
+// Generate a unique timestamp-based seed to ensure different results each time
+    const timestamp = new Date().toISOString();
+    const randomSeed = Math.random().toString(36).substring(7);
 
-TARGET AUDIENCE: ${targetAudience}
-INDUSTRY: ${industry || 'general'}
-LOCATION: ${location || 'any'}
+    // STEP 1: Use web search to find real current leads
+    const webSearchPrompt = `Search the web RIGHT NOW (${timestamp}) for real people who need legal help but can't afford attorneys. Focus on:
 
-PRIORITY TARGETS:
-- Law students (especially 1L, 2L students who are new to legal research and struggling with case law)
-- Small business owners (who need legal guidance but can't afford constant lawyer consultations)
-- Startup founders (dealing with contracts, compliance, employment law)
-- Freelancers and independent contractors (needing help with agreements and legal protections)
-- Non-profit organizations (with limited legal budgets)
-- People facing legal situations for the first time (tenants, landlords, family matters)
-- Individuals seeking legal advice but cannot afford an attorney (use personal email addresses from social media, forums, community posts)
+SEARCH CRITERIA:
+- Location: ${location || 'United States'}
+- Industry/Context: ${industry || 'general'}
+- Target: ${targetAudience}
 
-INSTRUCTIONS:
-1. Search for businesses, professionals, or individuals who would benefit from affordable legal research
-2. Focus on people who are NOT already legal experts - target those who need accessible, easy-to-understand legal information
-3. Look for personal email addresses from forums, social media profiles, community discussions, and public posts
-4. Find their publicly available email addresses from:
-   - Company websites (contact pages, team pages)
-   - Professional directories (LinkedIn, industry listings)
-   - Public business registrations
-   - Professional social media profiles
-3. Return ONLY publicly available information
-4. For EACH lead, write a professional, personalized cold email (150-200 words) that:
-   - Addresses them by name
-   - References their specific role/company
-   - Explains how our AI legal research tool solves their specific pain points
-   - Is signed by Matthew Burt from Legal Compass
-   - Ends with a link to visit our website: https://legalcompass.store
-   - Includes an unsubscribe option
-   - Is professional yet friendly
-   - Complies with CAN-SPAM (includes who we are, what we offer, unsubscribe option)
+SEARCH SOURCES TO CHECK:
+1. Reddit posts in r/legaladvice, r/personalfinance asking for help with legal issues
+2. Quora questions about legal problems from people who mention they can't afford lawyers
+3. Twitter/X posts from people seeking legal guidance
+4. Facebook community groups where people ask for legal help
+5. Online forums discussing landlord-tenant disputes, employment issues, family law
+6. Legal aid society contact pages listing people seeking assistance
+7. Community support groups and mutual aid networks
+8. Small business forums where entrepreneurs ask legal questions
+9. Freelancer communities discussing contract issues
+10. Recent news articles about people facing legal challenges
+
+PRIORITY: Find REAL, CURRENT individuals (from the last 30 days) who:
+- Are facing legal issues RIGHT NOW
+- Have explicitly mentioned they can't afford an attorney
+- Need legal research or guidance
+- Are actively seeking help online
+- Have posted contact information or profile links
+
+Return 10-15 REAL people with their publicly available information including where you found them and what legal issue they're facing. Include direct links to posts/profiles where possible.
+
+IMPORTANT: This is ${timestamp} - search for CURRENT, RECENT posts and people. Random seed: ${randomSeed}`;
+
+    console.log('Searching web for real leads with seed:', randomSeed);
+
+    const webSearchResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-pro", // Using Pro for better web search capabilities
+        messages: [
+          {
+            role: "system",
+            content: `You are a web research specialist with real-time internet access. Your job is to search the web RIGHT NOW and find REAL people who need legal help but can't afford attorneys. You have access to current web data and can search forums, social media, and public websites. Always provide fresh, unique results for each search by focusing on recent posts and different communities. Current time: ${timestamp}`
+          },
+          {
+            role: "user",
+            content: webSearchPrompt
+          }
+        ],
+        temperature: 1.0, // Higher temperature for more varied results
+      })
+    });
+
+    if (!webSearchResponse.ok) {
+      const errorText = await webSearchResponse.text();
+      console.error('Web search error:', webSearchResponse.status, errorText);
+      throw new Error(`Web search error: ${webSearchResponse.status}`);
+    }
+
+    const webSearchResult = await webSearchResponse.json();
+    const webSearchContent = webSearchResult.choices?.[0]?.message?.content;
+
+    console.log('Web search completed, found leads');
+
+    // STEP 2: Extract contact information and create personalized emails
+    const extractionPrompt = `Based on this web research about people needing legal help:
+
+${webSearchContent}
+
+Extract and format the leads with the following requirements:
+
+1. For each person found, extract:
+   - Their name (real name from post/profile)
+   - Contact method (email if available, otherwise social media handle)
+   - What legal issue they're facing (from their post)
+   - Where you found them (specific forum, subreddit, website with link)
+   - Why they need affordable legal help (quote from their post if possible)
+
+2. Create a personalized, empathetic email for EACH person that:
+   - Shows you understand their specific legal situation
+   - Offers Legal Compass as a free/affordable resource
+   - Mentions that many people face similar issues and can't afford lawyers
+   - Is warm, supportive, and non-salesy
+   - Specifically references their issue (landlord dispute, contract problem, etc.)
+   - Provides value by suggesting they can get quick legal answers through our AI tool
+   - Is 150-200 words
+   - Ends with: "Get free legal guidance: https://legalcompass.store
    
-   IMPORTANT: The email should end with:
-   "Learn more and try it out: https://legalcompass.store
-   
-   Best regards,
-   Matthew Burt
-   Legal Compass
-   
-   If you'd prefer not to receive future emails, please click here to unsubscribe."
-   
-5. Format as a JSON array with structure:
-   [
-     {
-       "name": "Person/Company Name",
-       "email": "email@example.com",
-       "title": "Job Title",
-       "company": "Company Name",
-       "source": "Where you found this info",
-       "relevance": "Why they might need legal research",
-       "email_draft": "The complete personalized email ready to send"
-     }
-   ]
+Best regards,
+Matthew Burt
+Legal Compass
 
-Find 10-15 high-quality leads. Only return valid, publicly listed email addresses.`;
+If you'd prefer not to receive this, you can unsubscribe at https://legalcompass.store/unsubscribe"
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+Format as JSON array:
+[
+  {
+    "name": "Real person's name",
+    "email": "their_email@example.com or @username",
+    "title": "Brief description of their situation",
+    "company": "Forum/platform where found",
+    "source": "Direct link to post/profile",
+    "relevance": "Quote from their post showing they need help",
+    "email_draft": "Complete personalized email"
+  }
+]
+
+CRITICAL: Only include people with actual contact information. If no email, use their social media handle. Only include REAL people from the web search results. Do NOT make up fictional leads.`;
+
+    const extractionResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
@@ -162,25 +218,25 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
         messages: [
           {
             role: "system",
-            content: "You are a lead generation AI that finds publicly available contact information for potential B2B customers. You only return information that is publicly listed and accessible. You format all responses as valid JSON arrays. IMPORTANT: Always generate DIFFERENT, UNIQUE leads for each request based on the specific input criteria."
+            content: "You are a lead extraction specialist. Extract real contact information from web research and create personalized, empathetic outreach emails. Only return valid JSON. Never create fictional leads - only use information from the provided research."
           },
           {
             role: "user",
-            content: searchPrompt
+            content: extractionPrompt
           }
         ],
-        temperature: 0.9,
+        temperature: 0.7,
       })
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('AI Gateway error:', response.status, errorText);
-      throw new Error(`AI Gateway error: ${response.status}`);
+    if (!extractionResponse.ok) {
+      const errorText = await extractionResponse.text();
+      console.error('Extraction error:', extractionResponse.status, errorText);
+      throw new Error(`Extraction error: ${extractionResponse.status}`);
     }
 
-    const aiResponse = await response.json();
-    const content = aiResponse.choices?.[0]?.message?.content;
+    const extractionResult = await extractionResponse.json();
+    const content = extractionResult.choices?.[0]?.message?.content;
 
     if (!content) {
       throw new Error('No response from AI');
@@ -206,19 +262,27 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
           }
         }
       } else {
-        // If no JSON found, return the raw content for manual parsing
-        leads = [{ error: "Could not parse AI response", raw: content }];
+        console.error('No JSON array found in response');
+        throw new Error('Invalid response format from AI');
       }
     } catch (parseError) {
-      leads = [{ error: "JSON parse error", raw: content }];
+      console.error('Failed to parse AI response:', parseError);
+      console.error('Raw content:', content);
+      throw new Error('Failed to parse lead data');
     }
+
+    console.log(`Successfully generated ${leads.length} valid leads, ${invalidLeads.length} invalid leads filtered out`);
 
     return new Response(
       JSON.stringify({ 
-        success: true,
         leads,
-        invalidCount: invalidLeads.length,
-        disclaimer: "These are publicly available contacts found on the internet. Ensure compliance with CAN-SPAM, GDPR, and other email marketing laws."
+        metadata: {
+          total: leads.length,
+          timestamp,
+          searchSeed: randomSeed,
+          filtered: invalidLeads.length
+        },
+        disclaimer: "These are real people found from current web searches. Ensure compliance with CAN-SPAM, GDPR, and other email marketing laws."
       }),
       {
         status: 200,
@@ -226,9 +290,12 @@ Find 10-15 high-quality leads. Only return valid, publicly listed email addresse
       }
     );
   } catch (error) {
-    console.error('Error in lead-finder function:', error);
+    console.error('Lead finder error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ 
+        error: 'Failed to generate leads',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
