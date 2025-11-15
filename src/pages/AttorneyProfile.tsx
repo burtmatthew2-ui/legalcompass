@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ConsultationRequestDialog } from "@/components/ConsultationRequestDialog";
+import { LawyerAvatar } from "@/components/LawyerAvatar";
 import { Star, MapPin, Briefcase, GraduationCap, Award, Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
 
@@ -146,12 +147,11 @@ export default function AttorneyProfile() {
           <Card className="mb-8">
             <CardContent className="pt-8">
               <div className="flex flex-col md:flex-row gap-6">
-                <Avatar className="w-32 h-32">
-                  <AvatarImage src={lawyer.profile_image_url || undefined} alt={lawyer.full_name} />
-                  <AvatarFallback className="text-3xl bg-primary/10 text-primary">
-                    {getInitials(lawyer.full_name)}
-                  </AvatarFallback>
-                </Avatar>
+                <LawyerAvatar 
+                  profileImageUrl={lawyer.profile_image_url}
+                  fullName={lawyer.full_name}
+                  className="w-32 h-32"
+                />
 
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">

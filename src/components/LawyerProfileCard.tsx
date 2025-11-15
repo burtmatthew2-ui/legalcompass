@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, MapPin, GraduationCap, Briefcase, Mail, Award } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LawyerRating {
   id: string;
@@ -52,6 +54,32 @@ export const LawyerProfileCard = ({
       .slice(0, 2);
   };
 
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (!lawyer.profile_image_url) {
+        setImageUrl(null);
+        return;
+      }
+
+      // If it's already a full URL, use it directly (for backward compatibility)
+      if (lawyer.profile_image_url.startsWith('http')) {
+        setImageUrl(lawyer.profile_image_url);
+        return;
+      }
+
+      // Otherwise, get signed URL from storage
+      const { data } = await supabase.storage
+        .from('lawyer-profiles')
+        .createSignedUrl(lawyer.profile_image_url.replace('lawyer-profiles/', ''), 3600);
+
+      setImageUrl(data?.signedUrl || null);
+    };
+
+    loadImage();
+  }, [lawyer.profile_image_url]);
+
   const renderStars = (rating: number) => {
     return (
       <div className="flex gap-0.5">
@@ -75,7 +103,7 @@ export const LawyerProfileCard = ({
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
             <Avatar className="h-16 w-16">
-              <AvatarImage src={lawyer.profile_image_url || undefined} />
+              <AvatarImage src={imageUrl || undefined} />
               <AvatarFallback className="text-lg">{getInitials(lawyer.full_name)}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -119,7 +147,7 @@ export const LawyerProfileCard = ({
       <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5">
         <div className="flex items-start gap-6">
           <Avatar className="h-24 w-24 border-4 border-background shadow-lg">
-            <AvatarImage src={lawyer.profile_image_url || undefined} />
+            <AvatarImage src={imageUrl || undefined} />
             <AvatarFallback className="text-2xl">{getInitials(lawyer.full_name)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">

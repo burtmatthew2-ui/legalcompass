@@ -111,11 +111,9 @@ export const LawyerProfileEditor = () => {
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('lawyer-profiles')
-        .getPublicUrl(fileName);
-
-      setProfile(prev => ({ ...prev, profile_image_url: publicUrl }));
+      // Store the path instead of public URL since bucket is now private
+      const imagePath = `lawyer-profiles/${fileName}`;
+      setProfile(prev => ({ ...prev, profile_image_url: imagePath }));
 
       toast({
         title: "Success",
@@ -193,7 +191,7 @@ export const LawyerProfileEditor = () => {
         {/* Profile Image */}
         <div className="flex items-center gap-6">
           <Avatar className="h-24 w-24">
-            <AvatarImage src={profile.profile_image_url} />
+            <AvatarImage src={profile.profile_image_url?.startsWith('http') ? profile.profile_image_url : undefined} />
             <AvatarFallback className="text-2xl">{getInitials(profile.full_name)}</AvatarFallback>
           </Avatar>
           <div className="space-y-2">
