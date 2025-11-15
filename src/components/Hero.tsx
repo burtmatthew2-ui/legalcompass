@@ -32,7 +32,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white">
       {user && isAdmin && (
         <div className="fixed top-20 right-4 z-40">
           <Button
@@ -65,25 +65,29 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </h1>
             
             <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Connect with verified lawyers, get AI-powered legal research, and access professional tools—all in one platform
+              LegalCompass helps people understand legal issues, research laws using AI, and get matched with the right attorney when needed. Built for people who can't afford expensive consultations, giving you clarity before taking the next step.
             </p>
 
-            {/* New Features Highlight */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto pt-6">
-              <div className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
-                <Scale className="w-6 h-6 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold text-sm mb-1">For Individuals</h3>
-                <p className="text-xs text-muted-foreground">$4.99/mo for personalized case briefs & lawyer matching</p>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
-                <Compass className="w-6 h-6 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold text-sm mb-1">For Lawyers</h3>
-                <p className="text-xs text-muted-foreground">Pay-per-lead model with verified client cases</p>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
-                <Bell className="w-6 h-6 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold text-sm mb-1">Smart Matching</h3>
-                <p className="text-xs text-muted-foreground">Compare lawyers, view profiles & ratings before choosing</p>
+            {/* Who We Help Section */}
+            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm max-w-4xl mx-auto mt-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">Who We Help</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-600">People who can't afford a lawyer yet</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-600">People overwhelmed with legal information</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-600">Users who need quick answers and guidance</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-600">Anyone looking for the right attorney without upfront fees</p>
+                </div>
               </div>
             </div>
 

@@ -19,6 +19,10 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { LegalDirectionFinder } from "@/components/LegalDirectionFinder";
 import { DocumentHub } from "@/components/DocumentHub";
 import { LocalHelpFinder } from "@/components/LocalHelpFinder";
+import { HowLawyerMatchingWorks } from "@/components/HowLawyerMatchingWorks";
+import { WhyLawyersUse } from "@/components/WhyLawyersUse";
+import { MissionStatement } from "@/components/MissionStatement";
+import { WhatMakesUsDifferent } from "@/components/WhatMakesUsDifferent";
 import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 
@@ -83,6 +87,18 @@ const Index = () => {
               
               {/* Live Stats - Social Proof */}
               <LiveStatsCounter />
+              
+              {/* How Lawyer Matching Works */}
+              <HowLawyerMatchingWorks />
+              
+              {/* Why Lawyers Use LegalCompass */}
+              <WhyLawyersUse />
+              
+              {/* Mission Statement */}
+              <MissionStatement />
+              
+              {/* What Makes Us Different */}
+              <WhatMakesUsDifferent />
               
               {/* Legal Direction Finder - Interactive Quiz */}
               <div id="tools">
