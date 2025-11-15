@@ -22,7 +22,24 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { leadId, lawyerId } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate input
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!requestBody.leadId || !uuidRegex.test(requestBody.leadId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid leadId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+    if (!requestBody.lawyerId || !uuidRegex.test(requestBody.lawyerId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid lawyerId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    const { leadId, lawyerId } = requestBody;
     log('Notifying client of case acceptance', { leadId, lawyerId });
 
     // Get case details

@@ -20,11 +20,18 @@ serve(async (req) => {
 
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
-    const { leadId } = await req.json();
-
-    if (!leadId) {
-      throw new Error("Lead ID is required");
+    const requestBody = await req.json();
+    
+    // Validate input
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!requestBody.leadId || !uuidRegex.test(requestBody.leadId)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid leadId format' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
     }
+
+    const { leadId } = requestBody;
 
     // Get the lead details
     const { data: lead, error: leadError } = await supabase
