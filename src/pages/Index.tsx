@@ -55,12 +55,12 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Legal Compass - Free Legal Help | Find Affordable Legal Assistance</title>
-        <meta name="description" content="Free legal help for everyone. Find affordable lawyers, download free templates, get AI-powered legal guidance. Built for people who can't afford expensive legal fees." />
-        <meta name="keywords" content="free legal help, affordable legal advice, legal aid, free legal templates, find lawyer, legal assistance, pro bono lawyers" />
+        <title>Legal Compass - Cheapest Legal Aid $4.99/month | 75% Cheaper Than Competitors</title>
+        <meta name="description" content="Get unlimited legal help for just $4.99/month - 4x cheaper than AI Lawyer ($19.99), 6x cheaper than LegalSifter ($29). The most affordable legal assistance in 2025. Try 3 questions free!" />
+        <meta name="keywords" content="cheap legal help, affordable legal aid, cheapest legal assistance, low cost legal services, budget legal advice, legal help under $5, cheap AI lawyer, inexpensive legal aid, affordable legal consultation" />
         <link rel="canonical" href="https://legalcompass.shop/" />
-        <meta property="og:title" content="Legal Compass - Free Legal Help for Everyone" />
-        <meta property="og:description" content="Find free legal resources, affordable lawyers, and AI-powered guidance. Because everyone deserves access to justice." />
+        <meta property="og:title" content="Legal Compass - Cheapest Legal Aid at $4.99/month" />
+        <meta property="og:description" content="The most affordable legal assistance in 2025. 75% cheaper than competitors with MORE features. Unlimited AI legal help for less than a coffee." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/" />
       </Helmet>
