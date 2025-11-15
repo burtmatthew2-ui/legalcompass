@@ -64,8 +64,8 @@ export const NewsletterSignup = () => {
 
   return (
     <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-xl p-6 md:p-8">
-      <div className="flex flex-col md:flex-row items-center gap-4">
-        <div className="flex-1 text-center md:text-left">
+      <div className="flex flex-col gap-4">
+        <div className="text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
             <Mail className="w-5 h-5 text-primary" />
             <h3 className="text-lg font-semibold text-foreground">Stay Updated</h3>
@@ -74,16 +74,16 @@ export const NewsletterSignup = () => {
             Get monthly legal tips, AI insights, and updates from Legal Compass
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="flex gap-2 w-full md:w-auto">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
           <Input
             type="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="min-w-[250px]"
+            className="flex-1 min-w-0"
             disabled={isLoading}
           />
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="shrink-0">
             {isLoading ? "Subscribing..." : "Subscribe"}
           </Button>
         </form>

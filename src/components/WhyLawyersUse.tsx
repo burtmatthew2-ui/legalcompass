@@ -37,26 +37,29 @@ export const WhyLawyersUse = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {benefits.map((benefit, index) => (
-            <div 
-              key={index} 
-              className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary transition-colors"
-            >
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <benefit.icon className="w-6 h-6 text-primary" />
+          {benefits.map((benefit, index) => {
+            const Icon = benefit.icon;
+            return (
+              <div 
+                key={index} 
+                className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary transition-colors"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-slate-600">
+                    {benefit.description}
+                  </p>
                 </div>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-slate-600">
-                  {benefit.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
