@@ -29,6 +29,8 @@ interface LegalCase {
   urgency_level: string;
   snapshot_brief: string;
   created_at: string;
+  lead_temperature: string;
+  last_activity_at: string;
 }
 
 const LawyerDashboard = () => {
@@ -217,13 +219,24 @@ const LawyerDashboard = () => {
                 ) : (
                   availableLeads.map((lead) => {
                     const isPurchased = purchasedLeads.some(p => p.id === lead.id);
+                    const temperatureColors = {
+                      warm: "bg-red-500",
+                      cooling: "bg-yellow-500",
+                      cold: "bg-blue-500"
+                    };
                     
                     return (
                     <Card key={lead.id} className={isPurchased ? "border-green-500/50" : ""}>
                       <CardHeader>
                         <div className="flex items-start justify-between">
-                          <div>
-                            <CardTitle className="text-xl">{lead.legal_topic}</CardTitle>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <CardTitle className="text-xl">{lead.legal_topic}</CardTitle>
+                              <div className="flex items-center gap-1.5">
+                                <div className={`w-2 h-2 rounded-full ${temperatureColors[lead.lead_temperature as keyof typeof temperatureColors]}`} />
+                                <span className="text-xs font-medium capitalize">{lead.lead_temperature}</span>
+                              </div>
+                            </div>
                             <CardDescription>
                               {lead.state} • {new Date(lead.created_at).toLocaleDateString()}
                             </CardDescription>

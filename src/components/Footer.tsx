@@ -37,6 +37,8 @@ export const Footer = () => {
               {[
                 { to: "/about", label: "About Us" },
                 { to: "/resources", label: "All Legal Guides" },
+                { to: "/#how-it-works", label: "How It Works" },
+                { to: "/?chat=true", label: "Start AI Research" },
                 { to: "/pricing", label: "Pricing" },
                 { to: "/install", label: "Install App" },
                 { to: "/security", label: "Security & Privacy", icon: Shield }
@@ -60,8 +62,9 @@ export const Footer = () => {
             <ul className="space-y-3">
               {[
                 { to: "/terms-of-service", label: "Terms of Service" },
-                { to: "/privacy-policy", label: "Privacy Policy" },
-                { to: "/refund-policy", label: "Refund Policy" }
+                { to: "/privacy-policy", label: "Privacy & Terms" },
+                { to: "/refund-policy", label: "Refund Policy" },
+                { to: "/lawyer-signup", label: "For Lawyers" }
               ].map(link => (
                 <li key={link.to}>
                   <Link 

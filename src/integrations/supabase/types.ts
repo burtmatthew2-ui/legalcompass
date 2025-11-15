@@ -825,10 +825,13 @@ export type Database = {
           created_at: string | null
           description: string
           id: string
+          last_activity_at: string | null
+          lead_temperature: string | null
           legal_topic: string
           snapshot_brief: string | null
           state: string
           status: string | null
+          temperature_changed_at: string | null
           updated_at: string | null
           urgency_level: string
           user_id: string
@@ -837,10 +840,13 @@ export type Database = {
           created_at?: string | null
           description: string
           id?: string
+          last_activity_at?: string | null
+          lead_temperature?: string | null
           legal_topic: string
           snapshot_brief?: string | null
           state: string
           status?: string | null
+          temperature_changed_at?: string | null
           updated_at?: string | null
           urgency_level: string
           user_id: string
@@ -849,10 +855,13 @@ export type Database = {
           created_at?: string | null
           description?: string
           id?: string
+          last_activity_at?: string | null
+          lead_temperature?: string | null
           legal_topic?: string
           snapshot_brief?: string | null
           state?: string
           status?: string | null
+          temperature_changed_at?: string | null
           updated_at?: string | null
           urgency_level?: string
           user_id?: string
@@ -1169,6 +1178,7 @@ export type Database = {
         Args: { p_lead_id: string; p_user_id: string; p_user_role: string }
         Returns: undefined
       }
+      update_lead_temperature: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "client" | "attorney"
