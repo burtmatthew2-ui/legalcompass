@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ConsultationRequestDialog } from "@/components/ConsultationRequestDialog";
+import { LawyerProfileImage } from "@/components/LawyerProfileImage";
 import { Search, Star, MapPin, Briefcase, Award, Filter, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -245,11 +246,13 @@ export default function FindLawyers() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       {lawyer.profile_image_url ? (
-                        <img 
-                          src={lawyer.profile_image_url} 
-                          alt={lawyer.full_name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-muted">
+                          <LawyerProfileImage 
+                            profileImageUrl={lawyer.profile_image_url}
+                            alt={lawyer.full_name}
+                            className="w-12 h-12 object-cover"
+                          />
+                        </div>
                       ) : (
                         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                           <span className="text-primary font-bold text-lg">
