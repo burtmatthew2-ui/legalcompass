@@ -4,23 +4,23 @@ export const WhyLawyersUse = () => {
   const benefits = [
     {
       icon: TrendingUp,
-      title: "Steady Flow of Warm Clients",
-      description: "Get connected with potential clients actively seeking legal help right now"
+      title: "Ready-to-Convert Clients",
+      description: "Stop chasing cold leads. Get instant access to people who need your help now—not 'just browsing.'"
     },
     {
       icon: Target,
-      title: "More Qualified Leads",
-      description: "Our AI pre-screens users, so you only see cases matching your expertise"
+      title: "AI Does the Filtering For You",
+      description: "No more sifting through bad-fit inquiries. Our AI matches you with cases in your practice area and jurisdiction."
     },
     {
       icon: Eye,
-      title: "Increased Visibility",
-      description: "Perfect for smaller or solo practices looking to grow their client base"
+      title: "Level the Playing Field",
+      description: "Solo and small firms: finally compete with big firms on visibility—without the marketing budget."
     },
     {
       icon: DollarSign,
-      title: "Transparent Lead Pricing",
-      description: "Clear, upfront pricing with no hidden fees or long-term contracts"
+      title: "Pay for Results, Not Marketing",
+      description: "No retainers, no long contracts. Just pay per lead when you're ready. You're in control."
     }
   ];
 
@@ -29,10 +29,10 @@ export const WhyLawyersUse = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Why Lawyers Use LegalCompass
+            For Attorneys: Stop Waiting. Start Growing.
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Build your practice with a steady stream of qualified client leads
+            Finally, a lead generation system that works for lawyers who don't have time to waste
           </p>
         </div>
 
