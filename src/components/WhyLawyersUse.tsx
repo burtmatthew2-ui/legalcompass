@@ -25,35 +25,35 @@ export const WhyLawyersUse = () => {
   ];
 
   return (
-    <section className="py-16 px-6 bg-white">
+    <section className="py-8 md:py-16 px-4 md:px-6 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">
             For Attorneys: Stop Waiting. Start Growing.
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
             Finally, a lead generation system that works for lawyers who don't have time to waste
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
               <div 
                 key={index} 
-                className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary transition-colors"
+                className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary transition-colors"
               >
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-primary" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                  <h3 className="text-base md:text-lg font-semibold text-slate-900 mb-1 md:mb-2">
                     {benefit.title}
                   </h3>
-                  <p className="text-slate-600">
+                  <p className="text-sm md:text-base text-slate-600">
                     {benefit.description}
                   </p>
                 </div>

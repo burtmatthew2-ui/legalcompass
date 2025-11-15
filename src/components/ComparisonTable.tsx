@@ -19,27 +19,27 @@ export const ComparisonTable = () => {
   ];
 
   return (
-    <div className="py-16 px-6 bg-gradient-to-b from-slate-50 to-white">
+    <div className="py-8 md:py-16 px-4 md:px-6 bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">
             Why Choose Legal Compass?
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
             Get professional legal research tools at a fraction of the cost
           </p>
         </div>
 
         <Card className="overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="text-left p-6 font-semibold text-slate-700">Feature</th>
-                  <th className="text-center p-6 font-semibold text-slate-700">Traditional Attorney</th>
-                  <th className="text-center p-6 bg-primary/5 border-l-4 border-primary">
+                  <th className="text-left p-3 md:p-6 font-semibold text-slate-700 text-sm md:text-base">Feature</th>
+                  <th className="text-center p-3 md:p-6 font-semibold text-slate-700 text-sm md:text-base">Traditional Attorney</th>
+                  <th className="text-center p-3 md:p-6 bg-primary/5 border-l-4 border-primary">
                     <div className="space-y-1">
-                      <span className="block font-bold text-primary text-lg">Legal Compass</span>
+                      <span className="block font-bold text-primary text-base md:text-lg">Legal Compass</span>
                       <span className="block text-xs text-slate-600 font-normal">Recommended</span>
                     </div>
                   </th>
@@ -53,27 +53,27 @@ export const ComparisonTable = () => {
                       index % 2 === 0 ? "bg-white" : "bg-slate-50/50"
                     }`}
                   >
-                    <td className="p-6 font-medium text-slate-900">{feature.name}</td>
-                    <td className="p-6 text-center text-slate-600">
+                    <td className="p-3 md:p-6 font-medium text-slate-900 text-sm md:text-base">{feature.name}</td>
+                    <td className="p-3 md:p-6 text-center text-slate-600 text-sm md:text-base">
                       {typeof feature.traditional === "boolean" ? (
                         feature.traditional ? (
-                          <Check className="w-5 h-5 text-green-600 mx-auto" />
+                          <Check className="w-4 h-4 md:w-5 md:h-5 text-green-600 mx-auto" />
                         ) : (
-                          <X className="w-5 h-5 text-red-500 mx-auto" />
+                          <X className="w-4 h-4 md:w-5 md:h-5 text-red-500 mx-auto" />
                         )
                       ) : (
                         feature.traditional
                       )}
                     </td>
-                    <td className="p-6 text-center bg-primary/5 border-l-4 border-primary">
+                    <td className="p-3 md:p-6 text-center bg-primary/5 border-l-4 border-primary text-sm md:text-base">
                       {typeof feature.legalCompass === "boolean" ? (
                         feature.legalCompass ? (
-                          <Check className="w-5 h-5 text-primary mx-auto font-bold" />
+                          <Check className="w-4 h-4 md:w-5 md:h-5 text-primary mx-auto font-bold" />
                         ) : (
-                          <X className="w-5 h-5 text-red-500 mx-auto" />
+                          <X className="w-4 h-4 md:w-5 md:h-5 text-red-500 mx-auto" />
                         )
                       ) : (
-                        <span className="font-semibold text-primary">{feature.legalCompass}</span>
+                        <span className="font-semibold text-primary text-sm md:text-base">{feature.legalCompass}</span>
                       )}
                     </td>
                   </tr>
