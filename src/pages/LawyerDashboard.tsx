@@ -216,11 +216,10 @@ const LawyerDashboard = () => {
                   </Card>
                 ) : (
                   availableLeads.map((lead) => {
-                    const price = lead.urgency_level === "high" ? "$90" : 
-                                 lead.urgency_level === "medium" ? "$70" : "$50";
+                    const isPurchased = purchasedLeads.some(p => p.id === lead.id);
                     
                     return (
-                    <Card key={lead.id}>
+                    <Card key={lead.id} className={isPurchased ? "border-green-500/50" : ""}>
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div>
@@ -229,31 +228,47 @@ const LawyerDashboard = () => {
                               {lead.state} • {new Date(lead.created_at).toLocaleDateString()}
                             </CardDescription>
                           </div>
-                          <Badge variant={lead.urgency_level === "high" ? "destructive" : "secondary"}>
-                            {lead.urgency_level} urgency
-                          </Badge>
+                          <div className="flex gap-2">
+                            <Badge variant={lead.urgency_level === "high" ? "destructive" : "secondary"}>
+                              {lead.urgency_level} urgency
+                            </Badge>
+                            {isPurchased && <Badge variant="outline" className="bg-green-500/10 text-green-600">Purchased</Badge>}
+                          </div>
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
-                        <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary">
-                          <p className="text-sm font-medium mb-2">Preview:</p>
-                          <p className="text-sm line-clamp-2">{lead.description}</p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Full case details available after purchase
-                          </p>
+                        <div>
+                          <p className="text-sm font-medium mb-1">Legal Issue:</p>
+                          <p className="text-sm text-muted-foreground">{lead.description}</p>
                         </div>
-                        <div className="flex items-center justify-between pt-2">
-                          <div className="text-lg font-bold text-primary">{price}</div>
-                          <Button onClick={() => handlePurchaseLead(lead.id)} disabled={loading}>
-                            {loading ? (
-                              <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Processing...
-                              </>
-                            ) : (
-                              `Purchase Lead (${price})`
-                            )}
-                          </Button>
+                        {lead.snapshot_brief && (
+                          <div className="bg-muted/50 p-3 rounded-lg">
+                            <p className="text-xs font-medium mb-1">AI Brief Preview:</p>
+                            <p className="text-xs text-muted-foreground line-clamp-3">{lead.snapshot_brief}</p>
+                          </div>
+                        )}
+                        <div className="border-t pt-3">
+                          <p className="text-xs text-amber-600 mb-3 flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>
+                            Purchase to view client contact info and respond
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <div className="text-lg font-bold text-primary">$35</div>
+                            <Button 
+                              onClick={() => handlePurchaseLead(lead.id)} 
+                              disabled={loading || isPurchased}
+                              variant={isPurchased ? "outline" : "default"}
+                            >
+                              {isPurchased ? "Already Purchased" : loading ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Processing...
+                                </>
+                              ) : (
+                                "Purchase for $35"
+                              )}
+                            </Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

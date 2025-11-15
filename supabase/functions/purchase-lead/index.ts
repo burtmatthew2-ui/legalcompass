@@ -154,15 +154,10 @@ serve(async (req) => {
 
     logStep("Creating Stripe checkout session for paid lead");
 
-    // Determine price based on urgency level
-    const urgencyPricing = {
-      low: { price_id: "price_1STVfVArhAIMbV73y6qEPNpD", amount: 3500 },      // $35
-      medium: { price_id: "price_1STVfwArhAIMbV73MFxC0G9z", amount: 4500 },   // $45
-      high: { price_id: "price_1STVgJArhAIMbV73wJlOqDgB", amount: 6000 },     // $60
-    };
-
-    const pricing = urgencyPricing[lead.urgency_level as keyof typeof urgencyPricing] || urgencyPricing.medium;
-    logStep("Pricing determined", { urgency: lead.urgency_level, amount: pricing.amount });
+    // Flat pricing for all leads: $35
+    const LEAD_PRICE_ID = "price_1STVfVArhAIMbV73y6qEPNpD"; // $35 flat fee
+    const LEAD_AMOUNT = 3500; // $35 in cents
+    logStep("Flat pricing applied", { amount: LEAD_AMOUNT });
 
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
@@ -171,14 +166,14 @@ serve(async (req) => {
       mode: "payment",
       line_items: [
         {
-          price: pricing.price_id,
+          price: LEAD_PRICE_ID,
           quantity: 1,
         },
       ],
       metadata: {
         lead_id: leadId,
         lawyer_id: user.id,
-        amount_paid: pricing.amount,
+        amount_paid: LEAD_AMOUNT,
       },
       success_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=success&lead=${leadId}`,
       cancel_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=cancelled`,
