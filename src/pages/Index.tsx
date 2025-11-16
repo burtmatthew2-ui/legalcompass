@@ -23,6 +23,7 @@ import { HowLawyerMatchingWorks } from "@/components/HowLawyerMatchingWorks";
 import { WhyLawyersUse } from "@/components/WhyLawyersUse";
 import { MissionStatement } from "@/components/MissionStatement";
 import { WhatMakesUsDifferent } from "@/components/WhatMakesUsDifferent";
+import { InternalLinks } from "@/components/InternalLinks";
 import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 
@@ -129,9 +130,16 @@ const Index = () => {
               <div id="comparison">
                 <ComparisonTable />
               </div>
+              
+              {/* Why Lawyers Use Legal Compass */}
+              <WhyLawyersUse />
+              
+              {/* Mission Statement */}
+              <MissionStatement />
             </>
           )}
         </main>
+        {!showChat && <InternalLinks />}
         {!showChat && <Footer />}
       </div>
     </ErrorBoundary>

@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
+import Sitemap from "./pages/Sitemap";
 import Install from "./pages/Install";
 import AdminDashboard from "./pages/AdminDashboard";
 import Resources from "./pages/Resources";
@@ -101,6 +102,7 @@ const App = () => (
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/sitemap" element={<Sitemap />} />
           <Route path="/install" element={<Install />} />
           <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/resources" element={<Resources />} />
