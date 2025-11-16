@@ -41,6 +41,7 @@ export const Footer = () => {
                 { to: "/?chat=true", label: "Start AI Research" },
                 { to: "/pricing", label: "Pricing" },
                 { to: "/install", label: "Install App" },
+                { to: "/sitemap", label: "Sitemap" },
                 { to: "/security", label: "Security & Privacy", icon: Shield }
               ].map(link => (
                 <li key={link.to}>
