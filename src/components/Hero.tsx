@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Compass, Scale, Shield, FileText, Globe, Bell, Settings, CheckCircle } from "lucide-react";
+import { Compass, Scale, Shield, CheckCircle, Award, FileText, Globe, Bell } from "lucide-react";
 import { Testimonials } from "./Testimonials";
 import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
@@ -32,16 +32,19 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
   }, []);
 
   return (
-      <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white">
+<div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      {/* Admin Badge */}
       {user && isAdmin && (
         <div className="fixed top-20 right-4 z-40">
           <Button
             onClick={() => navigate("/admin")}
             variant="outline"
             size="sm"
-            className="bg-white border-slate-300 hover:bg-slate-50 font-medium shadow-lg"
+            className="bg-white/95 backdrop-blur-sm border-slate-300 hover:bg-slate-50 font-medium shadow-lg hover:shadow-xl transition-all"
           >
-            <Settings className="h-4 w-4 mr-2" />
+            <Award className="h-4 w-4 mr-2 text-primary" />
             Admin Dashboard
           </Button>
         </div>

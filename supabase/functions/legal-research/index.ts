@@ -187,9 +187,9 @@ serve(async (req) => {
 
     logStep("Question count incremented", { newCount });
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+    const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error('ANTHROPIC_API_KEY is not configured');
     }
 
     let systemPrompt = `You are COMPASS — a trusted legal friend with bar-level expertise who makes complex legal issues simple, strategic, and actionable.
@@ -270,32 +270,7 @@ You possess comprehensive bar exam-level knowledge across ALL US STATES:
 - Identify strongest arguments and potential holes
 - Recommend most effective strategy (litigation vs. settlement)
 
-## ⚖️ CITATION REQUIREMENTS
-
-Every statute, case, or regulation MUST have a clickable link:
-
-**Federal Statutes:** [42 U.S.C. § 1983](https://www.law.cornell.edu/uscode/text/42/1983)
-**State Statutes:** [Cal. Civ. Code § 1942](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1942)
-**Case Law:** [Miranda v. Arizona, 384 U.S. 436](https://supreme.justia.com/cases/federal/us/384/436/)
-**Regulations:** [29 C.F.R. § 1910.1200](https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1910/subpart-Z/section-1910.1200)
-
-🚨 NO exceptions - every legal reference needs an official source link.
-
-## 💬 WRITING STYLE - BE HUMAN
-
-**DO THIS:**
-✅ "Let me break this down for you..."
-✅ "Here's the thing about your situation..."
-✅ "I get why you're worried - but here's your protection..."
-✅ "Bottom line: you're in a stronger position than you think."
-
-**NEVER DO THIS:**
-❌ "As an AI, I cannot provide legal advice..."
-❌ "Generally speaking, in most cases..."
-❌ Repeating the same answer when they ask again - approach it differently!
-❌ Generic platitudes without addressing their specific doubt
-
-## 🎯 WHAT MAKES YOU UNIQUE
+## 🎯 WHAT YOU'RE NOT
 
 You're not ChatGPT giving generic advice. You provide:
 - EXACT statute numbers with official links  
@@ -355,83 +330,32 @@ Remember: You're COMPASS - a bar-certified legal advisor who speaks like a trust
 
 ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded documents thoroughly, quote specific clauses, identify legal issues, and explain their impact.' : ''}`
 
-    // Multi-AI verification with Claude for maximum accuracy
-    logStep("Initiating multi-AI cross-verification with Claude");
+    // Format messages for Anthropic
+    logStep("Formatting messages for Anthropic Claude");
     
-    const aiModels = [
-      'google/gemini-2.5-flash',      // Fast, balanced
-      'openai/gpt-5-mini',             // Strong reasoning  
-      'claude-sonnet-4-5',             // Superior reasoning and intelligence
-      'google/gemini-2.5-pro'          // Most capable Gemini
-    ];
-    
-    const aiAnalyses = await Promise.allSettled(
-      aiModels.map(async (model) => {
-        const res = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              ...messages
-            ],
-            max_tokens: 1500,
-            temperature: 0.5,
-          }),
-        });
-        
-        if (!res.ok) throw new Error(`${model} failed`);
-        const data = await res.json();
-        return data.choices?.[0]?.message?.content;
-      })
-    );
-    
-    const validAnalyses = aiAnalyses
-      .filter(result => result.status === 'fulfilled' && result.value)
-      .map(result => (result as PromiseFulfilledResult<string>).value);
-    
-    logStep("Cross-verification complete", { analysesReceived: validAnalyses.length });
-    
-    // Synthesize responses with final model
-    let finalSystemPrompt = systemPrompt;
-    let finalMessages = messages;
-    
-    if (validAnalyses.length > 1) {
-      finalSystemPrompt = `You have ${validAnalyses.length} legal research analyses from different AI models (Gemini, GPT-5, Claude). Your task:
+    const formattedMessages = messages.map((msg: { role: string; content: string }) => ({
+      role: msg.role === 'assistant' ? 'assistant' : 'user',
+      content: msg.content
+    }));
 
-1. Cross-verify legal citations - use ONLY citations that appear accurate across multiple analyses
-2. Identify the strongest strategic points, loopholes, and weaknesses found
-3. Synthesize the most accurate information from all models
-4. Provide realistic outcome scenarios (best/likely/worst case) based on similar case patterns
-5. Create ONE concise, human-friendly response (150-400 words)
-6. Maintain a warm, conversational tone - like a trusted legal advisor
-7. NEVER repeat previous responses - if they're asking again, approach it differently
-8. Address specific concerns or doubts they raised
+    // Add system prompt as first user message
+    formattedMessages.unshift({
+      role: 'user',
+      content: systemPrompt
+    });
 
-**Analyses to synthesize:**
-
-${validAnalyses.map((analysis, i) => `**Analysis ${i + 1}:**\n${analysis}\n`).join('\n---\n\n')}
-
-Provide your final synthesized response (remember: warm, strategic, concise, fresh):`;
-      finalMessages = [{ role: 'system', content: finalSystemPrompt }];
-    }
-    
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
-        messages: finalMessages,
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4096,
+        messages: formattedMessages,
         stream: true,
-        max_tokens: 2500,
-        temperature: 0.6,
       }),
     });
 

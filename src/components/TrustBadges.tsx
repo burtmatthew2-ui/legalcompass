@@ -41,38 +41,47 @@ const badges = [
 
 export const TrustBadges = () => {
   return (
-    <div className="py-16 px-6 bg-gradient-to-b from-muted/30 to-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-            Trusted by Thousands of Clients & Attorneys
+    <div className="py-20 px-6 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.05),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(20,184,166,0.05),transparent_50%)]" />
+      
+      <div className="max-w-7xl mx-auto relative">
+        <div className="text-center mb-16">
+          <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-sm font-semibold text-primary mb-4">
+            Why 10,000+ Users Trust Us
+          </div>
+          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            Built on Trust, Security & Results
           </h3>
-          <p className="text-muted-foreground">
-            Your legal matters deserve the highest standards of security and professionalism
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Your legal matters are important. Here's how we protect you and deliver results.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {badges.map((badge, index) => {
             const Icon = badge.icon;
             return (
               <div 
                 key={index} 
-                className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1"
+                className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border-2 border-slate-100 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 via-blue-500/0 to-teal-500/0 group-hover:from-primary/5 group-hover:via-blue-500/5 group-hover:to-teal-500/5 transition-all duration-500" />
                 
                 {/* Content */}
                 <div className="relative z-10 space-y-3">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
-                    <Icon className="w-7 h-7 text-primary" />
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-blue-500/10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 mx-auto shadow-sm">
+                    <Icon className="w-8 h-8 text-primary" />
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-foreground text-sm mb-1">{badge.title}</h4>
-                    <p className="text-xs text-muted-foreground mb-2">{badge.description}</p>
-                    <div className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full inline-block">
+                    <h4 className="font-bold text-slate-900 text-sm mb-1.5 group-hover:text-primary transition-colors">
+                      {badge.title}
+                    </h4>
+                    <p className="text-xs text-slate-600 mb-3 leading-relaxed">{badge.description}</p>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-primary to-blue-600 px-3 py-1.5 rounded-lg shadow-sm">
+                      <CheckCircle className="w-3 h-3" />
                       {badge.metric}
                     </div>
                   </div>
@@ -80,6 +89,13 @@ export const TrustBadges = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-16 text-center">
+          <p className="text-slate-600 font-medium">
+            Join thousands who've found legal clarity with Legal Compass
+          </p>
         </div>
       </div>
     </div>

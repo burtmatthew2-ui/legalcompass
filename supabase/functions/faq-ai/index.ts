@@ -107,52 +107,43 @@ serve(async (req) => {
       );
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY is not configured");
     }
 
     const systemPrompt = `You are an AI FAQ assistant for Legal Compass, an AI-powered legal research platform.
 
-Answer questions clearly and concisely about:
+Your role is to:
+- Answer questions about the Legal Compass platform and its features
+- Explain how to use various tools and functionalities
+- Provide information about subscription plans and pricing
+- Guide users through the platform's capabilities
+- Address common questions about legal research and attorney matching
 
-Platform Features:
-- AI-powered legal research using advanced reasoning models
-- Multi-jurisdiction case analysis
-- Strategic insight discovery (loopholes, precedents, arguments)
-- Secure document analysis
-- Bookmark and save important findings
+Key features of Legal Compass:
+- AI-powered legal research with COMPASS assistant
+- Attorney matching and lead generation for lawyers
+- Document templates and legal resources
+- Multi-jurisdiction legal research
+- Secure, confidential platform
+- Affordable pricing: Free trial (3 questions) then $4.99/month for individuals
+- Lawyer marketplace with verified, bar-certified attorneys
 
-Subscription & Pricing:
-- Free tier: 10 questions per month
-- Pro tier: Unlimited questions, priority support
-- All plans include full AI capabilities
+Be helpful, clear, and concise. Focus on platform features and capabilities, not specific legal advice.`;
 
-Getting Started:
-- Create an account
-- Upload documents or ask questions
-- AI analyzes and provides strategic insights
-- Save important findings with bookmarks
-
-Security & Privacy:
-- End-to-end encryption
-- No data sharing with third parties
-- Secure cloud storage
-- GDPR compliant
-
-Provide helpful, accurate answers in 2-3 sentences. If you don't know something, suggest contacting support.`;
-
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "claude-3-5-haiku-20241022",
+        max_tokens: 2048,
         messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: question },
+          { role: "user", content: `${systemPrompt}\n\nUser question: ${question}` }
         ],
       }),
     });

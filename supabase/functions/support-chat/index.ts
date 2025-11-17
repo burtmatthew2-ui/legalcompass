@@ -51,9 +51,9 @@ serve(async (req) => {
       );
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY is not configured");
     }
 
     const systemPrompt = `You are a helpful customer support assistant for Legal Compass, an AI-powered legal research platform. 
@@ -66,27 +66,35 @@ Your role is to:
 - Troubleshoot technical issues
 
 Key information about Legal Compass:
-- It's an AI-powered legal research tool
+- It's an AI-powered legal research tool with COMPASS AI assistant
 - Uses advanced AI to analyze legal documents and cases
 - Offers multi-jurisdiction research capabilities
 - Provides strategic insights, not just search results
 - Has privacy-first design with secure data handling
-- Available in Free and Pro subscription tiers
+- Available in Free trial (3 questions) and Pro subscription ($4.99/month)
+- Lawyer marketplace with verified attorneys
 
 Be professional, helpful, and concise in your responses.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const formattedMessages = [
+      { role: "user" as const, content: systemPrompt },
+      ...messages.map((msg: { role: string; content: string }) => ({
+        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        content: msg.content
+      }))
+    ];
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages,
-        ],
+        model: "claude-3-5-haiku-20241022",
+        max_tokens: 2048,
+        messages: formattedMessages.slice(1),
       }),
     });
 
@@ -97,7 +105,7 @@ Be professional, helpful, and concise in your responses.`;
     }
 
     const data = await response.json();
-    const assistantMessage = data.choices?.[0]?.message?.content;
+    const assistantMessage = data.content?.[0]?.text;
 
     if (!assistantMessage) {
       throw new Error("No response from AI");
