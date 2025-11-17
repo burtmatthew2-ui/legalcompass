@@ -9,6 +9,9 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Copy, Users, Mail, CheckCircle, Search, UserCheck, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { LeadFinder } from "@/components/LeadFinder";
+import { LinkedInOutreachTracker } from "@/components/admin/LinkedInOutreachTracker";
+import { EmailSequenceAutomation } from "@/components/admin/EmailSequenceAutomation";
+import { PartnershipProposalGenerator } from "@/components/admin/PartnershipProposalGenerator";
 
 interface UserEmail {
   email: string;
@@ -166,7 +169,7 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="existing" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="existing" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Existing Users
@@ -178,6 +181,15 @@ export default function AdminDashboard() {
             <TabsTrigger value="leads" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Find New Leads
+            </TabsTrigger>
+            <TabsTrigger value="linkedin" className="flex items-center gap-2">
+              LinkedIn
+            </TabsTrigger>
+            <TabsTrigger value="email" className="flex items-center gap-2">
+              Email Sequences
+            </TabsTrigger>
+            <TabsTrigger value="partnerships" className="flex items-center gap-2">
+              Partnerships
             </TabsTrigger>
           </TabsList>
 
@@ -362,6 +374,18 @@ export default function AdminDashboard() {
 
           <TabsContent value="leads">
             <LeadFinder />
+          </TabsContent>
+
+          <TabsContent value="linkedin">
+            <LinkedInOutreachTracker />
+          </TabsContent>
+
+          <TabsContent value="email">
+            <EmailSequenceAutomation />
+          </TabsContent>
+
+          <TabsContent value="partnerships">
+            <PartnershipProposalGenerator />
           </TabsContent>
         </Tabs>
       </div>
