@@ -361,7 +361,7 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI Gateway error:', response.status, errorText);
+      console.error('Anthropic API error:', response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
@@ -383,10 +383,65 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
         );
       }
 
-      throw new Error(`AI Gateway returned ${response.status}: ${errorText}`);
+      throw new Error(`Anthropic API returned ${response.status}: ${errorText}`);
     }
 
-    return new Response(response.body, {
+    // Transform Anthropic's SSE stream to our expected format
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder();
+
+    if (!reader) {
+      throw new Error("No response body");
+    }
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          let buffer = '';
+          
+          while (true) {
+            const { done, value } = await reader.read();
+            
+            if (done) {
+              controller.close();
+              break;
+            }
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const data = line.slice(6);
+                
+                try {
+                  const parsed = JSON.parse(data);
+                  
+                  // Handle Anthropic's content_block_delta events
+                  if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+                    controller.enqueue(
+                      new TextEncoder().encode(`data: ${JSON.stringify({ content: parsed.delta.text })}\n\n`)
+                    );
+                  }
+                  // Handle message_stop to signal completion
+                  else if (parsed.type === 'message_stop') {
+                    controller.enqueue(new TextEncoder().encode('data: [DONE]\n\n'));
+                  }
+                } catch (e) {
+                  // Ignore parse errors for non-JSON lines
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Stream error:', error);
+          controller.error(error);
+        }
+      }
+    });
+
+    return new Response(stream, {
       headers: {
         ...corsHeaders,
         'Content-Type': 'text/event-stream',
