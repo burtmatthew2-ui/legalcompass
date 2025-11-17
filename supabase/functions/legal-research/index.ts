@@ -422,8 +422,15 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
                   
                   // Handle Anthropic's content_block_delta events
                   if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+                    // Transform to OpenAI-compatible format that the client expects
                     controller.enqueue(
-                      new TextEncoder().encode(`data: ${JSON.stringify({ content: parsed.delta.text })}\n\n`)
+                      new TextEncoder().encode(`data: ${JSON.stringify({ 
+                        choices: [{ 
+                          delta: { 
+                            content: parsed.delta.text 
+                          } 
+                        }] 
+                      })}\n\n`)
                     );
                   }
                   // Handle message_stop to signal completion
