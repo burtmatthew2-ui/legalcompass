@@ -119,17 +119,17 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
                   <Button 
                     size="lg" 
                     className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
-                    onClick={() => navigate('/find-lawyers')}
+                    onClick={onGetStarted}
                   >
-                    Find a Lawyer
+                    Chat with AI
                   </Button>
                   <Button 
                     size="lg" 
                     variant="outline" 
                     className="text-lg px-8 py-6 border-2"
-                    onClick={() => navigate('/lawyer-signup')}
+                    onClick={() => navigate('/find-lawyers')}
                   >
-                    Join as Attorney
+                    Find a Lawyer
                   </Button>
                 </>
               )}
