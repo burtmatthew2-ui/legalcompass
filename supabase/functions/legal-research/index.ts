@@ -330,19 +330,20 @@ Remember: You're COMPASS - a bar-certified legal advisor who speaks like a trust
 
 ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded documents thoroughly, quote specific clauses, identify legal issues, and explain their impact.' : ''}`
 
-    // Format messages for Anthropic
+    // Format messages for Anthropic (filter out any empty messages)
     logStep("Formatting messages for Anthropic Claude");
     
-    const formattedMessages = messages.map((msg: { role: string; content: string }) => ({
-      role: msg.role === 'assistant' ? 'assistant' : 'user',
-      content: msg.content
-    }));
+    const formattedMessages = messages
+      .filter((msg: { content: string }) => msg.content && msg.content.trim().length > 0)
+      .map((msg: { role: string; content: string }) => ({
+        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        content: msg.content
+      }));
 
-    // Add system prompt as first user message
-    formattedMessages.unshift({
-      role: 'user',
-      content: systemPrompt
-    });
+    // Ensure we have at least one message
+    if (formattedMessages.length === 0) {
+      throw new Error('No valid messages to process');
+    }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -354,6 +355,7 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4096,
+        system: systemPrompt,  // Use system parameter instead of adding as message
         messages: formattedMessages,
         stream: true,
       }),
