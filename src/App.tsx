@@ -84,6 +84,7 @@ const App = () => (
           <Route path="/attorney/:id" element={<AttorneyProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/conversation/:lead_id" element={<Conversation />} />
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
           <Route path="/client-dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />

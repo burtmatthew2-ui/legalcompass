@@ -100,9 +100,10 @@ const LawyerDashboard = () => {
     }
   };
 
-  const handlePurchaseLead = async (leadId: string) => {
+  const handleAcceptLead = async (leadId: string) => {
     try {
       setLoading(true);
+      // Pay only when accepting - not viewing
       const { data, error } = await supabase.functions.invoke("purchase-lead", {
         body: { leadId }
       });
@@ -112,8 +113,8 @@ const LawyerDashboard = () => {
       if (data?.url) {
         window.open(data.url, '_blank');
         toast({
-          title: "Redirecting to checkout",
-          description: "Complete your payment to access the full lead details"
+          title: "Accept this case?",
+          description: "Complete payment to officially accept and start working with this client"
         });
       }
     } catch (error: any) {
@@ -261,24 +262,20 @@ const LawyerDashboard = () => {
                           </div>
                         )}
                         <div className="border-t pt-3">
-                          <p className="text-xs text-amber-600 mb-3 flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>
-                            Purchase to view client contact info and respond
-                          </p>
                           <div className="flex items-center justify-between">
-                            <div className="text-lg font-bold text-primary">$35</div>
+                            <div className="text-lg font-bold text-primary">$50-90</div>
                             <Button 
-                              onClick={() => handlePurchaseLead(lead.id)} 
+                              onClick={() => handleAcceptLead(lead.id)} 
                               disabled={loading || isPurchased}
                               variant={isPurchased ? "outline" : "default"}
                             >
-                              {isPurchased ? "Already Purchased" : loading ? (
+                              {isPurchased ? "Already Accepted" : loading ? (
                                 <>
                                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                   Processing...
                                 </>
                               ) : (
-                                "Purchase for $35"
+                                "Accept & Begin ($50-90)"
                               )}
                             </Button>
                           </div>
@@ -316,9 +313,9 @@ const LawyerDashboard = () => {
                         </div>
                         <Button 
                           className="w-full"
-                          onClick={() => window.location.href = `/case/${lead.id}`}
+                          onClick={() => navigate(`/conversation/${lead.id}`)}
                         >
-                          Manage Case
+                          Open Secure Chat with Client
                         </Button>
                       </CardContent>
                     </Card>
