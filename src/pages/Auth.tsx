@@ -98,85 +98,86 @@ const Auth = () => {
       }
 
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
           password,
         });
+
         if (error) {
-          // Provide user-friendly error messages
-          if (error.message.includes("Invalid login credentials")) {
+          if (error.message.includes("Email not confirmed")) {
+            toast.error("Please check your email to verify your account");
+          } else if (error.message.includes("Invalid login credentials")) {
             toast.error("Invalid email or password");
-          } else if (error.message.includes("Email not confirmed")) {
-            toast.error("Please confirm your email before signing in");
           } else {
             toast.error(error.message);
           }
-          setLoading(false);
           return;
         }
-        toast.success("Welcome back! Your data is encrypted and secure.");
+
+        if (data.user) {
+          toast.success("Welcome back!");
+        }
       } else {
-        const { data: signUpData, error } = await supabase.auth.signUp({
-          email: email.trim(),
+        // Sign up flow
+        const { error: signUpError, data } = await supabase.auth.signUp({
+          email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/`,
           },
         });
-        if (error) {
-          // Provide user-friendly error messages
-          if (error.message.includes("already registered")) {
-            toast.error("This email is already registered. Please sign in instead.");
+
+        if (signUpError) {
+          if (signUpError.message.includes("already registered")) {
+            toast.error("An account with this email already exists. Please log in.");
           } else {
-            toast.error(error.message);
+            toast.error(signUpError.message);
           }
-          setLoading(false);
           return;
         }
 
-        // Save user role after successful signup
-        if (signUpData.user) {
+        if (data.user) {
+          // Create user role based on selection
           const { error: roleError } = await supabase
             .from("user_roles")
             .insert({
-              user_id: signUpData.user.id,
-              role: userType
+              user_id: data.user.id,
+              role: userType,
             });
 
           if (roleError) {
-            console.error("Error saving user role:", roleError);
+            console.error("Error creating user role:", roleError);
           }
-        }
 
-        // If user opted in for newsletter, subscribe them
-        if (subscribeNewsletter) {
-          try {
-            const { error: newsletterError } = await supabase
-              .from('newsletter_signups')
-              .insert({ email: email.trim(), source: 'signup' });
-            
-            if (!newsletterError) {
-              // Send newsletter confirmation
+          // Subscribe to newsletter if checkbox was checked
+          if (subscribeNewsletter) {
+            try {
+              await supabase
+                .from('newsletter_signups')
+                .insert({
+                  email: data.user.email!,
+                  name: "",
+                  source: 'signup'
+                });
+
+              // Send confirmation email
               await supabase.functions.invoke('send-newsletter-confirmation', {
-                body: { email: email.trim() }
+                body: { email: data.user.email! }
               });
+            } catch (error) {
+              console.error("Newsletter subscription error:", error);
+              // Don't block signup if newsletter fails
             }
-          } catch (newsletterError) {
-            // Don't block signup if newsletter fails
-            console.error('Newsletter signup error:', newsletterError);
           }
-        }
 
-        toast.success("Account created! Please check your email to verify your account before signing in.", {
-          duration: 6000
-        });
-        setIsLogin(true);
-        setPassword("");
-        setAcceptedTos(false);
-        setSubscribeNewsletter(false);
+          toast.success("Account created! You can now sign in and start using Legal Compass.");
+          setIsLogin(true); // Switch to login mode
+          setPassword(""); // Clear password for security
+        }
       }
     } catch (error: any) {
-      toast.error("An unexpected error occurred. Please try again.");
+      console.error("Auth error:", error);
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }

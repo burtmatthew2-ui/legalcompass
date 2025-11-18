@@ -1,5 +1,8 @@
 project_id = "ifsckryvwehynahixmro"
 
+[functions.send-email-verification]
+verify_jwt = false
+
 [functions.legal-research]
 verify_jwt = true
 

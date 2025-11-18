@@ -66,6 +66,7 @@ import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
 import CheapestLegalAidComparison from "./pages/resources/CheapestLegalAidComparison";
 import FindLawyers from "./pages/FindLawyers";
 import AttorneyProfile from "./pages/AttorneyProfile";
+import VerifyEmail from "./pages/VerifyEmail";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -82,6 +83,7 @@ const App = () => (
           <Route path="/find-lawyers" element={<FindLawyers />} />
           <Route path="/attorney/:id" element={<AttorneyProfile />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/get-started" element={<GetStarted />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
           <Route path="/client-dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
