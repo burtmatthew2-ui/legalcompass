@@ -169,29 +169,39 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="existing" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="existing" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Existing Users
-            </TabsTrigger>
-            <TabsTrigger value="lawyers" className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              Verify Lawyers
-            </TabsTrigger>
-            <TabsTrigger value="leads" className="flex items-center gap-2">
-              <Search className="h-4 w-4" />
-              Find New Leads
-            </TabsTrigger>
-            <TabsTrigger value="linkedin" className="flex items-center gap-2">
-              LinkedIn
-            </TabsTrigger>
-            <TabsTrigger value="email" className="flex items-center gap-2">
-              Email Sequences
-            </TabsTrigger>
-            <TabsTrigger value="partnerships" className="flex items-center gap-2">
-              Partnerships
-            </TabsTrigger>
-          </TabsList>
+          <ScrollArea className="w-full pb-2">
+            <TabsList className="inline-flex h-auto items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-max">
+              <TabsTrigger value="existing" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <Users className="h-4 w-4" />
+                <span className="hidden sm:inline">Existing Users</span>
+                <span className="sm:hidden">Users</span>
+              </TabsTrigger>
+              <TabsTrigger value="lawyers" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <CheckCircle className="h-4 w-4" />
+                <span className="hidden sm:inline">Verify Lawyers</span>
+                <span className="sm:hidden">Verify</span>
+              </TabsTrigger>
+              <TabsTrigger value="leads" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <Search className="h-4 w-4" />
+                <span className="hidden sm:inline">Find New Leads</span>
+                <span className="sm:hidden">Leads</span>
+              </TabsTrigger>
+              <TabsTrigger value="linkedin" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <Mail className="h-4 w-4" />
+                LinkedIn
+              </TabsTrigger>
+              <TabsTrigger value="email" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">Email Sequences</span>
+                <span className="sm:hidden">Email</span>
+              </TabsTrigger>
+              <TabsTrigger value="partnerships" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
+                <CheckCircle className="h-4 w-4" />
+                <span className="hidden sm:inline">Partnerships</span>
+                <span className="sm:hidden">Partners</span>
+              </TabsTrigger>
+            </TabsList>
+          </ScrollArea>
 
           <TabsContent value="existing">
             <Card className="bg-card/90 backdrop-blur-xl border-border/50">
