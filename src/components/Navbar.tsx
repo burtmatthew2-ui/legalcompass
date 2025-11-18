@@ -44,6 +44,19 @@ export const Navbar = () => {
           {/* Navigation Links */}
           <div className="flex items-center gap-4">
             <Button
+              onClick={() => {
+                if (window.location.pathname === '/') {
+                  document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  navigate('/#how-it-works');
+                }
+              }}
+              variant="ghost"
+              className="text-slate-700 hover:text-primary font-medium"
+            >
+              How It Works
+            </Button>
+            <Button
               onClick={() => navigate("/find-lawyers")}
               variant="ghost"
               className="text-slate-700 hover:text-primary font-medium"
