@@ -355,7 +355,7 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 4096,
         system: systemPrompt,  // Use system parameter instead of adding as message
         messages: formattedMessages,
