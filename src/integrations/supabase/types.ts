@@ -868,6 +868,54 @@ export type Database = {
         }
         Relationships: []
       }
+      linkedin_outreach_contacts: {
+        Row: {
+          admin_id: string
+          created_at: string | null
+          follow_up_date: string | null
+          id: string
+          last_contact: string | null
+          linkedin_url: string
+          location: string | null
+          name: string
+          notes: string | null
+          practice_area: string | null
+          priority: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          admin_id: string
+          created_at?: string | null
+          follow_up_date?: string | null
+          id?: string
+          last_contact?: string | null
+          linkedin_url: string
+          location?: string | null
+          name: string
+          notes?: string | null
+          practice_area?: string | null
+          priority?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          admin_id?: string
+          created_at?: string | null
+          follow_up_date?: string | null
+          id?: string
+          last_contact?: string | null
+          linkedin_url?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          practice_area?: string | null
+          priority?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       message_notifications: {
         Row: {
           created_at: string | null
