@@ -29,11 +29,6 @@ export const Navbar = () => {
     navigate("/");
   };
 
-  const handleTemplatesClick = async () => {
-    const url = await getDocsUrlWithSSO("/");
-    window.open(url, "_blank");
-  };
-
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,13 +56,6 @@ export const Navbar = () => {
               className="text-slate-700 hover:text-primary font-medium"
             >
               How It Works
-            </Button>
-            <Button
-              onClick={handleTemplatesClick}
-              variant="ghost"
-              className="text-slate-700 hover:text-primary font-medium"
-            >
-              Templates
             </Button>
             <Button
               onClick={() => navigate("/find-lawyers")}

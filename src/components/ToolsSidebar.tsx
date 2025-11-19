@@ -25,8 +25,8 @@ export const ToolsSidebar = () => {
 
   const tools = [
     { icon: Home, label: "Home", path: "/" },
+    { icon: Download, label: "Templates", path: "docs", external: true },
     { icon: HelpCircle, label: "Legal Direction Finder", path: "/#direction-finder", hash: true },
-    { icon: Download, label: "Free Templates", path: "docs", external: true },
     { icon: MapPin, label: "Find Local Help", path: "/#local-help", hash: true },
     { icon: BookOpen, label: "Legal Resources", path: "/resources" },
     { icon: FileText, label: "Support", path: "/support" },
