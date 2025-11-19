@@ -57,6 +57,13 @@ export const Navbar = () => {
               How It Works
             </Button>
             <Button
+              onClick={() => navigate("/templates")}
+              variant="ghost"
+              className="text-slate-700 hover:text-primary font-medium"
+            >
+              Templates
+            </Button>
+            <Button
               onClick={() => navigate("/find-lawyers")}
               variant="ghost"
               className="text-slate-700 hover:text-primary font-medium"

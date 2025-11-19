@@ -74,3 +74,12 @@ verify_jwt = true
 
 [functions.request-lawyer-removal]
 verify_jwt = false
+
+[functions.notify-warm-leads]
+verify_jwt = true
+
+[functions.create-template-checkout]
+verify_jwt = true
+
+[functions.check-template-subscription]
+verify_jwt = true

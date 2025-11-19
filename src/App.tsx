@@ -27,6 +27,7 @@ import About from "./pages/About";
 import GetStarted from "./pages/GetStarted";
 import UserPortal from "./pages/UserPortal";
 import LawyerSignup from "./pages/LawyerSignup";
+import Templates from "./pages/Templates";
 import LawyerDashboard from "./pages/LawyerDashboard";
 import CaseManagement from "./pages/CaseManagement";
 import { ClientCaseManagement } from "./components/ClientCaseManagement";
@@ -86,6 +87,7 @@ const App = () => (
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/conversation/:lead_id" element={<Conversation />} />
           <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/templates" element={<Templates />} />
           <Route path="/attorney-dashboard" element={<ProtectedRoute><AttorneyDashboard /></ProtectedRoute>} />
           <Route path="/client-dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
           <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
