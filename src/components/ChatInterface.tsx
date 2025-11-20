@@ -225,18 +225,18 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         onOpenChange={setShowSubscriptionDialog}
       />
       
-      {/* Legal AI Disclaimer - Always Visible */}
-      <Alert className="m-6 mb-3 border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">
-        <AlertDescription className="text-sm text-yellow-900 dark:text-yellow-100">
+      {/* Legal AI Disclaimer - Compact on mobile */}
+      <Alert className="mx-3 md:mx-6 my-2 md:my-3 border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">
+        <AlertDescription className="text-xs md:text-sm text-yellow-900 dark:text-yellow-100">
           <strong>Important Legal Disclaimer:</strong> This AI provides general legal information only and is NOT a substitute for a licensed attorney. For specific legal advice about your situation, please consult a qualified lawyer in your jurisdiction.
         </AlertDescription>
       </Alert>
 
       {!isAdmin && !subscription?.subscribed && !subLoading && (
-        <Alert className={`mx-6 mb-3 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
+        <Alert className={`mx-3 md:mx-6 mb-2 md:mb-3 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
           <Sparkles className="h-4 w-4 text-accent" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>
+          <AlertDescription className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <span className="text-xs md:text-sm">
               {remainingFreeQuestions > 0 
                 ? `Free Trial: ${remainingFreeQuestions} of 3 free questions remaining` 
                 : "You've used your 3 free questions!"}
@@ -245,9 +245,9 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               onClick={() => remainingFreeQuestions === 0 ? setShowSubscriptionDialog(true) : navigate("/pricing")} 
               size="sm" 
               variant={remainingFreeQuestions === 0 ? "default" : "outline"}
-              className={remainingFreeQuestions === 0 ? "bg-accent hover:bg-accent/90" : ""}
+              className={`${remainingFreeQuestions === 0 ? "bg-accent hover:bg-accent/90" : ""} whitespace-nowrap`}
             >
-              {remainingFreeQuestions === 0 ? "Get Unlimited ($4.99/mo)" : "Upgrade"}
+              {remainingFreeQuestions === 0 ? "Get Unlimited" : "Upgrade"}
             </Button>
           </AlertDescription>
         </Alert>
@@ -266,68 +266,71 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       />
 
       <div className="border-b border-slate-200 bg-white shadow-sm">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsSidebarOpen(true)}
-              className="hover:bg-slate-100 rounded-md"
-            >
-              <Menu className="w-5 h-5 text-slate-600" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onBack}
-              className="hover:bg-slate-100 rounded-md"
-            >
-              <ArrowLeft className="w-5 h-5 text-slate-600" />
-            </Button>
-            <div>
-              <h2 className="text-xl font-semibold text-slate-900">
-                Legal Research Assistant
-              </h2>
-              <p className="text-xs text-slate-500">Professional AI-powered analysis</p>
-            </div>
-          </div>
-          <div className="flex gap-2 items-center flex-wrap">
-            <ConversationActions 
-              messages={messages} 
-              conversationId={currentConversation?.id || null}
-            />
-            <Button
-              onClick={() => navigate("/pricing")}
-              variant="outline"
-              size="sm"
-              className="border-primary/30 hover:bg-primary/5 text-primary"
-            >
-              Upgrade
-            </Button>
-            {isAdmin && (
+        <div className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
               <Button
-                onClick={() => navigate("/admin")}
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSidebarOpen(true)}
+                className="hover:bg-slate-100 rounded-md shrink-0"
+              >
+                <Menu className="w-5 h-5 text-slate-600" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onBack}
+                className="hover:bg-slate-100 rounded-md shrink-0"
+              >
+                <ArrowLeft className="w-5 h-5 text-slate-600" />
+              </Button>
+              <div className="min-w-0">
+                <h2 className="text-base md:text-xl font-semibold text-slate-900 truncate">
+                  Legal Research Assistant
+                </h2>
+                <p className="text-xs text-slate-500 hidden sm:block">Professional AI-powered analysis</p>
+              </div>
+            </div>
+            <div className="flex gap-1 md:gap-2 items-center shrink-0">
+              <div className="hidden sm:flex">
+                <ConversationActions 
+                  messages={messages} 
+                  conversationId={currentConversation?.id || null}
+                />
+              </div>
+              <Button
+                onClick={() => navigate("/pricing")}
                 variant="outline"
                 size="sm"
-                className="border-slate-300 hover:bg-slate-50"
+                className="border-primary/30 hover:bg-primary/5 text-primary hidden sm:flex"
               >
-                <Settings className="h-4 w-4 mr-2" />
-                Admin
+                Upgrade
               </Button>
-            )}
-            <Button
-              onClick={handleSignOut}
-              variant="ghost"
-              size="icon"
-              className="hover:bg-slate-100 rounded-md"
-            >
-              <LogOut className="h-4 w-4 text-slate-600" />
-            </Button>
+              {isAdmin && (
+                <Button
+                  onClick={() => navigate("/admin")}
+                  variant="outline"
+                  size="icon"
+                  className="border-slate-300 hover:bg-slate-50"
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+              )}
+              <Button
+                onClick={handleSignOut}
+                variant="ghost"
+                size="icon"
+                className="hover:bg-slate-100 rounded-md"
+              >
+                <LogOut className="h-4 w-4 text-slate-600" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-6 bg-slate-50" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 px-3 md:px-6 bg-slate-50" ref={scrollAreaRef}>
         <div className="max-w-5xl mx-auto py-12 space-y-6">
           {messages.length === 0 ? (
             <div className="text-center py-20">
@@ -369,7 +372,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       </ScrollArea>
 
       <div className="border-t border-slate-200 bg-white shadow-lg">
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-6 py-5 space-y-3">
+        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-5 space-y-3">
           <FileUpload 
             conversationId={currentConversation?.id || null}
             onFileUploaded={(file) => {
