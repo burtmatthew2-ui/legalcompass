@@ -90,7 +90,7 @@ serve(async (req) => {
     const emailPromises = matchingLawyers.map(async (lawyer) => {
       try {
         const emailResponse = await resend.emails.send({
-          from: "Legal Compass <leads@legalcompass.app>",
+          from: "Legal Compass <leads@legalcompass.shop>",
           to: [lawyer.email],
           subject: `New ${legalCase.urgency_level.toUpperCase()} Priority Lead Available - ${legalCase.legal_topic}`,
           html: `

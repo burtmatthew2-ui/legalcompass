@@ -63,7 +63,7 @@ serve(async (req) => {
     }
 
     await resend.emails.send({
-      from: "Legal Compass <leads@legalcompass.app>",
+      from: "Legal Compass <leads@legalcompass.shop>",
       to: [lawyer.email],
       subject: `Lead Purchased Successfully - ${lead.legal_topic}`,
       html: `
