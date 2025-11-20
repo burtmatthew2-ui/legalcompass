@@ -263,7 +263,7 @@ const Templates = () => {
                   <Badge variant="secondary">{templateStats.free}</Badge>
                   <span className="text-sm">Basic templates</span>
                 </li>
-                <li className="text-sm text-muted-foreground">• 1 free template per month</li>
+                <li className="text-sm text-muted-foreground">• 1 free template</li>
               <li className="text-sm text-muted-foreground">• Download as PDF, DOCX, or TXT</li>
               <li className="text-sm text-muted-foreground">• Preview before customizing</li>
               </ul>

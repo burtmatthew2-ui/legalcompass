@@ -132,12 +132,6 @@ const Index = () => {
               <div id="comparison">
                 <ComparisonTable />
               </div>
-              
-              {/* Why Lawyers Use Legal Compass */}
-              <WhyLawyersUse />
-              
-              {/* Mission Statement */}
-              <MissionStatement />
             </>
           )}
         </main>
