@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { TemplateManager } from "@/components/TemplateManager";
 import { TeamManagement } from "@/components/TeamManagement";
 import { LawyerProfileEditor } from "@/components/LawyerProfileEditor";
+import { AcceptedCasesView } from "@/components/lawyer/AcceptedCasesView";
 
 interface LawyerProfile {
   id: string;
@@ -201,7 +202,7 @@ const LawyerDashboard = () => {
           <Tabs defaultValue="available" className="w-full">
             <TabsList className="grid w-full max-w-4xl grid-cols-5">
               <TabsTrigger value="available">Available Leads</TabsTrigger>
-              <TabsTrigger value="purchased">My Cases</TabsTrigger>
+              <TabsTrigger value="cases">My Cases</TabsTrigger>
               <TabsTrigger value="profile">My Profile</TabsTrigger>
               <TabsTrigger value="templates">Templates</TabsTrigger>
               <TabsTrigger value="team">Team</TabsTrigger>
@@ -287,41 +288,8 @@ const LawyerDashboard = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="purchased" className="space-y-4">
-              <div className="grid gap-4">
-                {purchasedLeads.length === 0 ? (
-                  <Card>
-                    <CardContent className="pt-6">
-                      <p className="text-center text-muted-foreground">
-                        You haven't purchased any leads yet
-                      </p>
-                    </CardContent>
-                  </Card>
-                ) : (
-                  purchasedLeads.map((lead) => (
-                    <Card key={lead.id}>
-                      <CardHeader>
-                        <CardTitle className="text-xl">{lead.legal_topic}</CardTitle>
-                        <CardDescription>
-                          {lead.state} • Purchased {new Date(lead.created_at).toLocaleDateString()}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="bg-muted p-4 rounded-lg">
-                          <h4 className="font-semibold mb-2">Full Case Details:</h4>
-                          <pre className="whitespace-pre-wrap text-sm">{lead.snapshot_brief}</pre>
-                        </div>
-                        <Button 
-                          className="w-full"
-                          onClick={() => navigate(`/conversation/${lead.id}`)}
-                        >
-                          Open Secure Chat with Client
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))
-                )}
-              </div>
+            <TabsContent value="cases" className="space-y-4">
+              <AcceptedCasesView />
             </TabsContent>
 
             <TabsContent value="profile">

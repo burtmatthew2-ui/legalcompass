@@ -13,10 +13,12 @@ import {
   Scale,
   Mail
 } from "lucide-react";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useUnreadMessages } from "@/hooks/useUnreadMessages";
+import { MyCasesView } from "@/components/client/MyCasesView";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const ClientDashboard = () => {
@@ -93,7 +95,7 @@ const ClientDashboard = () => {
         </Sidebar>
 
         <main className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto space-y-8">
+          <Tabs defaultValue="overview" className="max-w-7xl mx-auto space-y-8">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-4xl font-bold text-foreground">
@@ -103,8 +105,14 @@ const ClientDashboard = () => {
                   Your legal support platform
                 </p>
               </div>
-              <SidebarTrigger />
             </div>
+
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="cases">My Cases</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-8">
 
             {/* Getting Started Guide */}
             <Card className="border-2 border-primary/20 bg-primary/5">
@@ -238,7 +246,12 @@ const ClientDashboard = () => {
                 </div>
               </CardHeader>
             </Card>
-          </div>
+            </TabsContent>
+
+            <TabsContent value="cases">
+              <MyCasesView />
+            </TabsContent>
+          </Tabs>
         </main>
       </div>
     </SidebarProvider>
