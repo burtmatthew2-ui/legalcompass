@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -109,6 +110,50 @@ const Templates = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <Helmet>
+        <title>Free Legal Templates & Forms | Download Attorney-Reviewed Documents 2025</title>
+        <meta name="description" content="Download 50+ free legal templates including divorce papers, eviction notices, promissory notes, NDAs, wills, contracts, and court forms. Attorney-reviewed, state-specific, instantly customizable." />
+        
+        {/* Primary Keywords */}
+        <meta name="keywords" content="legal templates free, legal forms download, attorney templates, court forms, legal documents, contract templates, divorce papers template, eviction notice template, promissory note, bill of sale, affidavit template, cease and desist letter, demand letter template, NDA template, will template, power of attorney form, rental agreement, employment contract, small claims complaint, personal injury demand letter" />
+        
+        {/* Long-tail Keywords */}
+        <meta name="keywords" content="how to file for divorce, how to evict a tenant, how to write a demand letter, free legal document templates, downloadable legal forms, customizable legal templates, attorney-reviewed legal documents, state-specific legal forms, DIY legal documents, affordable legal forms, legal templates for lawyers, court filing templates, business contract templates, family law forms, estate planning documents, real estate contracts, employment agreements, free will template, free divorce papers, free eviction notice" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Free Legal Templates & Forms | Attorney-Reviewed Documents" />
+        <meta property="og:description" content="Download 50+ free legal templates. Divorce papers, contracts, court forms, wills, and more. Customize instantly." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/templates" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Free Legal Templates & Forms | Attorney-Reviewed" />
+        <meta name="twitter:description" content="50+ free legal templates. Download divorce papers, contracts, court forms instantly." />
+        
+        {/* Structured Data for Legal Service */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Legal Document Templates",
+            "description": "Free attorney-reviewed legal templates including contracts, court documents, wills, divorce papers, and business forms",
+            "url": "https://legalcompass.shop/templates",
+            "provider": {
+              "@type": "LegalService",
+              "name": "Legal Compass",
+              "description": "Professional legal document templates and attorney matching service"
+            },
+            "offers": {
+              "@type": "AggregateOffer",
+              "priceCurrency": "USD",
+              "lowPrice": "0",
+              "highPrice": "29.99",
+              "offerCount": "50+"
+            }
+          })}
+        </script>
+      </Helmet>
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-12">
