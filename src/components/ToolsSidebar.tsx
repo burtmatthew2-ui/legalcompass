@@ -17,7 +17,6 @@ import {
   Download,
   Home
 } from "lucide-react";
-import { getDocsUrlWithSSO } from "@/utils/ssoToken";
 
 export const ToolsSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -26,20 +25,14 @@ export const ToolsSidebar = () => {
   const tools = [
     { icon: Home, label: "Home", path: "/" },
     { icon: HelpCircle, label: "Legal Direction Finder", path: "/#direction-finder", hash: true },
-    { icon: Download, label: "Templates", path: "docs", external: true },
+    { icon: Download, label: "Templates", path: "/templates" },
     { icon: MapPin, label: "Find Local Help", path: "/#local-help", hash: true },
     { icon: BookOpen, label: "Legal Resources", path: "/resources" },
     { icon: FileText, label: "Support", path: "/support" },
   ];
 
-  const handleNavigation = async (path: string, isHash: boolean, isExternal?: boolean) => {
+  const handleNavigation = async (path: string, isHash: boolean) => {
     setOpen(false);
-    
-    if (isExternal) {
-      const url = await getDocsUrlWithSSO("/");
-      window.open(url, "_blank");
-      return;
-    }
     
     if (isHash) {
       const element = document.querySelector(path.split('#')[1] ? `#${path.split('#')[1]}` : path);
@@ -71,16 +64,7 @@ export const ToolsSidebar = () => {
               ? false 
               : location.pathname === tool.path;
             
-            return tool.external ? (
-              <button
-                key={tool.path}
-                onClick={() => handleNavigation(tool.path, false, true)}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-muted"
-              >
-                <Icon className="h-5 w-5" />
-                <span className="font-medium">{tool.label}</span>
-              </button>
-            ) : tool.hash ? (
+            return tool.hash ? (
               <button
                 key={tool.path}
                 onClick={() => handleNavigation(tool.path, true)}

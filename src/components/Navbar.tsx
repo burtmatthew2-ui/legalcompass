@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import type { User } from "@/types/user";
-import { getDocsUrlWithSSO } from "@/utils/ssoToken";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -27,11 +26,6 @@ export const Navbar = () => {
     await supabase.auth.signOut();
     toast.success("Signed out successfully");
     navigate("/");
-  };
-
-  const handleTemplatesClick = async () => {
-    const url = await getDocsUrlWithSSO("/");
-    window.open(url, "_blank");
   };
 
   return (
@@ -63,7 +57,7 @@ export const Navbar = () => {
               How It Works
             </Button>
             <Button
-              onClick={handleTemplatesClick}
+              onClick={() => navigate("/templates")}
               variant="ghost"
               className="hidden sm:flex text-slate-700 hover:text-primary font-medium"
             >
