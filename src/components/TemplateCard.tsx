@@ -1,19 +1,22 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Crown, Zap, Lock } from "lucide-react";
+import { FileText, Crown, Zap, Lock, Eye } from "lucide-react";
 import type { Template } from "@/data/templates";
 
 interface TemplateCardProps {
   template: Template;
-  currentTier: "free" | "pro" | "business";
+  hasAccess: boolean;
+  isSubscribed: boolean;
+  isLawyer: boolean;
+  freeTemplatesUsed: number;
   onPreview: (template: Template) => void;
   onUpgrade: () => void;
 }
 
-export const TemplateCard = ({ template, currentTier, onPreview, onUpgrade }: TemplateCardProps) => {
-  const tierOrder = { free: 0, pro: 1, business: 2 };
-  const hasAccess = tierOrder[currentTier] >= tierOrder[template.tier];
+export const TemplateCard = ({ template, hasAccess, isSubscribed, isLawyer, freeTemplatesUsed, onPreview, onUpgrade }: TemplateCardProps) => {
+  const canAccess = isSubscribed || isLawyer || freeTemplatesUsed < 1;
+  const showLockIcon = !canAccess;
 
   const getTierIcon = (tier: string) => {
     switch (tier) {
@@ -34,10 +37,17 @@ export const TemplateCard = ({ template, currentTier, onPreview, onUpgrade }: Te
   };
 
   return (
-    <Card className={`relative ${!hasAccess ? "opacity-75" : ""}`}>
-      {!hasAccess && (
+    <Card className={`relative ${!canAccess ? "opacity-75" : ""}`}>
+      {showLockIcon && (
         <div className="absolute top-2 right-2 z-10">
           <Lock className="w-5 h-5 text-muted-foreground" />
+        </div>
+      )}
+      {!hasAccess && canAccess && freeTemplatesUsed < 1 && (
+        <div className="absolute top-2 left-2 z-10">
+          <Badge variant="secondary" className="bg-green-100 text-green-700">
+            Free Template Available
+          </Badge>
         </div>
       )}
       
@@ -64,11 +74,12 @@ export const TemplateCard = ({ template, currentTier, onPreview, onUpgrade }: Te
       </CardContent>
 
       <CardFooter>
-        {hasAccess ? (
+        {canAccess ? (
           <Button 
             onClick={() => onPreview(template)}
             className="w-full"
           >
+            <Eye className="w-4 h-4 mr-2" />
             Preview & Customize
           </Button>
         ) : (
@@ -78,7 +89,7 @@ export const TemplateCard = ({ template, currentTier, onPreview, onUpgrade }: Te
             className="w-full"
           >
             <Lock className="w-4 h-4 mr-2" />
-            Upgrade to Access
+            {freeTemplatesUsed >= 1 ? "Upgrade for More Templates" : "Sign In to Access"}
           </Button>
         )}
       </CardFooter>

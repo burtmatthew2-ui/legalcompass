@@ -13,41 +13,24 @@ import { useToast } from "@/hooks/use-toast";
 import { templates, templateCategories, type Template } from "@/data/templates";
 import { TemplateCard } from "@/components/TemplateCard";
 import { TemplatePreview } from "@/components/TemplatePreview";
+import { useTemplateAccess } from "@/hooks/useTemplateAccess";
 
 const Templates = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [user, setUser] = useState<any>(null);
-  const [currentTier, setCurrentTier] = useState<"free" | "pro" | "business">("free");
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Templates");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const { hasAccess, isLawyer, isSubscribed, freeTemplatesUsed, checkAccess, recordUsage } = useTemplateAccess();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
-      if (user) {
-        checkTemplateSubscription();
-      }
     });
   }, []);
-
-  const checkTemplateSubscription = async () => {
-    try {
-      const { data, error } = await supabase.functions.invoke("check-template-subscription");
-      if (error) throw error;
-      
-      if (data?.product_id === "prod_TRtB8rUmdjViNR") {
-        setCurrentTier("pro");
-      } else if (data?.product_id === "prod_TRtDWB1E2jJ0CD") {
-        setCurrentTier("business");
-      }
-    } catch (error: any) {
-      console.error("Error checking subscription:", error);
-    }
-  };
 
   const handleCheckout = async (priceId: string) => {
     if (!user) {
@@ -82,9 +65,26 @@ const Templates = () => {
     }
   };
 
-  const handlePreview = (template: Template) => {
-    setSelectedTemplate(template);
-    setPreviewOpen(true);
+  const handlePreview = async (template: Template) => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to preview templates.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
+    const access = await checkAccess(template.id);
+    if (access) {
+      setSelectedTemplate(template);
+      setPreviewOpen(true);
+    }
+  };
+
+  const handleDownload = async (templateId: string) => {
+    await recordUsage(templateId);
   };
 
   const handleUpgrade = () => {
@@ -216,7 +216,10 @@ const Templates = () => {
                 <TemplateCard
                   key={template.id}
                   template={template}
-                  currentTier={currentTier}
+                  hasAccess={hasAccess}
+                  isSubscribed={isSubscribed}
+                  isLawyer={isLawyer}
+                  freeTemplatesUsed={freeTemplatesUsed}
                   onPreview={handlePreview}
                   onUpgrade={handleUpgrade}
                 />
@@ -260,12 +263,15 @@ const Templates = () => {
                   <Badge variant="secondary">{templateStats.free}</Badge>
                   <span className="text-sm">Basic templates</span>
                 </li>
-                <li className="text-sm text-muted-foreground">• Download as text files</li>
-                <li className="text-sm text-muted-foreground">• Basic customization</li>
+                <li className="text-sm text-muted-foreground">• 1 free template per month</li>
+              <li className="text-sm text-muted-foreground">• Download as PDF, DOCX, or TXT</li>
+              <li className="text-sm text-muted-foreground">• Preview before customizing</li>
               </ul>
-              {currentTier === "free" && (
-                <Badge className="w-full justify-center">Current Plan</Badge>
-              )}
+            {!user && (
+              <Button onClick={() => navigate("/auth")} variant="outline" className="w-full">
+                Sign In to Get Free Template
+              </Button>
+            )}
             </div>
 
             {/* Pro Tier */}
@@ -284,22 +290,22 @@ const Templates = () => {
                   <Badge variant="secondary">{templateStats.free + templateStats.pro}</Badge>
                   <span className="text-sm">All templates</span>
                 </li>
-                <li className="text-sm text-muted-foreground">• Advanced customization</li>
-                <li className="text-sm text-muted-foreground">• AI assistance</li>
-                <li className="text-sm text-muted-foreground">• Version history</li>
-                <li className="text-sm text-muted-foreground">• Priority support</li>
+              <li className="text-sm text-muted-foreground">• Unlimited downloads (PDF, DOCX, TXT)</li>
+              <li className="text-sm text-muted-foreground">• Advanced customization</li>
+              <li className="text-sm text-muted-foreground">• Save customized templates</li>
+              <li className="text-sm text-muted-foreground">• AI assistance (coming soon)</li>
               </ul>
-              {currentTier === "pro" ? (
-                <Badge className="w-full justify-center">Current Plan</Badge>
-              ) : (
-                <Button 
-                  onClick={() => handleCheckout("price_1SUzPCArhAIMbV73e47FgPcB")}
-                  disabled={loading}
-                  className="w-full"
-                >
-                  Upgrade to Pro
-                </Button>
-              )}
+            {isSubscribed && !isLawyer ? (
+              <Badge className="w-full justify-center">Current Plan</Badge>
+            ) : (
+              <Button 
+                onClick={() => handleCheckout("price_1SUzPCArhAIMbV73e47FgPcB")}
+                disabled={loading}
+                className="w-full"
+              >
+                Upgrade to Pro
+              </Button>
+            )}
             </div>
 
             {/* Business Tier */}
@@ -319,20 +325,21 @@ const Templates = () => {
                 <li className="text-sm text-muted-foreground">• Team collaboration</li>
                 <li className="text-sm text-muted-foreground">• API access</li>
                 <li className="text-sm text-muted-foreground">• Custom integrations</li>
-                <li className="text-sm text-muted-foreground">• Dedicated support</li>
-              </ul>
-              {currentTier === "business" ? (
-                <Badge className="w-full justify-center">Current Plan</Badge>
-              ) : (
-                <Button 
-                  onClick={() => handleCheckout("price_1SUzR2ArhAIMbV73oQR3XOpp")}
-                  disabled={loading}
-                  variant="outline"
-                  className="w-full"
-                >
-                  Upgrade to Business
-                </Button>
-              )}
+              <li className="text-sm text-muted-foreground">• Priority support</li>
+              <li className="text-sm text-muted-foreground">• Custom templates</li>
+            </ul>
+            {isLawyer ? (
+              <Badge className="w-full justify-center">Lawyer Access</Badge>
+            ) : (
+              <Button 
+                onClick={() => handleCheckout("price_1SUzR2ArhAIMbV73oQR3XOpp")}
+                disabled={loading}
+                variant="outline"
+                className="w-full"
+              >
+                Upgrade to Business
+              </Button>
+            )}
             </div>
           </div>
         </div>
@@ -344,7 +351,11 @@ const Templates = () => {
       <TemplatePreview
         template={selectedTemplate}
         open={previewOpen}
-        onClose={() => setPreviewOpen(false)}
+        onClose={() => {
+          setPreviewOpen(false);
+          setSelectedTemplate(null);
+        }}
+        onDownload={handleDownload}
       />
     </div>
   );
