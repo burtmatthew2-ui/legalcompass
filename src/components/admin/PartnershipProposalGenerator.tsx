@@ -146,7 +146,8 @@ ABOUT LEGAL COMPASS
 
 Legal Compass connects clients with verified attorneys through:
 • $4.99/month client subscriptions
-• $50-90 attorney lead purchases
+• $150/month attorney subscriptions (up to 10 leads included)
+• $1,260/year attorney subscriptions (up to 10 leads/month, save 30%)
 • Future: Hourly billing and retainer management
 
 Current Volume:
@@ -188,8 +189,7 @@ Year 1: $[X] in processed payments
 Year 2: $[X] in processed payments
 Year 3: $[X] in processed payments
 
-Average Transaction: $50-90 (lead purchases)
-Transaction Frequency: [X] per month
+Attorney Subscriptions: $150/month or $1,260/year
 Client Subscriptions: $4.99/month, [X] active
 
 ---
@@ -291,7 +291,7 @@ MEMBER BENEFITS PROGRAM
 We propose offering [Partner Name] members:
 
 1. EXCLUSIVE DISCOUNTS
-   ✓ 50% off first 5 leads ($25-45 instead of $50-90)
+   ✓ First 3 months at 50% off ($75/month instead of $150)
    ✓ Free premium account features ($99/year value)
    ✓ Priority placement in search results
    ✓ Waived verification fees
@@ -314,9 +314,9 @@ We propose offering [Partner Name] members:
 BENEFITS FOR BAR MEMBERS
 
 Solo Practitioners & Small Firms:
-• Steady stream of qualified leads
-• Affordable lead generation ($50-90 per lead)
-• No monthly fees or commitments
+• Steady stream of qualified leads (up to 10/month)
+• Subscription-based pricing ($150/month or $1,260/year)
+• All-inclusive platform access
 • Pre-screened, qualified clients
 • Reduced marketing overhead
 
@@ -458,7 +458,7 @@ We propose a multi-faceted partnership:
 2. CAREER PLACEMENT PIPELINE
    • Recent graduates can join as verified attorneys
    • Exclusive onboarding support and training
-   • Reduced lead costs for first 6 months
+   • 50% off subscription for first 6 months ($75/month)
    • Mentorship from experienced platform attorneys
 
 3. CLINICAL LEGAL EDUCATION
@@ -496,7 +496,7 @@ Current Students:
 • Exposure to diverse practice areas
 
 Recent Graduates:
-• Immediate client flow (reduced cost leads)
+• Immediate client flow (subscription-based access)
 • Practice management infrastructure
 • Technology tools included
 • Marketing support
