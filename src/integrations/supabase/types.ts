@@ -1120,6 +1120,30 @@ export type Database = {
         }
         Relationships: []
       }
+      template_usage: {
+        Row: {
+          created_at: string | null
+          downloaded_at: string | null
+          id: string
+          template_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          downloaded_at?: string | null
+          id?: string
+          template_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          downloaded_at?: string | null
+          id?: string
+          template_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       uploaded_documents: {
         Row: {
           conversation_id: string | null
