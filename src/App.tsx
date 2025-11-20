@@ -66,6 +66,9 @@ import LegalResourcesTools from "./pages/resources/LegalResourcesTools";
 import PersonalInjuryClaims from "./pages/resources/PersonalInjuryClaims";
 import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
 import HowToFindAffordableLawyer from "./pages/resources/HowToFindAffordableLawyer";
+import LawyerClientAcquisition from "./pages/resources/LawyerClientAcquisition";
+import BestLegalLeadServices from "./pages/resources/BestLegalLeadServices";
+import SoloAttorneyGrowth from "./pages/resources/SoloAttorneyGrowth";
 import FindLawyers from "./pages/FindLawyers";
 import AttorneyProfile from "./pages/AttorneyProfile";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -130,6 +133,9 @@ const App = () => (
           <Route path="/resources/consumer-refund-rights" element={<ConsumerRefundRights />} />
           <Route path="/resources/write-cease-desist-letter" element={<WriteCeaseDesistLetter />} />
           <Route path="/resources/file-bankruptcy" element={<FileBankruptcy />} />
+          <Route path="/resources/lawyer-client-acquisition" element={<LawyerClientAcquisition />} />
+          <Route path="/resources/best-legal-lead-services" element={<BestLegalLeadServices />} />
+          <Route path="/resources/solo-attorney-growth" element={<SoloAttorneyGrowth />} />
           <Route path="/resources/workers-compensation" element={<WorkersCompensation />} />
           <Route path="/resources/child-support" element={<ChildSupport />} />
           <Route path="/resources/employment-discrimination" element={<EmploymentDiscrimination />} />
