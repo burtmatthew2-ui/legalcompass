@@ -57,38 +57,90 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    // Handle successful payment
+    // Handle subscription events
+    if (event.type === "customer.subscription.created" || 
+        event.type === "customer.subscription.updated") {
+      const subscription = event.data.object;
+      logStep("Processing subscription event", { 
+        type: event.type, 
+        subscriptionId: subscription.id,
+        status: subscription.status 
+      });
+
+      // Get customer email
+      const customer = await stripe.customers.retrieve(subscription.customer as string);
+      if ('email' in customer && customer.email) {
+        const { data: userData } = await supabaseClient.auth.admin.listUsers();
+        const user = userData.users.find(u => u.email === customer.email);
+        
+        if (user) {
+          const isActive = subscription.status === 'active';
+          logStep("Updating lawyer subscription status", { 
+            userId: user.id, 
+            isActive 
+          });
+          
+          await supabaseClient
+            .from('lawyer_payment_preferences')
+            .update({ is_subscribed: isActive })
+            .eq('lawyer_id', user.id);
+        }
+      }
+    }
+
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = event.data.object;
+      logStep("Processing subscription deletion", { subscriptionId: subscription.id });
+
+      const customer = await stripe.customers.retrieve(subscription.customer as string);
+      if ('email' in customer && customer.email) {
+        const { data: userData } = await supabaseClient.auth.admin.listUsers();
+        const user = userData.users.find(u => u.email === customer.email);
+        
+        if (user) {
+          logStep("Deactivating lawyer subscription", { userId: user.id });
+          
+          await supabaseClient
+            .from('lawyer_payment_preferences')
+            .update({ is_subscribed: false })
+            .eq('lawyer_id', user.id);
+        }
+      }
+    }
+
+    // Handle legacy lead purchases (checkout.session.completed)
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      const { lead_id, lawyer_id, amount_paid } = session.metadata;
+      const { lead_id, lawyer_id, amount_paid } = session.metadata || {};
 
-      logStep("Processing successful payment", { lead_id, lawyer_id });
+      if (lead_id && lawyer_id) {
+        logStep("Processing lead purchase", { lead_id, lawyer_id });
 
-      // Record the purchase
-      const { error: purchaseError } = await supabaseClient
-        .from("lead_purchases")
-        .insert({
-          lead_id,
-          lawyer_id,
-          amount_paid: parseInt(amount_paid) / 100, // Convert cents to dollars
-        });
+        // Record the purchase
+        const { error: purchaseError } = await supabaseClient
+          .from("lead_purchases")
+          .insert({
+            lead_id,
+            lawyer_id,
+            amount_paid: amount_paid ? parseInt(amount_paid) / 100 : 0,
+          });
 
-      if (purchaseError) {
-        logStep("Error recording purchase", { error: purchaseError });
-        throw purchaseError;
-      }
+        if (purchaseError) {
+          logStep("Error recording purchase", { error: purchaseError });
+          throw purchaseError;
+        }
 
-      logStep("Purchase recorded successfully");
+        logStep("Purchase recorded successfully");
 
-      // Send notification email to lawyer
-      try {
-        await supabaseClient.functions.invoke("notify-lead-purchased", {
-          body: { leadId: lead_id, lawyerId: lawyer_id }
-        });
-        logStep("Notification email triggered");
-      } catch (emailError) {
-        logStep("Email notification failed (non-critical)", { error: emailError });
-        // Don't fail the webhook for email errors
+        // Send notification email to lawyer
+        try {
+          await supabaseClient.functions.invoke("notify-lead-purchased", {
+            body: { leadId: lead_id, lawyerId: lawyer_id }
+          });
+          logStep("Notification email triggered");
+        } catch (emailError) {
+          logStep("Email notification failed (non-critical)", { error: emailError });
+        }
       }
     }
 

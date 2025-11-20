@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, AlertCircle, BarChart3 } from "lucide-react";
+import { Loader2, AlertCircle, BarChart3, CreditCard } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { TemplateManager } from "@/components/TemplateManager";
 import { TeamManagement } from "@/components/TeamManagement";
 import { LawyerProfileEditor } from "@/components/LawyerProfileEditor";
 import { AcceptedCasesView } from "@/components/lawyer/AcceptedCasesView";
+import { LawyerSubscriptionDialog } from "@/components/LawyerSubscriptionDialog";
+import { useLawyerSubscription } from "@/hooks/useLawyerSubscription";
 
 interface LawyerProfile {
   id: string;
@@ -41,6 +43,9 @@ const LawyerDashboard = () => {
   const [profile, setProfile] = useState<LawyerProfile | null>(null);
   const [availableLeads, setAvailableLeads] = useState<LegalCase[]>([]);
   const [purchasedLeads, setPurchasedLeads] = useState<LegalCase[]>([]);
+  const [leadsUsed, setLeadsUsed] = useState(0);
+  const [showSubscriptionDialog, setShowSubscriptionDialog] = useState(false);
+  const { subscription, loading: subLoading, checkSubscription } = useLawyerSubscription();
 
   useEffect(() => {
     loadDashboardData();
@@ -59,6 +64,17 @@ const LawyerDashboard = () => {
 
       if (profileError) throw profileError;
       setProfile(profileData);
+
+      // Get payment preferences for lead usage
+      const { data: paymentPrefs } = await supabase
+        .from("lawyer_payment_preferences")
+        .select("*")
+        .eq("lawyer_id", user.id)
+        .single();
+
+      if (paymentPrefs) {
+        setLeadsUsed(paymentPrefs.leads_used_this_month || 0);
+      }
 
       if (profileData.verified_status) {
         const { data: casesData, error: casesError } = await supabase
@@ -98,6 +114,22 @@ const LawyerDashboard = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal-lawyer');
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
     }
   };
 
@@ -193,15 +225,60 @@ const LawyerDashboard = () => {
               <h1 className="text-3xl font-bold">Welcome, {profile.full_name}</h1>
               <p className="text-muted-foreground">Manage your leads and profile</p>
             </div>
-            <Button onClick={() => navigate('/analytics')}>
-              <BarChart3 className="w-4 h-4 mr-2" />
-              View Analytics
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => navigate('/analytics')}>
+                <BarChart3 className="w-4 h-4 mr-2" />
+                View Analytics
+              </Button>
+              {subscription?.subscribed && (
+                <Button variant="outline" onClick={handleManageSubscription}>
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Manage Subscription
+                </Button>
+              )}
+            </div>
           </div>
 
+          {/* Subscription Status Card */}
+          <Card className="border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <span>Subscription Status</span>
+                {!subLoading && (
+                  <Badge variant={subscription?.subscribed ? "default" : "secondary"}>
+                    {subscription?.subscribed ? "Active" : "Free Plan"}
+                  </Badge>
+                )}
+              </CardTitle>
+              <CardDescription>
+                {subscription?.subscribed 
+                  ? `You have ${10 - leadsUsed} of 10 leads remaining this month`
+                  : `You have ${1 - leadsUsed} free lead remaining this month`
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!subscription?.subscribed && (
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    Subscribe for $150/month to get up to 10 leads per month
+                  </p>
+                  <Button onClick={() => setShowSubscriptionDialog(true)}>
+                    Upgrade to Pro
+                  </Button>
+                </div>
+              )}
+              {subscription?.subscribed && subscription?.subscription_end && (
+                <p className="text-sm text-muted-foreground">
+                  Your subscription renews on {new Date(subscription.subscription_end).toLocaleDateString()}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
           <Tabs defaultValue="available" className="w-full">
-            <TabsList className="grid w-full max-w-4xl grid-cols-5">
-              <TabsTrigger value="available">Available Leads</TabsTrigger>
+            <TabsList className="grid w-full max-w-5xl grid-cols-5">
+              <TabsTrigger value="available">Available Leads ({leadsUsed}/{subscription?.subscribed ? 10 : 1})</TabsTrigger>
               <TabsTrigger value="cases">My Cases</TabsTrigger>
               <TabsTrigger value="profile">My Profile</TabsTrigger>
               <TabsTrigger value="templates">Templates</TabsTrigger>
@@ -306,6 +383,16 @@ const LawyerDashboard = () => {
           </Tabs>
         </div>
       </div>
+
+      <LawyerSubscriptionDialog 
+        open={showSubscriptionDialog}
+        onOpenChange={setShowSubscriptionDialog}
+        onSuccess={async () => {
+          await checkSubscription();
+          await loadDashboardData();
+          setShowSubscriptionDialog(false);
+        }}
+      />
     </>
   );
 };
