@@ -64,7 +64,6 @@ import HarassmentLawGuide from "./pages/resources/HarassmentLawGuide";
 import LegalResourcesTools from "./pages/resources/LegalResourcesTools";
 import PersonalInjuryClaims from "./pages/resources/PersonalInjuryClaims";
 import LandlordTenantDisputes from "./pages/resources/LandlordTenantDisputes";
-import CheapestLegalAidComparison from "./pages/resources/CheapestLegalAidComparison";
 import HowToFindAffordableLawyer from "./pages/resources/HowToFindAffordableLawyer";
 import FindLawyers from "./pages/FindLawyers";
 import AttorneyProfile from "./pages/AttorneyProfile";
@@ -112,7 +111,6 @@ const App = () => (
           <Route path="/install" element={<Install />} />
           <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/resources" element={<Resources />} />
-          <Route path="/resources/cheapest-legal-aid-comparison" element={<CheapestLegalAidComparison />} />
           <Route path="/resources/how-to-find-affordable-lawyer" element={<HowToFindAffordableLawyer />} />
           <Route path="/resources/tenant-rights-california" element={<TenantRightsCalifornia />} />
           <Route path="/resources/tenant-rights-new-york" element={<TenantRightsNewYork />} />
