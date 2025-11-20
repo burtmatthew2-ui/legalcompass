@@ -48,7 +48,7 @@ export const Navbar = () => {
           </button>
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Button
               onClick={() => {
                 if (window.location.pathname === '/') {
@@ -58,35 +58,35 @@ export const Navbar = () => {
                 }
               }}
               variant="ghost"
-              className="text-slate-700 hover:text-primary font-medium"
+              className="hidden md:flex text-slate-700 hover:text-primary font-medium"
             >
               How It Works
             </Button>
             <Button
               onClick={handleTemplatesClick}
               variant="ghost"
-              className="text-slate-700 hover:text-primary font-medium"
+              className="hidden sm:flex text-slate-700 hover:text-primary font-medium"
             >
               Templates
             </Button>
             <Button
               onClick={() => navigate("/find-lawyers")}
               variant="ghost"
-              className="text-slate-700 hover:text-primary font-medium"
+              className="text-slate-700 hover:text-primary font-medium text-sm sm:text-base"
             >
               Find Lawyers
             </Button>
             <Button
               onClick={() => navigate("/resources")}
               variant="ghost"
-              className="text-slate-700 hover:text-primary"
+              className="hidden lg:flex text-slate-700 hover:text-primary"
             >
               Resources
             </Button>
             <Button
               onClick={() => navigate("/pricing")}
               variant="ghost"
-              className="text-slate-700 hover:text-primary"
+              className="hidden md:flex text-slate-700 hover:text-primary"
             >
               Pricing
             </Button>
@@ -95,18 +95,20 @@ export const Navbar = () => {
               <Button
                 onClick={handleSignOut}
                 variant="outline"
+                size="sm"
                 className="border-slate-300 hover:bg-slate-50"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sign Out</span>
               </Button>
             ) : (
               <Button
                 onClick={() => navigate("/auth")}
+                size="sm"
                 className="bg-primary hover:bg-primary/90 text-white"
               >
-                <LogIn className="w-4 h-4 mr-2" />
-                Sign In
+                <LogIn className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sign In</span>
               </Button>
             )}
           </div>
