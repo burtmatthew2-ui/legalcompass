@@ -96,12 +96,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     
     // Check if user has free questions or subscription (admins bypass)
     if (!isAdmin && !subscription?.subscribed && remainingFreeQuestions <= 0) {
-      toast({
-        title: "Free Trial Exhausted",
-        description: "You've used your 3 free questions. Subscribe to continue!",
-        variant: "destructive",
-      });
-      navigate("/pricing");
+      setShowSubscriptionDialog(true);
       return;
     }
     
@@ -230,19 +225,22 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         onOpenChange={setShowSubscriptionDialog}
       />
       {!isAdmin && !subscription?.subscribed && !subLoading && (
-        <Alert className={`m-6 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-destructive bg-destructive/10'}`}>
-          {remainingFreeQuestions > 0 ? <Sparkles className="h-4 w-4" /> : <CreditCard className="h-4 w-4" />}
+        <Alert className={`m-6 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
+          <Sparkles className="h-4 w-4 text-accent" />
           <AlertDescription className="flex items-center justify-between">
             <span>
               {remainingFreeQuestions > 0 
-                ? `Free Trial: ${remainingFreeQuestions} question${remainingFreeQuestions === 1 ? '' : 's'} remaining` 
-                : "You've used your 3 free questions. Subscribe to continue!"}
+                ? `Free Trial: ${remainingFreeQuestions} of 3 free questions remaining` 
+                : "You've used your 3 free questions!"}
             </span>
-            {remainingFreeQuestions === 0 && (
-              <Button onClick={() => navigate("/pricing")} size="sm" variant="destructive">
-                Subscribe Now
-              </Button>
-            )}
+            <Button 
+              onClick={() => remainingFreeQuestions === 0 ? setShowSubscriptionDialog(true) : navigate("/pricing")} 
+              size="sm" 
+              variant={remainingFreeQuestions === 0 ? "default" : "outline"}
+              className={remainingFreeQuestions === 0 ? "bg-accent hover:bg-accent/90" : ""}
+            >
+              {remainingFreeQuestions === 0 ? "Get Unlimited ($4.99/mo)" : "Upgrade"}
+            </Button>
           </AlertDescription>
         </Alert>
       )}
