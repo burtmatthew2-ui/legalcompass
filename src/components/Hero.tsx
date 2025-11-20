@@ -35,9 +35,9 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-      {/* Admin Badge */}
+      {/* Admin Badge - Hidden on mobile */}
       {user && isAdmin && (
-        <div className="fixed top-20 right-4 z-40">
+        <div className="hidden md:block fixed top-20 right-4 z-40">
           <Button
             onClick={() => navigate("/admin")}
             variant="outline"
@@ -50,8 +50,8 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
         </div>
       )}
       
-      <div className="flex items-center justify-center px-4 py-16 md:py-24">
-        <div className="max-w-6xl w-full space-y-12">
+      <div className="flex items-center justify-center px-3 md:px-4 py-12 md:py-16 lg:py-24">
+        <div className="max-w-6xl w-full space-y-6 md:space-y-12">
           {/* Legal Disclaimer Banner */}
           <div className="bg-yellow-50 dark:bg-yellow-950/20 border-l-4 border-yellow-600 p-4 rounded-lg mx-auto max-w-4xl">
             <p className="text-sm text-yellow-900 dark:text-yellow-100 text-center">
@@ -60,7 +60,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
           </div>
 
           {/* Main Hero Content */}
-          <div className="text-center space-y-6">
+          <div className="text-center space-y-4 md:space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary mb-4">
               <Shield className="w-4 h-4" />
               100% Confidential & Private
@@ -79,7 +79,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </p>
 
             {/* Who We Help Section */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm max-w-4xl mx-auto mt-8">
+            <div className="bg-white rounded-2xl p-4 md:p-8 border border-slate-200 shadow-sm max-w-4xl mx-auto mt-6 md:mt-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Who We Help</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div className="flex items-start gap-3">
