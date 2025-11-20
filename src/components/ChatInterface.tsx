@@ -224,8 +224,16 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         open={showSubscriptionDialog} 
         onOpenChange={setShowSubscriptionDialog}
       />
+      
+      {/* Legal AI Disclaimer - Always Visible */}
+      <Alert className="m-6 mb-3 border-yellow-600 bg-yellow-50 dark:bg-yellow-950/20">
+        <AlertDescription className="text-sm text-yellow-900 dark:text-yellow-100">
+          <strong>Important Legal Disclaimer:</strong> This AI provides general legal information only and is NOT a substitute for a licensed attorney. For specific legal advice about your situation, please consult a qualified lawyer in your jurisdiction.
+        </AlertDescription>
+      </Alert>
+
       {!isAdmin && !subscription?.subscribed && !subLoading && (
-        <Alert className={`m-6 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
+        <Alert className={`mx-6 mb-3 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
           <Sparkles className="h-4 w-4 text-accent" />
           <AlertDescription className="flex items-center justify-between">
             <span>
