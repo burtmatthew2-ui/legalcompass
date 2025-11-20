@@ -116,7 +116,7 @@ serve(async (req) => {
 
     // Send email to admins
     const { error: emailError } = await resend.emails.send({
-      from: 'Legal Compass Admin <onboarding@resend.dev>',
+      from: 'Legal Compass Admin <admin@legalcompass.shop>',
       to: adminEmails,
       subject: `URGENT: Lawyer Removal Request - Case ${leadId}`,
       html: `

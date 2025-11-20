@@ -32,7 +32,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email
     const emailResponse = await resend.emails.send({
-      from: "Legal Compass <onboarding@resend.dev>",
+      from: "Legal Compass <noreply@legalcompass.shop>",
       to: [email],
       subject: "Welcome to Legal Compass Newsletter!",
       html: `
