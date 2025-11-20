@@ -34,7 +34,7 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    // Verify user is authenticated and has admin role
+    // Verify user is authenticated
     const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
       authHeader.replace('Bearer ', '')
     );
@@ -47,23 +47,7 @@ serve(async (req) => {
       );
     }
 
-    // Check if user has admin role
-    const { data: roleData, error: roleError } = await supabaseClient
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
-      .single();
-
-    if (roleError || !roleData) {
-      logStep("Admin check failed", { userId: user.id });
-      return new Response(
-        JSON.stringify({ error: 'Admin access required' }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 }
-      );
-    }
-
-    logStep("Admin verified", { userId: user.id });
+    logStep("User authenticated", { userId: user.id });
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
@@ -211,8 +195,68 @@ Be strict but fair. Only verify if all criteria look legitimate.`;
         }
       );
     } else {
-      // Requires manual review
-      logStep("Manual verification required", { reason: verificationResult.reason });
+      // Requires manual review - send email notification to admin
+      logStep("Manual verification required - sending admin notification", { reason: verificationResult.reason });
+
+      const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+      if (RESEND_API_KEY) {
+        try {
+          const flagsList = verificationResult.flags && verificationResult.flags.length > 0 
+            ? `<ul>${verificationResult.flags.map((flag: string) => `<li>${flag}</li>`).join('')}</ul>`
+            : '<p>No specific flags raised.</p>';
+
+          const emailHtml = `
+            <h2>Lawyer Verification Review Required</h2>
+            <p>A new lawyer application requires manual review.</p>
+            
+            <h3>Lawyer Details:</h3>
+            <ul>
+              <li><strong>Name:</strong> ${lawyer.full_name}</li>
+              <li><strong>Email:</strong> ${lawyer.email}</li>
+              <li><strong>Bar Number:</strong> ${lawyer.bar_number}</li>
+              <li><strong>States Licensed:</strong> ${lawyer.states_licensed.join(", ")}</li>
+              <li><strong>Practice Areas:</strong> ${lawyer.practice_areas.join(", ")}</li>
+            </ul>
+
+            <h3>AI Verification Result:</h3>
+            <ul>
+              <li><strong>Verified:</strong> ${verificationResult.verified ? 'Yes' : 'No'}</li>
+              <li><strong>Confidence:</strong> ${verificationResult.confidence}</li>
+              <li><strong>Reason:</strong> ${verificationResult.reason}</li>
+            </ul>
+
+            <h3>Flags Identified:</h3>
+            ${flagsList}
+
+            <p><strong>Action Required:</strong> Please review this application in the admin dashboard and manually verify or reject.</p>
+          `;
+
+          const emailResponse = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${RESEND_API_KEY}`,
+            },
+            body: JSON.stringify({
+              from: "Legal Compass <noreply@legalcompass.shop>",
+              to: ["admin@legalcompass.shop"], // Update this to your admin email
+              subject: `🔍 Lawyer Verification Required: ${lawyer.full_name}`,
+              html: emailHtml,
+            }),
+          });
+
+          if (emailResponse.ok) {
+            logStep("Admin notification email sent successfully");
+          } else {
+            const errorText = await emailResponse.text();
+            logStep("Failed to send admin notification email", { error: errorText });
+          }
+        } catch (emailError) {
+          logStep("Error sending admin notification", { error: emailError });
+        }
+      } else {
+        logStep("RESEND_API_KEY not configured - skipping email notification");
+      }
 
       return new Response(
         JSON.stringify({
