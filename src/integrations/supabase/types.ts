@@ -611,8 +611,12 @@ export type Database = {
           commission_rate: number
           created_at: string
           id: string
+          is_subscribed: boolean | null
           lawyer_id: string
           lead_credits_remaining: number
+          leads_used_this_month: number | null
+          monthly_lead_limit: number | null
+          period_start: string | null
           pricing_model: string
           updated_at: string
         }
@@ -620,8 +624,12 @@ export type Database = {
           commission_rate?: number
           created_at?: string
           id?: string
+          is_subscribed?: boolean | null
           lawyer_id: string
           lead_credits_remaining?: number
+          leads_used_this_month?: number | null
+          monthly_lead_limit?: number | null
+          period_start?: string | null
           pricing_model?: string
           updated_at?: string
         }
@@ -629,8 +637,12 @@ export type Database = {
           commission_rate?: number
           created_at?: string
           id?: string
+          is_subscribed?: boolean | null
           lawyer_id?: string
           lead_credits_remaining?: number
+          leads_used_this_month?: number | null
+          monthly_lead_limit?: number | null
+          period_start?: string | null
           pricing_model?: string
           updated_at?: string
         }
@@ -1226,6 +1238,7 @@ export type Database = {
         Args: { p_lead_id: string; p_user_id: string; p_user_role: string }
         Returns: undefined
       }
+      reset_monthly_lead_counts: { Args: never; Returns: undefined }
       update_lead_temperature: { Args: never; Returns: undefined }
     }
     Enums: {

@@ -81,19 +81,7 @@ serve(async (req) => {
 
     logStep("Lead fetched", { urgency: lead.urgency_level });
 
-    // Check if lawyer has signed commission agreement
-    const { data: agreement, error: agreementError } = await supabaseClient
-      .from('commission_agreements')
-      .select('id')
-      .eq('lawyer_id', user.id)
-      .maybeSingle();
-
-    if (!agreement) {
-      throw new Error("Commission agreement not signed. Please complete onboarding.");
-    }
-    logStep("Commission agreement verified");
-
-    // Check if this is their free lead
+    // Check subscription status and monthly limits
     const { data: paymentPrefs, error: prefsError } = await supabaseClient
       .from('lawyer_payment_preferences')
       .select('*')
@@ -101,92 +89,88 @@ serve(async (req) => {
       .maybeSingle();
 
     if (prefsError) throw prefsError;
+    
+    if (!paymentPrefs) {
+      throw new Error("Payment preferences not found. Please contact support.");
+    }
 
-    const isFree = paymentPrefs?.lead_credits_remaining > 0;
-    logStep("Free lead check", { isFree, creditsRemaining: paymentPrefs?.lead_credits_remaining });
-
-    if (isFree) {
-      // Use free credit
-      const { error: updateError } = await supabaseClient
+    // Check if period needs reset
+    const periodStart = new Date(paymentPrefs.period_start);
+    const now = new Date();
+    const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+    
+    if (periodStart < monthAgo) {
+      // Reset monthly count
+      const { error: resetError } = await supabaseClient
         .from('lawyer_payment_preferences')
         .update({ 
-          lead_credits_remaining: paymentPrefs.lead_credits_remaining - 1 
+          leads_used_this_month: 0,
+          period_start: now.toISOString()
         })
         .eq('lawyer_id', user.id);
-
-      if (updateError) throw updateError;
-
-      // Create lead purchase record
-      const { error: purchaseError } = await supabaseClient
-        .from('lead_purchases')
-        .insert({
-          lawyer_id: user.id,
-          lead_id: leadId,
-          amount_paid: 0,
-          status: 'active'
-        });
-
-      if (purchaseError) throw purchaseError;
-
-      logStep("Free lead claimed successfully");
-      return new Response(JSON.stringify({ 
-        success: true, 
-        isFree: true,
-        message: "Free lead claimed successfully!" 
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
+        
+      if (resetError) throw resetError;
+      paymentPrefs.leads_used_this_month = 0;
+      logStep("Monthly period reset");
     }
 
-    // Paid lead - Initialize Stripe
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    if (!stripeKey) throw new Error("Stripe not configured");
+    const isSubscribed = paymentPrefs.is_subscribed;
+    const monthlyLimit = isSubscribed ? 10 : 1;
+    const leadsUsed = paymentPrefs.leads_used_this_month || 0;
 
-    const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
-
-    // Get or create Stripe customer
-    const customers = await stripe.customers.list({ email: user.email!, limit: 1 });
-    let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
-    }
-
-    logStep("Creating Stripe checkout session for paid lead");
-
-    // Flat pricing for all leads: $35
-    const LEAD_PRICE_ID = "price_1STVfVArhAIMbV73y6qEPNpD"; // $35 flat fee
-    const LEAD_AMOUNT = 3500; // $35 in cents
-    logStep("Flat pricing applied", { amount: LEAD_AMOUNT });
-
-    // Create checkout session
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      customer_email: customerId ? undefined : user.email!,
-      mode: "payment",
-      line_items: [
-        {
-          price: LEAD_PRICE_ID,
-          quantity: 1,
-        },
-      ],
-      metadata: {
-        lead_id: leadId,
-        lawyer_id: user.id,
-        amount_paid: LEAD_AMOUNT,
-      },
-      success_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=success&lead=${leadId}`,
-      cancel_url: `${req.headers.get("origin")}/lawyer-dashboard?purchase=cancelled`,
+    logStep("Subscription check", { 
+      isSubscribed, 
+      monthlyLimit, 
+      leadsUsed,
+      remaining: monthlyLimit - leadsUsed 
     });
 
-    logStep("Checkout session created", { sessionId: session.id });
+    if (leadsUsed >= monthlyLimit) {
+      const message = isSubscribed 
+        ? "You've reached your monthly limit of 10 leads. Your limit will reset next month."
+        : "You've used your 1 free lead this month. Subscribe for $150/month to get up to 10 leads per month.";
+      
+      throw new Error(message);
+    }
 
+    // Accept the lead
+    const { error: updateError } = await supabaseClient
+      .from('lawyer_payment_preferences')
+      .update({ 
+        leads_used_this_month: leadsUsed + 1
+      })
+      .eq('lawyer_id', user.id);
+
+    if (updateError) throw updateError;
+
+    // Create lead purchase record
+    const { error: purchaseError } = await supabaseClient
+      .from("lead_purchases")
+      .insert({
+        lead_id: leadId,
+        lawyer_id: user.id,
+        amount_paid: 0,
+        status: "active"
+      });
+
+    if (purchaseError) throw purchaseError;
+
+    // Notify client
+    await supabaseClient.functions.invoke('notify-client-case-accepted', {
+      body: { leadId, lawyerId: user.id }
+    });
+
+    logStep("Lead accepted successfully", { 
+      leadsRemaining: monthlyLimit - (leadsUsed + 1) 
+    });
+    
     return new Response(
-      JSON.stringify({ url: session.url, isFree: false }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      }
+      JSON.stringify({ 
+        success: true, 
+        message: "Lead accepted successfully!",
+        leadsRemaining: monthlyLimit - (leadsUsed + 1)
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
     );
 
   } catch (error) {
