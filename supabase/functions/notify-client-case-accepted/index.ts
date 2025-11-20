@@ -71,7 +71,7 @@ serve(async (req) => {
 
     // Send email to client
     const { error: emailError } = await resend.emails.send({
-      from: 'Legal Compass <onboarding@resend.dev>',
+      from: 'Legal Compass <noreply@legalcompass.shop>',
       to: [clientEmail],
       subject: 'Your Case Has Been Accepted by a Verified Lawyer',
       html: `

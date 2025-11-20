@@ -83,7 +83,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email via Resend
     const emailResponse = await resend.emails.send({
-      from: "Legal Compass <notifications@resend.dev>",
+      from: "Legal Compass <notifications@legalcompass.shop>",
       to: [userData.user.email],
       subject: subject,
       html: `

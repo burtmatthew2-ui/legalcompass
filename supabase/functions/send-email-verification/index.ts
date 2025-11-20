@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
     const verificationUrl = `${req.headers.get("origin")}/verify-email?token=${token}`;
 
     const emailResponse = await resend.emails.send({
-      from: "Legal Compass <onboarding@resend.dev>",
+      from: "Legal Compass <noreply@legalcompass.shop>",
       to: [email],
       subject: "Verify your email - Legal Compass",
       html: `
