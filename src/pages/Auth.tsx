@@ -149,6 +149,19 @@ const Auth = () => {
             console.error("Error creating user role:", roleError);
           }
 
+          // Send welcome email
+          try {
+            await supabase.functions.invoke('send-welcome-email', {
+              body: { 
+                email: data.user.email!,
+                userType: userType
+              }
+            });
+          } catch (error) {
+            console.error("Welcome email error:", error);
+            // Don't block signup if email fails
+          }
+
           // Subscribe to newsletter if checkbox was checked
           if (subscribeNewsletter) {
             try {
@@ -170,7 +183,7 @@ const Auth = () => {
             }
           }
 
-          toast.success("Account created! You can now sign in and start using Legal Compass.");
+          toast.success("Account created! Check your email for a welcome message!");
           setIsLogin(true); // Switch to login mode
           setPassword(""); // Clear password for security
         }
