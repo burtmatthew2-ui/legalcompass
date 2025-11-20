@@ -102,7 +102,7 @@ const Index = () => {
               <WhatMakesUsDifferent />
               
               {/* Legal Direction Finder - Interactive Quiz */}
-              <div id="tools">
+              <div id="direction-finder">
                 <LegalDirectionFinder />
               </div>
               
@@ -110,7 +110,9 @@ const Index = () => {
               <DocumentHub />
               
               {/* Local Help Finder */}
-              <LocalHelpFinder />
+              <div id="local-help">
+                <LocalHelpFinder />
+              </div>
               
               {/* Trust Badges */}
               <TrustBadges />

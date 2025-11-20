@@ -154,7 +154,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--gradient-bg)] p-6">
+    <div className="min-h-screen bg-[var(--gradient-bg)] p-6 pt-24">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
 
         <Tabs defaultValue="existing" className="space-y-6">
           <ScrollArea className="w-full pb-2">
-            <TabsList className="inline-flex h-auto items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-max">
+            <TabsList className="inline-flex h-auto flex-wrap items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-full gap-1">
               <TabsTrigger value="existing" className="flex items-center gap-2 whitespace-nowrap px-3 py-2">
                 <Users className="h-4 w-4" />
                 <span className="hidden sm:inline">Existing Users</span>
