@@ -11,10 +11,8 @@ import { LeadMagnetPopup } from "@/components/LeadMagnetPopup";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { InstantDemoWidget } from "@/components/InstantDemoWidget";
 import { ComparisonTable } from "@/components/ComparisonTable";
-import { LiveStatsCounter } from "@/components/LiveStatsCounter";
 import { ExampleChatWidget } from "@/components/ExampleChatWidget";
 import { TrustBadges } from "@/components/TrustBadges";
-import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LegalDirectionFinder } from "@/components/LegalDirectionFinder";
 import { DocumentHub } from "@/components/DocumentHub";
@@ -86,9 +84,6 @@ const Index = () => {
                 <HowItWorks />
               </div>
               
-              {/* Live Stats - Social Proof */}
-              <LiveStatsCounter />
-              
               {/* How Lawyer Matching Works */}
               <HowLawyerMatchingWorks />
               
@@ -124,9 +119,6 @@ const Index = () => {
               
               {/* Example Chat */}
               <ExampleChatWidget />
-              
-              {/* Testimonials */}
-              <Testimonials />
               
               {/* Comparison Table */}
               <div id="comparison">

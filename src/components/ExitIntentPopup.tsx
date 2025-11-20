@@ -104,7 +104,7 @@ export const ExitIntentPopup = () => {
           </Button>
 
           <p className="text-xs text-center text-slate-500">
-            Join 10,000+ users who trust Legal Compass for their legal research
+            Get verified legal guidance with secure attorney connections
           </p>
         </div>
       </DialogContent>

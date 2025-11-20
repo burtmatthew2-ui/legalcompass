@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Compass, Scale, Shield, CheckCircle, Award, FileText, Globe, Bell } from "lucide-react";
-import { Testimonials } from "./Testimonials";
+
 import { FAQ } from "./FAQ";
 import { TrustBadges } from "./TrustBadges";
 import { NewsletterSignup } from "./NewsletterSignup";
@@ -171,11 +171,6 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="py-16 bg-slate-50">
-        <Testimonials />
       </div>
 
       {/* FAQ Section */}

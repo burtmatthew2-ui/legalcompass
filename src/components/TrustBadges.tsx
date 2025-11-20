@@ -4,38 +4,38 @@ const badges = [
   {
     icon: Shield,
     title: "Bank-Level Security",
-    description: "256-bit encryption",
-    metric: "99.9% uptime"
+    description: "256-bit AES encryption",
+    metric: "SSL Certified"
   },
   {
     icon: Lock,
     title: "Attorney-Client Privilege",
     description: "Your data stays private",
-    metric: "HIPAA compliant"
-  },
-  {
-    icon: Users,
-    title: "10,000+ Cases",
-    description: "Successfully matched",
-    metric: "Nationwide"
+    metric: "Zero-knowledge"
   },
   {
     icon: Award,
     title: "Verified Attorneys",
-    description: "All bar-certified",
-    metric: "50+ states"
+    description: "Bar number required",
+    metric: "Manual review"
   },
   {
     icon: CheckCircle,
-    title: "Always Current",
-    description: "Latest legal data",
-    metric: "Daily updates"
+    title: "Transparent Pricing",
+    description: "No hidden fees",
+    metric: "$4.99/month"
+  },
+  {
+    icon: Users,
+    title: "Licensed Professionals",
+    description: "Credentials verified",
+    metric: "50+ states"
   },
   {
     icon: Zap,
-    title: "24-Hour Matching",
-    description: "Attorney response",
-    metric: "Guaranteed"
+    title: "Secure Platform",
+    description: "End-to-end encrypted",
+    metric: "Privacy first"
   }
 ];
 
@@ -48,13 +48,13 @@ export const TrustBadges = () => {
       <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-sm font-semibold text-primary mb-4">
-            Why 10,000+ Users Trust Us
+            Why Choose Legal Compass
           </div>
           <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Built on Trust, Security & Results
+            Built on Trust, Security & Transparency
           </h3>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Your legal matters are important. Here's how we protect you and deliver results.
+            Your legal matters deserve professional handling. Here's our commitment to you.
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export const TrustBadges = () => {
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
           <p className="text-slate-600 font-medium">
-            Join thousands who've found legal clarity with Legal Compass
+            Professional legal connections you can trust
           </p>
         </div>
       </div>
