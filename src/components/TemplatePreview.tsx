@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { Template } from "@/data/templates";
 import jsPDF from "jspdf";
 import { saveAs } from "file-saver";
-import htmlDocx from "html-docx-js/dist/html-docx";
+import { Document, Paragraph, TextRun, Packer } from "docx";
 
 interface TemplatePreviewProps {
   template: Template | null;
@@ -96,25 +96,27 @@ export const TemplatePreview = ({ template, open, onClose, onCustomize, onDownlo
     try {
       const content = generateCustomizedContent();
       
-      // Convert text to HTML with proper formatting
-      const htmlContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
-            pre { white-space: pre-wrap; font-family: Arial, sans-serif; }
-          </style>
-        </head>
-        <body>
-          <pre>${content}</pre>
-        </body>
-        </html>
-      `;
+      // Split content into paragraphs
+      const paragraphs = content.split('\n').map(line => 
+        new Paragraph({
+          children: [new TextRun(line)],
+          spacing: {
+            after: 200,
+          },
+        })
+      );
       
-      const converted = htmlDocx.asBlob(htmlContent);
-      saveAs(converted, `${template.title.replace(/\s+/g, "_")}.docx`);
+      // Create document
+      const doc = new Document({
+        sections: [{
+          properties: {},
+          children: paragraphs,
+        }],
+      });
+      
+      // Generate and save
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `${template.title.replace(/\s+/g, "_")}.docx`);
       
       if (onDownload) {
         onDownload(template.id);
