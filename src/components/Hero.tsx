@@ -52,6 +52,13 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
       
       <div className="flex items-center justify-center px-4 py-16 md:py-24">
         <div className="max-w-6xl w-full space-y-12">
+          {/* Legal Disclaimer Banner */}
+          <div className="bg-yellow-50 dark:bg-yellow-950/20 border-l-4 border-yellow-600 p-4 rounded-lg mx-auto max-w-4xl">
+            <p className="text-sm text-yellow-900 dark:text-yellow-100 text-center">
+              <strong>Important:</strong> Legal Compass provides general legal information and is not a substitute for professional legal advice from a licensed attorney.
+            </p>
+          </div>
+
           {/* Main Hero Content */}
           <div className="text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary mb-4">
