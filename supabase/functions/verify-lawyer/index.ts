@@ -239,7 +239,7 @@ Be strict but fair. Only verify if all criteria look legitimate.`;
             },
             body: JSON.stringify({
               from: "Legal Compass <noreply@legalcompass.shop>",
-              to: ["admin@legalcompass.shop"], // Update this to your admin email
+              to: ["Mburt@legalcompass.shop"],
               subject: `🔍 Lawyer Verification Required: ${lawyer.full_name}`,
               html: emailHtml,
             }),
