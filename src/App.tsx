@@ -74,6 +74,7 @@ import FindLawyers from "./pages/FindLawyers";
 import AttorneyProfile from "./pages/AttorneyProfile";
 import VerifyEmail from "./pages/VerifyEmail";
 import CaseAnalyzer from "./pages/CaseAnalyzer";
+import FAQPage from "./pages/FAQPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -93,6 +94,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/faq" element={<FAQPage />} />
           <Route path="/case-analyzer" element={<CaseAnalyzer />} />
           <Route path="/find-lawyers" element={<FindLawyers />} />
           <Route path="/attorney/:id" element={<AttorneyProfile />} />

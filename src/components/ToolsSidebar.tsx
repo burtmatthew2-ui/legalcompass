@@ -15,7 +15,8 @@ import {
   HelpCircle, 
   BookOpen,
   Download,
-  Home
+  Home,
+  MessageCircleQuestion
 } from "lucide-react";
 
 export const ToolsSidebar = () => {
@@ -24,9 +25,8 @@ export const ToolsSidebar = () => {
 
   const tools = [
     { icon: Home, label: "Home", path: "/" },
-    { icon: HelpCircle, label: "Legal Direction Finder", path: "/#direction-finder", hash: true },
+    { icon: MessageCircleQuestion, label: "FAQ", path: "/faq" },
     { icon: Download, label: "Templates", path: "/templates" },
-    { icon: MapPin, label: "Find Local Help", path: "/#local-help", hash: true },
     { icon: BookOpen, label: "Legal Resources", path: "/resources" },
     { icon: FileText, label: "Support", path: "/support" },
   ];
@@ -60,24 +60,9 @@ export const ToolsSidebar = () => {
         <div className="mt-8 space-y-2">
           {tools.map((tool) => {
             const Icon = tool.icon;
-            const isActive = tool.hash 
-              ? false 
-              : location.pathname === tool.path;
+            const isActive = location.pathname === tool.path;
             
-            return tool.hash ? (
-              <button
-                key={tool.path}
-                onClick={() => handleNavigation(tool.path, true)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "hover:bg-muted"
-                }`}
-              >
-                <Icon className="h-5 w-5" />
-                <span className="font-medium">{tool.label}</span>
-              </button>
-            ) : (
+            return (
               <Link
                 key={tool.path}
                 to={tool.path}
