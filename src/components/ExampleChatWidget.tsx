@@ -45,7 +45,7 @@ export const ExampleChatWidget = () => {
           {/* Chat header */}
           <div className="bg-gradient-to-r from-primary via-primary to-accent p-5 flex items-center justify-between text-primary-foreground">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
                 <MessageSquare className="w-5 h-5" />
               </div>
               <div>
@@ -107,8 +107,8 @@ export const ExampleChatWidget = () => {
                 </div>
 
                 {message.role === "user" && (
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center shadow-lg">
-                    <User className="w-6 h-6 text-slate-600" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-muted to-muted/80 flex items-center justify-center shadow-lg">
+                    <User className="w-6 h-6 text-muted-foreground" />
                   </div>
                 )}
               </div>

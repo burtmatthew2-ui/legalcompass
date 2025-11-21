@@ -181,7 +181,7 @@ const Pricing = () => {
               currentSubscription?.subscribed ? 'ring-2 ring-primary' : ''
             }`}>
               {currentSubscription?.subscribed && (
-                <div className="absolute top-0 right-0 bg-gradient-primary text-white px-4 py-2 text-sm font-semibold rounded-bl-lg">
+                <div className="absolute top-0 right-0 bg-gradient-primary text-primary-foreground px-4 py-2 text-sm font-semibold rounded-bl-lg">
                   Active Plan
                 </div>
               )}

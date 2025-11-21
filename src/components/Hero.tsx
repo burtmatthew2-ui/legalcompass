@@ -42,7 +42,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
             onClick={() => navigate("/admin")}
             variant="outline"
             size="sm"
-            className="bg-white/95 backdrop-blur-sm border-slate-300 hover:bg-slate-50 font-medium shadow-lg hover:shadow-xl transition-all"
+            className="bg-card/95 backdrop-blur-sm border-border hover:bg-accent font-medium shadow-lg hover:shadow-xl transition-all"
           >
             <Award className="h-4 w-4 mr-2 text-primary" />
             Admin Dashboard

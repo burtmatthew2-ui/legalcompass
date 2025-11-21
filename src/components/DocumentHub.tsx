@@ -67,13 +67,13 @@ export const DocumentHub = () => {
   };
 
   return (
-    <section id="templates" className="py-16 px-6 bg-white">
+    <section id="templates" className="py-16 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Free Legal Templates & Documents
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Download professionally drafted templates and guides — completely free, no signup required
           </p>
         </div>
@@ -87,10 +87,10 @@ export const DocumentHub = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-xs font-medium text-primary mb-1">{doc.category}</div>
-                  <h3 className="font-semibold text-slate-900 mb-2 text-sm leading-tight">
+                  <h3 className="font-semibold mb-2 text-sm leading-tight">
                     {doc.title}
                   </h3>
-                  <p className="text-xs text-slate-600 mb-4">{doc.description}</p>
+                  <p className="text-xs text-muted-foreground mb-4">{doc.description}</p>
                   <Button
                     size="sm"
                     variant="outline"
@@ -107,7 +107,7 @@ export const DocumentHub = () => {
         </div>
 
         <div className="text-center mt-8">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
             All templates are professional-grade and customizable for your specific situation
           </p>
         </div>

@@ -21,7 +21,7 @@ const ChatMessageComponent = ({ message }: ChatMessageProps) => {
     <div className={`flex gap-6 ${isUser ? "justify-end" : "justify-start"} animate-fade-in will-change-transform`}>
       {!isUser && (
         <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-[var(--gradient-primary)] flex items-center justify-center shadow-[var(--shadow-glow)]">
-          <Bot className="w-6 h-6 text-white" />
+          <Bot className="w-6 h-6 text-primary-foreground" />
         </div>
       )}
       

@@ -43,7 +43,7 @@ const Security = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center mb-6">
             <div className="p-4 rounded-full bg-gradient-primary">
-              <Shield className="h-12 w-12 text-white" />
+              <Shield className="h-12 w-12 text-primary-foreground" />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-4">

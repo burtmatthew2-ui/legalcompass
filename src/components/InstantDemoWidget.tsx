@@ -61,10 +61,10 @@ export const InstantDemoWidget = () => {
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm font-semibold text-primary">Try It Instantly - No Signup Required</span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-bold">
             Ask a Legal Question Right Now
           </h2>
-          <p className="text-slate-600">
+          <p className="text-muted-foreground">
             Experience our AI-powered legal research in action. Ask any legal question below.
           </p>
         </div>
@@ -79,13 +79,13 @@ export const InstantDemoWidget = () => {
               disabled={isLoading}
             />
             <div className="flex flex-wrap gap-2">
-              <span className="text-xs text-slate-500">Quick examples:</span>
+              <span className="text-xs text-muted-foreground">Quick examples:</span>
               {exampleQuestions.map((q, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setQuestion(q)}
-                  className="text-xs px-2 py-1 bg-white border border-slate-200 rounded hover:border-primary hover:bg-primary/5 transition-colors"
+                  className="text-xs px-2 py-1 bg-card border border-border rounded hover:border-primary hover:bg-primary/5 transition-colors"
                   disabled={isLoading}
                 >
                   {q}
@@ -97,7 +97,7 @@ export const InstantDemoWidget = () => {
           <Button
             type="submit"
             disabled={isLoading || !question.trim()}
-            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-6 text-base"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-base"
             size="lg"
           >
             {isLoading ? (
@@ -115,21 +115,21 @@ export const InstantDemoWidget = () => {
         </form>
 
         {answer && (
-          <div className="p-6 bg-white rounded-lg border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+          <div className="p-6 bg-card rounded-lg border border-border shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h3 className="font-semibold mb-3 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" />
               AI Research Result:
             </h3>
-            <div className="prose prose-sm max-w-none text-slate-700 leading-relaxed">
+            <div className="prose prose-sm max-w-none leading-relaxed">
               {answer}
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-200">
-              <p className="text-sm text-slate-600 mb-3">
+            <div className="mt-6 pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground mb-3">
                 Want more detailed research with case citations and multi-jurisdiction analysis?
               </p>
               <Button
                 onClick={() => navigate("/auth")}
-                className="w-full bg-accent hover:bg-accent/90 text-white font-semibold"
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
               >
                 Start Free Trial - 3 Questions Free
               </Button>

@@ -248,26 +248,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         </AlertDescription>
       </Alert>
 
-      {!isAdmin && !subscription?.subscribed && !subLoading && (
-        <Alert className={`mx-3 md:mx-6 mb-2 md:mb-3 ${remainingFreeQuestions > 0 ? 'border-primary bg-primary/10' : 'border-accent bg-accent/10'}`}>
-          <Sparkles className="h-4 w-4 text-accent" />
-          <AlertDescription className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <span className="text-xs md:text-sm">
-              {remainingFreeQuestions > 0 
-                ? `Free Trial: ${remainingFreeQuestions} of 3 free questions remaining` 
-                : "You've used your 3 free questions!"}
-            </span>
-            <Button 
-              onClick={() => remainingFreeQuestions === 0 ? setShowSubscriptionDialog(true) : navigate("/pricing")} 
-              size="sm" 
-              variant={remainingFreeQuestions === 0 ? "default" : "outline"}
-              className={`${remainingFreeQuestions === 0 ? "bg-accent hover:bg-accent/90" : ""} whitespace-nowrap`}
-            >
-              {remainingFreeQuestions === 0 ? "Get Unlimited" : "Upgrade"}
-            </Button>
-          </AlertDescription>
-        </Alert>
-      )}
+      {/* Only show free trial counter for non-subscribed users */}
 
       <ConversationSidebar
         conversations={conversations}
