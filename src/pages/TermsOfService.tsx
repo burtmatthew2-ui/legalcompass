@@ -2,12 +2,40 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const TermsOfService = () => {
   return (
+    <>
+      <Helmet>
+        <title>Terms of Service | Legal Compass - User Agreement & Legal Terms</title>
+        <meta name="description" content="Legal Compass terms of service. User agreement, subscription terms, acceptable use policy, disclaimers, and limitations of liability. Read before using our AI legal research platform." />
+        <meta name="keywords" content="terms of service, user agreement, legal terms, subscription terms, terms and conditions" />
+        <link rel="canonical" href="https://legalcompass.shop/terms-of-service" />
+        
+        <meta property="og:title" content="Terms of Service - Legal Compass" />
+        <meta property="og:description" content="User agreement and legal terms for Legal Compass services." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/terms-of-service" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Terms of Service",
+            "description": "Legal Compass terms of service and user agreement",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
+      </Helmet>
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 bg-background">
         <div className="max-w-4xl mx-auto px-6 py-12">
+          <BreadcrumbNav />
           <Link to="/">
             <Button variant="ghost" className="mb-8">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -128,6 +156,7 @@ const TermsOfService = () => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 

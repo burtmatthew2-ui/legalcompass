@@ -2,19 +2,44 @@ import { Shield, Lock, Database, Eye, Key, FileCheck } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const Security = () => {
   return (
     <>
       <Helmet>
         <title>Security & Privacy | Legal Compass - Enterprise-Grade Protection</title>
-        <meta name="description" content="Legal Compass security features: end-to-end encryption, row-level security, AI confidentiality, and data privacy protection for your legal consultations." />
-        <meta name="keywords" content="legal data security, encrypted legal research, privacy protection, secure legal consultation, data encryption" />
+        <meta name="description" content="Legal Compass security: end-to-end encryption, row-level security policies, AI confidentiality, zero data sharing, and complete data privacy protection for your legal consultations." />
+        <meta name="keywords" content="legal data security, encrypted legal research, privacy protection, secure legal consultation, data encryption, row level security" />
         <link rel="canonical" href="https://legalcompass.shop/security" />
+        
+        <meta property="og:title" content="Security & Privacy - Enterprise-Grade Protection | Legal Compass" />
+        <meta property="og:description" content="End-to-end encryption, AI confidentiality, and complete data privacy for your legal research." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/security" />
+        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Legal Compass Security & Privacy" />
+        <meta name="twitter:description" content="Enterprise-grade security and data privacy protection." />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Security & Privacy",
+            "description": "Comprehensive security and privacy protection measures for Legal Compass users",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
       </Helmet>
       
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="max-w-6xl mx-auto px-6 py-16">
+        <BreadcrumbNav />
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center mb-6">
             <div className="p-4 rounded-full bg-gradient-primary">

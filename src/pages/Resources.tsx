@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { BookOpen, ArrowRight, Home, ChevronDown } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import {
   Collapsible,
   CollapsibleContent,
@@ -222,10 +223,37 @@ const Resources = () => {
   return (
     <>
       <Helmet>
-        <title>Legal Resources & Guides | Legal Compass</title>
-        <meta name="description" content="Free legal guides covering tenant rights, traffic tickets, small claims, contracts, and more. Expert legal information to help you understand your rights." />
-        <meta name="keywords" content="legal guides, tenant rights, traffic tickets, small claims court, legal resources, free legal information" />
+        <title>Legal Resources & Guides | Free Legal Information | Legal Compass</title>
+        <meta name="description" content="Comprehensive free legal guides covering tenant rights, traffic tickets, small claims court, family law, employment law, and more. Expert legal information to help you understand your rights and options." />
+        <meta name="keywords" content="legal guides, tenant rights, traffic tickets, small claims court, legal resources, free legal information, legal help" />
         <link rel="canonical" href="https://legalcompass.shop/resources" />
+        
+        <meta property="og:title" content="Legal Resources & Guides - Free Legal Information" />
+        <meta property="og:description" content="Comprehensive free legal guides covering tenant rights, traffic law, family law, employment, and more." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/resources" />
+        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Legal Resources & Guides" />
+        <meta name="twitter:description" content="Free comprehensive legal guides covering multiple areas of law." />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Legal Resources & Guides",
+            "description": "Comprehensive collection of free legal guides and resources",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://legalcompass.shop/icon-512.png"
+              }
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">
@@ -233,6 +261,7 @@ const Resources = () => {
           {/* Header */}
           <div className="border-b border-border/50 bg-card/30 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto px-4 py-6">
+              <BreadcrumbNav />
               <div className="flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
                   <Home className="h-5 w-5" />

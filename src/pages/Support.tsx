@@ -8,6 +8,7 @@ import { ContactForm } from "@/components/support/ContactForm";
 import { LiveChatWidget } from "@/components/support/LiveChatWidget";
 import { AIFaq } from "@/components/support/AIFaq";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const Support = () => {
   const navigate = useNavigate();
@@ -17,14 +18,38 @@ const Support = () => {
     <>
       <Helmet>
         <title>Customer Support | Legal Compass - Get Help with AI Legal Research</title>
-        <meta name="description" content="Need help with Legal Compass? Access our AI FAQ, contact form, or live chat support for assistance with your legal research questions." />
-        <meta name="keywords" content="legal compass support, customer service, legal research help, AI legal assistant support" />
+        <meta name="description" content="Need help with Legal Compass? Access our AI FAQ, contact form, or live chat support for assistance with your legal research questions and account issues." />
+        <meta name="keywords" content="legal compass support, customer service, legal research help, AI legal assistant support, help center" />
         <link rel="canonical" href="https://legalcompass.shop/support" />
+        
+        <meta property="og:title" content="Customer Support - Legal Compass Help Center" />
+        <meta property="og:description" content="Get help with Legal Compass through AI FAQ, contact form, or live chat support." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/support" />
+        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Legal Compass Support" />
+        <meta name="twitter:description" content="Get help through AI FAQ, contact form, or live chat." />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Legal Compass Support",
+            "description": "Get help with Legal Compass through multiple support channels",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
       </Helmet>
       
       <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
+          <BreadcrumbNav />
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"

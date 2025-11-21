@@ -3,20 +3,40 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const PrivacyPolicy = () => {
   return (
     <>
       <Helmet>
         <title>Privacy Policy | Legal Compass - AI Legal Research</title>
-        <meta name="description" content="Legal Compass privacy policy. Learn how we collect, use, and protect your personal information when you use our AI legal research services." />
-        <meta name="keywords" content="privacy policy, data protection, legal compass privacy, user data security" />
+        <meta name="description" content="Legal Compass privacy policy. Learn how we collect, use, protect your personal information, and your data rights when using our AI legal research services. GDPR compliant." />
+        <meta name="keywords" content="privacy policy, data protection, legal compass privacy, user data security, GDPR, data rights" />
         <link rel="canonical" href="https://legalcompass.shop/privacy-policy" />
+        
+        <meta property="og:title" content="Privacy Policy - Legal Compass" />
+        <meta property="og:description" content="Learn how we protect your data and respect your privacy." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/privacy-policy" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Privacy Policy",
+            "description": "Legal Compass privacy policy and data protection practices",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
       </Helmet>
       
       <div className="min-h-screen flex flex-col">
       <div className="flex-1 bg-background">
         <div className="max-w-4xl mx-auto px-6 py-12">
+          <BreadcrumbNav />
           <Link to="/">
             <Button variant="ghost" className="mb-8">
               <ArrowLeft className="mr-2 h-4 w-4" />
