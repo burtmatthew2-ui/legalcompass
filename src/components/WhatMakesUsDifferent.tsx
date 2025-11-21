@@ -30,13 +30,13 @@ export const WhatMakesUsDifferent = () => {
   ];
 
   return (
-    <section className="py-16 px-6 bg-slate-900 text-white">
+    <section className="py-16 px-6 bg-card">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
             What Makes Us Different
           </h2>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             We're committed to transparency, quality, and accessibility in legal services
           </p>
         </div>
@@ -45,13 +45,13 @@ export const WhatMakesUsDifferent = () => {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="p-6 bg-slate-800 rounded-xl border border-slate-700 hover:border-primary transition-colors"
+              className="p-6 bg-card/50 rounded-xl border border-border hover:border-primary transition-colors"
             >
               <feature.icon className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg font-semibold mb-2 text-foreground">
                 {feature.title}
               </h3>
-              <p className="text-slate-300 text-sm">
+              <p className="text-muted-foreground text-sm">
                 {feature.description}
               </p>
             </div>
