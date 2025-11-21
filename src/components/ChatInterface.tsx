@@ -117,11 +117,23 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     });
   }, [messages.length]);
 
-  // Reset scroll tracking when conversation changes
+  // Reset scroll tracking and scroll to bottom when conversation changes
   useEffect(() => {
     userScrolledUpRef.current = false;
     lastMessageCountRef.current = 0;
-  }, [currentConversation?.id]);
+    
+    // Scroll to bottom when loading a conversation
+    if (messages.length > 0 && scrollAreaRef.current) {
+      requestAnimationFrame(() => {
+        if (scrollAreaRef.current) {
+          scrollAreaRef.current.scrollTo({
+            top: scrollAreaRef.current.scrollHeight,
+            behavior: 'instant' // Instant for conversation changes
+          });
+        }
+      });
+    }
+  }, [currentConversation?.id, messages.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
