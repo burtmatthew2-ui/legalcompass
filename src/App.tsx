@@ -78,6 +78,7 @@ import FAQPage from "./pages/FAQPage";
 import DocumentScanner from "./pages/DocumentScanner";
 import CaseEstimator from "./pages/CaseEstimator";
 import ProfileSettings from "./pages/ProfileSettings";
+import HowItBegan from "./pages/HowItBegan";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import { PerformanceOptimizations } from "@/components/PerformanceOptimizations";
@@ -106,6 +107,7 @@ const App = () => {
           <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/how-it-began" element={<HowItBegan />} />
           <Route path="/case-analyzer" element={<CaseAnalyzer />} />
           <Route path="/document-scanner" element={<DocumentScanner />} />
           <Route path="/case-estimator" element={<CaseEstimator />} />

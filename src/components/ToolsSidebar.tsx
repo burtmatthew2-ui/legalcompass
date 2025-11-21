@@ -18,7 +18,8 @@ import {
   Home,
   MessageCircleQuestion,
   ScanSearch,
-  TrendingUp
+  TrendingUp,
+  Heart
 } from "lucide-react";
 
 export const ToolsSidebar = () => {
@@ -27,6 +28,7 @@ export const ToolsSidebar = () => {
 
   const tools = [
     { icon: Home, label: "Home", path: "/" },
+    { icon: Heart, label: "How It Began", path: "/how-it-began" },
     { icon: MessageCircleQuestion, label: "FAQ", path: "/faq" },
     { icon: ScanSearch, label: "Document Scanner", path: "/document-scanner" },
     { icon: TrendingUp, label: "Case Predictor", path: "/case-estimator" },
