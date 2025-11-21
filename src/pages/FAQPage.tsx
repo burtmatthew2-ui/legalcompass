@@ -1,12 +1,18 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FAQ } from "@/components/FAQ";
+import { FAQ, faqs } from "@/components/FAQ";
 import { Helmet } from "react-helmet";
 import { BreadcrumbNav } from "@/components/BreadcrumbNav";
+import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 
 const FAQPage = () => {
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "https://legalcompass.shop/" },
+        { name: "FAQ", url: "https://legalcompass.shop/faq" }
+      ]} />
+      <FAQPageSchema faqs={faqs} />
       <Helmet>
         <title>Frequently Asked Questions - Legal Compass AI</title>
         <meta name="description" content="Get answers to common questions about Legal Compass AI, including pricing, features, and how our legal guidance platform works." />

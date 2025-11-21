@@ -13,6 +13,9 @@ import { Scale, AlertCircle, TrendingUp, DollarSign, UserCheck, ArrowRight, Load
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ExitIntentCTA } from "@/components/ExitIntentCTA";
+import { SocialProof } from "@/components/SocialProof";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
@@ -118,6 +121,16 @@ export default function CaseAnalyzer() {
 
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "https://legalcompass.shop/" },
+        { name: "Case Analyzer", url: "https://legalcompass.shop/case-analyzer" }
+      ]} />
+      <ExitIntentCTA
+        title="Need a Full Case Analysis?"
+        description="Sign up to get detailed AI-powered analysis of your legal case, including success probability and cost estimates."
+        ctaText="Get Free Analysis"
+        ctaLink="/auth"
+      />
       <Helmet>
         <title>Free Legal Case Analyzer - Get Instant AI Analysis | Legal Compass</title>
         <meta name="description" content="Free instant legal case analysis powered by AI. Answer 4 simple questions and get professional insights about your legal situation, success chances, and estimated costs. No signup required." />
@@ -176,21 +189,26 @@ export default function CaseAnalyzer() {
               Get professional AI-powered insights about your legal situation in minutes. 
               No signup required until you want detailed guidance.
             </p>
-            
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <UserCheck className="h-5 w-5 text-green-500" />
-                <span>100% Confidential</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Scale className="h-5 w-5 text-blue-500" />
-                <span>AI + Legal Expertise</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-purple-500" />
-                <span>Instant Results</span>
-              </div>
+          </div>
+
+          {/* Social Proof */}
+          <div className="mb-8">
+            <SocialProof variant="compact" />
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-primary" />
+              <span>100% Confidential</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <UserCheck className="w-4 h-4 text-primary" />
+              <span>No Signup Required</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Scale className="w-4 h-4 text-primary" />
+              <span>Unbiased Analysis</span>
             </div>
           </div>
 

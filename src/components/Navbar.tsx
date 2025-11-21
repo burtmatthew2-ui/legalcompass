@@ -64,6 +64,13 @@ export const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-2">
               <Button
+                onClick={() => navigate("/faq")}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary font-medium"
+              >
+                FAQ
+              </Button>
+              <Button
                 onClick={() => {
                   if (window.location.pathname === '/') {
                     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
@@ -118,6 +125,16 @@ export const Navbar = () => {
                   <SheetTitle>Menu</SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-4 mt-8">
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/faq");
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    FAQ
+                  </Button>
                   <Button
                     onClick={() => {
                       setMobileMenuOpen(false);
