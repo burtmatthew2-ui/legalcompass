@@ -76,14 +76,14 @@ const Index = () => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Free Legal Help & Affordable Lawyer Alternatives - Legal Compass AI</title>
-        <meta name="description" content="Can't afford a lawyer? Get free legal advice, affordable legal help, and AI-powered guidance. Find cheap lawyers, free legal aid, pro bono attorneys, and legal templates. Start with 3 free questions." />
-        <meta name="keywords" content="free legal help, affordable lawyer, cheap lawyer, can't afford lawyer, free legal advice, legal aid, pro bono attorney, free consultation lawyer, low cost legal services, legal help for low income, free legal templates" />
+        <title>Legal Compass - Free AI Legal Consultation | Connect with Verified Attorneys</title>
+        <meta name="description" content="Get free AI-powered legal guidance instantly. Ask questions, analyze your case, and connect with verified attorneys. Start your free consultation - no credit card required." />
+        <meta name="keywords" content="free legal help, AI legal consultation, free legal advice, legal aid, affordable lawyer, free case analysis, legal templates, connect with attorneys, free legal guidance" />
         <link rel="canonical" href="https://legalcompass.shop/" />
         
         {/* Open Graph / Social Media */}
-        <meta property="og:title" content="Legal Compass - Cheapest Legal Aid at $4.99/month" />
-        <meta property="og:description" content="The most affordable legal assistance in 2025. 75% cheaper than competitors with MORE features. Unlimited AI legal help for less than a coffee." />
+        <meta property="og:title" content="Legal Compass - Free AI Legal Consultation" />
+        <meta property="og:description" content="Get instant AI-powered legal guidance for free. Analyze your case, ask questions, and connect with verified attorneys. Start your free consultation today." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/" />
         <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
@@ -92,8 +92,8 @@ const Index = () => {
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Legal Compass - Cheapest Legal Aid at $4.99/month" />
-        <meta name="twitter:description" content="The most affordable legal assistance in 2025. 75% cheaper than competitors with MORE features." />
+        <meta name="twitter:title" content="Legal Compass - Free AI Legal Consultation" />
+        <meta name="twitter:description" content="Get instant AI-powered legal guidance for free. Analyze your case and connect with verified attorneys." />
         <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
         
         {/* Preconnect for Performance */}
