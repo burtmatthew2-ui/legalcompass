@@ -88,7 +88,11 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const handleScroll = () => {
     if (!scrollAreaRef.current) return;
     
-    const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+    // Find the viewport element inside ScrollArea
+    const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+    const scrollElement = viewport || scrollAreaRef.current;
+    
+    const { scrollTop, scrollHeight, clientHeight } = scrollElement;
     const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
     userScrolledUpRef.current = !isNearBottom;
   };
@@ -109,8 +113,10 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     // Smooth scroll to bottom
     requestAnimationFrame(() => {
       if (scrollAreaRef.current) {
-        scrollAreaRef.current.scrollTo({
-          top: scrollAreaRef.current.scrollHeight,
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        const scrollElement = viewport || scrollAreaRef.current;
+        scrollElement.scrollTo({
+          top: scrollElement.scrollHeight,
           behavior: 'smooth'
         });
       }
@@ -122,14 +128,21 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     userScrolledUpRef.current = false;
     lastMessageCountRef.current = messages.length;
     
-    // Scroll to bottom when loading a conversation - wait for messages to be fully loaded
+    // Scroll to bottom when loading a conversation
     if (messages.length > 0 && scrollAreaRef.current) {
-      // Use setTimeout to ensure DOM has fully rendered all messages
+      // Wait for messages to fully render, then scroll
       const scrollTimer = setTimeout(() => {
         if (scrollAreaRef.current) {
-          scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+          // Find the viewport div inside ScrollArea (Radix UI structure)
+          const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+          if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
+          } else {
+            // Fallback to direct scrollTop
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+          }
         }
-      }, 100); // Small delay to ensure all messages are rendered
+      }, 300); // Longer delay to ensure all messages are rendered
       
       return () => clearTimeout(scrollTimer);
     }
