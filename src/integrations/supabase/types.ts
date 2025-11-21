@@ -1072,20 +1072,41 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string | null
+          date_of_birth: string | null
           email: string
+          email_verified: boolean | null
+          full_name: string | null
           id: string
+          phone_number: string | null
+          phone_verified: boolean | null
+          profile_completed: boolean | null
+          updated_at: string | null
           user_type: Database["public"]["Enums"]["user_type"] | null
         }
         Insert: {
           created_at?: string | null
+          date_of_birth?: string | null
           email: string
+          email_verified?: boolean | null
+          full_name?: string | null
           id: string
+          phone_number?: string | null
+          phone_verified?: boolean | null
+          profile_completed?: boolean | null
+          updated_at?: string | null
           user_type?: Database["public"]["Enums"]["user_type"] | null
         }
         Update: {
           created_at?: string | null
+          date_of_birth?: string | null
           email?: string
+          email_verified?: boolean | null
+          full_name?: string | null
           id?: string
+          phone_number?: string | null
+          phone_verified?: boolean | null
+          profile_completed?: boolean | null
+          updated_at?: string | null
           user_type?: Database["public"]["Enums"]["user_type"] | null
         }
         Relationships: []
@@ -1239,6 +1260,36 @@ export type Database = {
           stripe_subscription_id?: string | null
           updated_at?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      verification_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          expires_at: string
+          id: string
+          phone_number: string
+          user_id: string
+          verified: boolean | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          phone_number: string
+          user_id: string
+          verified?: boolean | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          phone_number?: string
+          user_id?: string
+          verified?: boolean | null
         }
         Relationships: []
       }

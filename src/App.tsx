@@ -77,6 +77,7 @@ import CaseAnalyzer from "./pages/CaseAnalyzer";
 import FAQPage from "./pages/FAQPage";
 import DocumentScanner from "./pages/DocumentScanner";
 import CaseEstimator from "./pages/CaseEstimator";
+import ProfileSettings from "./pages/ProfileSettings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -123,6 +124,7 @@ const App = () => {
           <Route path="/client-case/:leadId" element={<ProtectedRoute><ClientCaseManagement /></ProtectedRoute>} />
           <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/profile-settings" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
           <Route path="/security" element={<Security />} />

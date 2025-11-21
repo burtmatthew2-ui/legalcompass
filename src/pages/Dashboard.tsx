@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { MessageSquare, BookOpen, CreditCard, Shield, FileText, LogOut, Settings } from "lucide-react";
+import { MessageSquare, BookOpen, CreditCard, Shield, FileText, LogOut, Settings, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
@@ -10,12 +10,15 @@ import { Footer } from "@/components/Footer";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import type { User } from "@/types/user";
 import { Loader2 } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { isAdmin } = useAdminStatus();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileName, setProfileName] = useState<string | null>(null);
+  const [profileCompleted, setProfileCompleted] = useState(false);
 
   useEffect(() => {
     const checkUserRole = async () => {
@@ -41,6 +44,18 @@ const Dashboard = () => {
       } else if (roleData?.role === "client") {
         navigate("/client-dashboard", { replace: true });
         return;
+      }
+
+      // Fetch profile data
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, profile_completed")
+        .eq("id", session.user.id)
+        .single();
+
+      if (profile) {
+        setProfileName(profile.full_name);
+        setProfileCompleted(profile.profile_completed || false);
       }
 
       setLoading(false);
@@ -92,10 +107,28 @@ const Dashboard = () => {
       
       <div className="flex-1 max-w-6xl mx-auto px-4 py-12 w-full">
         <div className="space-y-8">
+          {/* Profile Completion Alert */}
+          {!profileCompleted && (
+            <Alert className="border-accent bg-accent/10">
+              <AlertCircle className="h-4 w-4 text-accent" />
+              <AlertTitle>Complete Your Profile</AlertTitle>
+              <AlertDescription className="flex items-center justify-between">
+                <span>Get the most out of Legal Compass by completing your profile</span>
+                <Button
+                  onClick={() => navigate("/profile-settings")}
+                  size="sm"
+                  className="ml-4"
+                >
+                  Complete Profile
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
+
           {/* Welcome Header */}
           <div className="text-center space-y-3">
             <h1 className="text-4xl font-bold text-foreground">
-              Welcome Back{user?.email ? `, ${user.email.split('@')[0] || 'User'}` : ''}!
+              Welcome Back{profileName ? `, ${profileName}` : user?.email ? `, ${user.email.split('@')[0]}` : ''}!
             </h1>
             <p className="text-lg text-muted-foreground">
               Choose where you'd like to go
