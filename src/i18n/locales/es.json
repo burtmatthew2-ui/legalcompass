@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "faq": "Preguntas Frecuentes",
+    "templates": "Plantillas",
+    "resources": "Recursos Legales",
+    "support": "Soporte",
+    "documentScanner": "Escáner de Documentos",
+    "casePredictor": "Predictor de Casos"
+  },
+  "hero": {
+    "title": "Orientación Legal con IA",
+    "subtitle": "Obtenga claridad legal instantánea con nuestro asistente de IA",
+    "cta": "Comenzar Prueba Gratuita"
+  },
+  "documentScanner": {
+    "title": "Escáner de Documentos con IA",
+    "subtitle": "Cargue y analice documentos legales al instante",
+    "uploadPrompt": "Cargue sus documentos legales para análisis de IA",
+    "analyzing": "Analizando documento...",
+    "results": "Resultados del Análisis"
+  },
+  "casePredictor": {
+    "title": "Predictor de Resultados de Casos con IA",
+    "subtitle": "Obtenga información sobre posibles resultados de casos",
+    "caseType": "Tipo de Caso",
+    "jurisdiction": "Jurisdicción",
+    "caseDetails": "Detalles del Caso",
+    "predict": "Predecir Resultado",
+    "predicting": "Analizando caso...",
+    "results": "Resultados de Predicción"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar"
+  }
+}

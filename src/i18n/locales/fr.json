@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "faq": "FAQ",
+    "templates": "Modèles",
+    "resources": "Ressources Juridiques",
+    "support": "Support",
+    "documentScanner": "Analyseur de Documents",
+    "casePredictor": "Prédicteur de Cas"
+  },
+  "hero": {
+    "title": "Conseils Juridiques par IA",
+    "subtitle": "Obtenez une clarté juridique instantanée avec notre assistant IA",
+    "cta": "Commencer l'Essai Gratuit"
+  },
+  "documentScanner": {
+    "title": "Analyseur de Documents IA",
+    "subtitle": "Téléchargez et analysez des documents juridiques instantanément",
+    "uploadPrompt": "Téléchargez vos documents juridiques pour une analyse IA",
+    "analyzing": "Analyse du document...",
+    "results": "Résultats de l'Analyse"
+  },
+  "casePredictor": {
+    "title": "Prédicteur de Résultats de Cas IA",
+    "subtitle": "Obtenez des informations sur les résultats potentiels de cas",
+    "caseType": "Type de Cas",
+    "jurisdiction": "Juridiction",
+    "caseDetails": "Détails du Cas",
+    "predict": "Prédire le Résultat",
+    "predicting": "Analyse du cas...",
+    "results": "Résultats de Prédiction"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier"
+  }
+}

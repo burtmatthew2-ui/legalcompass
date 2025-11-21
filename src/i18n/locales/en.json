@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Home",
+    "faq": "FAQ",
+    "templates": "Templates",
+    "resources": "Legal Resources",
+    "support": "Support",
+    "documentScanner": "Document Scanner",
+    "casePredictor": "Case Predictor"
+  },
+  "hero": {
+    "title": "AI-Powered Legal Guidance",
+    "subtitle": "Get instant legal clarity with our AI assistant",
+    "cta": "Start Free Trial"
+  },
+  "documentScanner": {
+    "title": "AI Document Scanner",
+    "subtitle": "Upload and analyze legal documents instantly",
+    "uploadPrompt": "Upload your legal documents for AI analysis",
+    "analyzing": "Analyzing document...",
+    "results": "Analysis Results"
+  },
+  "casePredictor": {
+    "title": "AI Case Outcome Predictor",
+    "subtitle": "Get insights on potential case outcomes",
+    "caseType": "Case Type",
+    "jurisdiction": "Jurisdiction",
+    "caseDetails": "Case Details",
+    "predict": "Predict Outcome",
+    "predicting": "Analyzing case...",
+    "results": "Prediction Results"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit"
+  }
+}

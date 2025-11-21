@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "faq": "FAQ",
+    "templates": "Vorlagen",
+    "resources": "Rechtsressourcen",
+    "support": "Unterstützung",
+    "documentScanner": "Dokumentenscanner",
+    "casePredictor": "Fallvorhersage"
+  },
+  "hero": {
+    "title": "KI-gestützte Rechtsberatung",
+    "subtitle": "Erhalten Sie sofortige rechtliche Klarheit mit unserem KI-Assistenten",
+    "cta": "Kostenlose Testversion Starten"
+  },
+  "documentScanner": {
+    "title": "KI-Dokumentenscanner",
+    "subtitle": "Laden Sie Rechtsdokumente hoch und analysieren Sie sie sofort",
+    "uploadPrompt": "Laden Sie Ihre Rechtsdokumente für KI-Analyse hoch",
+    "analyzing": "Dokument wird analysiert...",
+    "results": "Analyseergebnisse"
+  },
+  "casePredictor": {
+    "title": "KI-Fallergebnis-Vorhersage",
+    "subtitle": "Erhalten Sie Einblicke in potenzielle Fallergebnisse",
+    "caseType": "Falltyp",
+    "jurisdiction": "Gerichtsbarkeit",
+    "caseDetails": "Falldetails",
+    "predict": "Ergebnis Vorhersagen",
+    "predicting": "Fall wird analysiert...",
+    "results": "Vorhersageergebnisse"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten"
+  }
+}

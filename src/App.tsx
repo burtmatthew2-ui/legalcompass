@@ -75,6 +75,8 @@ import AttorneyProfile from "./pages/AttorneyProfile";
 import VerifyEmail from "./pages/VerifyEmail";
 import CaseAnalyzer from "./pages/CaseAnalyzer";
 import FAQPage from "./pages/FAQPage";
+import DocumentScanner from "./pages/DocumentScanner";
+import CaseEstimator from "./pages/CaseEstimator";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -96,6 +98,8 @@ const App = () => {
           <Route path="/" element={<Index />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/case-analyzer" element={<CaseAnalyzer />} />
+          <Route path="/document-scanner" element={<DocumentScanner />} />
+          <Route path="/case-estimator" element={<CaseEstimator />} />
           <Route path="/find-lawyers" element={<FindLawyers />} />
           <Route path="/attorney/:id" element={<AttorneyProfile />} />
           <Route path="/auth" element={<Auth />} />
