@@ -387,14 +387,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
       </ScrollArea>
 
       <div className="border-t border-border bg-card shadow-lg">
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-5 space-y-3">
-          <FileUpload 
-            conversationId={currentConversation?.id || null}
-            onFileUploaded={(file) => {
-              setUploadedFiles(prev => [...prev, file]);
-              sonnerToast.success(`${file.name} uploaded and ready for AI review`);
-            }}
-          />
+        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-5">
           <UploadedFilePreview 
             files={uploadedFiles}
             onRemove={(index) => {
@@ -402,7 +395,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               sonnerToast.info("File removed");
             }}
           />
-          <div className="flex gap-3">
+          <div className="flex gap-2 items-end">
+            <FileUpload 
+              conversationId={currentConversation?.id || null}
+              onFileUploaded={(file) => {
+                setUploadedFiles(prev => [...prev, file]);
+                sonnerToast.success(`${file.name} uploaded and ready for AI review`);
+              }}
+              compact
+            />
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
