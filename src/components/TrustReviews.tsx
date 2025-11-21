@@ -88,10 +88,16 @@ export const TrustReviews = () => {
   };
 
   useEffect(() => {
-    if (!api) return;
+    // Set loading to false after a short delay to ensure content displays
+    const timer = setTimeout(() => setIsLoading(false), 300);
 
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!api) return;
 
     // Auto-play functionality
     const interval = setInterval(() => {
@@ -105,7 +111,6 @@ export const TrustReviews = () => {
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timer);
     };
   }, [api]);
 
