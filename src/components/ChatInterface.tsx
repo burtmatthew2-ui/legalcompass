@@ -82,11 +82,19 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  // Scroll to bottom when messages change or conversation loads
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      const scrollToBottom = () => {
+        requestAnimationFrame(() => {
+          if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+          }
+        });
+      };
+      scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, currentConversation?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,28 +154,32 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     let assistantContent = "";
-    let updateTimeoutId: NodeJS.Timeout | null = null;
+    let rafId: number | null = null;
+    let pendingUpdate = false;
     
     const upsertAssistant = (chunk: string) => {
       assistantContent += chunk;
       
-      // Debounce UI updates to prevent freezing
-      if (updateTimeoutId) {
-        clearTimeout(updateTimeoutId);
-      }
-      
-      updateTimeoutId = setTimeout(() => {
-        setMessages((prev) => {
-          const last = prev[prev.length - 1];
-          if (last?.role === "assistant") {
-            // Efficiently update only the last message
-            const newMessages = [...prev];
-            newMessages[newMessages.length - 1] = { role: "assistant", content: assistantContent };
-            return newMessages;
-          }
-          return [...prev, { role: "assistant", content: assistantContent }];
+      // Use requestAnimationFrame for smoother updates, prevent multiple frames queued
+      if (!pendingUpdate) {
+        pendingUpdate = true;
+        
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+        }
+        
+        rafId = requestAnimationFrame(() => {
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last?.role === "assistant") {
+              // Efficiently update only the last message
+              return [...prev.slice(0, -1), { role: "assistant", content: assistantContent }];
+            }
+            return [...prev, { role: "assistant", content: assistantContent }];
+          });
+          pendingUpdate = false;
         });
-      }, 16); // ~60fps update rate
+      }
     };
 
     try {
@@ -176,17 +188,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         uploadedFiles: uploadedFiles.length > 0 ? uploadedFiles : undefined, // Only send if files exist in current session
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
-          // Clear any pending updates
-          if (updateTimeoutId) {
-            clearTimeout(updateTimeoutId);
+          // Clear any pending animation frames
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
           }
           // Final update with complete content
           setMessages((prev) => {
             const last = prev[prev.length - 1];
             if (last?.role === "assistant") {
-              const newMessages = [...prev];
-              newMessages[newMessages.length - 1] = { role: "assistant", content: assistantContent };
-              return newMessages;
+              return [...prev.slice(0, -1), { role: "assistant", content: assistantContent }];
             }
             return [...prev, { role: "assistant", content: assistantContent }];
           });
