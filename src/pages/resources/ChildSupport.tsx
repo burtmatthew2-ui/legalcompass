@@ -7,7 +7,7 @@ const ChildSupport = () => {
   return (
     <>
       <Helmet>
-        <title>Child Support Calculation Guide: How Much, Who Pays & State Laws | Legal Compass</title>
+        <title>Child Support Guide: Calculation & State Laws | Legal Compass</title>
         <meta 
           name="description" 
           content="Complete guide to child support in 2025: calculation methods, state-by-state guidelines, how to modify support orders, enforcement, and what happens if you can't pay." 

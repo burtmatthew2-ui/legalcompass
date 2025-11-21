@@ -7,7 +7,7 @@ const EmploymentDiscrimination = () => {
   return (
     <>
       <Helmet>
-        <title>Employment Discrimination Laws: Types, Examples & How to File a Claim | Legal Compass</title>
+        <title>Employment Discrimination: File EEOC Claims | Legal Compass</title>
         <meta 
           name="description" 
           content="Complete guide to employment discrimination laws in 2025. Learn about protected classes, types of discrimination, how to file EEOC complaints, and your rights as an employee." 

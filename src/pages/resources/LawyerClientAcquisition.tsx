@@ -8,7 +8,7 @@ const LawyerClientAcquisition = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>How to Get More Clients as a Lawyer in 2025: 15 Proven Strategies | Legal Compass</title>
+        <title>Get More Legal Clients: 15 Strategies 2025 | Legal Compass</title>
         <meta name="description" content="Discover 15 proven strategies to get more legal clients in 2025. From digital marketing to lead generation platforms, learn what actually works for solo attorneys and small law firms." />
         <meta name="keywords" content="how to get more clients as a lawyer, legal client acquisition, attorney marketing, law firm growth, legal lead generation, solo attorney clients, get more legal clients" />
         

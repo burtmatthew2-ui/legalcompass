@@ -32,7 +32,7 @@ export default function ProbateProcess() {
   return (
     <>
       <Helmet>
-        <title>Probate Process Guide: How to Settle an Estate Step-by-Step 2025 | Legal Compass</title>
+        <title>Probate Process: Estate Settlement Guide 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to the probate process. Learn how to navigate estate settlement, executor duties, court procedures, and avoiding probate. Updated 2025." />
         <meta name="keywords" content="probate process, estate settlement, executor duties, probate court, how to avoid probate, estate administration, will probate, probate attorney" />
         <link rel="canonical" href="https://legalcompass.shop/resources/probate-process" />
