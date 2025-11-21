@@ -129,7 +129,7 @@ export const ConversationSidebar = ({
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
           onClick={onClose}
         />
       )}

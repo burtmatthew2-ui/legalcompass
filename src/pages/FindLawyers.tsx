@@ -157,16 +157,16 @@ export default function FindLawyers() {
         <meta name="description" content="Browse verified attorneys by practice area and location. Read reviews and request consultations with experienced lawyers." />
       </Helmet>
 
-      <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-slate-50 to-white">
+      <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-muted/30 to-background">
         <Navbar />
         
         <main className="flex-1 max-w-7xl mx-auto px-4 py-12 w-full">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Find Your Legal Expert
             </h1>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Browse verified attorneys specializing in your legal needs. Compare experience, ratings, and request consultations.
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function FindLawyers() {
                 {/* Search */}
                 <div className="md:col-span-2">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                     <Input
                       placeholder="Search by name, practice area..."
                       value={searchQuery}
@@ -217,8 +217,8 @@ export default function FindLawyers() {
 
               {/* Sort */}
               <div className="mt-4 flex items-center gap-4">
-                <Filter className="w-4 h-4 text-slate-600" />
-                <span className="text-sm text-slate-600">Sort by:</span>
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
@@ -234,7 +234,7 @@ export default function FindLawyers() {
           </Card>
 
           {/* Results Count */}
-          <p className="text-slate-600 mb-6">
+          <p className="text-muted-foreground mb-6">
             Showing {filteredLawyers.length} verified {filteredLawyers.length === 1 ? 'attorney' : 'attorneys'}
           </p>
 
@@ -289,8 +289,8 @@ export default function FindLawyers() {
                   {/* Practice Areas */}
                   <div className="mb-4">
                     <div className="flex items-center gap-1 mb-2">
-                      <Briefcase className="w-4 h-4 text-slate-600" />
-                      <span className="text-sm font-medium text-slate-700">Practice Areas</span>
+                      <Briefcase className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">Practice Areas</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {lawyer.practice_areas.slice(0, 3).map((area, idx) => (
@@ -309,10 +309,10 @@ export default function FindLawyers() {
                   {/* Licensed States */}
                   <div className="mb-4">
                     <div className="flex items-center gap-1 mb-2">
-                      <MapPin className="w-4 h-4 text-slate-600" />
-                      <span className="text-sm font-medium text-slate-700">Licensed in</span>
+                      <MapPin className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">Licensed in</span>
                     </div>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-muted-foreground">
                       {lawyer.states_licensed.slice(0, 2).join(", ")}
                       {lawyer.states_licensed.length > 2 && ` +${lawyer.states_licensed.length - 2} more`}
                     </p>
@@ -320,7 +320,7 @@ export default function FindLawyers() {
 
                   {/* Experience */}
                   {lawyer.years_of_experience && (
-                    <p className="text-sm text-slate-600 mb-4">
+                    <p className="text-sm text-muted-foreground mb-4">
                       {lawyer.years_of_experience} years of experience • {lawyer.total_leads_purchased} cases completed
                     </p>
                   )}
@@ -349,8 +349,8 @@ export default function FindLawyers() {
           {/* No Results */}
           {filteredLawyers.length === 0 && (
             <Card className="p-12 text-center">
-              <p className="text-xl text-slate-600 mb-4">No attorneys found matching your criteria</p>
-              <p className="text-slate-500">Try adjusting your filters or search terms</p>
+              <p className="text-xl text-muted-foreground mb-4">No attorneys found matching your criteria</p>
+              <p className="text-muted-foreground/80">Try adjusting your filters or search terms</p>
             </Card>
           )}
         </main>

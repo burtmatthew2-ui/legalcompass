@@ -63,20 +63,20 @@ export const ExitIntentPopup = () => {
         </DialogHeader>
 
         <div className="space-y-4 py-4">
-          <div className="rounded-lg bg-gradient-to-br from-primary/10 to-blue-50 p-6 text-center border-2 border-primary/20">
-            <p className="text-lg font-semibold text-slate-900 mb-2">
+          <div className="rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-6 text-center border-2 border-primary/20">
+            <p className="text-lg font-semibold mb-2">
               Get Your First Legal Question Answered FREE
             </p>
-            <p className="text-sm text-slate-600 mb-4">
+            <p className="text-sm text-muted-foreground mb-4">
               Plus 2 more questions on us when you create your account. No credit card required.
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-primary/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-primary/30">
               <span className="text-2xl font-bold text-primary">3</span>
-              <span className="text-sm font-medium text-slate-700">Free Questions</span>
+              <span className="text-sm font-medium">Free Questions</span>
             </div>
           </div>
 
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-primary"></div>
               Instant AI-powered legal research
@@ -97,13 +97,13 @@ export const ExitIntentPopup = () => {
 
           <Button
             onClick={handleClaim}
-            className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-6 text-base"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 text-base"
             size="lg"
           >
             Claim My 3 Free Questions
           </Button>
 
-          <p className="text-xs text-center text-slate-500">
+          <p className="text-xs text-center text-muted-foreground">
             Get verified legal guidance with secure attorney connections
           </p>
         </div>

@@ -49,7 +49,7 @@ export default function Install() {
       <Card className="max-w-lg w-full bg-card/90 backdrop-blur-xl border-border/50">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-[var(--gradient-primary)] flex items-center justify-center">
-            <Smartphone className="w-8 h-8 text-white" />
+            <Smartphone className="w-8 h-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl">Install Legal Compass</CardTitle>
           <CardDescription>

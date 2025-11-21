@@ -263,7 +263,7 @@ const ProfileSettings = () => {
                   {!emailVerified && (
                     <Button
                       onClick={handleSendEmailVerification}
-                      className="bg-primary text-white hover:bg-primary/90"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                     >
                       Verify Email
                     </Button>
@@ -347,7 +347,7 @@ const ProfileSettings = () => {
               <Button
                 onClick={handleSaveProfile}
                 disabled={saving || !fullName}
-                className="w-full bg-primary text-white hover:bg-primary/90"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 {saving ? (
                   <>

@@ -253,7 +253,7 @@ const Templates = () => {
             {/* Free Tier */}
             <div className="border rounded-lg p-6 bg-card">
               <div className="flex items-center gap-2 mb-4">
-                <FileText className="w-6 h-6 text-slate-600" />
+                <FileText className="w-6 h-6 text-muted-foreground" />
                 <h3 className="text-xl font-bold">Free</h3>
               </div>
               <p className="text-3xl font-bold mb-2">$0</p>

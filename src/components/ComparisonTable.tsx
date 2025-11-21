@@ -19,7 +19,7 @@ export const ComparisonTable = () => {
   ];
 
   return (
-    <div className="py-8 md:py-16 px-4 md:px-6 bg-gradient-to-b from-slate-50 to-white">
+    <div className="py-8 md:py-16 px-4 md:px-6 bg-gradient-to-b from-muted/30 to-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">
@@ -34,13 +34,13 @@ export const ComparisonTable = () => {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[600px]">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="text-left p-3 md:p-6 font-semibold text-slate-700 text-sm md:text-base">Feature</th>
-                  <th className="text-center p-3 md:p-6 font-semibold text-slate-700 text-sm md:text-base">Traditional Attorney</th>
-                  <th className="text-center p-3 md:p-6 bg-primary/5 border-l-4 border-primary">
-                    <div className="space-y-1">
-                      <span className="block font-bold text-primary text-base md:text-lg">Legal Compass</span>
-                      <span className="block text-xs text-slate-600 font-normal">Recommended</span>
+                <tr className="border-b bg-muted/50">
+                  <th className="text-left p-3 md:p-6 font-semibold text-sm md:text-base">Feature</th>
+                  <th className="text-center p-3 md:p-6 font-semibold text-sm md:text-base">Traditional Attorney</th>
+                  <th className="text-center p-3 md:p-6 font-semibold text-sm md:text-base relative">
+                    <div className="flex flex-col">
+                      <span>Legal Compass</span>
+                      <span className="block text-xs text-muted-foreground font-normal">Recommended</span>
                     </div>
                   </th>
                 </tr>
@@ -49,12 +49,12 @@ export const ComparisonTable = () => {
                 {features.map((feature, index) => (
                   <tr
                     key={index}
-                    className={`border-b border-slate-100 ${
-                      index % 2 === 0 ? "bg-white" : "bg-slate-50/50"
+                    className={`border-b border-border ${
+                      index % 2 === 0 ? "bg-card" : "bg-muted/30"
                     }`}
                   >
-                    <td className="p-3 md:p-6 font-medium text-slate-900 text-sm md:text-base">{feature.name}</td>
-                    <td className="p-3 md:p-6 text-center text-slate-600 text-sm md:text-base">
+                    <td className="p-3 md:p-6 font-medium text-sm md:text-base">{feature.name}</td>
+                    <td className="p-3 md:p-6 text-center text-muted-foreground text-sm md:text-base">
                       {typeof feature.traditional === "boolean" ? (
                         feature.traditional ? (
                           <Check className="w-4 h-4 md:w-5 md:h-5 text-green-600 mx-auto" />
@@ -83,17 +83,17 @@ export const ComparisonTable = () => {
           </div>
 
           <div className="bg-gradient-to-r from-primary/10 to-blue-50 p-8 text-center border-t-4 border-primary">
-            <p className="text-slate-700 mb-4 text-lg">
-              <span className="font-bold text-slate-900">Start your legal research journey today.</span> First 3 questions are completely free.
+            <p className="text-foreground mb-4 text-lg">
+              <span className="font-bold">Start your legal research journey today.</span> First 3 questions are completely free.
             </p>
             <Button
               onClick={() => navigate("/auth")}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-white font-bold px-12 py-6 text-lg shadow-lg hover:shadow-xl transition-all"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-12 py-6 text-lg shadow-lg hover:shadow-xl transition-all"
             >
               Start Free Trial Now
             </Button>
-            <p className="text-sm text-slate-600 mt-3">
+            <p className="text-sm text-muted-foreground mt-3">
               No credit card required • Cancel anytime
             </p>
           </div>

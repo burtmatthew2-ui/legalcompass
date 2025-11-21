@@ -144,7 +144,7 @@ const NotificationSettings = () => {
 
           <div className="space-y-6">
             {/* Communication Channels */}
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-card/80 backdrop-blur-sm">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <Mail className="w-5 h-5 text-primary" />
                 Communication Channels
@@ -174,7 +174,7 @@ const NotificationSettings = () => {
             </Card>
 
             {/* Notification Types */}
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-card/80 backdrop-blur-sm">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 text-primary" />
                 What to Notify Me About
@@ -235,7 +235,7 @@ const NotificationSettings = () => {
                       value={preferences.deadline_reminder_timing}
                       onValueChange={(value) => setPreferences({ ...preferences, deadline_reminder_timing: value })}
                     >
-                      <SelectTrigger id="timing" className="bg-white">
+                      <SelectTrigger id="timing" className="bg-background">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
