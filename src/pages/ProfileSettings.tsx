@@ -228,7 +228,7 @@ const ProfileSettings = () => {
                   {!emailVerified && (
                     <Button
                       onClick={handleSendEmailVerification}
-                      variant="outline"
+                      className="bg-primary text-white hover:bg-primary/90"
                     >
                       Verify Email
                     </Button>
@@ -266,7 +266,7 @@ const ProfileSettings = () => {
                     <Button
                       onClick={handleSendVerificationCode}
                       disabled={sendingCode || !phoneNumber}
-                      variant="outline"
+                      className="bg-primary text-white hover:bg-primary/90 min-w-[120px]"
                     >
                       {sendingCode ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -294,6 +294,7 @@ const ProfileSettings = () => {
                     <Button
                       onClick={handleVerifyCode}
                       disabled={verifyingCode || !verificationCode}
+                      className="bg-primary text-white hover:bg-primary/90"
                     >
                       {verifyingCode ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -324,7 +325,7 @@ const ProfileSettings = () => {
               <Button
                 onClick={handleSaveProfile}
                 disabled={saving || !fullName || !phoneNumber}
-                className="w-full"
+                className="w-full bg-primary text-white hover:bg-primary/90"
               >
                 {saving ? (
                   <>
