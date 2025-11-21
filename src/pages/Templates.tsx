@@ -24,7 +24,7 @@ const Templates = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Templates");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const { hasAccess, isLawyer, isSubscribed, freeTemplatesUsed, checkAccess, recordUsage } = useTemplateAccess();
+  const { hasAccess, isLawyer, isSubscribed, freeTemplatesRemaining, loading: accessLoading, checkAccess, recordUsage } = useTemplateAccess();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -219,7 +219,7 @@ const Templates = () => {
                   hasAccess={hasAccess}
                   isSubscribed={isSubscribed}
                   isLawyer={isLawyer}
-                  freeTemplatesUsed={freeTemplatesUsed}
+                  freeTemplatesRemaining={freeTemplatesRemaining}
                   onPreview={handlePreview}
                   onUpgrade={handleUpgrade}
                 />

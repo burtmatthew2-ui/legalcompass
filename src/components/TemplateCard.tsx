@@ -9,13 +9,13 @@ interface TemplateCardProps {
   hasAccess: boolean;
   isSubscribed: boolean;
   isLawyer: boolean;
-  freeTemplatesUsed: number;
+  freeTemplatesRemaining: number;
   onPreview: (template: Template) => void;
   onUpgrade: () => void;
 }
 
-export const TemplateCard = ({ template, hasAccess, isSubscribed, isLawyer, freeTemplatesUsed, onPreview, onUpgrade }: TemplateCardProps) => {
-  const canAccess = isSubscribed || isLawyer || freeTemplatesUsed < 1;
+export const TemplateCard = ({ template, hasAccess, isSubscribed, isLawyer, freeTemplatesRemaining, onPreview, onUpgrade }: TemplateCardProps) => {
+  const canAccess = isSubscribed || isLawyer || freeTemplatesRemaining > 0;
   const showLockIcon = !canAccess;
 
   const getTierIcon = (tier: string) => {
@@ -43,7 +43,7 @@ export const TemplateCard = ({ template, hasAccess, isSubscribed, isLawyer, free
           <Lock className="w-5 h-5 text-muted-foreground" />
         </div>
       )}
-      {!hasAccess && canAccess && freeTemplatesUsed < 1 && (
+      {!hasAccess && canAccess && freeTemplatesRemaining > 0 && (
         <div className="absolute top-2 left-2 z-10">
           <Badge variant="secondary" className="bg-green-100 text-green-700">
             Free Template Available
@@ -89,7 +89,7 @@ export const TemplateCard = ({ template, hasAccess, isSubscribed, isLawyer, free
             className="w-full"
           >
             <Lock className="w-4 h-4 mr-2" />
-            {freeTemplatesUsed >= 1 ? "Upgrade for More Templates" : "Sign In to Access"}
+            {freeTemplatesRemaining === 0 ? "Upgrade for More Templates" : "Sign In to Access"}
           </Button>
         )}
       </CardFooter>

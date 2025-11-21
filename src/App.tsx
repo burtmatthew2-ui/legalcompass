@@ -80,6 +80,8 @@ import CaseEstimator from "./pages/CaseEstimator";
 import ProfileSettings from "./pages/ProfileSettings";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
+import { PerformanceOptimizations } from "@/components/PerformanceOptimizations";
+
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -96,6 +98,7 @@ const App = () => {
   return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <PerformanceOptimizations />
       <Toaster />
       <Sonner />
       <ErrorBoundary>
