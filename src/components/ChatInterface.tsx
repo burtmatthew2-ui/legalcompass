@@ -81,18 +81,47 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ name: string; path: string }>>([]);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const lastMessageCountRef = useRef(0);
+  const userScrolledUpRef = useRef(false);
 
-  // Scroll to bottom when messages change or conversation loads
+  // Track if user has scrolled up
+  const handleScroll = () => {
+    if (!scrollAreaRef.current) return;
+    
+    const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+    userScrolledUpRef.current = !isNearBottom;
+  };
+
+  // Smart auto-scroll: only on new messages and when user is at bottom
   useEffect(() => {
-    if (scrollAreaRef.current && messages.length > 0) {
-      // Use setTimeout to ensure DOM has updated with new messages
-      setTimeout(() => {
-        if (scrollAreaRef.current) {
-          scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-        }
-      }, 100);
-    }
-  }, [messages.length, currentConversation?.id]);
+    if (!scrollAreaRef.current) return;
+    
+    // Only auto-scroll when a NEW message is added (not during streaming updates)
+    const messageCountChanged = messages.length !== lastMessageCountRef.current;
+    lastMessageCountRef.current = messages.length;
+    
+    if (!messageCountChanged) return;
+    
+    // Only auto-scroll if user hasn't scrolled up
+    if (userScrolledUpRef.current) return;
+    
+    // Smooth scroll to bottom
+    requestAnimationFrame(() => {
+      if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTo({
+          top: scrollAreaRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    });
+  }, [messages.length]);
+
+  // Reset scroll tracking when conversation changes
+  useEffect(() => {
+    userScrolledUpRef.current = false;
+    lastMessageCountRef.current = 0;
+  }, [currentConversation?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -327,7 +356,11 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-3 md:px-6 bg-background" ref={scrollAreaRef}>
+      <ScrollArea 
+        className="flex-1 px-3 md:px-6 bg-background" 
+        ref={scrollAreaRef}
+        onScroll={handleScroll}
+      >
         <div className="max-w-5xl mx-auto py-12 space-y-6">
           {messages.length === 0 ? (
             <div className="text-center py-20">
