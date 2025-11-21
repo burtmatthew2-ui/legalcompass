@@ -12,7 +12,7 @@ import { TrustBadges } from "@/components/TrustBadges";
 import { InstantDemoWidget } from "@/components/InstantDemoWidget";
 import { ExampleChatWidget } from "@/components/ExampleChatWidget";
 import { ComparisonTable } from "@/components/ComparisonTable";
-import { FAQ } from "@/components/FAQ";
+import { TrustReviews } from "@/components/TrustReviews";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 export const CollapsibleSections = () => {
@@ -60,68 +60,22 @@ export const CollapsibleSections = () => {
 
   return (
     <div className="w-full">
-      {/* Featured FAQ Section - Prominent and Always Visible */}
-      <section className="py-12 md:py-16 px-4 md:px-8 bg-card">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-foreground">
-            Everything You Need to Know About Legal Compass
-          </h2>
-          <p className="text-center text-lg text-muted-foreground mb-12">
-            Quick answers to common questions
-          </p>
-          <FAQ />
-        </div>
-      </section>
+      {/* Trust Reviews - Always Visible */}
+      <TrustReviews />
 
       {/* Collapsible Sections */}
-      <Section id="how-it-works" title="How It Works">
+      <Section id="how-it-works" title="How It Works" defaultOpen={true}>
         <HowItWorks />
       </Section>
 
-      <Section id="lawyer-matching" title="How Lawyer Matching Works">
-        <HowLawyerMatchingWorks />
-      </Section>
-
-      <Section id="why-lawyers" title="Why Lawyers Use Legal Compass">
-        <WhyLawyersUse />
-      </Section>
-
-      <Section id="mission" title="Our Mission">
-        <MissionStatement />
-      </Section>
-
-      <Section id="what-makes-different" title="What Makes Us Different">
-        <WhatMakesUsDifferent />
-      </Section>
-
-      <Section id="direction-finder" title="Legal Direction Finder">
-        <LegalDirectionFinder />
-      </Section>
-
-      <Section id="templates" title="Document Templates">
-        <DocumentHub />
-      </Section>
-
-      <Section id="local-help" title="Find Local Help">
-        <LocalHelpFinder />
-      </Section>
-
-      <Section id="trust" title="Trust & Security">
-        <TrustBadges />
+      <Section id="comparison" title="Compare Our Value">
+        <ComparisonTable />
       </Section>
 
       <Section id="demo" title="See It In Action">
         <div className="py-8 px-6">
           <InstantDemoWidget />
         </div>
-      </Section>
-
-      <Section id="example-chat" title="Example Conversation">
-        <ExampleChatWidget />
-      </Section>
-
-      <Section id="comparison" title="Compare Our Value">
-        <ComparisonTable />
       </Section>
     </div>
   );
