@@ -82,9 +82,14 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Set dark mode as default
+  // Set dark mode as default and ensure it persists
   useEffect(() => {
+    // Remove light class if it exists
+    document.documentElement.classList.remove('light');
+    // Add dark class
     document.documentElement.classList.add('dark');
+    // Store preference
+    localStorage.setItem('theme', 'dark');
   }, []);
 
   return (

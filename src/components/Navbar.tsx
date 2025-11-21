@@ -1,14 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Compass, LogIn, LogOut } from "lucide-react";
+import { Compass, LogIn, LogOut, Menu, LayoutDashboard, Settings } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import type { User } from "@/types/user";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
+import { useUserRole } from "@/hooks/useUserRole";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const { isAdmin } = useAdminStatus();
+  const { role } = useUserRole();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -84,15 +95,43 @@ export const Navbar = () => {
             </Button>
             
             {user ? (
-              <Button
-                onClick={handleSignOut}
-                variant="outline"
-                size="sm"
-                className="border-border hover:bg-muted"
-              >
-                <LogOut className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Sign Out</span>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-border hover:bg-muted"
+                  >
+                    <Menu className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => {
+                    if (role === "attorney") {
+                      navigate("/attorney-dashboard");
+                    } else if (role === "client") {
+                      navigate("/client-dashboard");
+                    } else {
+                      navigate("/dashboard");
+                    }
+                  }}>
+                    <LayoutDashboard className="w-4 h-4 mr-2" />
+                    Dashboard
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem onClick={() => navigate("/admin")}>
+                      <Settings className="w-4 h-4 mr-2" />
+                      Admin
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button
                 onClick={() => navigate("/auth")}
