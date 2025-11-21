@@ -186,7 +186,7 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary/5">
+                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-white font-semibold">
                   View Resources
                 </Button>
               </CardContent>
@@ -206,7 +206,7 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-white font-semibold">
                   View Pricing
                 </Button>
               </CardContent>
@@ -226,7 +226,7 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-white font-semibold">
                   Contact Support
                 </Button>
               </CardContent>
@@ -237,7 +237,7 @@ const Dashboard = () => {
           <div className="grid md:grid-cols-3 gap-4 mt-8">
             <Button
               variant="outline"
-              className="flex items-center gap-2 p-6 h-auto"
+              className="flex items-center gap-2 p-6 h-auto border-primary text-primary hover:bg-primary hover:text-white font-semibold"
               onClick={() => navigate("/security")}
             >
               <Shield className="w-5 h-5" />
@@ -246,7 +246,7 @@ const Dashboard = () => {
 
             <Button
               variant="outline"
-              className="flex items-center gap-2 p-6 h-auto"
+              className="flex items-center gap-2 p-6 h-auto border-primary text-primary hover:bg-primary hover:text-white font-semibold"
               onClick={() => navigate("/bookmarks")}
             >
               <FileText className="w-5 h-5" />
@@ -256,7 +256,7 @@ const Dashboard = () => {
             {isAdmin && (
               <Button
                 variant="outline"
-                className="flex items-center gap-2 p-6 h-auto"
+                className="flex items-center gap-2 p-6 h-auto border-primary text-primary hover:bg-primary hover:text-white font-semibold"
                 onClick={() => navigate("/admin")}
               >
                 <Settings className="w-5 h-5" />
