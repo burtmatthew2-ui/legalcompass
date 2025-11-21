@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Compass, LogIn, LogOut, Menu, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
+import { Compass, LogIn, LogOut, Menu, LayoutDashboard, Settings, User as UserIcon, UserCog } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -192,6 +192,17 @@ export const Navbar = () => {
                         <LayoutDashboard className="w-4 h-4 mr-2" />
                         Dashboard
                       </Button>
+                      <Button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          navigate("/profile-settings");
+                        }}
+                        variant="ghost"
+                        className="justify-start"
+                      >
+                        <UserCog className="w-4 h-4 mr-2" />
+                        Profile Settings
+                      </Button>
                       {isAdmin && (
                         <Button
                           onClick={() => {
@@ -238,6 +249,10 @@ export const Navbar = () => {
                   }}>
                     <LayoutDashboard className="w-4 h-4 mr-2" />
                     Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/profile-settings")}>
+                    <UserCog className="w-4 h-4 mr-2" />
+                    Profile Settings
                   </DropdownMenuItem>
                   {isAdmin && (
                     <DropdownMenuItem onClick={() => navigate("/admin")}>
