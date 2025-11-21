@@ -87,30 +87,30 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-slate-50 to-white">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
       
       <div className="flex-1 max-w-6xl mx-auto px-4 py-12 w-full">
         <div className="space-y-8">
           {/* Welcome Header */}
           <div className="text-center space-y-3">
-            <h1 className="text-4xl font-bold text-slate-900">
+            <h1 className="text-4xl font-bold text-foreground">
               Welcome Back{user?.email ? `, ${user.email.split('@')[0] || 'User'}` : ''}!
             </h1>
-            <p className="text-lg text-slate-600">
+            <p className="text-lg text-muted-foreground">
               Choose where you'd like to go
             </p>
           </div>
 
           {/* Legal Disclaimer */}
-          <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-6 max-w-3xl mx-auto">
+          <div className="bg-accent/10 border-2 border-accent/20 rounded-lg p-6 max-w-3xl mx-auto">
             <div className="flex items-start gap-3">
-              <Shield className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+              <Shield className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-bold text-amber-900 mb-2">Important Legal Notice</h3>
-                <p className="text-sm text-amber-800 leading-relaxed">
+                <h3 className="font-bold text-accent-foreground mb-2">Important Legal Notice</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   This platform provides legal information and research tools to help you understand legal issues. 
-                  <strong className="font-semibold"> This is not a substitute for a licensed attorney.</strong> For specific legal advice 
+                  <strong className="font-semibold text-foreground"> This is not a substitute for a licensed attorney.</strong> For specific legal advice 
                   about your situation, always consult with a qualified lawyer in your jurisdiction.
                 </p>
               </div>
@@ -120,14 +120,14 @@ const Dashboard = () => {
           {/* Main Navigation Cards */}
           <div className="grid md:grid-cols-2 gap-6 mt-8">
             <Card 
-              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary bg-card"
               onClick={() => navigate("/?chat=true")}
             >
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                   <MessageSquare className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Legal Research Chat</CardTitle>
+                <CardTitle className="text-2xl text-card-foreground">Legal Research Chat</CardTitle>
                 <CardDescription className="text-base">
                   Ask questions and get AI-powered legal research assistance
                 </CardDescription>
@@ -140,14 +140,14 @@ const Dashboard = () => {
             </Card>
 
             <Card 
-              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary bg-card"
               onClick={() => navigate("/resources")}
             >
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                   <BookOpen className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Legal Resources</CardTitle>
+                <CardTitle className="text-2xl text-card-foreground">Legal Resources</CardTitle>
                 <CardDescription className="text-base">
                   Browse articles and guides on common legal topics
                 </CardDescription>
@@ -160,14 +160,14 @@ const Dashboard = () => {
             </Card>
 
             <Card 
-              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary bg-card"
               onClick={() => navigate("/pricing")}
             >
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                   <CreditCard className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Subscription & Pricing</CardTitle>
+                <CardTitle className="text-2xl text-card-foreground">Subscription & Pricing</CardTitle>
                 <CardDescription className="text-base">
                   View plans and manage your subscription
                 </CardDescription>
@@ -180,14 +180,14 @@ const Dashboard = () => {
             </Card>
 
             <Card 
-              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-primary bg-card"
               onClick={() => navigate("/support")}
             >
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                   <MessageSquare className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Support</CardTitle>
+                <CardTitle className="text-2xl text-card-foreground">Support</CardTitle>
                 <CardDescription className="text-base">
                   Get help with your account or technical issues
                 </CardDescription>
@@ -237,7 +237,7 @@ const Dashboard = () => {
             <Button
               variant="outline"
               onClick={handleSignOut}
-              className="border-slate-300 hover:bg-slate-50"
+              className="border-border hover:bg-muted"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
