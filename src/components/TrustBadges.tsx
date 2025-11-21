@@ -1,4 +1,5 @@
 import { Shield, Lock, CheckCircle, Zap, Award, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const badges = [
   {
@@ -62,8 +63,9 @@ export const TrustBadges = () => {
           {badges.map((badge, index) => {
             const Icon = badge.icon;
             return (
-              <div 
-                key={index} 
+              <Link
+                key={index}
+                to={badge.title.includes("Security") || badge.title.includes("Attorney-Client") || badge.title.includes("Platform") ? "/security" : "#"}
                 className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border-2 border-slate-100 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 {/* Animated gradient background */}
@@ -86,7 +88,7 @@ export const TrustBadges = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

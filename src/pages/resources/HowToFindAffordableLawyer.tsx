@@ -61,7 +61,7 @@ const HowToFindAffordableLawyer = () => {
       <Navbar />
 
       <main className="flex-grow container mx-auto px-4 py-8">
-        <BreadcrumbNav items={breadcrumbItems} />
+        <BreadcrumbNav />
         
         <article className="max-w-4xl mx-auto">
           <header className="mb-8">

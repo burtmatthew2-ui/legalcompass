@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,6 +9,8 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { ReviewsSkeleton } from "./ReviewsSkeleton";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const reviews = [
   {
@@ -58,64 +60,108 @@ const reviews = [
 export const TrustReviews = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Generate structured data for reviews
+  const reviewsStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": reviews.map((review, index) => ({
+      "@type": "Review",
+      "position": index + 1,
+      "author": {
+        "@type": "Person",
+        "name": review.name,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": review.location
+        }
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.rating,
+        "bestRating": 5
+      },
+      "reviewBody": review.text,
+      "datePublished": new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    }))
+  };
 
   useEffect(() => {
     if (!api) return;
 
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 500);
+
     // Auto-play functionality
     const interval = setInterval(() => {
       api.scrollNext();
-    }, 5000); // Change slide every 5 seconds
+    }, 5000);
 
     // Update current slide
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer);
+    };
   }, [api]);
 
   return (
     <section className="py-8 md:py-12 px-4 md:px-8 bg-muted/20">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsStructuredData) }}
+      />
+      
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-foreground">
           See What Users Are Saying About Us
         </h2>
         
-        <Carousel
-          setApi={setApi}
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-4xl mx-auto"
-        >
-          <CarouselContent>
-            {reviews.map((review, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <Card className="bg-card border-border h-full animate-fade-in">
-                  <CardContent className="p-6 flex flex-col h-full">
-                    <div className="flex items-center gap-1 mb-3">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <p className="text-foreground mb-4 leading-relaxed flex-grow text-sm">
-                      "{review.text}"
-                    </p>
-                    <div className="border-t border-border pt-4 mt-auto">
-                      <p className="font-semibold text-foreground text-sm">{review.name}</p>
-                      <p className="text-xs text-muted-foreground">{review.location}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{review.date}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
-        </Carousel>
+        <ErrorBoundary>
+          {isLoading ? (
+            <ReviewsSkeleton />
+          ) : (
+            <Carousel
+              setApi={setApi}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full max-w-4xl mx-auto"
+            >
+              <CarouselContent>
+                {reviews.map((review, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <Card className="bg-card border-border h-full animate-fade-in">
+                      <CardContent className="p-6 flex flex-col h-full">
+                        <div className="flex items-center gap-1 mb-3">
+                          {[...Array(review.rating)].map((_, i) => (
+                            <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                        </div>
+                        <p className="text-foreground mb-4 leading-relaxed flex-grow text-sm">
+                          "{review.text}"
+                        </p>
+                        <div className="border-t border-border pt-4 mt-auto">
+                          <p className="font-semibold text-foreground text-sm">{review.name}</p>
+                          <p className="text-xs text-muted-foreground">{review.location}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{review.date}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex" />
+              <CarouselNext className="hidden md:flex" />
+            </Carousel>
+          )}
+        </ErrorBoundary>
 
         {/* Indicator Dots */}
         <div className="flex justify-center gap-2 mt-6">
