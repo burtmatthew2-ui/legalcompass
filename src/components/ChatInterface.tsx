@@ -280,7 +280,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="border-b border-slate-200 bg-white shadow-sm">
+      <div className="border-b border-border bg-card shadow-sm">
         <div className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-4">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
@@ -288,23 +288,23 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsSidebarOpen(true)}
-                className="hover:bg-slate-100 rounded-md shrink-0"
+                className="hover:bg-muted rounded-md shrink-0"
               >
-                <Menu className="w-5 h-5 text-slate-600" />
+                <Menu className="w-5 h-5 text-foreground" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={onBack}
-                className="hover:bg-slate-100 rounded-md shrink-0"
+                className="hover:bg-muted rounded-md shrink-0"
               >
-                <ArrowLeft className="w-5 h-5 text-slate-600" />
+                <ArrowLeft className="w-5 h-5 text-foreground" />
               </Button>
               <div className="min-w-0">
-                <h2 className="text-base md:text-xl font-semibold text-slate-900 truncate">
+                <h2 className="text-base md:text-xl font-semibold text-foreground truncate">
                   Legal Research Assistant
                 </h2>
-                <p className="text-xs text-slate-500 hidden sm:block">Professional AI-powered analysis</p>
+                <p className="text-xs text-muted-foreground hidden sm:block">Professional AI-powered analysis</p>
               </div>
             </div>
             <div className="flex gap-1 md:gap-2 items-center shrink-0">
@@ -327,7 +327,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                   onClick={() => navigate("/admin")}
                   variant="outline"
                   size="icon"
-                  className="border-slate-300 hover:bg-slate-50"
+                  className="border-border hover:bg-muted"
                 >
                   <Settings className="h-4 w-4" />
                 </Button>
@@ -336,23 +336,23 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                 onClick={handleSignOut}
                 variant="ghost"
                 size="icon"
-                className="hover:bg-slate-100 rounded-md"
+                className="hover:bg-muted rounded-md"
               >
-                <LogOut className="h-4 w-4 text-slate-600" />
+                <LogOut className="h-4 w-4 text-foreground" />
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-3 md:px-6 bg-slate-50" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 px-3 md:px-6 bg-background" ref={scrollAreaRef}>
         <div className="max-w-5xl mx-auto py-12 space-y-6">
           {messages.length === 0 ? (
             <div className="text-center py-20">
               <div className="mb-6 inline-flex items-center justify-center">
                 <Compass className="w-16 h-16 text-primary" />
               </div>
-              <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
                 Ask me anything about legal matters, and I'll research applicable laws and databases to help you discover insights and strategies.
               </p>
               <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3 max-w-3xl mx-auto">
@@ -365,7 +365,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
                   <button
                     key={i}
                     onClick={() => setInput(example)}
-                    className="p-4 text-left rounded-lg bg-white border border-slate-200 hover:border-primary hover:bg-slate-50 transition-all text-sm text-slate-700 shadow-sm"
+                    className="p-4 text-left rounded-lg bg-card border border-border hover:border-primary hover:bg-muted transition-all text-sm text-foreground shadow-sm"
                   >
                     "{example}"
                   </button>
@@ -378,15 +378,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
             ))
           )}
           {isLoading && (
-            <div className="flex items-center gap-4 p-5 rounded-lg bg-white border border-primary/30 shadow-sm">
+            <div className="flex items-center gap-4 p-5 rounded-lg bg-card border border-primary/30 shadow-sm">
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <span className="text-slate-700 font-medium">Researching legal databases and analyzing regulations...</span>
+              <span className="text-foreground font-medium">Researching legal databases and analyzing regulations...</span>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      <div className="border-t border-slate-200 bg-white shadow-lg">
+      <div className="border-t border-border bg-card shadow-lg">
         <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-5 space-y-3">
           <FileUpload 
             conversationId={currentConversation?.id || null}
@@ -407,13 +407,13 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about legal matters, regulations, or strategies..."
-              className="flex-1 bg-white border-slate-300 focus:border-primary text-base py-5 rounded-lg"
+              className="flex-1 bg-background border-border focus:border-primary text-base py-5 rounded-lg"
               disabled={isLoading}
             />
             <Button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-primary hover:bg-primary/90 text-white px-6 py-5 text-base font-semibold rounded-lg shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-5 text-base font-semibold rounded-lg shadow-sm"
             >
               <Send className="w-5 h-5" />
             </Button>
