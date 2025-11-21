@@ -32,7 +32,7 @@ export default function LLCFormationGuide() {
   return (
     <>
       <Helmet>
-        <title>How to Form an LLC: Complete Step-by-Step Guide 2025 | Legal Compass</title>
+        <title>Form an LLC: Step-by-Step Guide 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to LLC formation. Learn how to start an LLC, filing requirements, costs, operating agreements, and tax benefits. State-by-state instructions included." />
         <meta name="keywords" content="how to form an LLC, LLC formation, start an LLC, LLC benefits, LLC vs corporation, LLC operating agreement, LLC filing requirements" />
         <link rel="canonical" href="https://legalcompass.shop/resources/llc-formation-guide" />

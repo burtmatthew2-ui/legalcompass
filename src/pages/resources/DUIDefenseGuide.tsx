@@ -32,7 +32,7 @@ export default function DUIDefenseGuide() {
   return (
     <>
       <Helmet>
-        <title>DUI Defense Guide: Penalties, Process & How to Fight DUI Charges 2025 | Legal Compass</title>
+        <title>DUI Defense: Fight Charges & Penalties 2025 | Legal Compass</title>
         <meta name="description" content="Complete DUI defense guide. Learn about DUI penalties, arrest procedures, defenses, license suspension, and how to fight drunk driving charges. Updated 2025." />
         <meta name="keywords" content="DUI defense, DWI charges, drunk driving penalties, fight DUI, DUI lawyer, BAC limit, field sobriety test, DUI first offense" />
         <link rel="canonical" href="https://legalcompass.shop/resources/dui-defense-guide" />

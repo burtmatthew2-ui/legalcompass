@@ -32,7 +32,7 @@ export default function CustodyModificationGuide() {
   return (
     <>
       <Helmet>
-        <title>How to Modify Child Custody: Complete Guide 2025 | Legal Compass</title>
+        <title>Modify Child Custody: Complete 2025 Guide | Legal Compass</title>
         <meta name="description" content="Complete guide to modifying child custody orders. Learn when you can change custody, the legal process, required evidence, and how to win a custody modification case." />
         <meta name="keywords" content="modify custody, change custody order, custody modification, child custody change, modify visitation, material change in circumstances" />
         <link rel="canonical" href="https://legalcompass.shop/resources/custody-modification-guide" />
