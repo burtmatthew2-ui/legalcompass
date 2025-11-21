@@ -24,6 +24,7 @@ import { WhatMakesUsDifferent } from "@/components/WhatMakesUsDifferent";
 import { InternalLinks } from "@/components/InternalLinks";
 import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
+import { CollapsibleSections } from "@/components/CollapsibleSections";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -79,51 +80,8 @@ const Index = () => {
             <>
               <Hero onGetStarted={handleGetStarted} />
               
-              {/* How It Works Section */}
-              <div id="how-it-works">
-                <HowItWorks />
-              </div>
-              
-              {/* How Lawyer Matching Works */}
-              <HowLawyerMatchingWorks />
-              
-              {/* Why Lawyers Use LegalCompass */}
-              <WhyLawyersUse />
-              
-              {/* Mission Statement */}
-              <MissionStatement />
-              
-              {/* What Makes Us Different */}
-              <WhatMakesUsDifferent />
-              
-              {/* Legal Direction Finder - Interactive Quiz */}
-              <div id="direction-finder">
-                <LegalDirectionFinder />
-              </div>
-              
-              {/* Document Hub - Free Templates */}
-              <DocumentHub />
-              
-              {/* Local Help Finder */}
-              <div id="local-help">
-                <LocalHelpFinder />
-              </div>
-              
-              {/* Trust Badges */}
-              <TrustBadges />
-              
-              {/* Instant Demo Widget */}
-              <div className="py-12 px-6 bg-slate-50">
-                <InstantDemoWidget />
-              </div>
-              
-              {/* Example Chat */}
-              <ExampleChatWidget />
-              
-              {/* Comparison Table */}
-              <div id="comparison">
-                <ComparisonTable />
-              </div>
+              {/* Collapsible Sections */}
+              <CollapsibleSections />
             </>
           )}
         </main>
