@@ -112,7 +112,7 @@ export const ConversationSidebar = ({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="opacity-0 md:group-hover:opacity-100 md:opacity-0 opacity-100 transition-opacity flex-shrink-0 hover:bg-destructive/10 hover:text-destructive"
+                    className="flex-shrink-0 hover:bg-destructive/10 hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
                       setDeleteId(conv.id);
