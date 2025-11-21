@@ -75,15 +75,51 @@ serve(async (req) => {
         
         if (user) {
           const isActive = subscription.status === 'active';
-          logStep("Updating lawyer subscription status", { 
-            userId: user.id, 
-            isActive 
-          });
           
-          await supabaseClient
+          // Check if this is a lawyer subscription (has lawyer_payment_preferences record)
+          const { data: lawyerPref } = await supabaseClient
             .from('lawyer_payment_preferences')
-            .update({ is_subscribed: isActive })
-            .eq('lawyer_id', user.id);
+            .select('lawyer_id')
+            .eq('lawyer_id', user.id)
+            .maybeSingle();
+          
+          if (lawyerPref) {
+            // Update lawyer subscription
+            logStep("Updating lawyer subscription status", { 
+              userId: user.id, 
+              isActive 
+            });
+            
+            await supabaseClient
+              .from('lawyer_payment_preferences')
+              .update({ is_subscribed: isActive })
+              .eq('lawyer_id', user.id);
+          } else {
+            // Update individual user subscription
+            logStep("Updating user subscription status", { 
+              userId: user.id, 
+              isActive 
+            });
+            
+            const periodEnd = subscription.current_period_end 
+              ? new Date(subscription.current_period_end * 1000).toISOString()
+              : null;
+            
+            await supabaseClient
+              .from('user_subscriptions')
+              .upsert({
+                user_id: user.id,
+                stripe_customer_id: subscription.customer as string,
+                stripe_subscription_id: subscription.id,
+                status: isActive ? 'active' : subscription.status,
+                current_period_end: periodEnd,
+                current_period_start: subscription.current_period_start 
+                  ? new Date(subscription.current_period_start * 1000).toISOString()
+                  : null,
+              }, {
+                onConflict: 'user_id'
+              });
+          }
         }
       }
     }
@@ -98,12 +134,31 @@ serve(async (req) => {
         const user = userData.users.find(u => u.email === customer.email);
         
         if (user) {
-          logStep("Deactivating lawyer subscription", { userId: user.id });
-          
-          await supabaseClient
+          // Check if this is a lawyer subscription
+          const { data: lawyerPref } = await supabaseClient
             .from('lawyer_payment_preferences')
-            .update({ is_subscribed: false })
-            .eq('lawyer_id', user.id);
+            .select('lawyer_id')
+            .eq('lawyer_id', user.id)
+            .maybeSingle();
+          
+          if (lawyerPref) {
+            logStep("Deactivating lawyer subscription", { userId: user.id });
+            
+            await supabaseClient
+              .from('lawyer_payment_preferences')
+              .update({ is_subscribed: false })
+              .eq('lawyer_id', user.id);
+          } else {
+            logStep("Deactivating user subscription", { userId: user.id });
+            
+            await supabaseClient
+              .from('user_subscriptions')
+              .update({ 
+                status: 'canceled',
+                stripe_subscription_id: null
+              })
+              .eq('user_id', user.id);
+          }
         }
       }
     }
