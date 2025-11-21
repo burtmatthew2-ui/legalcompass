@@ -29,19 +29,17 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <button
             onClick={() => navigate("/")}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <Compass className="w-8 h-8 text-primary" />
-            <span className="text-xl font-bold text-slate-900">Legal Compass</span>
+            <span className="text-xl font-bold text-foreground">Legal Compass</span>
           </button>
 
-          {/* Navigation Links */}
           <div className="flex items-center gap-2 sm:gap-4">
             <Button
               onClick={() => {
@@ -52,35 +50,35 @@ export const Navbar = () => {
                 }
               }}
               variant="ghost"
-              className="hidden md:flex text-slate-700 hover:text-primary font-medium"
+              className="hidden md:flex text-muted-foreground hover:text-primary font-medium"
             >
               How It Works
             </Button>
             <Button
               onClick={() => navigate("/templates")}
               variant="ghost"
-              className="hidden sm:flex text-slate-700 hover:text-primary font-medium"
+              className="hidden sm:flex text-muted-foreground hover:text-primary font-medium"
             >
               Templates
             </Button>
             <Button
               onClick={() => navigate("/find-lawyers")}
               variant="ghost"
-              className="text-slate-700 hover:text-primary font-medium text-sm sm:text-base"
+              className="text-muted-foreground hover:text-primary font-medium text-sm sm:text-base"
             >
               Find Lawyers
             </Button>
             <Button
               onClick={() => navigate("/resources")}
               variant="ghost"
-              className="hidden lg:flex text-slate-700 hover:text-primary"
+              className="hidden lg:flex text-muted-foreground hover:text-primary"
             >
               Resources
             </Button>
             <Button
               onClick={() => navigate("/pricing")}
               variant="ghost"
-              className="hidden md:flex text-slate-700 hover:text-primary"
+              className="hidden md:flex text-muted-foreground hover:text-primary"
             >
               Pricing
             </Button>
@@ -90,7 +88,7 @@ export const Navbar = () => {
                 onClick={handleSignOut}
                 variant="outline"
                 size="sm"
-                className="border-slate-300 hover:bg-slate-50"
+                className="border-border hover:bg-muted"
               >
                 <LogOut className="w-4 h-4 sm:mr-2" />
                 <span className="hidden sm:inline">Sign Out</span>
@@ -99,7 +97,7 @@ export const Navbar = () => {
               <Button
                 onClick={() => navigate("/auth")}
                 size="sm"
-                className="bg-primary hover:bg-primary/90 text-white"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <LogIn className="w-4 h-4 sm:mr-2" />
                 <span className="hidden sm:inline">Sign In</span>
