@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "首页",
+    "faq": "常见问题",
+    "templates": "模板",
+    "resources": "法律资源",
+    "support": "支持",
+    "documentScanner": "文档扫描器",
+    "casePredictor": "案例预测器"
+  },
+  "hero": {
+    "title": "AI法律指导",
+    "subtitle": "通过我们的AI助手获得即时法律清晰度",
+    "cta": "开始免费试用"
+  },
+  "documentScanner": {
+    "title": "AI文档扫描器",
+    "subtitle": "即时上传和分析法律文件",
+    "uploadPrompt": "上传您的法律文件以进行AI分析",
+    "analyzing": "正在分析文档...",
+    "results": "分析结果"
+  },
+  "casePredictor": {
+    "title": "AI案例结果预测器",
+    "subtitle": "获取潜在案例结果的见解",
+    "caseType": "案件类型",
+    "jurisdiction": "管辖权",
+    "caseDetails": "案件详情",
+    "predict": "预测结果",
+    "predicting": "正在分析案件...",
+    "results": "预测结果"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "success": "成功",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑"
+  }
+}

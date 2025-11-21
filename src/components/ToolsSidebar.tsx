@@ -16,7 +16,9 @@ import {
   BookOpen,
   Download,
   Home,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  ScanSearch,
+  TrendingUp
 } from "lucide-react";
 
 export const ToolsSidebar = () => {
@@ -26,6 +28,8 @@ export const ToolsSidebar = () => {
   const tools = [
     { icon: Home, label: "Home", path: "/" },
     { icon: MessageCircleQuestion, label: "FAQ", path: "/faq" },
+    { icon: ScanSearch, label: "Document Scanner", path: "/document-scanner" },
+    { icon: TrendingUp, label: "Case Predictor", path: "/case-estimator" },
     { icon: Download, label: "Templates", path: "/templates" },
     { icon: BookOpen, label: "Legal Resources", path: "/resources" },
     { icon: FileText, label: "Support", path: "/support" },
