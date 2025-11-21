@@ -18,7 +18,7 @@ export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: 
   const [uploading, setUploading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
@@ -35,72 +35,20 @@ export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: 
       return;
     }
 
-    // Immediately add files to preview and notify parent
+    // Add files to preview
     setSelectedFiles(prev => [...prev, ...files]);
     
-    // If compact mode, immediately trigger upload and notify parent
+    // In compact mode, notify parent that files are selected (not uploaded yet)
+    // Actual upload happens when send button is pressed
     if (compact && onFileUploaded) {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error("Please sign in to upload files");
-        return;
-      }
-
-      for (const file of files) {
-        try {
-          const formData = new FormData();
-          formData.append('file', file);
-
-          const { data: validationResult, error: validationError } = await supabase.functions.invoke(
-            'validate-file-upload',
-            { body: formData }
-          );
-
-          if (validationError || !validationResult?.valid) {
-            toast.error(`${file.name}: ${validationResult?.error || "Validation failed"}`);
-            continue;
-          }
-
-          const sanitizedFilename = validationResult.sanitizedFilename || file.name;
-          const filePath = `${user.id}/${Date.now()}_${sanitizedFilename}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("legal-documents")
-            .upload(filePath, file);
-
-          if (uploadError) {
-            toast.error(`${file.name}: Upload failed`);
-            continue;
-          }
-
-          const { error: metadataError } = await supabase
-            .from("uploaded_documents")
-            .insert({
-              user_id: user.id,
-              conversation_id: conversationId,
-              file_name: sanitizedFilename,
-              file_path: filePath,
-              file_size: file.size,
-              mime_type: file.type,
-            });
-
-          if (metadataError) {
-            toast.error(`${file.name}: Metadata save failed`);
-            continue;
-          }
-
-          onFileUploaded({ name: sanitizedFilename, path: filePath });
-        } catch (error: any) {
-          console.error(`Upload error for ${file.name}:`, error);
-          toast.error(`${file.name}: ${error.message || "Upload failed"}`);
-        }
-      }
-      
-      // Clear selected files after upload in compact mode
-      setSelectedFiles([]);
-      // Reset the input
-      event.target.value = '';
+      files.forEach(file => {
+        // Create temp reference - actual upload happens on send
+        onFileUploaded({ name: file.name, path: `pending_${Date.now()}_${file.name}` });
+      });
     }
+    
+    // Reset input
+    event.target.value = '';
   };
 
   const handleUpload = async () => {

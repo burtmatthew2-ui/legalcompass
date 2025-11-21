@@ -14,6 +14,31 @@ export const PartnershipProposalGenerator = () => {
   const [partnerType, setPartnerType] = useState<"legal_aid" | "payment_processor" | "bar_association" | "law_school">("legal_aid");
   const [contactPerson, setContactPerson] = useState("");
   const [customDetails, setCustomDetails] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+
+  // Real email addresses for bar associations (you can expand this)
+  const barAssociationEmails: Record<string, string> = {
+    "american bar association": "service@americanbar.org",
+    "california state bar": "contactcenter@calbar.ca.gov",
+    "new york state bar": "info@nysba.org",
+    "texas state bar": "customerservice@texasbar.com",
+    "florida bar": "ethics@floridabar.org",
+    "illinois state bar": "isba@isba.org",
+    // Add more as needed
+  };
+
+  // Update email when partner name or type changes
+  const updateRecipientEmail = (name: string, type: string) => {
+    if (type === "bar_association" && name) {
+      const normalizedName = name.toLowerCase();
+      const matchedEmail = Object.entries(barAssociationEmails).find(([key]) => 
+        normalizedName.includes(key)
+      )?.[1];
+      setRecipientEmail(matchedEmail || "");
+    } else {
+      setRecipientEmail("");
+    }
+  };
 
   const proposalTemplates = {
     legal_aid: `Subject: Partnership Opportunity - Legal Compass x [Partner Name]
@@ -326,7 +351,10 @@ ${customDetails}`
               <Label>Partner Organization Name</Label>
               <Input
                 value={partnerName}
-                onChange={(e) => setPartnerName(e.target.value)}
+                onChange={(e) => {
+                  setPartnerName(e.target.value);
+                  updateRecipientEmail(e.target.value, partnerType);
+                }}
                 placeholder="Legal Aid Society of California"
               />
             </div>
@@ -338,6 +366,17 @@ ${customDetails}`
                 placeholder="Jane Smith, Executive Director"
               />
             </div>
+            {recipientEmail && (
+              <div className="col-span-2">
+                <Label>Recipient Email (Auto-detected)</Label>
+                <Input
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                  placeholder="email@organization.com"
+                  className="font-mono"
+                />
+              </div>
+            )}
             <div className="col-span-2">
               <Label>Additional Custom Details (Optional)</Label>
               <Textarea
