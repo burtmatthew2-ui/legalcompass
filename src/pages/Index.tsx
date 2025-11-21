@@ -26,16 +26,32 @@ import { Helmet } from "react-helmet";
 import type { User } from "@/types/user";
 import { CollapsibleSections } from "@/components/CollapsibleSections";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [showChat, setShowChat] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [profileCompleted, setProfileCompleted] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
+      
+      // Check profile completion status
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("profile_completed")
+          .eq("id", session.user.id)
+          .single();
+        
+        setProfileCompleted(profile?.profile_completed || false);
+      }
+      
       // Auto-show chat if user is logged in and chat param is set
       if (session?.user && searchParams.get('chat') === 'true') {
         setShowChat(true);
@@ -94,6 +110,25 @@ const Index = () => {
             <ChatInterface onBack={() => setShowChat(false)} />
           ) : (
             <>
+              {/* Profile Completion Alert */}
+              {user && !profileCompleted && (
+                <div className="max-w-7xl mx-auto px-4 pt-6">
+                  <Alert className="border-accent bg-accent/10">
+                    <AlertCircle className="h-4 w-4 text-accent" />
+                    <AlertDescription className="flex items-center justify-between flex-wrap gap-2">
+                      <span className="text-sm">Complete your profile to get the most out of Legal Compass</span>
+                      <Button
+                        onClick={() => navigate("/profile-settings")}
+                        size="sm"
+                        variant="default"
+                      >
+                        Complete Profile Here
+                      </Button>
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+              
               <Hero onGetStarted={handleGetStarted} />
               
               {/* Collapsible Sections */}
