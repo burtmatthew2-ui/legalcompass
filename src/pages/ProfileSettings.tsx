@@ -104,17 +104,25 @@ const ProfileSettings = () => {
 
     setSendingCode(true);
     try {
-      const { error } = await supabase.functions.invoke("send-phone-verification", {
+      const { data, error } = await supabase.functions.invoke("send-phone-verification", {
         body: { phoneNumber },
       });
 
       if (error) throw error;
 
       setShowVerificationInput(true);
-      toast.success("Verification code sent to your phone");
-    } catch (error) {
+      
+      // In dev mode, show the code to the user
+      if (data?.devCode) {
+        toast.success(`Dev Mode: Your verification code is ${data.devCode}`, {
+          duration: 10000,
+        });
+      } else {
+        toast.success("Verification code sent to your phone");
+      }
+    } catch (error: any) {
       console.error("Error sending verification code:", error);
-      toast.error("Failed to send verification code");
+      toast.error(error?.message || "Failed to send verification code");
     } finally {
       setSendingCode(false);
     }
@@ -128,25 +136,29 @@ const ProfileSettings = () => {
 
     setVerifyingCode(true);
     try {
-      const { error } = await supabase.functions.invoke("verify-phone-code", {
+      const { data, error } = await supabase.functions.invoke("verify-phone-code", {
         body: { code: verificationCode, phoneNumber },
       });
 
       if (error) throw error;
 
-      setPhoneVerified(true);
-      setShowVerificationInput(false);
-      setVerificationCode("");
-      toast.success("Phone number verified successfully");
-      
-      // Update profile with verified status
-      await supabase
-        .from("profiles")
-        .update({ phone_verified: true })
-        .eq("id", user.id);
-    } catch (error) {
+      if (data?.success) {
+        setPhoneVerified(true);
+        setShowVerificationInput(false);
+        setVerificationCode("");
+        toast.success("Phone number verified successfully");
+        
+        // Update profile with verified status
+        await supabase
+          .from("profiles")
+          .update({ phone_verified: true })
+          .eq("id", user.id);
+      } else {
+        throw new Error("Verification failed");
+      }
+    } catch (error: any) {
       console.error("Error verifying code:", error);
-      toast.error("Invalid verification code");
+      toast.error(error?.message || "Invalid verification code. Please try again.");
     } finally {
       setVerifyingCode(false);
     }
