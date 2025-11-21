@@ -18,7 +18,7 @@ export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: 
   const [uploading, setUploading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
@@ -35,16 +35,70 @@ export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: 
       return;
     }
 
-    // Add files to preview
-    setSelectedFiles(prev => [...prev, ...files]);
-    
-    // In compact mode, notify parent that files are selected (not uploaded yet)
-    // Actual upload happens when send button is pressed
-    if (compact && onFileUploaded) {
-      files.forEach(file => {
-        // Create temp reference - actual upload happens on send
-        onFileUploaded({ name: file.name, path: `pending_${Date.now()}_${file.name}` });
-      });
+    // In compact mode, upload files immediately
+    if (compact) {
+      setUploading(true);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("User not authenticated");
+
+        for (const file of files) {
+          try {
+            // Server-side validation
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const { data: validationResult, error: validationError } = await supabase.functions.invoke(
+              'validate-file-upload',
+              { body: formData }
+            );
+
+            if (validationError || !validationResult?.valid) {
+              toast.error(`${file.name}: ${validationResult?.error || "Validation failed"}`);
+              continue;
+            }
+
+            const sanitizedFilename = validationResult.sanitizedFilename || file.name;
+            const filePath = `${user.id}/${Date.now()}_${sanitizedFilename}`;
+
+            // Upload to storage
+            const { error: uploadError } = await supabase.storage
+              .from("legal-documents")
+              .upload(filePath, file);
+
+            if (uploadError) {
+              toast.error(`${file.name}: Upload failed`);
+              continue;
+            }
+
+            // Save metadata
+            await supabase
+              .from("uploaded_documents")
+              .insert({
+                user_id: user.id,
+                conversation_id: conversationId,
+                file_name: sanitizedFilename,
+                file_path: filePath,
+                file_size: file.size,
+                mime_type: file.type,
+              });
+
+            // Notify parent with real path
+            onFileUploaded?.({ name: sanitizedFilename, path: filePath });
+          } catch (error: any) {
+            console.error(`Upload error for ${file.name}:`, error);
+            toast.error(`${file.name}: ${error.message || "Upload failed"}`);
+          }
+        }
+      } catch (error: any) {
+        console.error("Upload error:", error);
+        toast.error(error.message || "Failed to upload files");
+      } finally {
+        setUploading(false);
+      }
+    } else {
+      // Non-compact mode: add to preview list
+      setSelectedFiles(prev => [...prev, ...files]);
     }
     
     // Reset input
@@ -147,11 +201,15 @@ export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: 
           variant="ghost"
           size="icon"
           onClick={() => document.getElementById("file-upload-compact")?.click()}
-          disabled={uploading || selectedFiles.length >= 10}
+          disabled={uploading}
           className="hover:bg-muted"
-          title={selectedFiles.length > 0 ? `${selectedFiles.length} file(s) selected` : 'Attach files'}
+          title={uploading ? 'Uploading...' : 'Attach files'}
         >
-          <Paperclip className="h-5 w-5 text-muted-foreground" />
+          {uploading ? (
+            <Loader2 className="h-5 w-5 text-muted-foreground animate-spin" />
+          ) : (
+            <Paperclip className="h-5 w-5 text-muted-foreground" />
+          )}
         </Button>
       </>
     );

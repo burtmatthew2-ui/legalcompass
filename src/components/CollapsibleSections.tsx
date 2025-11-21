@@ -63,24 +63,65 @@ export const CollapsibleSections = () => {
       {/* Trust Reviews - Always Visible */}
       <TrustReviews />
 
-      {/* Collapsible Sections - Lazy Load Content */}
-      <Section id="how-it-works" title="How It Works" defaultOpen={true}>
+      {/* Trust Badges */}
+      <Section id="trust-badges" title="Security & Trust">
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <TrustBadges />
+        </Suspense>
+      </Section>
+
+      {/* How It Works */}
+      <Section id="how-it-works" title="How It Works" defaultOpen={false}>
         <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
           <HowItWorks />
         </Suspense>
       </Section>
 
+      {/* Comparison Table */}
       <Section id="comparison" title="Compare Our Value">
         <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
           <ComparisonTable />
         </Suspense>
       </Section>
 
-      <Section id="demo" title="See It In Action">
+      {/* Demo Widget */}
+      <Section id="demo" title="Try Our AI Assistant">
         <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
           <div className="py-8 px-6">
             <InstantDemoWidget />
           </div>
+        </Suspense>
+      </Section>
+
+      {/* Example Chat */}
+      <Section id="example-chat" title="See Real Conversations">
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <ExampleChatWidget />
+        </Suspense>
+      </Section>
+
+      {/* Free Tools */}
+      <Section id="free-tools" title="Free Legal Tools">
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <LegalDirectionFinder />
+          <DocumentHub />
+          <LocalHelpFinder />
+        </Suspense>
+      </Section>
+
+      {/* For Lawyers */}
+      <Section id="for-lawyers" title="For Legal Professionals">
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <HowLawyerMatchingWorks />
+          <WhyLawyersUse />
+        </Suspense>
+      </Section>
+
+      {/* About Us */}
+      <Section id="about" title="About Legal Compass">
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <MissionStatement />
+          <WhatMakesUsDifferent />
         </Suspense>
       </Section>
     </div>
