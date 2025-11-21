@@ -6,7 +6,7 @@ interface TemplateAccessResult {
   hasAccess: boolean;
   isLawyer: boolean;
   isSubscribed: boolean;
-  freeTemplatesUsed: number;
+  freeTemplatesRemaining: number;
   loading: boolean;
   checkAccess: (templateId: string) => Promise<boolean>;
   recordUsage: (templateId: string) => Promise<void>;
@@ -16,7 +16,7 @@ export const useTemplateAccess = (): TemplateAccessResult => {
   const [hasAccess, setHasAccess] = useState(false);
   const [isLawyer, setIsLawyer] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [freeTemplatesUsed, setFreeTemplatesUsed] = useState(0);
+  const [freeTemplatesRemaining, setFreeTemplatesRemaining] = useState(1);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -26,7 +26,6 @@ export const useTemplateAccess = (): TemplateAccessResult => {
 
   const checkUserAccess = async () => {
     try {
-      setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
@@ -37,47 +36,43 @@ export const useTemplateAccess = (): TemplateAccessResult => {
       // Check if user is a lawyer
       const { data: lawyerProfile } = await supabase
         .from("lawyer_profiles")
-        .select("verified_status")
+        .select("id")
         .eq("user_id", user.id)
         .single();
 
-      if (lawyerProfile?.verified_status) {
-        setIsLawyer(true);
+      setIsLawyer(!!lawyerProfile);
+
+      // Check subscription status for both clients and lawyers
+      const { data: subscription } = await supabase
+        .from("user_subscriptions")
+        .select("status")
+        .eq("user_id", user.id)
+        .single();
+
+      const isActive = subscription?.status === "active";
+      setIsSubscribed(isActive);
+
+      // If subscribed (client or lawyer), they have unlimited access
+      if (isActive) {
         setHasAccess(true);
+        setFreeTemplatesRemaining(999); // Unlimited
         setLoading(false);
         return;
       }
 
-      // Check user subscription (for template access)
-      const { data: templateSubData } = await supabase.functions.invoke("check-template-subscription");
-      
-      if (!templateSubData?.error && templateSubData?.product_id) {
-        setIsSubscribed(true);
-        setHasAccess(true);
-        setLoading(false);
-        return;
-      }
-
-      // Check user subscription (for general Pro access)
-      const { data: subData } = await supabase.functions.invoke("check-subscription");
-      
-      if (!subData?.error && subData?.subscribed) {
-        setIsSubscribed(true);
-        setHasAccess(true);
-        setLoading(false);
-        return;
-      }
-
-      // Count free templates used
-      const { data: usageData, error: usageError } = await supabase
+      // Count template usage for free users (1 free template)
+      const { data: usageData, error } = await supabase
         .from("template_usage")
         .select("id")
         .eq("user_id", user.id);
 
-      if (!usageError && usageData) {
-        setFreeTemplatesUsed(usageData.length);
-      }
+      if (error) throw error;
 
+      const used = usageData?.length || 0;
+      const remaining = Math.max(0, 1 - used);
+      
+      setFreeTemplatesRemaining(remaining);
+      setHasAccess(remaining > 0);
       setLoading(false);
     } catch (error) {
       console.error("Error checking template access:", error);
@@ -86,53 +81,76 @@ export const useTemplateAccess = (): TemplateAccessResult => {
   };
 
   const checkAccess = async (templateId: string): Promise<boolean> => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to download templates.",
-        variant: "destructive",
-      });
-      return false;
-    }
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Sign in required",
+          description: "Please sign in to download templates",
+          variant: "destructive",
+        });
+        return false;
+      }
 
-    // Subscribed users or lawyers always have access
-    if (isSubscribed || isLawyer) {
+      // Subscribers have unlimited access
+      if (isSubscribed) {
+        return true;
+      }
+
+      // Check if already used this specific template
+      const { data: existingUsage } = await supabase
+        .from("template_usage")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("template_id", templateId)
+        .single();
+
+      if (existingUsage) {
+        return true; // Already downloaded this template
+      }
+
+      // Check total usage (1 free template)
+      const { data: usageData } = await supabase
+        .from("template_usage")
+        .select("id")
+        .eq("user_id", user.id);
+
+      const used = usageData?.length || 0;
+
+      if (used >= 1) {
+        toast({
+          title: "Free template used",
+          description: "Subscribe to get unlimited access to all templates",
+          variant: "destructive",
+        });
+        return false;
+      }
+
       return true;
-    }
-
-    // Free users get 1 free template
-    if (freeTemplatesUsed >= 1) {
-      toast({
-        title: "Free Limit Reached",
-        description: "You've used your free template. Upgrade to access unlimited templates.",
-        variant: "destructive",
-      });
+    } catch (error) {
+      console.error("Error checking template access:", error);
       return false;
     }
-
-    return true;
   };
 
   const recordUsage = async (templateId: string) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      
       if (!user) return;
 
-      // Only record usage for non-subscribed, non-lawyer users
-      if (!isSubscribed && !isLawyer) {
-        const { error } = await supabase
-          .from("template_usage")
-          .insert({
-            user_id: user.id,
-            template_id: templateId,
-          });
+      // Don't record usage for subscribers
+      if (isSubscribed) return;
 
-        if (!error) {
-          setFreeTemplatesUsed(prev => prev + 1);
-        }
-      }
+      await supabase.from("template_usage").insert({
+        user_id: user.id,
+        template_id: templateId,
+        downloaded_at: new Date().toISOString(),
+      });
+
+      // Refresh access status
+      await checkUserAccess();
     } catch (error) {
       console.error("Error recording template usage:", error);
     }
@@ -142,7 +160,7 @@ export const useTemplateAccess = (): TemplateAccessResult => {
     hasAccess,
     isLawyer,
     isSubscribed,
-    freeTemplatesUsed,
+    freeTemplatesRemaining,
     loading,
     checkAccess,
     recordUsage,

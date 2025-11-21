@@ -79,9 +79,9 @@ const ProfileSettings = () => {
         .from("profiles")
         .update({
           full_name: fullName,
-          phone_number: phoneNumber,
+          phone_number: phoneNumber || null,
           date_of_birth: dateOfBirth || null,
-          profile_completed: !!(fullName && phoneNumber && phoneVerified),
+          profile_completed: !!fullName,
         })
         .eq("id", user.id);
 
@@ -280,66 +280,26 @@ const ProfileSettings = () => {
               <div className="space-y-2">
                 <Label htmlFor="phoneNumber">
                   <Phone className="w-4 h-4 inline mr-2" />
-                  Phone Number
+                  Phone Number (Optional - Skip for now)
                   {phoneVerified ? (
                     <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />
                   ) : (
-                    <XCircle className="w-4 h-4 inline ml-2 text-destructive" />
+                    <XCircle className="w-4 h-4 inline ml-2 text-muted-foreground" />
                   )}
                 </Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="phoneNumber"
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="+1 (555) 123-4567"
-                    className="bg-background"
-                    disabled={phoneVerified}
-                  />
-                  {!phoneVerified && (
-                    <Button
-                      onClick={handleSendVerificationCode}
-                      disabled={sendingCode || !phoneNumber}
-                      className="bg-primary text-white hover:bg-primary/90 min-w-[120px]"
-                    >
-                      {sendingCode ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        "Send Code"
-                      )}
-                    </Button>
-                  )}
-                </div>
+                <Input
+                  id="phoneNumber"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="+1 (555) 123-4567"
+                  className="bg-background"
+                  disabled={phoneVerified}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Phone verification temporarily disabled. You can still save your profile.
+                </p>
               </div>
-
-              {/* Verification Code Input */}
-              {showVerificationInput && !phoneVerified && (
-                <div className="space-y-2">
-                  <Label htmlFor="verificationCode">Verification Code</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="verificationCode"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      placeholder="Enter 6-digit code"
-                      maxLength={6}
-                      className="bg-background"
-                    />
-                    <Button
-                      onClick={handleVerifyCode}
-                      disabled={verifyingCode || !verificationCode}
-                      className="bg-primary text-white hover:bg-primary/90"
-                    >
-                      {verifyingCode ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        "Verify"
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              )}
 
               {/* Date of Birth */}
               <div className="space-y-2">
@@ -386,7 +346,7 @@ const ProfileSettings = () => {
               {/* Save Button */}
               <Button
                 onClick={handleSaveProfile}
-                disabled={saving || !fullName || !phoneNumber}
+                disabled={saving || !fullName}
                 className="w-full bg-primary text-white hover:bg-primary/90"
               >
                 {saving ? (

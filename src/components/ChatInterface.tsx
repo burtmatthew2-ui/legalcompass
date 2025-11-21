@@ -157,7 +157,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     const upsertAssistant = (chunk: string) => {
       assistantContent += chunk;
       
-      // Debounce updates to prevent excessive re-renders
+      // Throttle updates to every 100ms for better performance
       if (updateTimeout) {
         clearTimeout(updateTimeout);
       }
@@ -170,7 +170,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
           }
           return [...prev, { role: "assistant", content: assistantContent }];
         });
-      }, 50); // Update every 50ms instead of every frame
+      }, 100);
     };
 
     try {
