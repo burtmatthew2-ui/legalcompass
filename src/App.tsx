@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -77,7 +78,13 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  // Set dark mode as default
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -160,6 +167,7 @@ const App = () => (
       </ErrorBoundary>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
