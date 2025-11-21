@@ -31,16 +31,6 @@ export const ToolsSidebar = () => {
     { icon: FileText, label: "Support", path: "/support" },
   ];
 
-  const handleNavigation = async (path: string, isHash: boolean) => {
-    setOpen(false);
-    
-    if (isHash) {
-      const element = document.querySelector(path.split('#')[1] ? `#${path.split('#')[1]}` : path);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
