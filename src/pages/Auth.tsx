@@ -55,21 +55,24 @@ const Auth = () => {
 
     checkSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        const { data: roleData } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", session.user.id)
-          .maybeSingle();
-        
-        if (roleData?.role === "attorney") {
-          navigate("/attorney-dashboard");
-        } else if (roleData?.role === "client") {
-          navigate("/client-dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        // Wrap async operations in setTimeout to prevent deadlock
+        setTimeout(async () => {
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+          
+          if (roleData?.role === "attorney") {
+            navigate("/attorney-dashboard");
+          } else if (roleData?.role === "client") {
+            navigate("/client-dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        }, 0);
       }
     });
 
