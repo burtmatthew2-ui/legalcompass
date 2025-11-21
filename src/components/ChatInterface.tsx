@@ -120,20 +120,20 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   // Reset scroll tracking and scroll to bottom when conversation changes
   useEffect(() => {
     userScrolledUpRef.current = false;
-    lastMessageCountRef.current = 0;
+    lastMessageCountRef.current = messages.length;
     
-    // Scroll to bottom when loading a conversation
+    // Scroll to bottom when loading a conversation - wait for messages to be fully loaded
     if (messages.length > 0 && scrollAreaRef.current) {
-      requestAnimationFrame(() => {
+      // Use setTimeout to ensure DOM has fully rendered all messages
+      const scrollTimer = setTimeout(() => {
         if (scrollAreaRef.current) {
-          scrollAreaRef.current.scrollTo({
-            top: scrollAreaRef.current.scrollHeight,
-            behavior: 'instant' // Instant for conversation changes
-          });
+          scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
         }
-      });
+      }, 100); // Small delay to ensure all messages are rendered
+      
+      return () => clearTimeout(scrollTimer);
     }
-  }, [currentConversation?.id, messages.length]);
+  }, [currentConversation?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
