@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2, CheckCircle, XCircle, Mail, Phone, Calendar, User as UserIcon } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Mail, Phone, Calendar, User as UserIcon, Moon, Sun } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 const ProfileSettings = () => {
   const navigate = useNavigate();
@@ -29,8 +30,14 @@ const ProfileSettings = () => {
   const [showVerificationInput, setShowVerificationInput] = useState(false);
   const [sendingCode, setSendingCode] = useState(false);
   const [verifyingCode, setVerifyingCode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
+    // Check theme preference
+    const storedTheme = localStorage.getItem('theme');
+    const isDark = storedTheme !== 'light';
+    setIsDarkMode(isDark);
+    
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -160,6 +167,22 @@ const ProfileSettings = () => {
       console.error("Error sending email verification:", error);
       toast.error("Failed to send verification email");
     }
+  };
+
+  const handleThemeToggle = (checked: boolean) => {
+    setIsDarkMode(checked);
+    
+    if (checked) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
+    
+    toast.success(`Switched to ${checked ? 'dark' : 'light'} mode`);
   };
 
   if (loading) {
@@ -319,6 +342,33 @@ const ProfileSettings = () => {
                   onChange={(e) => setDateOfBirth(e.target.value)}
                   className="bg-background"
                 />
+              </div>
+
+              {/* Theme Toggle */}
+              <div className="space-y-2">
+                <Label htmlFor="theme-toggle" className="flex items-center gap-2">
+                  {isDarkMode ? (
+                    <Moon className="w-4 h-4" />
+                  ) : (
+                    <Sun className="w-4 h-4" />
+                  )}
+                  Appearance
+                </Label>
+                <div className="flex items-center justify-between p-4 border-2 border-border rounded-lg bg-card">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium">
+                      {isDarkMode ? 'Dark Mode' : 'Light Mode'}
+                    </span>
+                  </div>
+                  <Switch
+                    id="theme-toggle"
+                    checked={isDarkMode}
+                    onCheckedChange={handleThemeToggle}
+                  />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Toggle between dark and light theme
+                </p>
               </div>
 
               {/* Save Button */}
