@@ -7,7 +7,7 @@ const ExpungeCriminalRecord = () => {
   return (
     <>
       <Helmet>
-        <title>How to Expunge a Criminal Record: State-by-State Guide 2025 | Legal Compass</title>
+        <title>Expunge Criminal Record: State Guide 2025 | Legal Compass</title>
         <meta 
           name="description" 
           content="Complete guide to expunging or sealing criminal records in 2025. Learn eligibility requirements, waiting periods, costs, and step-by-step process by state." 
