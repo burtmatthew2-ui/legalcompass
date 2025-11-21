@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import type { User, SubscriptionStatus } from "@/types/user";
 
 const PREMIUM_TIER = {
@@ -111,12 +112,43 @@ const Pricing = () => {
         <meta name="description" content="Try Legal Compass free with 3 questions. Then just $4.99/month for unlimited legal research across 80+ jurisdictions. 90% less than enterprise legal tools. Cancel anytime." />
         <meta name="keywords" content="legal research pricing, affordable legal tool, legal subscription, AI legal research cost, cheap legal research" />
         <link rel="canonical" href="https://legalcompass.shop/pricing" />
-        <meta property="og:title" content="Legal Compass Pricing - $4.99/month" />
-        <meta property="og:description" content="Professional legal research for everyone. 3 free questions, then $4.99/month." />
+        
+        <meta property="og:title" content="Legal Compass Pricing - $4.99/month (50% Off)" />
+        <meta property="og:description" content="Professional legal research for everyone. 3 free questions, then $4.99/month. 90% less than enterprise tools." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/pricing" />
+        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Legal Compass Pricing - $4.99/month" />
+        <meta name="twitter:description" content="Try free, then $4.99/month for unlimited legal research." />
+        <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Legal Compass Pro",
+            "description": "AI-powered legal research platform with unlimited access to legal information across 80+ jurisdictions",
+            "brand": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "4.99",
+              "priceCurrency": "USD",
+              "priceValidUntil": "2025-12-31",
+              "availability": "https://schema.org/InStock",
+              "url": "https://legalcompass.shop/pricing"
+            }
+          })}
+        </script>
       </Helmet>
       <div className="min-h-screen flex flex-col">
         <div className="flex-1 bg-gradient-to-br from-background via-background to-primary/5 py-12 px-4">
         <div className="max-w-6xl mx-auto">
+          <BreadcrumbNav />
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Try It Free, Then Subscribe

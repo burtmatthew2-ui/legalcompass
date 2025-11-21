@@ -3,14 +3,45 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { Compass, Shield, Users, BookOpen, Home, Scale, CheckCircle } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const About = () => {
   return (
     <>
       <Helmet>
         <title>About Legal Compass | AI-Powered Legal Research Platform</title>
-        <meta name="description" content="Learn about Legal Compass, an AI-powered legal research platform making professional legal information accessible to everyone. Our mission, how we work, and our commitment to privacy." />
+        <meta name="description" content="Legal Compass democratizes legal research with AI technology. Learn about our mission to make professional legal information accessible to everyone with complete privacy and confidentiality." />
+        <meta name="keywords" content="about legal compass, AI legal research, legal tech company, accessible legal information, legal research platform mission" />
         <link rel="canonical" href="https://legalcompass.shop/about" />
+        
+        <meta property="og:title" content="About Legal Compass - AI-Powered Legal Research for Everyone" />
+        <meta property="og:description" content="Making professional legal research accessible through AI technology. Learn our mission, how we work, and our privacy commitment." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/about" />
+        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Legal Compass - AI Legal Research Platform" />
+        <meta name="twitter:description" content="Making professional legal research accessible through AI technology." />
+        <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": "About Legal Compass",
+            "description": "Legal Compass is an AI-powered legal research platform making professional legal information accessible to everyone.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://legalcompass.shop/icon-512.png"
+              },
+              "sameAs": ["https://legalcompass.shop"]
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5">
@@ -29,6 +60,7 @@ const About = () => {
 
           {/* Hero Section */}
           <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
+            <BreadcrumbNav />
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center mb-4">
                 <Compass className="w-16 h-16 text-primary" />

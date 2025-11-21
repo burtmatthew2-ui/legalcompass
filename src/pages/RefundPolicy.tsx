@@ -3,20 +3,40 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 
 const RefundPolicy = () => {
   return (
     <>
       <Helmet>
         <title>No Refund Policy | Legal Compass - All Sales Final</title>
-        <meta name="description" content="Legal Compass refund policy. All sales are final. Learn about our no-refund policy, subscription cancellation, and billing terms." />
-        <meta name="keywords" content="refund policy, no refund, subscription cancellation, legal compass billing" />
+        <meta name="description" content="Legal Compass refund policy: All sales are final with no refunds. Learn about subscription cancellation, billing terms, and service agreement before purchasing." />
+        <meta name="keywords" content="refund policy, no refund, subscription cancellation, legal compass billing, all sales final" />
         <link rel="canonical" href="https://legalcompass.shop/refund-policy" />
+        
+        <meta property="og:title" content="Refund Policy - Legal Compass" />
+        <meta property="og:description" content="All sales are final. Learn about our no-refund policy and subscription terms." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/refund-policy" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Refund Policy",
+            "description": "Legal Compass refund policy and subscription terms",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
       </Helmet>
       
       <div className="min-h-screen flex flex-col">
       <div className="flex-1 bg-background">
         <div className="max-w-4xl mx-auto px-6 py-12">
+          <BreadcrumbNav />
           <Link to="/">
             <Button variant="ghost" className="mb-8">
               <ArrowLeft className="mr-2 h-4 w-4" />

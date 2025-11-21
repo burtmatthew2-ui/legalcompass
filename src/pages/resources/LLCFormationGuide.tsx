@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Building2, DollarSign, Shield, FileText, CheckCircle } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
@@ -70,6 +71,7 @@ export default function LLCFormationGuide() {
         <Navbar />
         
         <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+          <BreadcrumbNav />
           <Link to="/resources" className="inline-flex items-center text-primary hover:text-primary/80 mb-6 transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Resources

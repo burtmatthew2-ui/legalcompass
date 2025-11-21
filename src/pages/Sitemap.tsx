@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import { Home, FileText, Users, BookOpen, Shield, DollarSign } from "lucide-react";
 
 const Sitemap = () => {
@@ -109,15 +110,35 @@ const Sitemap = () => {
   return (
     <>
       <Helmet>
-        <title>Sitemap | Legal Compass - All Pages</title>
-        <meta name="description" content="Complete sitemap of Legal Compass featuring legal resources, guides, tools, and platform pages. Find what you're looking for quickly." />
+        <title>Sitemap | Legal Compass - Complete Site Directory</title>
+        <meta name="description" content="Complete sitemap of Legal Compass featuring 40+ legal resource guides covering tenant rights, traffic law, family law, employment law, business formation, and platform pages. Find any page quickly." />
+        <meta name="keywords" content="sitemap, site directory, legal resources, legal guides, page index" />
         <link rel="canonical" href="https://legalcompass.shop/sitemap" />
+        
+        <meta property="og:title" content="Sitemap - Complete Site Directory | Legal Compass" />
+        <meta property="og:description" content="Browse all pages on Legal Compass - 40+ legal guides, resources, and platform information." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://legalcompass.shop/sitemap" />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Sitemap",
+            "description": "Complete directory of all Legal Compass pages and resources",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Legal Compass"
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
         
         <main className="flex-1 max-w-7xl mx-auto px-4 py-12 w-full">
+          <BreadcrumbNav />
           <div className="mb-12 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               Sitemap
