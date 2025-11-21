@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import type { User } from "@/types/user";
-import { LanguageSelector } from "./LanguageSelector";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -42,7 +41,6 @@ export const Navbar = () => {
           </button>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <LanguageSelector />
             <Button
               onClick={() => {
                 if (window.location.pathname === '/') {
