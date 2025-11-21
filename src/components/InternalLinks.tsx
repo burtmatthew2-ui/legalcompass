@@ -55,7 +55,7 @@ export const InternalLinks = () => {
   ];
 
   return (
-    <section className="py-12 bg-slate-50 border-t border-border">
+    <section className="py-12 bg-secondary/30 border-t border-border">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
           Explore More Legal Resources
@@ -66,7 +66,7 @@ export const InternalLinks = () => {
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <section.icon className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold text-foreground">{section.title}</h3>
+                  <h3 className="font-bold text-lg text-foreground">{section.title}</h3>
                 </div>
                 <ul className="space-y-2">
                   {section.links.map((link) => (
