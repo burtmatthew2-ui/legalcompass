@@ -32,7 +32,7 @@ export default function HarassmentLawGuide() {
   return (
     <>
       <Helmet>
-        <title>What Constitutes Harassment: Legal Definition, Laws & Your Rights 2025 | Legal Compass</title>
+        <title>Harassment Laws & Your Rights 2025 | Legal Compass</title>
         <meta name="description" content="Complete guide to harassment laws. Learn what legally constitutes harassment, workplace harassment, police harassment, stalking laws, and how to stop harassment legally." />
         <meta name="keywords" content="what is harassment, harassment laws, police harassment, workplace harassment, stalking laws, sexual harassment, stop harassment legally" />
         <link rel="canonical" href="https://legalcompass.shop/resources/harassment-law-guide" />
