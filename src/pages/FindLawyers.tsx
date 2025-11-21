@@ -13,6 +13,9 @@ import { ConsultationRequestDialog } from "@/components/ConsultationRequestDialo
 import { LawyerProfileImage } from "@/components/LawyerProfileImage";
 import { Search, Star, MapPin, Briefcase, Award, Filter, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { ExitIntentCTA } from "@/components/ExitIntentCTA";
+import { SocialProof } from "@/components/SocialProof";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 
 interface LawyerProfile {
   id: string;
@@ -152,6 +155,16 @@ export default function FindLawyers() {
 
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "https://legalcompass.shop/" },
+        { name: "Find Lawyers", url: "https://legalcompass.shop/find-lawyers" }
+      ]} />
+      <ExitIntentCTA
+        title="Connect with the Right Attorney"
+        description="Browse 500+ verified attorneys across all 50 states. Filter by practice area, location, and ratings to find your perfect match."
+        ctaText="Browse Attorneys"
+        ctaLink="/find-lawyers"
+      />
       <Helmet>
         <title>Find Lawyers - Legal Compass</title>
         <meta name="description" content="Browse verified attorneys by practice area and location. Read reviews and request consultations with experienced lawyers." />
@@ -169,6 +182,11 @@ export default function FindLawyers() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Browse verified attorneys specializing in your legal needs. Compare experience, ratings, and request consultations.
             </p>
+          </div>
+
+          {/* Social Proof */}
+          <div className="mb-8">
+            <SocialProof variant="compact" />
           </div>
 
           {/* Search and Filters */}

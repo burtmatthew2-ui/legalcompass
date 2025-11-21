@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Hero } from "@/components/Hero";
 import { ChatInterface } from "@/components/ChatInterface";
@@ -29,15 +29,19 @@ import { FloatingCTA } from "@/components/FloatingCTA";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
+import { OrganizationSchema, WebSiteSchema, LegalServiceSchema } from "@/components/StructuredData";
 
 const Index = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [showChat, setShowChat] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [profileCompleted, setProfileCompleted] = useState(true);
 
   useEffect(() => {
+    // Check for URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    const chatParam = urlParams.get('chat');
+    
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
       
@@ -53,7 +57,7 @@ const Index = () => {
       }
       
       // Auto-show chat if user is logged in and chat param is set
-      if (session?.user && searchParams.get('chat') === 'true') {
+      if (session?.user && chatParam === 'true') {
         setShowChat(true);
       }
     });
@@ -63,7 +67,7 @@ const Index = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [searchParams]);
+  }, []);
 
   const handleGetStarted = () => {
     if (!user) {
@@ -75,6 +79,9 @@ const Index = () => {
 
   return (
     <ErrorBoundary>
+      <OrganizationSchema />
+      <WebSiteSchema />
+      <LegalServiceSchema />
       <Helmet>
         <title>Legal Compass - Free AI Legal Consultation | Connect with Verified Attorneys</title>
         <meta name="description" content="Get free AI-powered legal guidance instantly. Ask questions, analyze your case, and connect with verified attorneys. Start your free consultation - no credit card required." />

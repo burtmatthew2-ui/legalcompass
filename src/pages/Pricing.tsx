@@ -9,6 +9,9 @@ import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
 import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import type { User, SubscriptionStatus } from "@/types/user";
+import { ExitIntentCTA } from "@/components/ExitIntentCTA";
+import { SocialProof } from "@/components/SocialProof";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 
 const PREMIUM_TIER = {
   name: "Legal Compass Pro",
@@ -107,6 +110,16 @@ const Pricing = () => {
 
   return (
     <>
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "https://legalcompass.shop/" },
+        { name: "Pricing", url: "https://legalcompass.shop/pricing" }
+      ]} />
+      <ExitIntentCTA
+        title="Wait! Get 3 Free Questions"
+        description="Try Legal Compass free with no credit card required. Get instant AI legal guidance for your first 3 questions."
+        ctaText="Start Free Trial"
+        ctaLink="/auth"
+      />
       <Helmet>
         <title>Pricing - Legal Compass | $4.99/month (50% Off) | 3 Free Questions</title>
         <meta name="description" content="Try Legal Compass free with 3 questions. Then just $4.99/month for unlimited legal research across 80+ jurisdictions. 90% less than enterprise legal tools. Cancel anytime." />
@@ -153,9 +166,13 @@ const Pricing = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Try It Free, Then Subscribe
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Get 3 professional legal research questions absolutely free. Then continue with unlimited access for just <span className="line-through text-muted-foreground/60">{PREMIUM_TIER.originalPrice}</span> <span className="font-bold text-accent">{PREMIUM_TIER.price}/month</span> (50% off!)—90% less than enterprise legal tools.
             </p>
+            
+            {/* Social Proof */}
+            <SocialProof variant="compact" />
+            
             {currentSubscription?.subscribed && (
               <div className="mt-4 space-y-2">
                 <p className="text-sm text-muted-foreground">

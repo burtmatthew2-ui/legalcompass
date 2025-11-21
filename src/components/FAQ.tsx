@@ -32,6 +32,8 @@ const faqs = [
   }
 ];
 
+export { faqs };
+
 export const FAQ = () => {
   return (
     <div className="py-8 md:py-16 px-6 bg-card/30">

@@ -17,20 +17,47 @@ export const PerformanceOptimizations = () => {
       document.head.appendChild(link);
     });
 
-    // Lazy load images
-    if ("loading" in HTMLImageElement.prototype) {
-      const images = document.querySelectorAll('img[data-src]');
-      images.forEach((img) => {
-        const imgElement = img as HTMLImageElement;
-        imgElement.src = imgElement.dataset.src || "";
+    // Native lazy loading for all images
+    const images = document.querySelectorAll('img:not([loading])');
+    images.forEach((img) => {
+      const imgElement = img as HTMLImageElement;
+      // Add native lazy loading if not already present
+      if (!imgElement.hasAttribute('loading')) {
+        imgElement.setAttribute('loading', 'lazy');
+      }
+      // Add decoding async for better performance
+      if (!imgElement.hasAttribute('decoding')) {
+        imgElement.setAttribute('decoding', 'async');
+      }
+    });
+
+    // Observer for dynamically added images
+    const imageObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof HTMLImageElement) {
+            node.setAttribute('loading', 'lazy');
+            node.setAttribute('decoding', 'async');
+          }
+        });
       });
-    } else {
-      // Fallback for browsers that don't support lazy loading
-      const script = document.createElement("script");
-      script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js";
-      document.body.appendChild(script);
+    });
+
+    imageObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Service worker registration failed - not critical
+      });
     }
+
+    return () => {
+      imageObserver.disconnect();
+    };
   }, []);
 
   return (
@@ -42,6 +69,10 @@ export const PerformanceOptimizations = () => {
       {/* DNS prefetch for faster resource loading */}
       <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+      {/* Resource hints for critical assets */}
+      <link rel="prefetch" href="/icon-192.png" />
+      <link rel="prefetch" href="/icon-512.png" />
     </Helmet>
   );
 };
