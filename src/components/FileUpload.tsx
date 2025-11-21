@@ -3,15 +3,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Upload, X, FileText, Loader2 } from "lucide-react";
+import { Paperclip, X, FileText, Loader2, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
 interface FileUploadProps {
   conversationId: string | null;
   onFileUploaded?: (file: { name: string; path: string }) => void;
+  compact?: boolean;
 }
 
-export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) => {
+export const FileUpload = ({ conversationId, onFileUploaded, compact = false }: FileUploadProps) => {
   const { subscription } = useSubscription();
   const navigate = useNavigate();
   const [uploading, setUploading] = useState(false);
@@ -123,6 +124,32 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  if (compact) {
+    return (
+      <>
+        <input
+          type="file"
+          id="file-upload-compact"
+          className="hidden"
+          onChange={handleFileSelect}
+          accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.heic,.webp"
+          multiple
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={() => document.getElementById("file-upload-compact")?.click()}
+          disabled={uploading || selectedFiles.length >= 10}
+          className="hover:bg-muted"
+          title={selectedFiles.length > 0 ? `${selectedFiles.length} file(s) selected` : 'Attach files'}
+        >
+          <Paperclip className="h-5 w-5 text-muted-foreground" />
+        </Button>
+      </>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <div className="relative">
@@ -142,7 +169,7 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
             onClick={() => document.getElementById("file-upload")?.click()}
             disabled={uploading || selectedFiles.length >= 10}
           >
-            <Upload className="h-4 w-4 mr-2" />
+            <Paperclip className="h-4 w-4 mr-2" />
             {selectedFiles.length > 0 ? `Add More (${selectedFiles.length}/10)` : 'Upload Documents'}
           </Button>
         </label>
@@ -153,11 +180,14 @@ export const FileUpload = ({ conversationId, onFileUploaded }: FileUploadProps) 
           {selectedFiles.map((file, index) => (
             <div key={index} className="flex items-center gap-2 p-3 bg-muted rounded-lg">
               {file.type.startsWith('image/') ? (
-                <img 
-                  src={URL.createObjectURL(file)} 
-                  alt={file.name}
-                  className="h-12 w-12 object-cover rounded"
-                />
+                <div className="relative h-12 w-12 flex-shrink-0">
+                  <img 
+                    src={URL.createObjectURL(file)} 
+                    alt={file.name}
+                    className="h-full w-full object-cover rounded"
+                  />
+                  <ImageIcon className="absolute top-0 right-0 h-4 w-4 text-primary bg-background rounded-full p-0.5" />
+                </div>
               ) : (
                 <FileText className="h-5 w-5 text-primary flex-shrink-0" />
               )}
