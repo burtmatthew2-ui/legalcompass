@@ -20,6 +20,7 @@ import { UploadedFilePreview } from "./UploadedFilePreview";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useQuestionUsage } from "@/hooks/useQuestionUsage";
 import { SubscriptionDialog } from "./SubscriptionDialog";
+import { logger } from "@/utils/logger";
 import type { User } from "@/types/user";
 
 interface Message {
@@ -196,6 +197,14 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
           setIsLoading(false);
         },
         onError: (error) => {
+          logger.error("Chat stream error", new Error(error), {
+            userId: user?.id,
+            conversationId,
+            hasSubscription: subscription?.subscribed,
+            remainingQuestions: remainingFreeQuestions,
+            errorType: error === "TRIAL_EXHAUSTED" ? "trial_exhausted" : "stream_error"
+          });
+          
           // Handle free trial exhaustion with clean dialog
           if (error === "TRIAL_EXHAUSTED") {
             setIsLoading(false);
@@ -212,6 +221,12 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         },
       });
     } catch (error) {
+      logger.error("Chat submit error", error, {
+        userId: user?.id,
+        conversationId,
+        messageLength: userMessage?.length,
+        hasFiles: uploadedFiles.length > 0
+      });
       sonnerToast.error("Failed to get response. Please try again.");
       setIsLoading(false);
       setMessages(prev => prev.slice(0, -1));

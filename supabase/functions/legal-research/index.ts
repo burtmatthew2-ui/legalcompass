@@ -461,22 +461,36 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
       },
     });
   } catch (error) {
-    console.error('Error in legal-research function:', error);
+    console.error('[LEGAL-RESEARCH] Critical error:', {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString(),
+    });
     
     // Sanitize error message for client
     let userMessage = 'An internal error occurred while processing your request';
+    let statusCode = 500;
+    
     if (error instanceof Error) {
       if (error.message.toLowerCase().includes('unauthorized') || error.message.toLowerCase().includes('not authenticated')) {
         userMessage = 'Authentication required';
+        statusCode = 401;
       } else if (error.message.toLowerCase().includes('usage limit')) {
         userMessage = error.message; // Usage limit messages are safe to show
+        statusCode = 403;
+      } else if (error.message.toLowerCase().includes('validation')) {
+        userMessage = error.message;
+        statusCode = 400;
       }
     }
     
     return new Response(
-      JSON.stringify({ error: userMessage }),
+      JSON.stringify({ 
+        error: userMessage,
+        timestamp: new Date().toISOString()
+      }),
       {
-        status: 500,
+        status: statusCode,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );

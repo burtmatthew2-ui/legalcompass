@@ -16,7 +16,7 @@ export async function streamLegalResearch({
   onDone: () => void;
   onError?: (error: string) => void;
 }) {
-  logger.log("🚀 Starting stream with", messages.length, "messages");
+  logger.log("🚀 Starting stream", { messageCount: messages.length });
   let hasReceivedContent = false;
   
   try {
@@ -34,7 +34,7 @@ export async function streamLegalResearch({
     if (!data) throw new Error("No response from server");
 
     const response = data as Response;
-    logger.log("📡 Response status:", response.status);
+    logger.log("📡 Response status", { status: response.status });
     
     if (!response.ok) {
       if (response.status === 403) {
@@ -76,7 +76,7 @@ export async function streamLegalResearch({
       try {
         const { done, value } = await reader.read();
         if (done) {
-          logger.log("✅ Stream completed, received", chunkCount, "chunks");
+          logger.log("✅ Stream completed", { chunkCount });
           flushBuffer(); // Flush any remaining content
           break;
         }
@@ -151,7 +151,7 @@ export async function streamLegalResearch({
       }
     }
 
-    logger.log("✨ Stream processing complete, content received:", hasReceivedContent);
+    logger.log("✨ Stream processing complete", { hasReceivedContent });
     onDone();
     
   } catch (error) {
