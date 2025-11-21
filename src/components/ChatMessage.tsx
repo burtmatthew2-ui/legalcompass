@@ -14,14 +14,22 @@ interface ChatMessageProps {
 const ChatMessageComponent = ({ message }: ChatMessageProps) => {
   const isUser = message.role === "user";
 
-  // Split content into smaller chunks for progressive rendering
+  // Optimize rendering for mobile performance
+  const shouldChunk = useMemo(() => {
+    return !isUser && message.content.length > 2000;
+  }, [message.content.length, isUser]);
+
   const contentChunks = useMemo(() => {
-    if (isUser) return [message.content];
+    if (isUser || !shouldChunk) return [message.content];
     
-    // Split by paragraphs but keep related content together
-    const paragraphs = message.content.split('\n\n');
-    return paragraphs.map(p => p.trim()).filter(Boolean);
-  }, [message.content, isUser]);
+    // Only chunk very long messages to prevent mobile freeze
+    const chunkSize = 1000;
+    const chunks: string[] = [];
+    for (let i = 0; i < message.content.length; i += chunkSize) {
+      chunks.push(message.content.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }, [message.content, isUser, shouldChunk]);
 
   return (
     <div className={`flex gap-6 ${isUser ? "justify-end" : "justify-start"} animate-fade-in will-change-transform`}>
@@ -44,15 +52,15 @@ const ChatMessageComponent = ({ message }: ChatMessageProps) => {
         }}
       >
         <div className="prose prose-invert max-w-none break-words [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-2xl [&>h2]:text-xl [&>h3]:text-lg [&>pre]:overflow-x-auto [&>pre]:max-w-full">
-          {isUser ? (
-            <ReactMarkdown>{message.content}</ReactMarkdown>
-          ) : (
-            // Render chunks progressively to prevent freeze
+          {shouldChunk ? (
+            // Chunk only very long messages to prevent mobile freeze
             contentChunks.map((chunk, idx) => (
-              <div key={idx} style={{ contain: 'layout' }}>
+              <div key={idx} style={{ contain: 'content' }}>
                 <ReactMarkdown>{chunk}</ReactMarkdown>
               </div>
             ))
+          ) : (
+            <ReactMarkdown>{message.content}</ReactMarkdown>
           )}
         </div>
       </div>
