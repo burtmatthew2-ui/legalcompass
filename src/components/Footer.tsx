@@ -1,10 +1,33 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import { Shield, BookOpen, Scale, Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Shield, BookOpen, Scale, Lock, ArrowRight } from "lucide-react";
 
 export const Footer = () => {
   return (
     <footer className="bg-card/30 backdrop-blur-xl border-t border-border/50 mt-20">
+      {/* CTA Banner Above Footer */}
+      <div className="bg-primary/10 border-b border-primary/20">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+                Ready to Get Legal Clarity?
+              </h3>
+              <p className="text-muted-foreground">
+                Start with 3 free questions. No credit card required.
+              </p>
+            </div>
+            <Button asChild size="lg" className="whitespace-nowrap">
+              <Link to="/get-started">
+                Start Free Trial
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>

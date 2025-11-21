@@ -2,109 +2,151 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://legalcompass.shop/</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://legalcompass.shop/sitemap</loc>
-    <lastmod>2025-11-16</lastmod>
+    <loc>https://legalcompass.shop/faq</loc>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://legalcompass.shop/sitemap</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://legalcompass.shop/templates</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://legalcompass.shop/pricing</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/about</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://legalcompass.shop/get-started</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://legalcompass.shop/support</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/security</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/privacy-policy</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/terms-of-service</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/refund-policy</loc>
-    <lastmod>2025-10-30</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://legalcompass.shop/resources/how-to-find-affordable-lawyer</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://legalcompass.shop/resources/lawyer-client-acquisition</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://legalcompass.shop/resources/best-legal-lead-services</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://legalcompass.shop/resources/solo-attorney-growth</loc>
+    <lastmod>2025-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://legalcompass.shop/resources/tenant-rights-california</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/tenant-rights-new-york</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/tenant-rights-texas</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/tenant-rights-florida</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/fight-speeding-ticket-california</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/fight-speeding-ticket-texas</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/fight-speeding-ticket-new-york</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://legalcompass.shop/resources/small-claims-court-process</loc>
-    <lastmod>2025-11-16</lastmod>
+    <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

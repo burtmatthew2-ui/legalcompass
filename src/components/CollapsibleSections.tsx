@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { ChevronDown } from "lucide-react";
 import { HowItWorks } from "@/components/HowItWorks";
 import { LegalDirectionFinder } from "@/components/LegalDirectionFinder";
@@ -63,19 +63,25 @@ export const CollapsibleSections = () => {
       {/* Trust Reviews - Always Visible */}
       <TrustReviews />
 
-      {/* Collapsible Sections */}
+      {/* Collapsible Sections - Lazy Load Content */}
       <Section id="how-it-works" title="How It Works" defaultOpen={true}>
-        <HowItWorks />
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <HowItWorks />
+        </Suspense>
       </Section>
 
       <Section id="comparison" title="Compare Our Value">
-        <ComparisonTable />
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <ComparisonTable />
+        </Suspense>
       </Section>
 
       <Section id="demo" title="See It In Action">
-        <div className="py-8 px-6">
-          <InstantDemoWidget />
-        </div>
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading...</div>}>
+          <div className="py-8 px-6">
+            <InstantDemoWidget />
+          </div>
+        </Suspense>
       </Section>
     </div>
   );
