@@ -14,22 +14,8 @@ interface ChatMessageProps {
 const ChatMessageComponent = ({ message }: ChatMessageProps) => {
   const isUser = message.role === "user";
 
-  // Optimize rendering for mobile performance
-  const shouldChunk = useMemo(() => {
-    return !isUser && message.content.length > 2000;
-  }, [message.content.length, isUser]);
-
-  const contentChunks = useMemo(() => {
-    if (isUser || !shouldChunk) return [message.content];
-    
-    // Only chunk very long messages to prevent mobile freeze
-    const chunkSize = 1000;
-    const chunks: string[] = [];
-    for (let i = 0; i < message.content.length; i += chunkSize) {
-      chunks.push(message.content.slice(i, i + chunkSize));
-    }
-    return chunks;
-  }, [message.content, isUser, shouldChunk]);
+  // Simple rendering without chunking - React handles this efficiently
+  const content = useMemo(() => message.content, [message.content]);
 
   return (
     <div className={`flex gap-6 ${isUser ? "justify-end" : "justify-start"} animate-fade-in will-change-transform`}>
@@ -52,16 +38,7 @@ const ChatMessageComponent = ({ message }: ChatMessageProps) => {
         }}
       >
         <div className="prose prose-invert max-w-none break-words [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-2xl [&>h2]:text-xl [&>h3]:text-lg [&>pre]:overflow-x-auto [&>pre]:max-w-full">
-          {shouldChunk ? (
-            // Chunk only very long messages to prevent mobile freeze
-            contentChunks.map((chunk, idx) => (
-              <div key={idx} style={{ contain: 'content' }}>
-                <ReactMarkdown>{chunk}</ReactMarkdown>
-              </div>
-            ))
-          ) : (
-            <ReactMarkdown>{message.content}</ReactMarkdown>
-          )}
+          <ReactMarkdown>{content}</ReactMarkdown>
         </div>
       </div>
 

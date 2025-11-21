@@ -84,17 +84,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
 
   // Scroll to bottom when messages change or conversation loads
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const scrollToBottom = () => {
-        requestAnimationFrame(() => {
-          if (scrollAreaRef.current) {
-            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-          }
-        });
-      };
-      scrollToBottom();
+    if (scrollAreaRef.current && messages.length > 0) {
+      // Use setTimeout to ensure DOM has updated with new messages
+      setTimeout(() => {
+        if (scrollAreaRef.current) {
+          scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+        }
+      }, 100);
     }
-  }, [messages, currentConversation?.id]);
+  }, [messages.length, currentConversation?.id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,32 +152,25 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     setIsLoading(true);
 
     let assistantContent = "";
-    let rafId: number | null = null;
-    let pendingUpdate = false;
+    let updateTimeout: NodeJS.Timeout | null = null;
     
     const upsertAssistant = (chunk: string) => {
       assistantContent += chunk;
       
-      // Use requestAnimationFrame for smoother updates, prevent multiple frames queued
-      if (!pendingUpdate) {
-        pendingUpdate = true;
-        
-        if (rafId !== null) {
-          cancelAnimationFrame(rafId);
-        }
-        
-        rafId = requestAnimationFrame(() => {
-          setMessages((prev) => {
-            const last = prev[prev.length - 1];
-            if (last?.role === "assistant") {
-              // Efficiently update only the last message
-              return [...prev.slice(0, -1), { role: "assistant", content: assistantContent }];
-            }
-            return [...prev, { role: "assistant", content: assistantContent }];
-          });
-          pendingUpdate = false;
-        });
+      // Debounce updates to prevent excessive re-renders
+      if (updateTimeout) {
+        clearTimeout(updateTimeout);
       }
+      
+      updateTimeout = setTimeout(() => {
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "assistant") {
+            return [...prev.slice(0, -1), { role: "assistant", content: assistantContent }];
+          }
+          return [...prev, { role: "assistant", content: assistantContent }];
+        });
+      }, 50); // Update every 50ms instead of every frame
     };
 
     try {
@@ -188,9 +179,9 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         uploadedFiles: uploadedFiles.length > 0 ? uploadedFiles : undefined, // Only send if files exist in current session
         onDelta: (chunk) => upsertAssistant(chunk),
         onDone: async () => {
-          // Clear any pending animation frames
-          if (rafId !== null) {
-            cancelAnimationFrame(rafId);
+          // Clear any pending timeouts
+          if (updateTimeout) {
+            clearTimeout(updateTimeout);
           }
           // Final update with complete content
           setMessages((prev) => {
@@ -203,7 +194,7 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
           // Refresh question count and save message
           await refetchUsage();
           await saveMessage({ role: "assistant", content: assistantContent });
-          setUploadedFiles([]); // Clear uploaded files after successful response
+          setUploadedFiles([]);
           setIsLoading(false);
         },
         onError: (error) => {
