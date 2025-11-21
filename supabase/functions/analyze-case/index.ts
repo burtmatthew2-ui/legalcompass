@@ -19,13 +19,25 @@ serve(async (req) => {
 
     console.log('Analyzing case:', { state, legalTopic, urgency });
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY not configured');
+    const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error('ANTHROPIC_API_KEY not configured');
     }
 
     // Create detailed prompt for AI analysis
-    const prompt = `You are a professional legal analyst providing preliminary case assessments. Analyze the following legal situation and provide a structured response.
+    const systemPrompt = `You are a professional legal analyst providing preliminary case assessments. Analyze legal situations and provide structured responses.
+
+Be professional but empathetic. Use plain language, not legal jargon. Be realistic about both challenges and opportunities. Format your response as JSON with these exact keys:
+{
+  "caseAssessment": "string",
+  "successChanceSolo": "XX-XX%",
+  "successChanceWithLawyer": "XX-XX%",
+  "estimatedCost": "$X,XXX - $XX,XXX (or contingency fee info)",
+  "keyFactors": ["factor1", "factor2", "factor3"],
+  "nextSteps": ["step1", "step2", "step3"]
+}`;
+
+    const userPrompt = `Analyze the following legal situation and provide a structured response.
 
 **Case Details:**
 - State: ${state}
@@ -40,50 +52,38 @@ Provide a professional, empathetic analysis that includes:
 3. Success probability with attorney representation (as percentage with brief reasoning)
 4. Estimated attorney cost range (be realistic for ${legalTopic} in ${state})
 5. List 3-4 key factors that will impact this case
-6. List 3-4 recommended next steps
+6. List 3-4 recommended next steps`;
 
-Be professional but empathetic. Use plain language, not legal jargon. Be realistic about both challenges and opportunities. Format your response as JSON with these exact keys:
-{
-  "caseAssessment": "string",
-  "successChanceSolo": "XX-XX%",
-  "successChanceWithLawyer": "XX-XX%",
-  "estimatedCost": "$X,XXX - $XX,XXX (or contingency fee info)",
-  "keyFactors": ["factor1", "factor2", "factor3"],
-  "nextSteps": ["step1", "step2", "step3"]
-}`;
-
-    // Call Lovable AI Gateway
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    // Call Anthropic API
+    const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'claude-3-5-haiku-20241022',
+        max_tokens: 2048,
+        system: systemPrompt,
         messages: [
           {
-            role: 'system',
-            content: 'You are a professional legal analyst providing preliminary case assessments. Always respond with valid JSON only, no markdown formatting.'
-          },
-          {
             role: 'user',
-            content: prompt
+            content: userPrompt
           }
         ],
-        temperature: 0.7,
       }),
     });
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('AI Gateway error:', aiResponse.status, errorText);
+      console.error('Anthropic API error:', aiResponse.status, errorText);
       
       if (aiResponse.status === 429) {
         throw new Error('Our AI service is experiencing high demand. Please try again in a moment.');
       }
-      if (aiResponse.status === 402) {
-        throw new Error('AI service temporarily unavailable. Please try again later.');
+      if (aiResponse.status === 529) {
+        throw new Error('AI service temporarily overloaded. Please try again later.');
       }
       
       throw new Error('Failed to analyze case. Please try again.');
@@ -92,8 +92,8 @@ Be professional but empathetic. Use plain language, not legal jargon. Be realist
     const aiData = await aiResponse.json();
     console.log('AI response received');
 
-    // Extract and parse the JSON response
-    let analysisText = aiData.choices[0]?.message?.content || '';
+    // Extract and parse the JSON response from Anthropic format
+    let analysisText = aiData.content?.[0]?.text || '';
     
     // Remove markdown code blocks if present
     analysisText = analysisText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
