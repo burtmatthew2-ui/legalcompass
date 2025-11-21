@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Compass, LogIn, LogOut, Menu, LayoutDashboard, Settings } from "lucide-react";
+import { Compass, LogIn, LogOut, Menu, LayoutDashboard, Settings, User as UserIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -11,13 +11,22 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { useUserRole } from "@/hooks/useUserRole";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAdmin } = useAdminStatus();
   const { role } = useUserRole();
 
@@ -52,61 +61,172 @@ export const Navbar = () => {
           </button>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <Button
-              onClick={() => {
-                if (window.location.pathname === '/') {
-                  document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  navigate('/#how-it-works');
-                }
-              }}
-              variant="ghost"
-              className="hidden md:flex text-muted-foreground hover:text-primary font-medium"
-            >
-              How It Works
-            </Button>
-            <Button
-              onClick={() => navigate("/templates")}
-              variant="ghost"
-              className="hidden sm:flex text-muted-foreground hover:text-primary font-medium"
-            >
-              Templates
-            </Button>
-            <Button
-              onClick={() => navigate("/find-lawyers")}
-              variant="ghost"
-              className="text-muted-foreground hover:text-primary font-medium text-sm sm:text-base"
-            >
-              Find Lawyers
-            </Button>
-            <Button
-              onClick={() => navigate("/resources")}
-              variant="ghost"
-              className="hidden lg:flex text-muted-foreground hover:text-primary"
-            >
-              Resources
-            </Button>
-            <Button
-              onClick={() => navigate("/pricing")}
-              variant="ghost"
-              className="hidden md:flex text-muted-foreground hover:text-primary"
-            >
-              Pricing
-            </Button>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-2">
+              <Button
+                onClick={() => {
+                  if (window.location.pathname === '/') {
+                    document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    navigate('/#how-it-works');
+                  }
+                }}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary font-medium"
+              >
+                How It Works
+              </Button>
+              <Button
+                onClick={() => navigate("/templates")}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary font-medium"
+              >
+                Templates
+              </Button>
+              <Button
+                onClick={() => navigate("/find-lawyers")}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary font-medium"
+              >
+                Find Lawyers
+              </Button>
+              <Button
+                onClick={() => navigate("/resources")}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary"
+              >
+                Resources
+              </Button>
+              <Button
+                onClick={() => navigate("/pricing")}
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary"
+              >
+                Pricing
+              </Button>
+            </div>
+
+            {/* Mobile Menu */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild className="lg:hidden">
+                <Button variant="ghost" size="sm">
+                  <Menu className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-4 mt-8">
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      if (window.location.pathname === '/') {
+                        document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                      } else {
+                        navigate('/#how-it-works');
+                      }
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    How It Works
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/templates");
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    Templates
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/find-lawyers");
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    Find Lawyers
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/resources");
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    Resources
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/pricing");
+                    }}
+                    variant="ghost"
+                    className="justify-start"
+                  >
+                    Pricing
+                  </Button>
+                  {user && (
+                    <>
+                      <div className="border-t my-2" />
+                      <Button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          if (role === "attorney") {
+                            navigate("/attorney-dashboard");
+                          } else if (role === "client") {
+                            navigate("/client-dashboard");
+                          } else {
+                            navigate("/dashboard");
+                          }
+                        }}
+                        variant="ghost"
+                        className="justify-start"
+                      >
+                        <LayoutDashboard className="w-4 h-4 mr-2" />
+                        Dashboard
+                      </Button>
+                      {isAdmin && (
+                        <Button
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            navigate("/admin");
+                          }}
+                          variant="ghost"
+                          className="justify-start"
+                        >
+                          <Settings className="w-4 h-4 mr-2" />
+                          Admin
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
             
+            {/* User Menu - Desktop Only */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-border hover:bg-muted"
+                    className="hidden lg:flex border-border hover:bg-muted"
                   >
-                    <Menu className="w-4 h-4 sm:mr-2" />
-                    <span className="hidden sm:inline">Menu</span>
+                    <UserIcon className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Account</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => {
                     if (role === "attorney") {
                       navigate("/attorney-dashboard");
@@ -136,10 +256,10 @@ export const Navbar = () => {
               <Button
                 onClick={() => navigate("/auth")}
                 size="sm"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="hidden lg:flex bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <LogIn className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Sign In</span>
+                <span>Sign In</span>
               </Button>
             )}
           </div>
