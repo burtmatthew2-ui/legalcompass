@@ -6,6 +6,7 @@ import { LegalDisclaimer } from "@/components/LegalDisclaimer";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { ArticleAuthor } from "@/components/ArticleAuthor";
 import { CitationFooter } from "@/components/CitationFooter";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const FileBankruptcy = () => {
   return (
@@ -322,6 +323,7 @@ const FileBankruptcy = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="File Bankruptcy" />
         <Footer />
       </div>
     </>

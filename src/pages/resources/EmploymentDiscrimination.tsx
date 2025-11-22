@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const EmploymentDiscrimination = () => {
   return (
@@ -398,6 +399,7 @@ const EmploymentDiscrimination = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="Employment Discrimination" />
         <Footer />
       </div>
     </>

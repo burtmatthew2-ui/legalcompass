@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Home, Scale } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const DivorceCustodyBasics = () => {
   return (
@@ -212,6 +213,7 @@ const DivorceCustodyBasics = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Divorce & Custody Basics" />
         <Footer />
       </div>
     </>

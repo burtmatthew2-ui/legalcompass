@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Home, Scale } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const BreachOfContractFreelancers = () => {
   return (
@@ -168,6 +169,7 @@ const BreachOfContractFreelancers = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Breach of Contract for Freelancers" />
         <Footer />
       </div>
     </>

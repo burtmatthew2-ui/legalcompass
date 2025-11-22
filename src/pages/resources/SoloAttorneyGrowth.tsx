@@ -3,6 +3,7 @@ import { ArrowLeft, Target, TrendingUp, Users, Lightbulb } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const SoloAttorneyGrowth = () => {
   return (
@@ -285,6 +286,7 @@ const SoloAttorneyGrowth = () => {
             </p>
           </div>
         </article>
+        <FloatingAIButton topicContext="Solo Attorney Growth" />
       </div>
     </div>
   );

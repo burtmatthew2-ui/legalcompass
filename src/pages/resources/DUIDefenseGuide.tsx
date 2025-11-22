@@ -10,6 +10,7 @@ import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { ArticleAuthor } from "@/components/ArticleAuthor";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const relatedArticles = [
   {
@@ -621,6 +622,7 @@ export default function DUIDefenseGuide() {
         </main>
 
         <NewsletterSignup />
+        <FloatingAIButton topicContext="DUI Defense" />
         <Footer />
       </div>
     </>

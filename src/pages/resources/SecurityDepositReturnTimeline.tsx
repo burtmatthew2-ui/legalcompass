@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Home, Scale } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const SecurityDepositReturnTimeline = () => {
   return (
@@ -162,6 +163,7 @@ const SecurityDepositReturnTimeline = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Security Deposit Return Timeline" />
         <Footer />
       </div>
     </>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Home, Scale } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const FightSpeedingTicketCalifornia = () => {
   return (
@@ -141,6 +142,7 @@ const FightSpeedingTicketCalifornia = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Fight Speeding Ticket California" />
         <Footer />
       </div>
     </>
