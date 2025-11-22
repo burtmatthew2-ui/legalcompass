@@ -107,8 +107,7 @@ const Index = () => {
         <link rel="preconnect" href="https://ifsckryvwehynahixmro.supabase.co" />
         <link rel="dns-prefetch" href="https://ifsckryvwehynahixmro.supabase.co" />
       </Helmet>
-      <ExitIntentPopup />
-      <LeadMagnetPopup />
+      
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
         {!showChat && <ToolsSidebar />}
@@ -138,8 +137,11 @@ const Index = () => {
               
               <Hero onGetStarted={handleGetStarted} />
               
-              {/* Collapsible Sections */}
-              <CollapsibleSections />
+              {/* Temporarily disabled for debugging */}
+              {/* <CollapsibleSections /> */}
+              <div className="py-20 text-center">
+                <p className="text-2xl text-foreground">Collapsible sections temporarily disabled for testing</p>
+              </div>
               
               {/* Floating CTA & Scroll to Top */}
               <FloatingCTA />
