@@ -49,13 +49,15 @@ const Dashboard = () => {
       // Fetch profile data
       const { data: profile } = await supabase
         .from("profiles")
-        .select("full_name, profile_completed")
+        .select("full_name, profile_completed, phone_number, date_of_birth")
         .eq("id", session.user.id)
         .single();
 
       if (profile) {
         setProfileName(profile.full_name);
-        setProfileCompleted(profile.profile_completed || false);
+        // Profile is completed if they have a full name (minimum requirement)
+        const isCompleted = !!(profile.full_name && profile.full_name.trim());
+        setProfileCompleted(isCompleted);
       }
 
       setLoading(false);
