@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import { OrganizationSchema, WebSiteSchema, LegalServiceSchema } from "@/components/StructuredData";
 
+// Force rebuild - 2024-11-22
 const Index = () => {
   const navigate = useNavigate();
   const [showChat, setShowChat] = useState(false);
