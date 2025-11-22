@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { ArrowLeft, Home, Scale } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const ConsumerRefundRights = () => {
   return (
@@ -166,6 +167,7 @@ const ConsumerRefundRights = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Consumer Refund Rights" />
         <Footer />
       </div>
     </>

@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const ChildSupport = () => {
   return (
@@ -367,6 +368,7 @@ const ChildSupport = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="Child Support" />
         <Footer />
       </div>
     </>

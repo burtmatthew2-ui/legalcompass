@@ -3,6 +3,7 @@ import { ArrowLeft, Users, TrendingUp, DollarSign, CheckCircle } from "lucide-re
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const LawyerClientAcquisition = () => {
   return (
@@ -231,6 +232,7 @@ const LawyerClientAcquisition = () => {
             </p>
           </div>
         </article>
+        <FloatingAIButton topicContext="Lawyer Client Acquisition" />
       </div>
     </div>
   );

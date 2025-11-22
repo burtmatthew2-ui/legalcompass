@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import { InternalLinks } from "@/components/InternalLinks";
 import { CitationFooter } from "@/components/CitationFooter";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const HowToFindAffordableLawyer = () => {
   const breadcrumbItems = [
@@ -443,6 +444,7 @@ const HowToFindAffordableLawyer = () => {
         </article>
       </main>
 
+      <FloatingAIButton topicContext="Find Affordable Lawyer" />
       <Footer />
     </div>
   );

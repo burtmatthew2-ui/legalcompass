@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const WorkersCompensation = () => {
   return (
@@ -366,6 +367,7 @@ const WorkersCompensation = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="Workers Compensation" />
         <Footer />
       </div>
     </>

@@ -6,6 +6,7 @@ import { ShareButton } from "@/components/ShareButton";
 import { ArticleAuthor } from "@/components/ArticleAuthor";
 import { Home } from "lucide-react";
 import { Helmet } from "react-helmet";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const PersonalInjuryClaims = () => {
   return (
@@ -426,6 +427,7 @@ const PersonalInjuryClaims = () => {
             </div>
           </article>
         </div>
+        <FloatingAIButton topicContext="Personal Injury Claims" />
         <Footer />
       </div>
     </>
