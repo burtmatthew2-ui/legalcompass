@@ -78,80 +78,11 @@ const Index = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <OrganizationSchema />
-      <WebSiteSchema />
-      <LegalServiceSchema />
-      <Helmet>
-        <title>Legal Compass - Free AI Legal Consultation | Connect with Verified Attorneys</title>
-        <meta name="description" content="Get free AI-powered legal guidance instantly. Ask questions, analyze your case, and connect with verified attorneys. Start your free consultation - no credit card required." />
-        <meta name="keywords" content="free legal help, AI legal consultation, free legal advice, legal aid, affordable lawyer, free case analysis, legal templates, connect with attorneys, free legal guidance" />
-        <link rel="canonical" href="https://legalcompass.shop/" />
-        
-        {/* Open Graph / Social Media */}
-        <meta property="og:title" content="Legal Compass - Free AI Legal Consultation" />
-        <meta property="og:description" content="Get instant AI-powered legal guidance for free. Analyze your case, ask questions, and connect with verified attorneys. Start your free consultation today." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://legalcompass.shop/" />
-        <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
-        <meta property="og:image:width" content="512" />
-        <meta property="og:image:height" content="512" />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Legal Compass - Free AI Legal Consultation" />
-        <meta name="twitter:description" content="Get instant AI-powered legal guidance for free. Analyze your case and connect with verified attorneys." />
-        <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
-        
-        {/* Preconnect for Performance */}
-        <link rel="preconnect" href="https://ifsckryvwehynahixmro.supabase.co" />
-        <link rel="dns-prefetch" href="https://ifsckryvwehynahixmro.supabase.co" />
-      </Helmet>
-      
-      <div className="min-h-screen flex flex-col">
-        {!showChat && <Navbar />}
-        {!showChat && <ToolsSidebar />}
-        <main className="flex-1">
-          {showChat ? (
-            <ChatInterface onBack={() => setShowChat(false)} />
-          ) : (
-            <>
-              {/* Profile Completion Alert */}
-              {user && !profileCompleted && (
-                <div className="max-w-7xl mx-auto px-4 pt-6">
-                  <Alert className="border-accent bg-accent/10">
-                    <AlertCircle className="h-4 w-4 text-accent" />
-                    <AlertDescription className="flex items-center justify-between flex-wrap gap-2">
-                      <span className="text-sm">Complete your profile to get the most out of Legal Compass</span>
-                      <Button
-                        onClick={() => navigate("/profile-settings")}
-                        size="sm"
-                        variant="default"
-                      >
-                        Complete Profile Here
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
-                </div>
-              )}
-              
-              <Hero onGetStarted={handleGetStarted} />
-              
-              {/* Temporarily disabled for debugging */}
-              {/* <CollapsibleSections /> */}
-              <div className="py-20 text-center">
-                <p className="text-2xl text-foreground">Collapsible sections temporarily disabled for testing</p>
-              </div>
-              
-              {/* Floating CTA & Scroll to Top */}
-              <FloatingCTA />
-            </>
-          )}
-        </main>
-        {!showChat && <InternalLinks />}
-        {!showChat && <Footer />}
-      </div>
-    </ErrorBoundary>
+    <div className="min-h-screen bg-background p-8">
+      <h1 className="text-4xl text-foreground">Legal Compass - Test Page</h1>
+      <p className="text-2xl text-foreground mt-4">If you can see this, React is working</p>
+      <p className="text-xl text-muted-foreground mt-4">Preview test in progress...</p>
+    </div>
   );
 };
 
