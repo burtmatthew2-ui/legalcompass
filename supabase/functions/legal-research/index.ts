@@ -141,6 +141,8 @@ serve(async (req) => {
 
     // Fetch uploaded file contents if any
     let fileContents = '';
+    const imageAttachments: Array<{ type: string; source: { type: string; media_type: string; data: string } }> = [];
+    
     if (uploadedFiles && uploadedFiles.length > 0) {
       logStep("Processing uploaded files", { count: uploadedFiles.length });
       
@@ -155,10 +157,36 @@ serve(async (req) => {
             continue;
           }
           
-          // Convert file to text (handle PDF, DOC, TXT, etc.)
-          const text = await fileData.text();
-          fileContents += `\n\n--- Document: ${file.name} ---\n${text}\n--- End of ${file.name} ---\n`;
-          logStep("File processed", { fileName: file.name, length: text.length });
+          // Check if file is an image
+          const isImage = file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/);
+          
+          if (isImage) {
+            // Convert image to base64
+            const arrayBuffer = await fileData.arrayBuffer();
+            const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+            
+            // Determine media type
+            let mediaType = 'image/jpeg';
+            if (file.name.toLowerCase().endsWith('.png')) mediaType = 'image/png';
+            else if (file.name.toLowerCase().endsWith('.gif')) mediaType = 'image/gif';
+            else if (file.name.toLowerCase().endsWith('.webp')) mediaType = 'image/webp';
+            
+            imageAttachments.push({
+              type: "image",
+              source: {
+                type: "base64",
+                media_type: mediaType,
+                data: base64
+              }
+            });
+            
+            logStep("Image processed", { fileName: file.name, mediaType });
+          } else {
+            // Handle text-based documents
+            const text = await fileData.text();
+            fileContents += `\n\n--- Document: ${file.name} ---\n${text}\n--- End of ${file.name} ---\n`;
+            logStep("Text file processed", { fileName: file.name, length: text.length });
+          }
         } catch (error) {
           console.error(`Error processing file ${file.name}:`, error);
         }
@@ -337,10 +365,25 @@ ${fileContents ? '\n⚠️ DOCUMENT ANALYSIS REQUIRED: Analyze uploaded document
     
     const formattedMessages = messages
       .filter((msg: { content: string }) => msg.content && msg.content.trim().length > 0)
-      .map((msg: { role: string; content: string }) => ({
-        role: msg.role === 'assistant' ? 'assistant' : 'user',
-        content: msg.content
-      }));
+      .map((msg: { role: string; content: string }, index: number) => {
+        // Add images to the last user message
+        if (msg.role === 'user' && index === messages.length - 1 && imageAttachments.length > 0) {
+          return {
+            role: 'user',
+            content: [
+              {
+                type: "text",
+                text: msg.content
+              },
+              ...imageAttachments
+            ]
+          };
+        }
+        return {
+          role: msg.role === 'assistant' ? 'assistant' : 'user',
+          content: msg.content
+        };
+      });
 
     // Ensure we have at least one message
     if (formattedMessages.length === 0) {
