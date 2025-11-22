@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Scale, Users, FileText, Heart, Search, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const ProBonoLawyersCivilCases = () => {
   const navigate = useNavigate();
@@ -399,6 +400,7 @@ const ProBonoLawyersCivilCases = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="Pro Bono Lawyers" />
         <Footer />
       </div>
     </>

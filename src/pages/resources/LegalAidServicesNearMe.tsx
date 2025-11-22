@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, Phone, Building2, Users, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { FloatingAIButton } from "@/components/FloatingAIButton";
 
 const LegalAidServicesNearMe = () => {
   const navigate = useNavigate();
@@ -289,6 +290,7 @@ const LegalAidServicesNearMe = () => {
           </article>
         </main>
 
+        <FloatingAIButton topicContext="Legal Aid Services" />
         <Footer />
       </div>
     </>
