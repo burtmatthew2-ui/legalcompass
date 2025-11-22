@@ -79,6 +79,10 @@ import DocumentScanner from "./pages/DocumentScanner";
 import CaseEstimator from "./pages/CaseEstimator";
 import ProfileSettings from "./pages/ProfileSettings";
 import HowItBegan from "./pages/HowItBegan";
+import HowToGetFreeLegalAdvice from "./pages/resources/HowToGetFreeLegalAdvice";
+import LegalAidServicesNearMe from "./pages/resources/LegalAidServicesNearMe";
+import ProBonoLawyersCivilCases from "./pages/resources/ProBonoLawyersCivilCases";
+import WhenDoINeedALawyer from "./pages/resources/WhenDoINeedALawyer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import { PerformanceOptimizations } from "@/components/PerformanceOptimizations";
@@ -177,9 +181,13 @@ const App = () => {
           <Route path="/resources/harassment-law-guide" element={<HarassmentLawGuide />} />
           <Route path="/resources/legal-resources-tools" element={<LegalResourcesTools />} />
           <Route path="/resources/personal-injury-claims" element={<PersonalInjuryClaims />} />
-          <Route path="/resources/landlord-tenant-disputes" element={<LandlordTenantDisputes />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+           <Route path="/resources/landlord-tenant-disputes" element={<LandlordTenantDisputes />} />
+           <Route path="/resources/how-to-get-free-legal-advice" element={<HowToGetFreeLegalAdvice />} />
+           <Route path="/resources/legal-aid-services-near-me" element={<LegalAidServicesNearMe />} />
+           <Route path="/resources/pro-bono-lawyers-civil-cases" element={<ProBonoLawyersCivilCases />} />
+           <Route path="/resources/when-do-i-need-a-lawyer" element={<WhenDoINeedALawyer />} />
+           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+           <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ErrorBoundary>

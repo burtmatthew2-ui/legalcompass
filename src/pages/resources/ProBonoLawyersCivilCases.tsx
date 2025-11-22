@@ -374,6 +374,26 @@ const ProBonoLawyersCivilCases = () => {
               </div>
             </section>
 
+            <div className="mt-12 p-8 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary rounded-lg">
+              <div className="text-center max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Need Legal Help While Searching for Pro Bono?</h3>
+                <p className="text-muted-foreground mb-6">
+                  Finding pro bono representation can take time. Don't wait—get immediate legal guidance with Legal Compass, the best free legal help tool powered by advanced AI. We analyze your specific situation and provide real, actionable answers to help you understand your rights and next steps.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button onClick={() => navigate("/dashboard")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Chat with Legal AI Free
+                  </Button>
+                  <Button onClick={() => navigate("/case-analyzer")} variant="outline" size="lg">
+                    Get Free Case Analysis
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  ✓ Real legal answers • ✓ Personalized guidance • ✓ Available 24/7
+                </p>
+              </div>
+            </div>
+
             <RelatedArticles articles={relatedArticles} />
             <InternalLinks />
           </article>

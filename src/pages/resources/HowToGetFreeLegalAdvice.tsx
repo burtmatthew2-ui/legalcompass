@@ -239,6 +239,26 @@ const HowToGetFreeLegalAdvice = () => {
               </Card>
             </section>
 
+            <div className="mt-12 p-8 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary rounded-lg">
+              <div className="text-center max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Get Instant Legal Help with Legal Compass AI</h3>
+                <p className="text-muted-foreground mb-6">
+                  Don't wait for callbacks or appointments. Legal Compass offers the best free legal help tool powered by advanced AI technology. Get real, personalized answers to your specific legal situation in seconds—completely free and confidential.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button onClick={() => navigate("/dashboard")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Start Free Chat Now
+                  </Button>
+                  <Button onClick={() => navigate("/case-analyzer")} variant="outline" size="lg">
+                    Analyze Your Case
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  ✓ No signup required • ✓ 100% confidential • ✓ Available 24/7
+                </p>
+              </div>
+            </div>
+
             <RelatedArticles articles={relatedArticles} />
             <InternalLinks />
           </article>
