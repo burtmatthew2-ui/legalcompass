@@ -48,13 +48,6 @@ export const PerformanceOptimizations = () => {
       subtree: true
     });
 
-    // Register service worker for PWA
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(() => {
-        // Service worker registration failed - not critical
-      });
-    }
-
     return () => {
       imageObserver.disconnect();
     };
