@@ -613,6 +613,7 @@ export default function TrademarkRegistrationGuide() {
         </main>
 
         <NewsletterSignup />
+        <FloatingAIButton topicContext="Trademark Registration" />
         <Footer />
       </div>
     </>
