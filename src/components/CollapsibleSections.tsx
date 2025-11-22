@@ -61,7 +61,9 @@ export const CollapsibleSections = () => {
   return (
     <div className="w-full">
       {/* Trust Reviews - Always Visible */}
-      <TrustReviews />
+      <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading reviews...</div>}>
+        <TrustReviews />
+      </Suspense>
 
       {/* Trust Badges */}
       <Section id="trust-badges" title="Security & Trust">
