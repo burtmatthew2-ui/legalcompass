@@ -264,6 +264,26 @@ const LegalAidServicesNearMe = () => {
               </Card>
             </section>
 
+            <div className="mt-12 p-8 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary rounded-lg">
+              <div className="text-center max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Can't Find Legal Aid? Try Legal Compass AI</h3>
+                <p className="text-muted-foreground mb-6">
+                  While waiting for legal aid appointments or searching for resources, get immediate help with Legal Compass—the best free legal help tool utilizing AI to provide real answers tailored to your unique situation. No waiting, no appointments, just instant legal guidance.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button onClick={() => navigate("/dashboard")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Get Free Legal Help Now
+                  </Button>
+                  <Button onClick={() => navigate("/case-analyzer")} variant="outline" size="lg">
+                    Analyze Your Case Free
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  ✓ Instant answers • ✓ Personalized to your situation • ✓ 100% free
+                </p>
+              </div>
+            </div>
+
             <RelatedArticles articles={relatedArticles} />
             <InternalLinks />
           </article>

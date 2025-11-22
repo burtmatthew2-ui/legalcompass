@@ -345,6 +345,26 @@ const WhenDoINeedALawyer = () => {
               </div>
             </section>
 
+            <div className="mt-12 p-8 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary rounded-lg">
+              <div className="text-center max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Still Not Sure? Ask Legal Compass AI</h3>
+                <p className="text-muted-foreground mb-6">
+                  Stop guessing whether you need a lawyer. Legal Compass is the best free legal help tool that uses AI to analyze your specific situation and tell you exactly what you need. Get personalized answers about whether legal representation is necessary, what your options are, and what steps to take next.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button onClick={() => navigate("/case-analyzer")} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Analyze Your Situation Free
+                  </Button>
+                  <Button onClick={() => navigate("/dashboard")} variant="outline" size="lg">
+                    Chat with AI Now
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  ✓ Situation-specific advice • ✓ Clear next steps • ✓ Completely free
+                </p>
+              </div>
+            </div>
+
             <RelatedArticles articles={relatedArticles} />
             <InternalLinks />
           </article>
