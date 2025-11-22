@@ -32,6 +32,7 @@ import { AlertCircle } from "lucide-react";
 import { OrganizationSchema, WebSiteSchema, LegalServiceSchema } from "@/components/StructuredData";
 
 const Index = () => {
+  console.log('[Index] Component rendering...');
   const navigate = useNavigate();
   const [showChat, setShowChat] = useState(false);
   const [user, setUser] = useState<User | null>(null);
