@@ -280,25 +280,62 @@ const ProfileSettings = () => {
               <div className="space-y-2">
                 <Label htmlFor="phoneNumber">
                   <Phone className="w-4 h-4 inline mr-2" />
-                  Phone Number (Optional - Skip for now)
+                  Phone Number (Optional)
                   {phoneVerified ? (
                     <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />
                   ) : (
                     <XCircle className="w-4 h-4 inline ml-2 text-muted-foreground" />
                   )}
                 </Label>
-                <Input
-                  id="phoneNumber"
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="+1 (555) 123-4567"
-                  className="bg-background"
-                  disabled={phoneVerified}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Phone verification temporarily disabled. You can still save your profile.
-                </p>
+                <div className="flex gap-2">
+                  <Input
+                    id="phoneNumber"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="+1 (555) 123-4567"
+                    className="bg-background"
+                    disabled={phoneVerified}
+                  />
+                  {!phoneVerified && phoneNumber && (
+                    <Button
+                      onClick={handleSendVerificationCode}
+                      disabled={sendingCode}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      {sendingCode ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        </>
+                      ) : (
+                        "Send Code"
+                      )}
+                    </Button>
+                  )}
+                </div>
+                {showVerificationInput && (
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      type="text"
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                      placeholder="Enter 6-digit code"
+                      className="bg-background"
+                      maxLength={6}
+                    />
+                    <Button
+                      onClick={handleVerifyCode}
+                      disabled={verifyingCode || verificationCode.length !== 6}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      {verifyingCode ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Verify"
+                      )}
+                    </Button>
+                  </div>
+                )}
               </div>
 
               {/* Date of Birth */}
