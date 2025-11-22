@@ -85,8 +85,6 @@ import ProBonoLawyersCivilCases from "./pages/resources/ProBonoLawyersCivilCases
 import WhenDoINeedALawyer from "./pages/resources/WhenDoINeedALawyer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
-import { PerformanceOptimizations } from "@/components/PerformanceOptimizations";
-
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -103,7 +101,6 @@ const App = () => {
   return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <PerformanceOptimizations />
       <Toaster />
       <Sonner />
       <ErrorBoundary>
