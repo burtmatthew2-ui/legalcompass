@@ -121,20 +121,20 @@ const Pricing = () => {
         ctaLink="/auth"
       />
       <Helmet>
-        <title>Pricing - Legal Compass | $4.99/month (50% Off) | 3 Free Questions</title>
-        <meta name="description" content="Try Legal Compass free with 3 questions. Then just $4.99/month for unlimited legal research across 80+ jurisdictions. 90% less than enterprise legal tools. Cancel anytime." />
+        <title>Plans & Pricing | $4.99/mo (50% Off) | Try Free | Legal Compass</title>
+        <meta name="description" content="Start free with 3 questions, then $4.99/month for unlimited legal research, templates, and attorney access. 90% less than competitors. Cancel anytime." />
         <meta name="keywords" content="legal research pricing, affordable legal tool, legal subscription, AI legal research cost, cheap legal research" />
         <link rel="canonical" href="https://legalcompass.shop/pricing" />
         
-        <meta property="og:title" content="Legal Compass Pricing - $4.99/month (50% Off)" />
-        <meta property="og:description" content="Professional legal research for everyone. 3 free questions, then $4.99/month. 90% less than enterprise tools." />
+        <meta property="og:title" content="Legal Compass Pricing | $4.99/mo (50% Off) Try Free" />
+        <meta property="og:description" content="Start free. Then $4.99/month for unlimited legal research, templates & attorney access. 90% less than competitors." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/pricing" />
         <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
         
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Legal Compass Pricing - $4.99/month" />
-        <meta name="twitter:description" content="Try free, then $4.99/month for unlimited legal research." />
+        <meta name="twitter:title" content="Legal Compass | $4.99/mo (50% Off) Try Free" />
+        <meta name="twitter:description" content="Start free. Unlimited legal research, templates & attorneys for $4.99/mo." />
         <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
         
         <script type="application/ld+json">

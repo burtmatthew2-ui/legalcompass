@@ -9,20 +9,20 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Legal Compass | AI-Powered Legal Research Platform</title>
-        <meta name="description" content="Legal Compass democratizes legal research with AI technology. Learn about our mission to make professional legal information accessible to everyone with complete privacy and confidentiality." />
+        <title>About Us | AI Legal Research Made Accessible | Legal Compass</title>
+        <meta name="description" content="Making legal research accessible with AI. Free legal help, templates, and attorney connections. Our mission: professional legal guidance for everyone." />
         <meta name="keywords" content="about legal compass, AI legal research, legal tech company, accessible legal information, legal research platform mission" />
         <link rel="canonical" href="https://legalcompass.shop/about" />
         
-        <meta property="og:title" content="About Legal Compass - AI-Powered Legal Research for Everyone" />
-        <meta property="og:description" content="Making professional legal research accessible through AI technology. Learn our mission, how we work, and our privacy commitment." />
+        <meta property="og:title" content="About Legal Compass | AI Legal Research for Everyone" />
+        <meta property="og:description" content="Free legal help, AI guidance, and verified attorneys. Making professional legal research accessible to all." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://legalcompass.shop/about" />
         <meta property="og:image" content="https://legalcompass.shop/icon-512.png" />
         
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="About Legal Compass - AI Legal Research Platform" />
-        <meta name="twitter:description" content="Making professional legal research accessible through AI technology." />
+        <meta name="twitter:title" content="About Legal Compass | AI Legal Research Platform" />
+        <meta name="twitter:description" content="Free legal help and AI research made accessible for everyone." />
         <meta name="twitter:image" content="https://legalcompass.shop/icon-512.png" />
         
         <script type="application/ld+json">
