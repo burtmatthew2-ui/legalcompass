@@ -128,8 +128,9 @@ const Index = () => {
         <link rel="preconnect" href="https://ifsckryvwehynahixmro.supabase.co" />
         <link rel="dns-prefetch" href="https://ifsckryvwehynahixmro.supabase.co" />
       </Helmet>
-      <ExitIntentPopup />
-      <LeadMagnetPopup />
+      {/* Only show marketing popups when NOT in chat */}
+      {!showChat && <ExitIntentPopup />}
+      {!showChat && <LeadMagnetPopup />}
       <div className="min-h-screen flex flex-col">
         {!showChat && <Navbar />}
         {!showChat && <ToolsSidebar />}
