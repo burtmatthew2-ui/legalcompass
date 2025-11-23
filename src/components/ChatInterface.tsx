@@ -126,25 +126,21 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   // Reset scroll tracking and scroll to bottom when conversation changes
   useEffect(() => {
     userScrolledUpRef.current = false;
-    lastMessageCountRef.current = messages.length;
+    lastMessageCountRef.current = 0;
     
     // Scroll to bottom when loading a conversation
     if (messages.length > 0 && scrollAreaRef.current) {
-      // Wait for messages to fully render, then scroll
-      const scrollTimer = setTimeout(() => {
-        if (scrollAreaRef.current) {
-          // Find the viewport div inside ScrollArea (Radix UI structure)
-          const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-          if (viewport) {
-            viewport.scrollTop = viewport.scrollHeight;
-          } else {
-            // Fallback to direct scrollTop
-            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      // Use requestAnimationFrame for smoother rendering
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (scrollAreaRef.current) {
+            const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+            const scrollElement = viewport || scrollAreaRef.current;
+            // Use instant scroll for conversation switch to avoid lag
+            scrollElement.scrollTop = scrollElement.scrollHeight;
           }
-        }
-      }, 300); // Longer delay to ensure all messages are rendered
-      
-      return () => clearTimeout(scrollTimer);
+        });
+      });
     }
   }, [currentConversation?.id]);
 
