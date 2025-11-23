@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { MessageSquare, Scale, FileText, Users, Phone, Building2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FloatingAIButton } from "@/components/FloatingAIButton";
+import { HowToSchemaMarkup } from "@/components/ProductSchemaMarkup";
+import { BottomCTA, RelatedTopicsLinks } from "@/components/InternalLinkingStrategy";
 
 const HowToGetFreeLegalAdvice = () => {
   const navigate = useNavigate();
@@ -33,6 +35,33 @@ const HowToGetFreeLegalAdvice = () => {
 
   return (
     <>
+      <HowToSchemaMarkup
+        name="How to Get Free Legal Advice"
+        description="Step-by-step guide to accessing free legal advice through various channels including legal aid, pro bono services, and online resources"
+        steps={[
+          {
+            name: "Try AI Legal Assistance",
+            text: "Start with free AI-powered legal guidance at Legal Compass for instant answers to common legal questions"
+          },
+          {
+            name: "Contact Legal Aid Societies",
+            text: "Reach out to local legal aid organizations that provide free legal services to qualifying individuals based on income"
+          },
+          {
+            name: "Find Pro Bono Attorneys",
+            text: "Search for lawyers offering free legal services through state bar associations and pro bono programs"
+          },
+          {
+            name: "Visit Law School Clinics",
+            text: "Contact nearby law schools that often run legal clinics where law students provide free legal assistance under supervision"
+          },
+          {
+            name: "Utilize Online Legal Resources",
+            text: "Access free legal information through government websites, nonprofit organizations, and legal self-help platforms"
+          }
+        ]}
+        totalTime="PT30M"
+      />
       <Helmet>
         <title>How to Get Free Legal Advice (2024 Guide) | Legal Compass</title>
         <meta 
@@ -259,6 +288,20 @@ const HowToGetFreeLegalAdvice = () => {
                 </p>
               </div>
             </div>
+
+            <RelatedTopicsLinks
+              topic="Legal Help"
+              links={[
+                { href: "/resources/legal-aid-services-near-me", text: "Legal Aid Services Near Me" },
+                { href: "/resources/pro-bono-lawyers-civil-cases", text: "Pro Bono Lawyers for Civil Cases" },
+                { href: "/resources/when-do-i-need-a-lawyer", text: "When Do I Need a Lawyer" },
+                { href: "/templates", text: "Free Legal Document Templates" },
+                { href: "/find-lawyers", text: "Find Verified Attorneys" },
+                { href: "/resources/how-to-find-affordable-lawyer", text: "How to Find Affordable Lawyer" }
+              ]}
+            />
+
+            <BottomCTA />
 
             <RelatedArticles articles={relatedArticles} />
             <InternalLinks />

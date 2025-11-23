@@ -14,11 +14,11 @@ const FAQPage = () => {
       ]} />
       <FAQPageSchema faqs={faqs} />
       <Helmet>
-        <title>Frequently Asked Questions - Legal Compass AI</title>
-        <meta name="description" content="Get answers to common questions about Legal Compass AI, including pricing, features, and how our legal guidance platform works." />
+        <title>FAQ | Answers About Legal Help & Templates | Legal Compass</title>
+        <meta name="description" content="Common questions answered: pricing, free templates, AI legal help, attorney connections, privacy, and more. Get instant answers to your legal questions." />
         <link rel="canonical" href="https://legalcompass.shop/faq" />
-        <meta property="og:title" content="FAQ - Legal Compass AI" />
-        <meta property="og:description" content="Common questions about Legal Compass AI legal assistance platform" />
+        <meta property="og:title" content="FAQ | Legal Compass Help & Answers" />
+        <meta property="og:description" content="Get instant answers about pricing, templates, AI help, and attorney connections." />
         <meta property="og:url" content="https://legalcompass.shop/faq" />
       </Helmet>
       <div className="min-h-screen flex flex-col">
