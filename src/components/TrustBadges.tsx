@@ -66,7 +66,7 @@ export const TrustBadges = () => {
               <Link
                 key={index}
                 to={badge.title.includes("Security") || badge.title.includes("Attorney-Client") || badge.title.includes("Platform") ? "/security" : "#"}
-                className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border-2 border-slate-100 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-card border-2 border-border hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 {/* Animated gradient background */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 via-blue-500/0 to-teal-500/0 group-hover:from-primary/5 group-hover:via-blue-500/5 group-hover:to-teal-500/5 transition-all duration-500" />
@@ -82,7 +82,7 @@ export const TrustBadges = () => {
                       {badge.title}
                     </h4>
                     <p className="text-xs text-slate-600 mb-3 leading-relaxed">{badge.description}</p>
-                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-primary to-blue-600 px-3 py-1.5 rounded-lg shadow-sm">
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-foreground bg-gradient-to-r from-primary to-blue-600 px-3 py-1.5 rounded-lg shadow-sm">
                       <CheckCircle className="w-3 h-3" />
                       {badge.metric}
                     </div>
