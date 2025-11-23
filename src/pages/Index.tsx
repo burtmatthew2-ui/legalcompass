@@ -43,6 +43,30 @@ const Index = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const chatParam = urlParams.get('chat');
     
+    // Set up auth listener first
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      
+      // Auto-navigate to chat if user just logged in
+      if (session?.user) {
+        setTimeout(async () => {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("profile_completed")
+            .eq("id", session.user.id)
+            .single();
+          
+          setProfileCompleted(profile?.profile_completed || false);
+          
+          // Show chat for logged in users with chat param
+          if (chatParam === 'true') {
+            setShowChat(true);
+          }
+        }, 0);
+      }
+    });
+    
+    // Then check existing session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
       
@@ -61,10 +85,6 @@ const Index = () => {
       if (session?.user && chatParam === 'true') {
         setShowChat(true);
       }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
     });
 
     return () => subscription.unsubscribe();

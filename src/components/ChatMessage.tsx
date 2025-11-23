@@ -26,18 +26,19 @@ const ChatMessageComponent = ({ message }: ChatMessageProps) => {
       )}
       
       <div
-        className={`max-w-[75%] rounded-2xl p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
+        className={`max-w-[75%] sm:max-w-[70%] rounded-2xl p-4 sm:p-6 shadow-lg backdrop-blur-sm transition-all duration-300 ${
           isUser
             ? "bg-primary text-primary-foreground font-medium"
             : "bg-card/70 border border-border/50 text-foreground hover:border-primary/30"
         }`}
         style={{ 
           wordBreak: 'break-word',
-          overflowWrap: 'anywhere',
-          WebkitOverflowScrolling: 'touch'
+          overflowWrap: 'break-word',
+          maxWidth: '100%',
+          overflow: 'hidden'
         }}
       >
-        <div className="prose prose-invert max-w-none break-words [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-2xl [&>h2]:text-xl [&>h3]:text-lg [&>pre]:overflow-x-auto [&>pre]:max-w-full">
+        <div className="prose prose-invert max-w-none break-words overflow-hidden [&>p]:leading-relaxed [&>ul]:my-4 [&>ol]:my-4 [&>li]:my-2 [&>h1]:text-xl [&>h2]:text-lg [&>h3]:text-base [&>pre]:overflow-x-auto [&>pre]:max-w-full [&>*]:max-w-full">
           <ReactMarkdown>{content}</ReactMarkdown>
         </div>
       </div>
