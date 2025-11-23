@@ -81,25 +81,29 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ name: string; path: string }>>([]);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef(0);
   const userScrolledUpRef = useRef(false);
 
-  // Track if user has scrolled up
-  const handleScroll = () => {
-    if (!scrollAreaRef.current) return;
-    
-    // Find the viewport element inside ScrollArea
-    const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-    const scrollElement = viewport || scrollAreaRef.current;
-    
-    const { scrollTop, scrollHeight, clientHeight } = scrollElement;
-    const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-    userScrolledUpRef.current = !isNearBottom;
-  };
+  // Attach scroll listener to viewport after mount
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = viewport;
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      userScrolledUpRef.current = !isNearBottom;
+    };
+
+    viewport.addEventListener('scroll', handleScroll);
+    return () => viewport.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Smart auto-scroll: only on new messages and when user is at bottom
   useEffect(() => {
-    if (!scrollAreaRef.current) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
     
     // Only auto-scroll when a NEW message is added (not during streaming updates)
     const messageCountChanged = messages.length !== lastMessageCountRef.current;
@@ -112,37 +116,30 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
     
     // Smooth scroll to bottom
     requestAnimationFrame(() => {
-      if (scrollAreaRef.current) {
-        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-        const scrollElement = viewport || scrollAreaRef.current;
-        scrollElement.scrollTo({
-          top: scrollElement.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
+      viewport.scrollTo({
+        top: viewport.scrollHeight,
+        behavior: 'smooth'
+      });
     });
   }, [messages.length]);
 
   // Reset scroll tracking and scroll to bottom when conversation changes
   useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
     userScrolledUpRef.current = false;
     lastMessageCountRef.current = 0;
     
-    // Scroll to bottom when loading a conversation
-    if (messages.length > 0 && scrollAreaRef.current) {
-      // Use requestAnimationFrame for smoother rendering
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (scrollAreaRef.current) {
-            const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-            const scrollElement = viewport || scrollAreaRef.current;
-            // Use instant scroll for conversation switch to avoid lag
-            scrollElement.scrollTop = scrollElement.scrollHeight;
-          }
-        });
-      });
+    // Scroll to bottom when loading a conversation - with delay for DOM rendering
+    if (messages.length > 0) {
+      const scrollTimer = setTimeout(() => {
+        viewport.scrollTop = viewport.scrollHeight;
+      }, 100);
+      
+      return () => clearTimeout(scrollTimer);
     }
-  }, [currentConversation?.id]);
+  }, [currentConversation?.id, messages.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -377,12 +374,15 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
         </div>
       </div>
 
-      <ScrollArea 
-        className="flex-1 px-3 md:px-6 bg-background" 
-        ref={scrollAreaRef}
-        onScroll={handleScroll}
-      >
-        <div className="max-w-5xl mx-auto py-12 space-y-6">
+      <div className="flex-1 px-3 md:px-6 bg-background overflow-hidden relative" ref={scrollAreaRef}>
+        <div 
+          ref={viewportRef}
+          className="h-full w-full overflow-y-auto overflow-x-hidden"
+          style={{ scrollbarWidth: 'thin' }}
+        >
+          <div className="max-w-5xl mx-auto py-12 space-y-6"
+            style={{ minHeight: '100%' }}
+          >
           {messages.length === 0 ? (
             <div className="text-center py-20">
               <div className="mb-6 inline-flex items-center justify-center">
@@ -419,8 +419,9 @@ export const ChatInterface = ({ onBack }: ChatInterfaceProps) => {
               <span className="text-foreground font-medium">Researching legal databases and analyzing regulations...</span>
             </div>
           )}
+          </div>
         </div>
-      </ScrollArea>
+      </div>
 
       <div className="border-t border-border bg-card shadow-lg">
         <form onSubmit={handleSubmit} className="max-w-5xl mx-auto px-3 md:px-6 py-3 md:py-5">
