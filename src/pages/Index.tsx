@@ -139,8 +139,8 @@ const Index = () => {
             <ChatInterface onBack={() => setShowChat(false)} />
           ) : (
             <>
-              {/* Profile Completion Alert - only show if NOT completed */}
-              {user && !profileCompleted && (
+              {/* Profile Completion Alert */}
+              {user && (
                 <div className="max-w-7xl mx-auto px-4 pt-6">
                   <Alert className="border-accent bg-accent/10">
                     <AlertCircle className="h-4 w-4 text-accent" />
