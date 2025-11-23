@@ -33,13 +33,6 @@ const ProfileSettings = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    // Check theme preference
-    const storedTheme = localStorage.getItem('theme');
-    const isDark = storedTheme !== 'light';
-    setIsDarkMode(isDark);
-    // Apply theme to document
-    document.documentElement.classList.toggle('light', !isDark);
-    
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
