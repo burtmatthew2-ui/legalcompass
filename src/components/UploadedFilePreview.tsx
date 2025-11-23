@@ -23,7 +23,7 @@ export const UploadedFilePreview = ({ files, onRemove }: UploadedFilePreviewProp
       {files.map((file, index) => (
         <div
           key={index}
-          className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-md border border-blue-300 shadow-sm"
+          className="flex items-center gap-2 px-3 py-1.5 bg-card rounded-md border border-primary/30 shadow-sm"
         >
           {getFileIcon(file.name)}
           <span className="text-sm text-slate-700 max-w-[200px] truncate">{file.name}</span>

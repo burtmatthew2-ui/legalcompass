@@ -88,8 +88,8 @@ export function MessageAttachments({ attachments }: MessageAttachmentsProps) {
                     alt={attachment.file_name}
                     className="w-full h-full object-cover hover:opacity-80 transition-opacity"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors">
-                    <ImageIcon className="w-6 h-6 text-white opacity-0 hover:opacity-100" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/0 hover:bg-background/20 transition-colors">
+                    <ImageIcon className="w-6 h-6 text-foreground opacity-0 hover:opacity-100" />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">

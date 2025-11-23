@@ -25,7 +25,7 @@ export const WhyLawyersUse = () => {
   ];
 
   return (
-    <section className="py-8 md:py-16 px-4 md:px-6 bg-white">
+    <section className="py-8 md:py-16 px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">

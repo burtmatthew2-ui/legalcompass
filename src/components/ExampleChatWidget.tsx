@@ -59,7 +59,7 @@ export const ExampleChatWidget = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="text-primary-foreground hover:bg-white/20"
+              className="text-primary-foreground hover:bg-primary-foreground/20"
               onClick={() => setIsExpanded(!isExpanded)}
             >
               {isExpanded ? "Minimize" : "Expand"}

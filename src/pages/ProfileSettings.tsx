@@ -37,6 +37,8 @@ const ProfileSettings = () => {
     const storedTheme = localStorage.getItem('theme');
     const isDark = storedTheme !== 'light';
     setIsDarkMode(isDark);
+    // Apply theme to document
+    document.documentElement.classList.toggle('light', !isDark);
     
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -69,6 +71,13 @@ const ProfileSettings = () => {
 
     checkAuth();
   }, [navigate]);
+
+  const toggleTheme = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark';
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem('theme', newTheme === 'dark' ? 'dark' : 'light');
+    document.documentElement.classList.toggle('light');
+  };
 
   const handleSaveProfile = async () => {
     if (!user) return;
@@ -276,8 +285,8 @@ const ProfileSettings = () => {
                 )}
               </div>
 
-              {/* Phone Number */}
-              <div className="space-y-2">
+              {/* Phone Number - Hidden as verification is broken */}
+              <div className="space-y-2 hidden">
                 <Label htmlFor="phoneNumber">
                   <Phone className="w-4 h-4 inline mr-2" />
                   Phone Number (Optional)
