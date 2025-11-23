@@ -42,19 +42,19 @@ const badges = [
 
 export const TrustBadges = () => {
   return (
-    <div className="py-20 px-6 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+    <div className="py-20 px-6 bg-background relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.05),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(20,184,166,0.05),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.05),transparent_50%),radial-gradient(circle_at_70%_80%,hsl(var(--accent)/0.05),transparent_50%)]" />
       
       <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-sm font-semibold text-primary mb-4">
             Why Choose Legal Compass
           </div>
-          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Built on Trust, Security & Transparency
           </h3>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Your legal matters deserve professional handling. Here's our commitment to you.
           </p>
         </div>
@@ -78,11 +78,11 @@ export const TrustBadges = () => {
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm mb-1.5 group-hover:text-primary transition-colors">
+                    <h4 className="font-bold text-foreground text-sm mb-1.5 group-hover:text-primary transition-colors">
                       {badge.title}
                     </h4>
-                    <p className="text-xs text-slate-600 mb-3 leading-relaxed">{badge.description}</p>
-                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-foreground bg-gradient-to-r from-primary to-blue-600 px-3 py-1.5 rounded-lg shadow-sm">
+                    <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{badge.description}</p>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-foreground bg-gradient-to-r from-primary to-accent px-3 py-1.5 rounded-lg shadow-sm">
                       <CheckCircle className="w-3 h-3" />
                       {badge.metric}
                     </div>
@@ -95,7 +95,7 @@ export const TrustBadges = () => {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <p className="text-slate-600 font-medium">
+          <p className="text-muted-foreground font-medium">
             Professional legal connections you can trust
           </p>
         </div>

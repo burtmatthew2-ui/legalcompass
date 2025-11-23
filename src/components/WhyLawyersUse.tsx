@@ -28,10 +28,10 @@ export const WhyLawyersUse = () => {
     <section className="py-8 md:py-16 px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-3 md:mb-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4">
             For Attorneys: Stop Waiting. Start Growing.
           </h2>
-          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Finally, a lead generation system that works for lawyers who don't have time to waste
           </p>
         </div>
@@ -42,7 +42,7 @@ export const WhyLawyersUse = () => {
             return (
               <div 
                 key={index} 
-                className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary transition-colors"
+                className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-muted/30 rounded-xl border border-border hover:border-primary transition-colors"
               >
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -50,10 +50,10 @@ export const WhyLawyersUse = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-base md:text-lg font-semibold text-slate-900 mb-1 md:mb-2">
+                  <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
                     {benefit.title}
                   </h3>
-                  <p className="text-sm md:text-base text-slate-600">
+                  <p className="text-sm md:text-base text-muted-foreground">
                     {benefit.description}
                   </p>
                 </div>
